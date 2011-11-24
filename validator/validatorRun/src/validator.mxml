@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   creationComplete="onCreation(event)" xmlns:components="org.hu.validator.components.*"
+			  >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import org.hu.validator.util.FormUtil;
+			import org.hu.validator.util.ValidatorUtil;
+			
+
+			protected function onCreation(event:FlexEvent):void
+			{
+				ValidatorUtil.addValidatorEvent(hgroup_from, validatorFrom);
+
+				this.initValue();
+				//this.validatorFrom();
+			}
+			
+			private function validatorFrom(event:Event=null):void
+			{
+				ValidatorUtil.validateAll(hgroup_from, this.saveBtn);
+			}
+			
+			/**
+			 * 初始化值，且验证是否满足特定条件
+			 */
+			private function initValue():void
+			{
+				var value:Array = [];
+				value.push({"grade":"2010"},{"professional":"计算机"});
+
+				//第一种
+				FormUtil.formValue("set",form,null,value);
+				
+				//第二种可使用
+				//var student:Student = new Student();
+				//student.grade = "2010";
+				//student.professional = "计算机";
+				//FormUtils.formValue("set",form,student);
+				
+				//设置值后需要手动调用验证方法
+				ValidatorUtil.manualValidateAll(hgroup_from);
+			}
+			
+			/**
+			 * 根据表单取值
+			 */
+			private function formValues():void
+			{
+				//第一种，将Form表单中的文本输入域中的值取出，
+				//以key-value的形式存储到voObj中
+				var voObj:Object = new Object();
+				FormUtil.formValue("get",form,voObj);
+				
+				trace(voObj.grade);
+				
+				
+				//第一种，将Form表单中的文本输入域中的值取出，
+				//创建一个DTO或VO或存储类，将取出的值存储到该类中
+				//var voObj:Student = new Student();
+				//FormUtils.formValue("get",form,voObj);
+				//trace(voObj.grade);
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:VGroup>
+		<s:HGroup width="100%" height="100%" id="hgroup_from">
+			<!--采用自动验证ValidatorUtils.addValidatorEvent(hgroup_from,validatorFrom);-->
+			<mx:Form width="350" id="form">
+				<mx:FormItem label="专业：" width="100%"   >
+					<components:RegexpValidatorInput  errorMessage="请输入2-30个汉字!"  regexp="{new RegExp(/^[\u4e00-\u9fa5]{2,30}$/)}" width="100%" id="professional"/>
+				</mx:FormItem>
+				<mx:FormItem label="年级：" width="100%"   >
+					<components:RegexpValidatorInput  errorMessage="请输入数字，格式：2010" regexp="{new RegExp(/^[1-9]{1}[0-9]{3}$/)}" width="100%" id="grade"/>
+				</mx:FormItem>
+			</mx:Form>
+			
+			<mx:Form width="350" id="form2">
+				<mx:FormItem label="专业：" width="100%"   >
+					<components:RegexpValidatorInput  errorMessage="请输入2-30个汉字!"  regexp="{new RegExp(/^[\u4e00-\u9fa5]{2,30}$/)}" width="100%" id="professional2"/>
+				</mx:FormItem>
+				<mx:FormItem label="年级：" width="100%"   >
+					<components:RegexpValidatorInput  errorMessage="请输入数字，格式：2010" regexp="{new RegExp(/^[1-9]{1}[0-9]{3}$/)}" width="100%" id="grade2"/>
+				</mx:FormItem>
+			</mx:Form>
+			
+		</s:HGroup>
+		<s:Button id="saveBtn"/>
+	</s:VGroup>
+	
+</s:Application>
