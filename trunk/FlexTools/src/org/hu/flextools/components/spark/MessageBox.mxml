@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   mouseDown="dragMouseHandler(event)"
+				   mouseUp="dragMouseHandler(event)"
+				   borderColor="#E16A19"
+				   backgroundColor="#201A10"
+				   borderWeight="2"
+				   cornerRadius="20"
+				   width="365"
+				   height="205">
+	
+	<fx:Metadata>
+		[Style(name="labelColor", type="uint", format="Color", inherit="yes")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			
+			import spark.components.Group;
+			
+			private var _btnBottom:int = 20;
+			private var _btnSpacing:int = 10;
+			
+			private var _doSelectLabel:String = "确  定";
+			private var _doCancelLabel:String = "取  消";
+			
+			private var _titleText:String = "保存错误";
+			private var _titleTop:int = 20;
+			
+			private var _text:String;
+			
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);			
+				
+				settingButtonProperties();
+			}
+			
+			protected function settingButtonProperties():void
+			{
+				var parentW:int = width;
+				var selectW:int = doSelectOK.width;
+				var selectH:int = doSelectOK.height;
+				var cancelW:int = doCancelOK.width;
+				var cancelH:int = doCancelOK.height;
+				
+				if(!parentW || !selectW || !cancelW){
+					return ;
+				}
+				
+				//btn canvas
+				var leftSpacing:int = (parentW - (selectW + btnSpacing + cancelW))/2;
+				var btn_bottom:int = height-btnBottom-cancelH;
+				this.doSelectOK.move(leftSpacing,btn_bottom);
+				this.doCancelOK.move(selectW+btnSpacing+leftSpacing,btn_bottom);
+
+				//btn label
+				leftSpacing = leftSpacing+(selectW-labelOK.measuredWidth)/2;
+				btn_bottom = (height-labelOK.measuredHeight)-btnBottom-(selectH-labelOK.measuredHeight)/2+1;
+				this.labelOK.move(leftSpacing,btn_bottom);
+				this.labelCancel.move(leftSpacing+selectW+btnSpacing,btn_bottom);
+				
+				//content
+				content.top = titleTop + title.measuredHeight + 15;
+				content.width = width-20;
+				content.left = 10;
+			}			
+	
+			protected function dragMouseHandler(evt:MouseEvent):void
+			{			
+				switch (evt.type)
+				{
+					case MouseEvent.MOUSE_DOWN:						
+						this.startDrag();							
+						break;
+					
+					case MouseEvent.MOUSE_UP:						
+						this.stopDrag();
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function doSelectOK_mouseOverHandler(event:MouseEvent,state:String):void
+			{
+				this.chageTheState(state);	
+			}
+			
+			protected function doSelectOK_mouseOutHandler(event:MouseEvent):void
+			{
+				if(event.relatedObject is Label){
+					return;
+				}
+				
+				this.chageTheState("normal");	
+			}
+			
+			protected function doCancelOK_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			
+			protected function doSelectOK_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			private function chageTheState(value:String):void
+			{
+				if(value == null){
+					return ;
+				}
+				
+				this.currentState = value;
+			}
+			
+			public function get btnBottom():int
+			{
+				return _btnBottom;
+			}
+			
+			public function set btnBottom(value:int):void
+			{
+				_btnBottom = value;
+			}
+			
+			public function get btnSpacing():int
+			{
+				return _btnSpacing;
+			}
+			
+			public function set btnSpacing(value:int):void
+			{
+				_btnSpacing = value;
+			}
+
+			[Bindable]
+			public function get doSelectLabel():String
+			{
+				return _doSelectLabel;
+			}
+
+			public function set doSelectLabel(value:String):void
+			{
+				_doSelectLabel = value;
+			}
+
+			[Bindable]
+			public function get doCancelLabel():String
+			{
+				return _doCancelLabel;
+			}
+
+			public function set doCancelLabel(value:String):void
+			{
+				_doCancelLabel = value;
+			}
+
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+
+			[Bindable]
+			public function get titleTop():int
+			{
+				return _titleTop;
+			}
+
+			public function set titleTop(value:int):void
+			{
+				_titleTop = value;
+			}
+
+			[Bindable]
+			public function get titleText():String
+			{
+				return _titleText;
+			}
+
+			public function set titleText(value:String):void
+			{
+				_titleText = value;
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="hovered_sel"/>
+		<s:State name="hovered_can"/>
+	</s:states>
+	
+	<s:filters>
+		<flash.filters:GlowFilter id='glowFilter'  xmlns:flash.filters='flash.filters.*' 
+								  blurX='7' blurY='7'
+								  alpha='1' color='#000000' 
+								  knockout='false' quality='1'
+								  strength='1' inner='false'/>
+	</s:filters>
+	
+	
+	
+	<s:Graphic id="doSelectOK" height="45" width="150"
+			   click="doSelectOK_clickHandler(event)"
+			   mouseOut="doSelectOK_mouseOutHandler(event)" 
+			   mouseOver="doSelectOK_mouseOverHandler(event,'hovered_sel')">
+		<s:Rect height="45" width="150" radiusX="10" radiusY="10">
+			<s:stroke>
+				<s:SolidColorStroke color="0x8F3E08" weight="2"/>
+			</s:stroke>
+			<s:fill>
+				<s:LinearGradient>
+					<s:entries>
+						<s:GradientEntry color="0x201A10" color.hovered_sel="0x8F3E08"/>
+					</s:entries>
+				</s:LinearGradient>		
+			</s:fill>
+		</s:Rect>
+	</s:Graphic>
+	
+	<s:Graphic id="doCancelOK" height="45" width="150"
+			   click="doCancelOK_clickHandler(event)"
+			   mouseOut="doSelectOK_mouseOutHandler(event)" 
+			   mouseOver="doSelectOK_mouseOverHandler(event,'hovered_can')">
+		<s:Rect height="45" width="150" radiusX="10" radiusY="10">
+			<s:stroke>
+				<s:SolidColorStroke color="0x8F3E08" weight="2"/>
+			</s:stroke>
+			<s:fill>
+				<s:LinearGradient>
+					<s:entries>
+						<s:GradientEntry color="0x201A10" color.hovered_can="0x8F3E08"/>
+					</s:entries>
+				</s:LinearGradient>		
+			</s:fill>
+		</s:Rect>
+	</s:Graphic>
+	
+	<s:Label id="labelOK"     color="#EE6201" fontSize="20" fontFamily="微软雅黑,黑体" text="{doSelectLabel}"/>
+	<s:Label id="labelCancel" color="#EE6201" fontSize="20" fontFamily="微软雅黑,黑体" text="{doCancelLabel}"/>
+	<s:Label id="title"       color="#EE6201" fontSize="30" fontFamily="微软雅黑,黑体" text="{titleText}" 
+			 horizontalCenter="0" top="{titleTop}" trackingLeft="5"/>
+	<s:Label id="content"     color="#C5B993" fontSize="17" fontFamily="微软雅黑,黑体" text="{text}" 
+			 textAlign="center" lineHeight="25" />
+	
+</s:BorderContainer>
