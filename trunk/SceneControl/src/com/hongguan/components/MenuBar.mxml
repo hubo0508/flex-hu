@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  gap="0"
+		  left="0"
+		  top="1">
+	
+	<!--菜单组件-->
+
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.event.MenuBarEvent;
+			import org.hu.flextools.util.FlexUtil;
+			import org.hu.flextools.util.PopUpUtil;
+			import org.hu.flextools.util.StringUtil;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Group;
+			import spark.components.VGroup;
+			
+			private var timerOne:Timer;
+			private var timerSencod:Timer;
+			private var timerThree:Timer;
+			private var subPage:Group;
+			private var subPage_three:Group;
+			
+			/**
+			 * 初始化一级菜单
+			 */
+			private function initNavMenu(xml:XMLList):void
+			{
+				for each(var item:XML in xml)
+				{
+					var menu:MenuStyle = this.createMenu(item,item.@label,item.@type);
+					menu.addEventListener(MouseEvent.CLICK,menu_ClickHandler);
+					
+					menu.addEventListener(MouseEvent.ROLL_OVER,menuOne_OverHandler);
+					menu.addEventListener(MouseEvent.ROLL_OUT,menuOne_OutHandler);
+
+					this.addElement(menu);
+				}
+			}
+			
+			/**
+			 * 鼠标移出一级菜单
+			 */
+			protected function menuOne_OutHandler(event:MouseEvent):void
+			{	
+				if(!timerOne)timerOne=new Timer(100,1);
+				timerOne.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+				{
+					removeSecondSubMenu();		
+		
+					timerOne.stop();
+				},false,0,true);
+				
+				timerOne.start();			
+			}
+			
+			/**
+			 * 鼠标移入一级菜单，创建二级菜单
+			 */
+			protected function menuOne_OverHandler(event:MouseEvent):void
+			{
+				if(this.timerOne)this.timerOne.stop();
+				
+				this.removeSecondCacheSubMenu();
+				
+				var curr_navMenu:MenuStyle = event.currentTarget as MenuStyle;
+				
+				var menuGroup:VGroup;
+				
+				var currItem:XML = curr_navMenu.curr_XML;								
+				for each(var item:XML in currItem)
+				{					
+					if(item.@type == curr_navMenu.eventType)
+					{
+						var itemChild:XMLList = item.children();
+						for each(var subItem:XML in itemChild)
+						{
+							if(menuGroup == null)
+							{
+								menuGroup = new VGroup();
+								menuGroup.addEventListener(MouseEvent.ROLL_OVER,secondMenuGroup_OverHandler);
+								menuGroup.addEventListener(MouseEvent.ROLL_OUT,secondMenuGroup_OutHandler);
+								menuGroup.gap = 0;
+							}
+							
+							var menu:MenuStyle = this.createMenu(subItem,subItem.@label,subItem.@type);							
+							menu.addEventListener(MouseEvent.ROLL_OVER,menuSecond_OverHandler);
+							menu.addEventListener(MouseEvent.ROLL_OUT,menuSecond_OutHandler);
+							menu.addEventListener(MouseEvent.CLICK,menu_ClickHandler);	
+							
+							menuGroup.addElement(menu);
+						}
+					}
+				}
+				
+				if(menuGroup)
+				{
+					var point:Point = FlexUtil.getUiAbsolutePosition(curr_navMenu);
+					menuGroup.move(point.x,point.y+curr_navMenu.height);
+					
+					PopUpManager.addPopUp(menuGroup, this.parentApplication as DisplayObject,false);
+
+					this.subPage = menuGroup;
+				}				
+			}
+			
+			
+			/**
+			 * 鼠标移入二级菜单，创建下三级菜单
+			 */
+			protected function menuSecond_OverHandler(event:MouseEvent):void
+			{	
+				this.removeThreeCacheMenu();
+				
+				var curr_navMenu:MenuStyle = event.currentTarget as MenuStyle;
+				
+				var menuGroup:VGroup;
+				
+				for each(var item:XML in curr_navMenu.curr_XML)
+				{	
+					if(item.@type == curr_navMenu.eventType)
+					{
+						var itemChild:XMLList = item.children();						
+						for each(var subItem:XML in itemChild)
+						{
+							if(menuGroup == null)
+							{
+								menuGroup = new VGroup();
+								menuGroup.addEventListener(MouseEvent.ROLL_OVER,vGroupThree_OverHandler);
+								menuGroup.addEventListener(MouseEvent.ROLL_OUT,vGroupThree_OutHandler);
+								menuGroup.gap = 0;
+							}
+							
+							var menu:MenuStyle = this.createMenu(subItem,subItem.@label,subItem.@type);							
+							menu.addEventListener(MouseEvent.CLICK,menu_ClickHandler);
+							
+							menuGroup.addElement(menu);
+						}
+					}
+				}
+				
+				if(menuGroup)
+				{
+					var point:Point = FlexUtil.getUiAbsolutePosition(curr_navMenu);
+					menuGroup.move(point.x+curr_navMenu.width,point.y);
+					
+					PopUpManager.addPopUp(menuGroup, this.parentApplication as DisplayObject,false);
+					
+					this.subPage_three = menuGroup;
+				}
+			}
+			
+			/**
+			 * 鼠标移过三级菜单
+			 */
+			protected function vGroupThree_OverHandler(event:MouseEvent):void
+			{
+				this.timerSencod.stop();
+			}
+			
+			/**
+			 * 鼠标移出三级菜单
+			 */
+			protected function vGroupThree_OutHandler(event:MouseEvent):void
+			{
+				if(!this.timerThree)this.timerThree=new Timer(100,1);
+				this.timerThree.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+				{
+					removeThreeSubMenu();
+					removeSecondSubMenu();
+					
+					timerThree.stop();
+				},false,0,true);
+				
+				this.timerThree.start();	
+			}
+			
+			protected function menuSecond_OutHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			/**
+			 * 鼠标移入二级菜单容器
+			 */
+			protected function secondMenuGroup_OverHandler(event:MouseEvent):void
+			{
+				this.timerOne.stop();
+			}
+			
+			/**
+			 * 鼠标移出二级菜单容器
+			 */
+			protected function secondMenuGroup_OutHandler(event:MouseEvent):void
+			{
+				if(!this.timerSencod)this.timerSencod=new Timer(100,1);
+				this.timerSencod.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+				{
+					removeThreeSubMenu();
+					removeSecondSubMenu();		
+					
+					timerSencod.stop();
+				},false,0,true);
+				
+				this.timerSencod.start();	
+			}
+			
+			/**
+			 * 点击菜单项，抛出事件
+			 */
+			protected function menu_ClickHandler(event:MouseEvent):void
+			{
+				var nav:MenuStyle = event.currentTarget as MenuStyle;
+				
+				var e:MenuBarEvent = new MenuBarEvent(MenuBarEvent.MENU_BAR_EVENT);
+				e.menuName = nav.showLabel;
+				e.menuType = nav.eventType;
+				
+				dispatchEvent(e);
+			}
+			
+			/**
+			 * 删除三级菜单
+			 */
+			private function removeThreeSubMenu():void
+			{
+				PopUpUtil.removeWindow(this.subPage_three,false);
+				this.subPage_three = null;
+			}
+			
+			/**
+			 * 删除二级菜单
+			 */
+			private function removeSecondSubMenu():void
+			{
+				PopUpUtil.removeWindow(this.subPage,false);
+				this.subPage = null;
+			}
+			
+			/**
+			 * 清除二级菜单缓存
+			 */
+			private function removeSecondCacheSubMenu():void
+			{
+				if(this.subPage)
+				{
+					this.timerOne.stop();
+					this.removeSecondSubMenu();
+				}
+			}
+			
+			/**
+			 * 清除三级菜单缓存
+			 */
+			private function removeThreeCacheMenu():void
+			{
+				if(this.timerThree)
+					this.timerThree.stop();
+				this.removeThreeSubMenu();
+			}
+			
+			/**
+			 * 创建单个项
+			 */
+			private function createMenu(subItem:XML,label:String,type:String):MenuStyle
+			{
+				var navMenu:MenuStyle = new MenuStyle();	
+				navMenu.curr_XML = subItem;
+				navMenu.showLabel = label;
+				navMenu.eventType = type;
+				
+				if(StringUtil.isNotEmpty(subItem.@width.toString())) 
+					navMenu.width = int(subItem.@width);
+				
+				return navMenu;
+			}
+			
+			/**
+			 * 设置菜单缓存
+			 */
+			public function set dataACC(value:XMLList):void
+			{
+				this.initNavMenu(value);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="menuBarEvent",type="com.hongguan.event.MenuBarEvent")]
+	</fx:Metadata>
+	
+</s:HGroup>

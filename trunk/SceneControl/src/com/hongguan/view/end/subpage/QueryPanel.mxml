@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+				  xmlns:s="library://ns.adobe.com/flex/spark"
+				  xmlns:mx="library://ns.adobe.com/flex/mx"
+				  xmlns:components="com.hongguan.components.*"
+				  panelEvent="panelEventHandler(event)"
+				  maximizeBtn="false"
+				  minimizeBtn="false"
+				  title="告警查询"
+				  width="600"
+				  height="300">
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.event.PanelEvent;
+			import org.hu.flextools.util.PopUpUtil;
+
+			protected function panelEventHandler(event:PanelEvent):void
+			{
+				PopUpUtil.removeWindow(this);
+			}
+
+		]]>
+	</fx:Script>
+	<components:layout>
+		<s:BasicLayout/>
+	</components:layout>
+
+</components:Panel>

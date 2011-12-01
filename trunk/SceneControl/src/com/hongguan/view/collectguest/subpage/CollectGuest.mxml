@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.hongguan.components.*"
+		 creationComplete="_creationCompleteHandler(event)"
+		 width="100%"
+		 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.util.IconStrConst;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.DropdownEvent;
+			import mx.events.FlexEvent;
+			
+			[Bindable]private var dgACC:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC2:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC3:ArrayCollection = new ArrayCollection();
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function _creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initData();
+			}
+			
+			private function initData():void
+			{
+				dgACC.addItem({name1:"语音专线",name2:1137,name3:342,name4:246,name5:124,name6:413});
+				dgACC.addItem({name1:"互联网专线",name2:1064,name3:267,name4:212,name5:173,name6:412});
+				dgACC.addItem({name1:"传输专线",name2:1173,name3:318,name4:322,name5:217,name6:316});
+				dgACC.addItem({name1:"短信专线",name2:467,name3:114,name4:103,name5:156,name6:94});
+				dgACC.addItem({name1:"GPRS业务",name2:1104,name3:429,name4:232,name5:329,name6:114});
+				dgACC.addItem({name1:"总业务",name2:4945,name3:1470,name4:1115,name5:999,name6:1349});
+				
+				dgACC2.addItem({name1:"AAA",name2:342,name3:267,name4:318,name5:467,name6:429});
+				dgACC2.addItem({name1:"AA",name2:246,name3:212,name4:322,name5:114,name6:232});
+				dgACC2.addItem({name1:"A",name2:124,name3:173,name4:217,name5:103,name6:329});
+				dgACC2.addItem({name1:"普通",name2:413,name3:412,name4:316,name5:156,name6:114});
+				
+				dgACC3.addItem({name1:"语音业务",name2:"南京",name3:"2011-03-31",name4:"6次"});
+				dgACC3.addItem({name1:"语音业务",name2:"南京",name3:"2011-03-31",name4:"5次"});
+				dgACC3.addItem({name1:"语音业务",name2:"南京",name3:"2011-03-31",name4:"4次"});
+			}
+			
+			protected function combobox1_closeHandler(event:DropdownEvent):void
+			{
+				var cb:ComboBox = event.currentTarget as ComboBox;
+				var label:String = cb.selectedItem.label;
+				if(label == "GPRS业务")
+				{
+					this.xingNeng.dataProvider = xingNengARR;
+				}
+				else if(label == "语音专线")
+				{
+					this.xingNeng.dataProvider = _default;
+				}
+				else if(label == "短信业务")
+				{
+					this.xingNeng.dataProvider = three;
+				}
+			}
+			
+			
+			protected function maps_mouseOutHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				img.source = IconStrConst.maps2;
+			}
+			
+			
+			protected function maps_mouseOverHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				img.source = IconStrConst.maps2_2;
+			}
+			
+			protected function query_clickHandler(event:MouseEvent):void
+			{
+				
+			}	
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		
+		<fx:Array id="xingNengARR">
+			<fx:Object value="PDP上下文激活尝试次数" label="PDP上下文激活尝试次数"/>
+			<fx:Object value="PDP上下文激活成功次数" label="PDP上下文激活成功次数"/>
+			<fx:Object value="激活用户数" label="激活用户数"/>
+			<fx:Object value="APN流量" label="APN流量"/>
+			<fx:Object value="PDP上下文激活成功率" label="PDP上下文激活成功率"/>
+			<fx:Object value="PDP上下文激活失败次数" label="PDP上下文激活失败次数"/>
+			<fx:Object value="AAA计费成功次数" label="AAA计费成功次数"/>
+			<fx:Object value="平均分配的地址数" label="平均分配的地址数"/>
+			<fx:Object value="最大分配的地址数" label="最大分配的地址数"/>
+			<fx:Object value="PDP地址池利用率" label="PDP地址池利用率"/>
+			<fx:Object value="Gi下行流量" label="Gi下行流量"/>
+			<fx:Object value="Gi上行流量" label="Gi上行流量"/>
+			<fx:Object value="IP地址池数" label="IP地址池数"/>
+			<fx:Object value="IP地址池利用率" label="IP地址池利用率"/>
+			<fx:Object value="pdp附着成功率" label="pdp附着成功率"/>
+			<fx:Object value="Attch成功率" label="Attch成功率"/>
+		</fx:Array>
+		
+		<fx:Array id="_default">
+			<fx:Object label="试呼次数" />
+			<fx:Object label="占用次数" />
+			<fx:Object label="接通次数" />
+			<fx:Object label="应答次数" />
+			<fx:Object label="接通话务量" />
+			<fx:Object label="应答话务量" />
+			<fx:Object label="电路可用率" />
+			<fx:Object label="网络接通率" />
+			<fx:Object label="每线话务量" />
+			<fx:Object label="电路可用率" />
+			<fx:Object label="网络接通率" />
+			<fx:Object label="每线话务量" />
+		</fx:Array>
+		
+		<fx:Array id="three">
+			<fx:Object value="MT(下行)次数" label="MT(下行)次数"/>
+			<fx:Object value="MT成功次数" label="MT成功次数"/>
+			<fx:Object value="MO（上行）次数" label="MO（上行）次数"/>
+			<fx:Object value="MO成功次数" label="MO成功次数"/>
+			<fx:Object value="下行下发成功率" label="下行下发成功率"/>
+			<fx:Object value="SP短信接收成功率" label="SP短信接收成功率"/>
+			<fx:Object value="发送成功量" label="发送成功量"/>
+			<fx:Object value="短信发送量" label="短信发送量"/>
+			<fx:Object value="下行提交成功率" label="下行提交成功率"/>
+			<fx:Object value="下行提交成功率（剔除管理原因）" label="下行提交成功率（剔除管理原因）"/>
+			<fx:Object value="下行下发成功率" label="下行下发成功率"/>
+			<fx:Object value="MT成功率" label="MT成功率"/>
+			<fx:Object value="MO成功率" label="MO成功率"/>
+		</fx:Array>
+		
+	</fx:Declarations>
+	
+	<!--左侧地图-->
+	<s:BorderContainer width="302" minHeight="525" top="7" left="6" borderColor="#CCCCCC" bottom="4">
+		
+		<mx:CheckBox label="全省" top="10" left="10"/>
+		<mx:CheckBox label="省级" top="10" left="70"/>
+		<mx:CheckBox label="市级" top="10" left="130"/>
+		
+		<mx:Image id="maps" source="{IconStrConst.maps2}" top="40" horizontalCenter="0" useHandCursor="true" buttonMode="true"
+				  mouseOut="maps_mouseOutHandler(event)" mouseOver="maps_mouseOverHandler(event)"/>
+		
+		<s:VGroup gap="3" bottom="10" left="10"> 
+			<components:ImgLabel icon="{IconStrConst.one_ball}" text="一级高警"/>
+			<components:ImgLabel icon="{IconStrConst.two_ball}"  text="二级告警"/>
+			<components:ImgLabel icon="{IconStrConst.three_ball}" text="三级告警" />
+			<components:ImgLabel icon="{IconStrConst.four_ball}" text="四级告警"/>
+		</s:VGroup>
+		
+	</s:BorderContainer>
+	
+	<!--右侧数据-->
+	<mx:TabNavigator id="tn" borderColor="#CCCCCC" top="7" minHeight="330" bottom="210" left="312" horizontalGap="4" right="4">
+		
+		<mx:VBox label="告警概况" width="100%" height="100%">
+			
+		</mx:VBox>
+		
+		<mx:VBox label="运行质量" width="100%" height="100%">
+			
+		</mx:VBox>
+	</mx:TabNavigator>
+	
+	<!--右侧下数据显示-->
+	<mx:TabNavigator borderColor="#CCCCCC" left="312" horizontalGap="4" right="4" height="200" bottom="4">
+		
+		<mx:VBox label="业务类型" width="100%" height="100%">
+			<mx:DataGrid top="5" bottom="2" id="dg" width="100%" height="100%" styleName="dataGrid" dataProvider="{dgACC}">
+				<mx:columns> 
+					<mx:DataGridColumn dataField="name1" headerText="名称"/>
+					<mx:DataGridColumn dataField="name2" headerText="语音专线"/>
+					<mx:DataGridColumn dataField="name3" headerText="互联网专线"/>
+					<mx:DataGridColumn dataField="name4" headerText="传输专线"/>
+					<mx:DataGridColumn dataField="name5" headerText="短信业务"/>
+					<mx:DataGridColumn dataField="name6" headerText="GPRS业务"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+		
+		<mx:VBox label="业务级别" width="100%" height="100%">
+			<mx:DataGrid top="5" bottom="2" id="dg2" width="100%" height="100%" styleName="dataGrid" dataProvider="{dgACC2}">
+				<mx:columns> 
+					<mx:DataGridColumn dataField="name1" headerText="名称"/>
+					<mx:DataGridColumn dataField="name2" headerText="总计"/>
+					<mx:DataGridColumn dataField="name3" headerText="金牌"/>
+					<mx:DataGridColumn dataField="name4" headerText="银牌"/>
+					<mx:DataGridColumn dataField="name5" headerText="铜牌"/>
+					<mx:DataGridColumn dataField="name6" headerText="标准"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+		<mx:VBox label="性能统计" width="100%" height="100%">
+			<s:HGroup width="100%" top="0" verticalAlign="middle">
+				<s:Label text="  业务："/>
+				<mx:ComboBox close="combobox1_closeHandler(event)">
+					<mx:dataProvider>
+						<fx:Object label="语音专线"/>
+						<fx:Object label="互联网专线"/>
+						<fx:Object label="专输网专线"/>
+						<fx:Object label="短信业务"/>
+						<fx:Object label="GPRS业务"/>
+					</mx:dataProvider>
+				</mx:ComboBox>
+				<s:Label text="性能指标："/>
+				<mx:ComboBox id="xingNeng">
+					<mx:dataProvider>
+						<fx:Object label="试呼次数" />
+						<fx:Object label="占用次数" />
+						<fx:Object label="接通次数" />
+						<fx:Object label="应答次数" />
+						<fx:Object label="接通话务量" />
+						<fx:Object label="应答话务量" />
+						<fx:Object label="电路可用率" />
+						<fx:Object label="网络接通率" />
+						<fx:Object label="每线话务量" />
+						<fx:Object label="电路可用率" />
+						<fx:Object label="网络接通率" />
+						<fx:Object label="每线话务量" />
+					</mx:dataProvider>
+				</mx:ComboBox>
+				<s:Label text="开始时间："/>
+				<mx:ComboBox>
+					<mx:dataProvider>
+						<fx:Object label="1"/>
+						<fx:Object label="2"/>
+						<fx:Object label="3"/>
+						<fx:Object label="4"/>
+						<fx:Object label="5"/>
+						<fx:Object label="6"/>
+						<fx:Object label="7"/>
+						<fx:Object label="8"/>
+						<fx:Object label="9"/>
+						<fx:Object label="10"/>
+					</mx:dataProvider>
+				</mx:ComboBox>
+				<s:Label text="日  "/>
+				<s:Label text="结束时间："/>
+				<mx:ComboBox>
+					<mx:dataProvider>
+						<fx:Object label="1"/>
+						<fx:Object label="2"/>
+						<fx:Object label="3"/>
+						<fx:Object label="4"/>
+						<fx:Object label="5"/>
+						<fx:Object label="6"/>
+						<fx:Object label="7"/>
+						<fx:Object label="8"/>
+						<fx:Object label="9"/>
+						<fx:Object label="10"/>
+					</mx:dataProvider>
+				</mx:ComboBox>
+				<s:Label text="日  "/>
+				<mx:Button id="query" label="查询" click="query_clickHandler(event)" width="50"/>
+			</s:HGroup>
+			<mx:DataGrid top="5" bottom="2" id="dg3" width="100%" height="100%" styleName="dataGrid" dataProvider="{dgACC3}">
+				<mx:columns> 
+					<mx:DataGridColumn dataField="name1" headerText="业务名称"/>
+					<mx:DataGridColumn dataField="name2" headerText="区域"/>
+					<mx:DataGridColumn dataField="name3" headerText="时间"/>
+					<mx:DataGridColumn dataField="name4" headerText="性能指标"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+	</mx:TabNavigator>
+</s:Group>
