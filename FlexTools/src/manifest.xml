@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<componentPackage>
+
+	<component id="ModuleContainer" class="org.hu.flextools.components.spark.ModuleContainer"/>
+	<component id="MessageBox" class="org.hu.flextools.components.spark.MessageBox"/>
+	
+	<component id="MXModule" class="org.hu.flextools.components.mx.MXModule"/>
+	
+
+<!--
+	<component id="ModuleContainer4" class="com.hu.spark.components.ModuleContainer4"/>
+	<component id="Input4" class="com.hu.spark.components.Input4"/>
+	<component id="Module3" class="com.hu.mx.components.Module3"/>
+	<component id="CheckBoxCutline3" class="com.hu.mx.components.CheckBoxCutline3"/>
+	  -->
+</componentPackage> 
