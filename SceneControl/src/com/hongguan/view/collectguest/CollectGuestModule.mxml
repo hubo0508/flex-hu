@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModuleTools xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 xmlns="com.hongguan.components.*"
+			 xmlns:subpage="com.hongguan.view.collectguest.subpage.*"
+			 menuBarEvent="menuBarEventHandler(event)"
+			 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.core.ICommunication;
+			import com.hongguan.event.MenuBarEvent;
+			import com.hongguan.util.ViewConst;
+			import org.hu.flextools.util.PopUpUtil;
+			
+			import mx.events.FlexEvent;	
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initNavMenu = navMenu_xml;
+			}
+			
+			protected function menuBarEventHandler(event:MenuBarEvent):void
+			{
+				PopUpUtil.messageBox(event.menuName+"|"+event.menuType);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:XMLList xmlns="" id="navMenu_xml">
+			<node label="集团客户总体运行情况" type="1" />
+			<node label="集团客户监控" type="2" />			
+		</fx:XMLList>
+	</fx:Declarations>	
+	
+	<content>
+		<subpage:CollectGuest width="100%" height="100%" top="23" />
+	</content>
+	
+</ModuleTools>

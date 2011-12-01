@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns:Module3 xmlns:fx="http://ns.adobe.com/mxml/2009"
+			xmlns:s="library://ns.adobe.com/flex/spark"
+			xmlns:mx="library://ns.adobe.com/flex/mx"
+			xmlns:components="com.hongguan.components.*"
+			xmlns:ns="library://flex.tools"
+			layout="absolute"
+			width="100%"
+			height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.event.MenuBarEvent;
+			
+			import mx.core.IVisualElement;
+			
+			private var objContent:IVisualElement;
+			
+			protected function navMenu_HG_secondMenuBarEventHandler(event:MenuBarEvent):void
+			{
+				var e:MenuBarEvent = new MenuBarEvent(MenuBarEvent.MENU_BAR_EVENT);
+				e.menuName = event.menuName;
+				e.menuType = event.menuType;
+				
+				this.dispatchEvent(e);
+			}	
+			
+			public function set content(obj:IVisualElement):void
+			{
+				this.objContent = obj;
+			}
+			
+			public function get content():IVisualElement
+			{
+				return objContent; 
+			}
+			
+			public function removeContent():void
+			{
+				if(this.numElements == 2)
+				{
+					this.removeElementAt(1);
+				}
+			}
+			
+			public function loadContent(obj:IVisualElement):void
+			{
+				this.removeContent();
+				
+				if(obj) this.addElement(obj);
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(this.objContent) this.addElement(objContent);
+			}
+			
+			public function set initNavMenu(value:XMLList):void
+			{
+				menuBar.dataACC = value;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="menuBarEvent",type="com.hongguan.event.MenuBarEvent")]
+	</fx:Metadata>
+
+	<s:Group width="100%" height="100%" >
+		
+		<!--背景颜色-->	
+		<s:Rect width="100%" height="24" top="0">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="#FBFBFB"/>
+					<s:GradientEntry color="#CCCCCC"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		
+		<!--横线-->
+		<s:Line xFrom="0" xTo="100" yFrom="0" yTo="0" top="0" right="0" left="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xCCCCCC" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		
+		<!--菜单栏-->
+		<components:MenuBar id="menuBar" menuBarEvent="navMenu_HG_secondMenuBarEventHandler(event)"/>
+		
+	</s:Group>	
+	
+	
+</ns:Module3>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:subpage="com.hongguan.view.survey.subpage.*"
+		 xmlns:tools="library://flex.tools"
+		 initialize="_initializeHandler(event)"
+		 width="100%"
+		 height="100%" xmlns:spark="org.hu.flextools.components.spark.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.core.ICommunication;
+			import com.hongguan.event.CutlineEvent;
+			import com.hongguan.event.RightAccordionSeparatorEvent;
+			import com.hongguan.util.FlexUtil;
+			import com.hongguan.util.ViewConst;
+			
+			import mx.events.FlexEvent;
+			import mx.events.ModuleEvent;
+			
+			/**
+			 * 初始化此组件的内部结构
+			 */
+			protected function _initializeHandler(event:FlexEvent):void
+			{
+				FlexUtil.loadModule(ViewConst.SURVEY_RIGHT_ACCORDION_URL,this.survey_rightccordion);
+				FlexUtil.loadModule(ViewConst.SURVEY_BOTTOM_TAB_MENU_URL,this.survey_bottom_module);
+			}
+			
+			/**
+			 * 点击图例复选择框
+			 */
+			protected function cutlineEventHandler(event:CutlineEvent):void
+			{
+				this.maps.showOrConcealCutline(event.cutlineType,event.selected);
+			}
+			
+			/**
+			 * 模块加载进度
+			 */
+			protected function appModule_progressHandler(e:ModuleEvent):void
+			{
+				this.survey_MC.progress(Math.round((e.bytesLoaded * 100 / e.bytesTotal)) + "%","100%");
+			}
+			
+			/**
+			 * 模块加载进度
+			 */
+			protected function bottom_progressHandler(e:ModuleEvent):void
+			{
+				this.survey_bottom.progress(Math.round((e.bytesLoaded * 100 / e.bytesTotal)) + "%","100%");
+			}
+			
+			/**
+			 * 完成加载模块时分派
+			 */
+			protected function readyModule(event:ModuleEvent):void
+			{
+				var ml:ModuleLoader=event.target as ModuleLoader;
+				
+				var ichild:ICommunication = ml.child as ICommunication;	
+				
+				this.initModule(ichild);
+			}
+			
+			/**
+			 * 初始化模块事件\初始化模块值
+			 * 
+			 * @param child:DisplayObject 模块子组件
+			 */
+			private function initModule(ichild:*):void
+			{
+				if(!ichild) return;
+
+				//登录
+				if(ichild.SID == ViewConst.SURVEY_RIGHT_ACCORDION_URL)
+				{
+					ichild.addEventListener(RightAccordionSeparatorEvent.RIGHT_SEPARATOR_EVENT,separator_Handler);
+				}
+			}		
+			
+			protected function separator_Handler(event:RightAccordionSeparatorEvent):void
+			{
+				if(event.separatorType == "RIGHT")
+				{
+					this.survey_MC.width = 9;
+					this.survey_rightccordion.width = 9;
+					this.maps.left = 200;
+				}
+				else if(event.separatorType == "LEFT")
+				{
+					this.survey_MC.width = 410;
+					this.survey_rightccordion.width = 410;
+					this.maps.left = 10;
+				}
+			}
+		]]>
+	</fx:Script>
+
+	<!--地图-->
+	<subpage:Maps id="maps"/>
+	
+	<!--查询栏-->
+	<subpage:QueryBar/>
+	
+	<spark:ModuleContainer height="116" width="100%" bottom="0" left="0" id="survey_bottom" backgroundAlpha="0">
+		<mx:ModuleLoader right="0" width="100%" height="100%" id="survey_bottom_module" ready="readyModule(event)" progress="bottom_progressHandler(event)"/>
+	</spark:ModuleContainer>
+	
+	<spark:ModuleContainer id="survey_MC" height="510" right="6" top="30" width="410">
+		<mx:ModuleLoader right="0" width="100%" height="100%" id="survey_rightccordion" ready="readyModule(event)" progress="appModule_progressHandler(event)"/>
+	</spark:ModuleContainer>	
+	
+	<!--图例-->
+	<subpage:Cutline cutlineEvent="cutlineEventHandler(event)"/>
+	
+	<!--配置-->
+	<subpage:Config/>
+	
+	<!--区域树图-->
+	<subpage:RegionalTree/>	
+	
+</s:Group>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXDataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+						  xmlns:s="library://ns.adobe.com/flex/spark"
+						  xmlns:mx="library://ns.adobe.com/flex/mx"
+						  creationComplete="creationCompleteHandler(event)"
+						  focusEnabled="true">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Image;
+			import mx.events.FlexEvent;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var dataArr:Array = this.data.name1 as Array;
+				if(dataArr)
+				{
+					for(var i:int=0; i<dataArr.length; i++)
+					{
+						this.addElement(this.getImg(dataArr[i]["url"],dataArr[i]["key"]));
+					}
+				}
+			}
+			
+			private function getImg(url:String,str:String):Image
+			{
+				var img:Image = new Image();
+				img.source = url;
+				img.toolTip = str;
+				img.useHandCursor = true;
+				img.buttonMode = true;
+				
+				return img;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:HorizontalLayout gap="1"/>
+	</s:layout>
+
+</s:MXDataGridItemRenderer>

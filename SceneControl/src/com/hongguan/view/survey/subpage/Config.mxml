@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderVisible="false"
+				   width="30"
+				   minHeight="130"
+				   top="230"
+				   left="-131">
+	
+	<!--
+	概况监控>>配置
+	-->
+	
+	<s:layout>
+		<s:HorizontalLayout gap="-1" verticalAlign="top"/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.util.IconStrConst;
+			
+			import spark.skins.spark.BorderContainerSkin;
+			
+			/**
+			 * 隐藏或显示左侧窗体
+			 */
+			protected function close_ClickHandler(event:MouseEvent):void
+			{
+				this.left = -131;
+				
+				titleBC.useHandCursor = true;
+				titleBC.buttonMode = true;
+				
+				this.close_img.visible = false;
+			}
+			
+			
+			protected function titleBC_clickHandler(event:MouseEvent):void
+			{
+				if(titleBC.useHandCursor && titleBC.buttonMode && (event.target is BorderContainerSkin || event.target is Label))
+				{
+					this.left = -1;
+					
+					titleBC.useHandCursor = false;
+					titleBC.buttonMode = false;
+					
+					this.close_img.visible = true;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<!--内容-->
+	<s:BorderContainer height="100%" width="130" styleName="br_config">
+		
+		<s:Label text="告警" top="5" left="10"/>
+		
+		<!--横线-->
+		<s:Line xFrom="0" xTo="100" yFrom="0" yTo="0" top="23" right="0" left="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD2D2D2" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		
+		<mx:CheckBox label="一级告警" top="40" left="20"/>
+		<mx:CheckBox label="二级告警" left="20" top="70"/>
+		
+	</s:BorderContainer>
+
+	<!--标题-->
+	<s:BorderContainer id="titleBC" width="30" height="80" styleName="bor" useHandCursor="true" buttonMode="true" click="titleBC_clickHandler(event)">
+		<mx:Image id="close_img" source="{IconStrConst.close}" horizontalCenter="-1"  visible="false"
+				  top="5" useHandCursor="true" buttonMode="true" click="close_ClickHandler(event)"/>
+		<s:Label text="配置" width="20" fontSize="12" fontFamily="宋体" horizontalCenter="3" verticalCenter="0"/>
+	</s:BorderContainer>
+	
+</s:BorderContainer>

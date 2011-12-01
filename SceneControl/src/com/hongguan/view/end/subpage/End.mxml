@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:components="com.hongguan.components.*"
+		  xmlns:subpage="com.hongguan.view.end.subpage.*"
+		  initialize="_initializeHandler(event)"
+		  width="100%"
+		  height="100%"
+		  gap="3">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.event.ChartImgEvent;
+			import com.hongguan.event.PanelEvent;
+			import com.hongguan.event.ToolsEvent;
+			import com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer;
+			import com.hongguan.util.FlexUtil;
+			import com.hongguan.util.TellAlarmConst;
+			import org.hu.flextools.util.PopUpUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			
+			[Bindable]private var dgACC1:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC2:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC3:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC4:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dgACC5:ArrayCollection = new ArrayCollection();
+			
+			/**
+			 * 初始化此组件的内部结构
+			 */
+			protected function _initializeHandler(event:FlexEvent):void
+			{
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"一级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC1.addItem({name1:"监控无锡业务",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name6:"常州",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				
+				dgACC2.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"一级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC2.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC2.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"一级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC3.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"一级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC4.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				
+				
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"一级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"三级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"爱立信",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"二级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				dgACC5.addItem({name1:"WUXGS71",name2:"MSCSERVER",name3:"设备告警",name5:"四级告警",name4:"STATISTICS ANDTRAFF",name6:"常州",name7:"华为",name8:"常州",name9:"2011-02-12 23:22:12",name10:"在网运行",name11:"JS-051=11035105229"});
+				
+			}
+			
+			protected function clickToolsHandler(event:ToolsEvent):void
+			{
+
+			}
+			
+			private function glowFilter():spark.filters.GlowFilter
+			{
+				var glow:spark.filters.GlowFilter = new spark.filters.GlowFilter();
+				glow.blurX = 15;
+				glow.blurY = 15;
+				glow.alpha = 1;
+				glow.color = 0x0BA61A;
+				glow.knockout = false;
+				glow.quality = 	1;
+				glow.strength = 1;
+				glow.inner = false;
+				
+				return glow;
+			}
+			
+			
+			protected function mapscharts_mouseOutHandler(event:MouseEvent):void
+			{
+				var mapsChart:MapsCharts = event.currentTarget as MapsCharts;
+				mapsChart.filters = [];
+				
+				this.chartImg.setGlowFilter(mapsChart.name,MouseEvent.MOUSE_OUT);
+			}
+			
+			
+			protected function mapscharts_mouseOverHandler(event:MouseEvent):void
+			{
+				var mapsChart:MapsCharts = event.currentTarget as MapsCharts;
+				mapsChart.filters=[this.glowFilter()];
+				
+				this.chartImg.setGlowFilter(mapsChart.name,MouseEvent.MOUSE_OVER);
+			}
+			
+			public function setGlowFilter(name:String,type:String):void
+			{
+				var ele:int = panel_group.numElements;
+				for(var i:int=0; i<ele; i++)
+				{
+					var chart_img:MapsCharts = panel_group.getElementAt(i) as MapsCharts;
+					if(chart_img && chart_img.name == name)
+					{
+						if(type == MouseEvent.MOUSE_OUT)
+						{
+							chart_img.filters=[];
+						}
+						else if(type == MouseEvent.MOUSE_OVER)
+						{
+							chart_img.filters=[this.glowFilter()];
+						}
+					}
+				}
+			}
+			
+			
+			protected function chartImgEventHandler(event:ChartImgEvent):void
+			{
+				this.setGlowFilter(event.name,event.typeStr);
+			}
+			
+			protected function panelEventHandler(event:PanelEvent):void
+			{
+				FlexUtil.panelEventHandler(event);
+			}
+			
+			protected function queryBtn_ClickHandler(event:MouseEvent):void
+			{
+				PopUpUtil.messageWindow(new QueryPanel(),this,false);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group  width="100%">			
+		<components:Panel id="panel_top" panelEvent="panelEventHandler(event)" height="480" title="点对点短信流程拓扑" closeBtn="false" top="5" left="5" bottom="5" right="5">
+			<components:content>
+				<s:Group width="100%" height="100%" id="panel_group">
+					<components:Tools clickTools="clickToolsHandler(event)" left="5" top="10"/>
+					
+					<subpage:ChartBack top="40" left="0"/>					
+					<subpage:ChartImg id="chartImg" top="55" horizontalCenter="0" chartImgEvent="chartImgEventHandler(event)"/>
+					
+					<components:MapsCharts name="1" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="85" color="{TellAlarmConst.EXIGENCE}"  bottom="46" left="51"/>
+					<components:MapsCharts name="2" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="4" color="{TellAlarmConst.TELL_ALARM}" bottom="46" left="110"/>
+					<components:MapsCharts name="3" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="95" color="{TellAlarmConst.NATURAL}"  bottom="46" left="165"/>
+					<components:MapsCharts name="4" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="4" color="{TellAlarmConst.TELL_ALARM}" bottom="46" left="220"/>
+					<components:MapsCharts name="5" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="95" color="{TellAlarmConst.NATURAL}"  bottom="46" left="330"/>
+					<components:MapsCharts name="6" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="30" color="{TellAlarmConst.NATURAL}"  bottom="46" left="385"/>
+					<components:MapsCharts name="7" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="98" color="{TellAlarmConst.NATURAL}"  bottom="46" left="440"/>
+					<components:MapsCharts name="8" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="30" color="{TellAlarmConst.NATURAL}"  bottom="46" left="495"/>
+					<components:MapsCharts name="9" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="30" color="{TellAlarmConst.NATURAL}"  bottom="46" left="550"/>
+					<components:MapsCharts name="10" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="96" color="{TellAlarmConst.NATURAL}"  bottom="46" left="605"/>
+					<components:MapsCharts name="11" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="90" color="{TellAlarmConst.TELL_ALARM}" bottom="46" left="715"/>
+					<components:MapsCharts name="12" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="95" color="{TellAlarmConst.NATURAL}"  bottom="46" left="770"/>
+					<components:MapsCharts name="13" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="90" color="{TellAlarmConst.TELL_ALARM}" bottom="46" left="825"/>
+					<components:MapsCharts name="14" mouseOver="mapscharts_mouseOverHandler(event)" mouseOut="mapscharts_mouseOutHandler(event)" percent="81" color="{TellAlarmConst.TELL_ALARM}" bottom="46" left="880"/>
+					
+					<subpage:ChartLabel textTop="UCELL" textBottom="RRC连接成功率" left="43" bottom="4"/>
+					<subpage:ChartLabel textTop="CELL" textBottom="SDCCH拥塞率" left="99" bottom="4"/>
+					<subpage:ChartLabel textTop="RNC" textBottom="RRC连接成功率" left="157" bottom="4"/>
+					<subpage:ChartLabel textTop="BSC" textBottom="SDCCH拥塞率" left="215" bottom="4"/>					
+					<subpage:ChartLabel textTop="MMS" textBottom="短信始发成功率" left="318" bottom="4"/>
+					<subpage:ChartLabel textTop="STP" textBottom="信令链路负荷" left="376" bottom="4"/>
+					<subpage:ChartLabel textTop="SMSC" textBottom="MO 接通率" left="430" bottom="4"/>
+					<subpage:ChartLabel textTop="HLR" textBottom="信令链路负荷" left="485" bottom="4"/>
+					<subpage:ChartLabel textTop="STP" textBottom="信令链路负荷" left="545" bottom="4"/>					
+					<subpage:ChartLabel textTop="MSS" textBottom="短信终结成功率" left="600" bottom="4"/>					
+					<subpage:ChartLabel textTop="BSC" textBottom="随机接入成功率" left="707" bottom="4"/>
+					<subpage:ChartLabel textTop="RNC" textBottom="RRC连接成功率" left="760" bottom="4"/>
+					<subpage:ChartLabel textTop="CELL" textBottom="随机接入成功率" left="818" bottom="4"/>
+					<subpage:ChartLabel textTop="UCELL" textBottom="RRC连接成功率" left="873" bottom="4"/>
+				</s:Group>
+			</components:content>
+		</components:Panel>
+		
+		<s:HGroup top="11" left="130">
+			<components:DGHeader title="严重" color="{TellAlarmConst.FEARFUL}"/>
+			<components:DGHeader title="紧急" color="{TellAlarmConst.EXIGENCE}"/>
+			<components:DGHeader title="警告" color="{TellAlarmConst.TELL_ALARM}"/>
+			<components:DGHeader title="正常 " color="{TellAlarmConst.NATURAL}"/>
+		</s:HGroup>		
+	</s:Group>
+	
+	<s:Group width="100%" height="100%">
+		<components:Panel maximizeBtn="false" minimizeBtn="false" closeBtn="false" title="数据列表" height="100%" width="100%" right="5" left="5" bottom="5">
+			<components:content>
+				<mx:TabNavigator left="5" right="5" bottom="5" top="10" id="tn" 
+								 borderColor="#CCCCCC" tabWidth="90" horizontalGap="6">
+					
+					<mx:VBox label="全部告警" width="100%" height="100%">
+						<mx:DataGrid rowCount="8" top="5" bottom="2" id="dg1" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dgACC1}">
+							<mx:columns> 
+								<mx:DataGridColumn dataField="name1" headerText="告警对象名称"/>
+								<mx:DataGridColumn dataField="name2" headerText="告警对象类型"/>
+								<mx:DataGridColumn dataField="name3" headerText="告警类型"/>
+								<mx:DataGridColumn dataField="name5" headerText="网管告警级别" itemRenderer="com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+								<mx:DataGridColumn dataField="name4" headerText="告警标题"/>
+								<mx:DataGridColumn dataField="name9" headerText="告警发生时间"/>
+								<mx:DataGridColumn dataField="name10" headerText="告警对象工程状态"/>
+								<mx:DataGridColumn dataField="name11" headerText="工单信息"/>
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+					
+					<mx:VBox label="设备告警" width="100%" height="100%">
+						<mx:DataGrid top="5" bottom="2" id="dg2" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dgACC2}">
+							<mx:columns> 
+								<mx:DataGridColumn dataField="name1" headerText="告警对象名称"/>
+								<mx:DataGridColumn dataField="name2" headerText="告警对象类型"/>
+								<mx:DataGridColumn dataField="name5" headerText="网管告警级别" itemRenderer="com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+								<mx:DataGridColumn dataField="name4" headerText="告警发生时间"/>	
+								<mx:DataGridColumn dataField="name3" headerText="告警标题"/>
+								<mx:DataGridColumn dataField="name6" headerText="城市名称"/>
+								<mx:DataGridColumn dataField="name7" headerText="厂家标识"/>
+								<mx:DataGridColumn dataField="name8" headerText="告警对象工程状态"/>
+								<mx:DataGridColumn dataField="name9" headerText="工单信息"/>
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+					
+					<mx:VBox label="性能告警" width="100%" height="100%">
+						<mx:DataGrid top="5" bottom="2" id="dg3" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dgACC3}">
+							<mx:columns> 
+								<mx:DataGridColumn dataField="name1" headerText="告警对象名称"/>
+								<mx:DataGridColumn dataField="name2" headerText="告警对象类型"/>
+								<mx:DataGridColumn dataField="name5" headerText="网管告警级别" itemRenderer="com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+								<mx:DataGridColumn dataField="name4" headerText="告警发生时间"/>
+								<mx:DataGridColumn dataField="name3" headerText="告警标题"/>
+								<mx:DataGridColumn dataField="name6" headerText="城市名称"/>
+								<mx:DataGridColumn dataField="name7" headerText="厂家标识"/>
+								<mx:DataGridColumn dataField="name8" headerText="工单信息"/>
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+					
+					<mx:VBox label="信令监测告警" width="100%" height="100%">
+						<mx:DataGrid top="5" bottom="2" id="dg4" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dgACC4}">
+							<mx:columns> 
+								<mx:DataGridColumn dataField="name1" headerText="网元名称"/>
+								<mx:DataGridColumn dataField="name5" headerText="网管告警级别" itemRenderer="com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+								<mx:DataGridColumn dataField="name3" headerText="告警时间"/>
+								<mx:DataGridColumn dataField="name4" headerText="告警标题"/>
+								<mx:DataGridColumn dataField="name2" headerText="详细描述"/>
+								<mx:DataGridColumn dataField="name6" headerText="城市"/>
+								<mx:DataGridColumn dataField="name7" headerText="工单ID"/>
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+					
+					<mx:VBox label="业务拔测告警" width="100%" height="100%">
+						<mx:DataGrid top="5" bottom="2" id="dg5" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dgACC5}">
+							<mx:columns> 
+								<mx:DataGridColumn dataField="name1" headerText="告警对象名称"/>
+								<mx:DataGridColumn dataField="name5" headerText="网管告警级别" itemRenderer="com.hongguan.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+								<mx:DataGridColumn dataField="name3" headerText="告警发生时间"/>
+								<mx:DataGridColumn dataField="name4" headerText="告警标题"/>
+								<mx:DataGridColumn dataField="name2" headerText="城市名称"/>
+								<mx:DataGridColumn dataField="name6" headerText="厂家标识"/>
+								<mx:DataGridColumn dataField="name7" headerText="告警对象工程状态"/>
+								<mx:DataGridColumn dataField="name8" headerText="工单信息"/>
+							</mx:columns>
+						</mx:DataGrid>
+					</mx:VBox>
+				</mx:TabNavigator>
+			</components:content>
+		</components:Panel>
+		<subpage:QueryBtn click="queryBtn_ClickHandler(event)"/>
+	</s:Group>
+
+</s:VGroup>
