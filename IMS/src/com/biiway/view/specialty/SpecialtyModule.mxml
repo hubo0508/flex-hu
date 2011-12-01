@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModuleTools xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 xmlns="com.biiway.components.*"
+			 xmlns:subpage="com.biiway.view.specialty.subpage.*"
+			 menuBarEvent="menuBarEventHandler(event)"
+			 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.core.ICommunication;
+			import com.biiway.event.MenuBarEvent;
+			import com.biiway.util.ViewConst;
+			import com.biiway.view.specialty.subpage.AlarmChart;
+			import com.biiway.view.specialty.subpage.Specialty_AlarmList;
+			
+			import mx.core.IVisualElement;
+			import mx.events.FlexEvent;
+			
+			import org.hu.flextools.util.PopUpUtil;
+			
+			import spark.components.Scroller;	
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initNavMenu = navMenu_xml;
+			}
+			
+			protected function menuBarEventHandler(event:MenuBarEvent):void
+			{
+				//group.removeAllElements();
+				//scroller.removeAllElements();
+				switch(event.menuType)
+				{
+					case "alarmList":
+						this.scroller.viewport = null;
+						scroller.viewport = new Specialty_AlarmList();
+						//group.addElement(new Specialty_AlarmList());
+						break;
+					
+					case "alarmChart_city_MSColumn3D" :
+						var alarmChart:AlarmChart = this.getChart();				
+						alarmChart.chartType = "MSColumn3D";
+						alarmChart.xmlData = getXML1();
+						scroller.viewport = alarmChart;
+						//group.addElement(alarmChart);
+						break;
+					 
+					case "alarmChart_city_ScrollLine2D" :
+						var line:AlarmChart = this.getChart();
+						line.chartType = "ScrollLine2D";
+						line.xmlData = getXML2();
+						scroller.viewport = line;	
+						//group.addElement(line);
+						break;
+					
+					case "alarmChart_Pie2D" :
+						var pie:AlarmChart = this.getChart();
+						pie.chartType = "Pie2D";
+						pie.xmlData = getXML3();
+						scroller.viewport = pie;
+						//group.addElement(pie);
+						break;					
+					
+					case "setManagement" :
+						
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
+			private function getChart():AlarmChart
+			{
+				var alarmChart:AlarmChart = null;
+//				if(scroller.viewport is AlarmChart){
+//					alarmChart =scroller.viewport as AlarmChart;						
+//				}else{
+					scroller.viewport  = null;
+					alarmChart =  new AlarmChart();;
+//				}
+				
+				return alarmChart;
+			}
+			
+			private function setChart(chart:AlarmChart):void
+			{
+				if(!scroller.viewport)
+				{
+					scroller.viewport = chart;
+				}else{
+					
+				}
+			}
+
+			private function getXML3():String
+			{
+				return "<chart caption='全省告警统计图表 -- 饼图' bgColor='FFFFFF'  showPercentageValues='1' baseFontSize='12' >"+
+					"   <set label='次要告警' color='FFFF00' value='26' />"+
+					"   <set label='主要告警' color='FF9900' value='32' />"+
+					"   <set label='紧急告警' color='FF0000' value='42' />"+
+					"</chart>";
+			}
+			
+			private function getXML2():String
+			{
+				return  "<chart caption='全省各地市告警统计图表 -- 折线图' baseFontSize='12' formatNumberScale='0' xAxisName='城市' yAxisName='峰值' showValues='0' >"+
+					
+					"<categories>"+
+					"<category label='成都市' />"+
+					"<category label='攀枝花市' />"+
+					"<category label='德阳市' />"+
+					"<category label='宜宾市' />"+
+					"<category label='泸州市' />"+
+					"<category label='绵阳市' />"+
+					"<category label='达州市' />"+
+					"<category label='乐山市' />"+
+					"<category label='南充市' />"+
+					"<category label='遂宁市' />"+
+					"<category label='自贡市' />"+
+					"<category label='广元市' />"+
+					
+					"<category label='眉山市' />"+
+					"<category label='雅安市' />"+
+					"<category label='凉山州' />"+
+					"<category label='广安市' />"+
+					"<category label='阿坝州' />"+
+					"<category label='甘孜州' />"+
+					"<category label='内江市' />"+
+					"<category label='资阳市' />"+
+					"<category label='巴中市' />"+
+					"</categories>"+
+					
+					"<dataset seriesName='次要告警' color='FFFF00'>"+
+					"<set value='230' />"+
+					"<set value='2300'/>"+
+					"<set value='25800' />"+
+					"<set value='300' />"+
+					"<set value='29600' />"+
+					"<set value='32600' />"+
+					"<set value='330' />"+
+					"<set value='36700' />"+
+					"<set value='29700' />"+
+					"<set value='31900' />"+
+					"<set value='330' />"+
+					"<set value='24800' />"+
+					"<set value='2630' />"+
+					"<set value='2930' />"+
+					"<set value='300' />"+
+					"<set value='3800' />"+
+					"<set value='36700' />"+
+					"<set value='29700' />"+
+					"<set value='3900' />"+
+					"<set value='33800' />"+
+					"<set value='24800' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='主要告警' color='FF9900'>"+
+					"<set value='10000'/>"+
+					"<set value='1100'/>"+
+					"<set value='12300'/>"+
+					"<set value='130'/>"+
+					"<set value='11000' />"+
+					"<set value='9800' />"+
+					"<set value='11800' />"+
+					"<set value='130' />"+
+					"<set value='2100' />"+
+					"<set value='21900' />"+
+					"<set value='22900' />"+
+					"<set value='2630' />"+
+					"<set value='29600' />"+
+					"<set value='32600' />"+
+					"<set value='320' />"+
+					"<set value='36700' />"+
+					"<set value='2920' />"+
+					"<set value='31900' />"+
+					"<set value='3200' />"+
+					"<set value='24800' />"+
+					"<set value='2020' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='紧急告警' color='FF0000'>"+
+					"<set value='1000'/>"+
+					"<set value='1100'/>"+
+					"<set value='120'/>"+
+					"<set value='1500'/>"+
+					"<set value='1100' />"+
+					"<set value='26800' />"+
+					"<set value='29600' />"+
+					"<set value='32600' />"+
+					"<set value='31800' />"+
+					"<set value='3200' />"+
+					"<set value='29700' />"+
+					"<set value='31900' />"+
+					"<set value='3800' />"+
+					"<set value='24800' />"+
+					"<set value='9820' />"+
+					"<set value='1100' />"+
+					"<set value='19700' />"+
+					"<set value='200' />"+
+					"<set value='2100' />"+
+					"<set value='22200' />"+
+					"<set value='2080' />"+
+					"</dataset>"+
+					
+					
+					"<styles>"+
+					
+					"<definition>"+
+					"<style name='CanvasAnim' type='animation' param='_xScale' start='0' duration='1' />"+
+					"</definition>"+
+					
+					"<application>"+
+					"<apply toObject='Canvas' styles='CanvasAnim' />"+
+					"</application>"+   
+					
+					"</styles>"+
+					
+					"</chart>";
+			}
+			
+			private function getXML1():String
+			{
+				return  "<chart caption='全省各地市告警统计图表 -- 柱状图' baseFontSize='12' formatNumberScale='0' xAxisName='城市' yAxisName='峰值' showValues='0' >"+
+					
+					"<categories>"+
+					"<category label='成都市' />"+
+					"<category label='攀枝花市' />"+
+					"<category label='德阳市' />"+
+					"<category label='宜宾市' />"+
+					"<category label='泸州市' />"+
+					"<category label='绵阳市' />"+
+					"<category label='达州市' />"+
+					"<category label='乐山市' />"+
+					"<category label='南充市' />"+
+					"<category label='遂宁市' />"+
+					"<category label='自贡市' />"+
+					"<category label='广元市' />"+
+					
+					"<category label='眉山市' />"+
+					"<category label='雅安市' />"+
+					"<category label='凉山州' />"+
+					"<category label='广安市' />"+
+					"<category label='阿坝州' />"+
+					"<category label='甘孜州' />"+
+					"<category label='内江市' />"+
+					"<category label='资阳市' />"+
+					"<category label='巴中市' />"+
+					"</categories>"+
+					
+					"<dataset seriesName='次要告警' color='FFFF00'>"+
+					"<set value='27400' />"+
+					"<set value='29800'/>"+
+					"<set value='200' />"+
+					"<set value='26800' />"+
+					"<set value='29600' />"+
+					"<set value='300' />"+
+					"<set value='320' />"+
+					"<set value='36200' />"+
+					"<set value='29700' />"+
+					"<set value='3100' />"+
+					"<set value='34800' />"+
+					"<set value='24800' />"+
+					"<set value='360' />"+
+					"<set value='29700' />"+
+					"<set value='36700' />"+
+					"<set value='700' />"+
+					"<set value='36700' />"+
+					"<set value='200' />"+
+					"<set value='36700' />"+
+					"<set value='200' />"+
+					"<set value='30' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='主要告警' color='FF9900'>"+
+					"<set value='9800' />"+
+					"<set value='100'/>"+
+					"<set value='11800' />"+
+					"<set value='1100'/>"+
+					"<set value='9800' />"+
+					"<set value='9800' />"+
+					"<set value='12500'/>"+
+					"<set value='11800' />"+
+					"<set value='9800' />"+
+					"<set value='150'/>"+
+					"<set value='1100' />"+
+					"<set value='100' />"+
+					"<set value='9800' />"+
+					"<set value='10' />"+
+					"<set value='19700' />"+
+					"<set value='21700' />"+
+					"<set value='10' />"+
+					"<set value='219' />"+
+					"<set value='200' />"+
+					"<set value='2000' />"+
+					"<set value='11800' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='紧急告警' color='FF0000'>"+
+					"<set value='1000'/>"+
+					"<set value='1200'/>"+
+					"<set value='120'/>"+
+					"<set value='150'/>"+
+					"<set value='9800' />"+
+					"<set value='11000' />"+
+					"<set value='1200'/>"+
+					"<set value='1200'/>"+
+					"<set value='981' />"+
+					"<set value='1100' />"+
+					"<set value='9800' />"+
+					"<set value='1200'/>"+
+					"<set value='100' />"+
+					"<set value='21700' />"+
+					"<set value='1200'/>"+
+					"<set value='21900' />"+
+					"<set value='200' />"+
+					"<set value='2000' />"+
+					"<set value='1200'/>"+
+					"<set value='1200'/>"+
+					"<set value='1200'/>"+
+					"</dataset>"+
+					
+					"</chart>";
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<fx:XMLList xmlns="" id="navMenu_xml">
+			<node label="告警列表" type="alarmList" />				
+			<node label="告警统计" type="alarmChart" >	
+				<node label="全省各地市告警统计图表" type="alarmChart_city_MSColumn3D" width="160">
+					<node label="柱状图" type="alarmChart_city_MSColumn3D"/>	
+					<node label="折线图" type="alarmChart_city_ScrollLine2D"/>	
+				</node>
+				<node label="全省告警统计图表" type="alarmChart_Pie2D" width="160"/>	
+			</node>
+			<node label="设置管理" type="setManagement" />
+		</fx:XMLList>
+	</fx:Declarations>
+	
+	<content>		
+		<s:Scroller width="100%" height="100%" top="23" id="scroller">
+			<subpage:Specialty_AlarmList/>
+		</s:Scroller>
+	</content>
+	
+</ModuleTools>

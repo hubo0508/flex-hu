@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   mouseOver="mouseOverHandler(event)"
+				   mouseOut="mouseOutHandler(event)"
+				   useHandCursor="true"
+				   buttonMode="true"
+				   borderVisible="false"
+				   minWidth="100"
+				   height="23">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import spark.components.Group;
+			
+			private var default_arr:Array = [0xFBFBFB,0xCCCCCC];
+			private var mouse_arr:Array  = [0xCCCCCC,0x858585]; 
+			
+			[Bindable]public var u01_color:uint = 0xFBFBFB;
+			[Bindable]public var u02_color:uint = 0xCCCCCC;
+			[Bindable]public var showLabel:String;
+			[Bindable]public var eventType:String;
+			
+			public var curr_XML:XML;
+
+			protected function mouseOverHandler(event:MouseEvent):void
+			{
+				this.u01_color = mouse_arr[0];
+				this.u02_color = mouse_arr[1];
+			}
+
+
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				this.u01_color = default_arr[0];
+				this.u02_color = default_arr[1];
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:backgroundFill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="{u01_color}"/>
+			<s:GradientEntry color="{u02_color}"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+
+	<s:Label  horizontalCenter="0" verticalCenter="0" text="{showLabel}" name="{eventType}" paddingLeft="5" paddingRight="5"/>
+	
+</s:BorderContainer>

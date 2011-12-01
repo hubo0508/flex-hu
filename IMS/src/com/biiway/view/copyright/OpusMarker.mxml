@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<s:layout>
+		<s:VerticalLayout gap="15"/>
+	</s:layout>
+
+
+	<s:Label id="label"
+			 fontFamily="黑体"
+			 color="#069D42"
+			 fontSize="14.5"
+			 left="5"
+			 verticalCenter="0"
+			 horizontalCenter="2"
+			 text="所用技术：FLEX4.0、模块开发(Module)&#xd;技术难点：地图交互、拓扑图、业务逻辑切换、自定义菜单(根据XML创建)、自定义图表&#xd;开发所需技术：事件(Event)交互、自定义样式(Style)、各种系统组件功能、根据各种业务创建自定义组件、Flex4.0(spark.primitives)包使用&#xd;             Flex4.0与Flex3.0滚动条区别、Flex4.0 Skin外观、渲染ItemRenderer、使用系统事件、模块(Module)组件开发、弹出窗口效果&#xd;开发所需软件：Adobe Flash Catalyst、Adobe Flash Builder、Adobe Flash Illustrator、Adobe Photoshop&#xd;第三方组件：FusionCharts、">
+		<s:filters>
+			<flash.filters:GlowFilter id='glowFilter'
+									  xmlns:flash.filters='flash.filters.*'
+									  blurX='3'
+									  blurY='3'
+									  alpha='1'
+									  color='#9B9D06'
+									  knockout='false'
+									  quality='1'
+									  strength='1'
+									  inner='false'/>
+		</s:filters>
+	</s:Label>
+<!--
+	<s:Label
+			 fontFamily="黑体"
+			 color="#575757"
+			 fontSize="14.5"
+			 left="5"
+			 verticalCenter="0"
+			 horizontalCenter="2"
+			 text="     auth：HUBO&#xd;   e-mail：hubo.0508@gmail.com&#xd;telephone：15828019062&#xd;       QQ：657261109&#xd;">
+	</s:Label>
+-->
+	<s:Label
+		fontFamily="黑体"
+		color="#575757"
+		fontSize="14.5"
+		left="5"
+		verticalCenter="0"
+		horizontalCenter="2"
+		text="     auth：HUBO&#xd;&#xd;">
+	</s:Label>
+</s:Group>

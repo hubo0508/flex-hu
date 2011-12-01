@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   minWidth="265"
+				   height="23"
+				   cornerRadius="5"
+				   borderColor="#999999"
+				   top="64">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.event.ToolsEvent;
+			
+			/**移动*/
+			public static const MOVE:String = "MOVE";
+			/**移动左*/
+			public static const MOVE_LEFT:String = "MOVE_LEFT";
+			/**合适*/
+			public static const APPROPRIATE:String = "APPROPRIATE";
+			/**放大*/
+			public static const ZOOM_OUT:String = "ZOOM_OUT";
+			/**手形*/
+			public static const HAND_POINTER:String = "HAND_POINTER";
+			/**眼*/
+			public static const EYE:String = "EYE";
+			/**放大*/
+			public static const SCALING_OUT:String = "SCALING_OUT";
+			/**缩小*/
+			public static const SCALING_IN:String = "SCALING_IN";
+			/**笔*/
+			public static const PEN:String = "PEN";
+			/**打印*/
+			public static const PRINT:String = "PRINT";
+			/**图*/
+			public static const IMG:String = "IMG";
+			
+
+			protected function btn_clickHandler(event:MouseEvent):void
+			{
+				var btn:LinkButton = event.currentTarget as LinkButton;
+				
+				var e:ToolsEvent = new ToolsEvent(ToolsEvent.TOOLS_EVENT);
+				e.toolsType = btn.name;
+				
+				this.dispatchEvent(e);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:HorizontalLayout gap="2"/>
+	</s:layout>
+	
+	<s:backgroundFill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="#F4F4F4"/>
+			<s:GradientEntry color="#E2E2E2"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+	
+	<fx:Metadata>
+		[Event(name="clickTools",type="com.biiway.event.ToolsEvent")]
+	</fx:Metadata>
+	
+	<mx:LinkButton click="btn_clickHandler(event)" name="{MOVE_LEFT}" icon="@Embed('assets/images/u001.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{APPROPRIATE}" icon="@Embed('assets/images/u002.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{ZOOM_OUT}" icon="@Embed('assets/images/u003.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{HAND_POINTER}" icon="@Embed('assets/images/u004.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{EYE}" icon="@Embed('assets/images/u005.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{SCALING_OUT}" icon="@Embed('assets/images/u006.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{SCALING_IN}" icon="@Embed('assets/images/u007.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{PEN}" icon="@Embed('assets/images/u008.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{PRINT}" icon="@Embed('assets/images/u009.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{IMG}" icon="@Embed('assets/images/u010.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	<mx:LinkButton click="btn_clickHandler(event)" name="{MOVE}" icon="@Embed('assets/images/u011.png')" paddingLeft="0" paddingRight="0" width="25"/>
+	
+</s:BorderContainer>

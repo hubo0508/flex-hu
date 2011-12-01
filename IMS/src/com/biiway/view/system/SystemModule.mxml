@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModuleTools xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 xmlns="com.biiway.components.*"
+			 xmlns:subpage="com.biiway.view.system.subpage.*"
+			 menuBarEvent="menuBarEventHandler(event)"
+			 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.core.ICommunication;
+			import com.biiway.event.MenuBarEvent;
+			import com.biiway.util.ViewConst;
+			import com.biiway.view.system.subpage.FunctionRolePurviewManager;
+			import com.biiway.view.system.subpage.UseSurveyStatistical;
+			import com.biiway.view.system.subpage.UsersManager;
+			import org.hu.flextools.util.PopUpUtil;
+			
+			import mx.events.FlexEvent;	
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initNavMenu = navMenu_xml;
+			}
+			
+			protected function menuBarEventHandler(event:MenuBarEvent):void
+			{
+				switch(event.menuName)
+				{
+					case "用户统计" :
+						this.loadContent(new UsersStatistical());
+						break;
+					
+					case "使用概况统计" :
+						this.loadContent(new UseSurveyStatistical());
+						break;
+					
+					case "用户管理" :
+						this.loadContent(new UsersManager());
+						break;
+					
+					case "功能操作权限管理" :
+						this.loadContent(new FunctionRolePurviewManager());
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:XMLList xmlns="" id="navMenu_xml">
+			<node label="概况统计" type="1" width="120">
+				<node label="用户统计" type="2" width="120"/>
+				<node label="使用概况统计" type="3" width="120"/>
+			</node>
+			<node label="安全管理" type="4" width="120">
+				<node label="用户管理" type="5" width="120"/>				
+			</node>
+			<node label="运行状态监控" type="12" width="120">
+				<node label="应用监控" type="16" width="120"/>
+				<node label="运行日志" type="17" width="120"/>
+			</node>
+		</fx:XMLList>
+	</fx:Declarations>	
+
+	<content>
+		<subpage:UsersStatistical/>
+	</content>
+	
+</ModuleTools>

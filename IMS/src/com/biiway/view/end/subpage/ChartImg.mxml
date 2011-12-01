@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.event.ChartImgEvent;
+			import com.biiway.view.end.EndModule;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.filters.GlowFilter;
+			
+			//private var parentDoc:EndModule;
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				//parentDoc = this.parentDocument as EndModule;
+			}
+			
+			private function glowFilter():spark.filters.GlowFilter
+			{
+				var glow:spark.filters.GlowFilter = new spark.filters.GlowFilter();
+				glow.blurX = 15;
+				glow.blurY = 15;
+				glow.alpha = 1;
+				glow.color = 0x0BA61A;
+				glow.knockout = false;
+				glow.quality = 	1;
+				glow.strength = 1;
+				glow.inner = false;
+				
+				return glow;
+			}
+			
+			protected function img_MouseOutHandler(event:MouseEvent):void
+			{
+				var img:Image=event.currentTarget as Image;
+				img.filters=[];
+				
+				this.dispatchChartImgEvent(img.name,MouseEvent.MOUSE_OUT);
+			}
+			
+			protected function img_MouseOverHandler(event:MouseEvent):void
+			{
+				var img:Image=event.currentTarget as Image;
+				img.filters=[this.glowFilter()];
+				
+				this.dispatchChartImgEvent(img.name,MouseEvent.MOUSE_OVER);
+			}	
+			
+			public function setGlowFilter(name:String,type:String):void
+			{
+				var ele:int = this.numElements;
+				for(var i:int=0; i<ele; i++)
+				{
+					var img:Image = this.getElementAt(i) as Image;
+					if(img && img.name == name)
+					{
+						if(type == MouseEvent.MOUSE_OUT)
+						{
+							img.filters=[];
+						}
+						else if(type == MouseEvent.MOUSE_OVER)
+						{
+							img.filters=[this.glowFilter()];
+						}
+					}
+				}
+			}
+
+			private function dispatchChartImgEvent(name:String,type:String):void
+			{
+				var e:ChartImgEvent = new ChartImgEvent(ChartImgEvent.CHART_IMG_EVENT);
+				e.name = name;
+				e.typeStr = type;
+				
+				this.dispatchEvent(e);
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="chartImgEvent",type="com.biiway.event.ChartImgEvent")]
+	</fx:Metadata>
+	
+	<s:Line x="528.5" xTo="36" y="41.5" yTo="46">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Path data="M 0.5 73.614 L 83.511 73.614 L 105.511 73.614 L 181.475 27.588 L 579.511 32.974 L 611.067 27.588 L 664.517 0.5 L 736.511 0.5" winding="nonZero" x="92.989" y="59.945">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Path>
+	<s:Path data="M 0.5 0.5 L 73.629 0.5 L 124.593 32.574" winding="nonZero" x="149.871" y="54.959">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Path>
+	<s:Line x="797.5" xTo="90" y="126.5">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<mx:Image name="1" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3967.png" x="46" y="103"/>
+	<mx:Image name="2" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3969.png" x="102" y="28"/>
+	<mx:Image name="4" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3971.png" x="212" y="32"/>
+	<mx:Image name="3" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3973.png" x="158" y="103"/>
+	<mx:Image useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3975.png" x="268" y="69"/>
+	<mx:Image name="8" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3977.png" x="489" y="0"/>
+	<mx:Image useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3987.png" x="818" y="32"/>
+	<mx:Image name="6" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3989.png" x="379" y="66"/>
+	<mx:Image name="5" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3993.png" x="322" y="69"/>
+	<mx:Image name="7" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u4179.png" x="433" y="69"/>
+	<mx:Image name="9" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3989_0002.png" x="545" y="66"/>
+	<mx:Image name="10" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3993_0002.png" x="597" y="69"/>
+	<mx:Image useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3975_0002.png" x="656" y="72"/>
+	<mx:Image name="11" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3971_0002.png" x="710" y="31"/>
+	<mx:Image name="12" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3973_0002.png" x="765" y="97"/>
+	<mx:Image name="13" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3987_0002.png" x="818" y="28"/>
+	<mx:Image name="14" useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u3967_0002.png" x="874" y="98"/>
+	<mx:Image useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u4134.png" x="931" y="88"/>
+	<mx:Image useHandCursor="true" buttonMode="true" mouseOut="img_MouseOutHandler(event)" mouseOver="img_MouseOverHandler(event)" source="assets/images/u4134_0002.png" x="0" y="94"/>
+	<s:Line x="251" xTo="31" y="69" yTo="24"/>
+	<s:Line x="704.5" xTo="64" y="102.5" yTo="31">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+</s:Group>
