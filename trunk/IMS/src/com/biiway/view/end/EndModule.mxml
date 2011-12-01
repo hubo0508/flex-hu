@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModuleTools xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 xmlns="com.biiway.components.*"
+			 xmlns:subpage="com.biiway.view.end.subpage.*"
+			 menuBarEvent="menuBarEventHandler(event)"
+			 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.core.ICommunication;
+			import com.biiway.event.MenuBarEvent;
+			import com.biiway.util.ViewConst;
+			import org.hu.flextools.util.PopUpUtil;
+			
+			import mx.events.FlexEvent;	
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initNavMenu = navMenu_xml;
+			}
+			
+			protected function menuBarEventHandler(event:MenuBarEvent):void
+			{
+				PopUpUtil.messageBox(event.menuName+"|"+event.menuType);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:XMLList xmlns="" id="navMenu_xml">
+			<node label="点对点短信" type="1" />
+			<node label="短信SP下发" type="2" />
+			<node label="点对点彩信" type="3" />
+			<node label="彩信SP下发" type="4" />
+			<node label="手机WAP上网" type="5" />
+			<node label="指标管理" type="6" />
+		</fx:XMLList>
+	</fx:Declarations>
+	
+	<content>
+		<subpage:End width="100%" height="100%" top="23"/>
+	</content>
+	
+</ModuleTools>

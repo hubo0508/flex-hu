@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.biiway.components.*"
+				   initialize="_initializeHandler(event)"
+				   width="100%"
+				   height="100%" xmlns:local="*">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.event.PanelEvent;
+			import com.biiway.util.FlexUtil;
+			import com.biiway.util.TellAlarmConst;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			
+			import org.hu.flextools.util.PopUpUtil;
+
+			[Bindable]private var dg2ACC:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dg1ACC:ArrayCollection = new ArrayCollection();
+
+			protected function _initializeHandler(event:FlexEvent):void
+			{
+				this.initData();
+			}
+			
+			private function initData():void
+			{			
+
+			
+				
+				dg1ACC.addItem({name0:'C网日均VLR忙时登记用户数（晚忙时20点）',name1:"",name2:"成都市",name3:9043184.44,name4:10750286.39,name5:857427.86,name6:1019286.41,name7:2944.25});
+				dg1ACC.addItem({name0:'C网日均语音话务量',name1:"2",name2:"攀枝花市",name3:1099994.14,name4:2467191.6,name5:104295.74,name6:233926.31,name7:591.48});
+				dg1ACC.addItem({name0:'C网日均1X数据话务量',name1:"3",name2:"德阳市",name3:787611.15,name4:1412850.63,name5:74677.21,name6:133959.17,name7:560.02});
+				dg1ACC.addItem({name0:'C网日均EVDO话务量',name1:"4",name2:"宜宾市",name3:629752.65,name4:999826.52,name5:59709.88,name6:94798.37,name7:431.42});
+				dg1ACC.addItem({name0:'C网日均忙时PDSN（1X）在线用户数（晚忙时21点）',name1:"5",name2:"泸州市",name3:562401.59,name4:635824.5,name5:53324,name6:60285.58,name7:239.33});
+				dg1ACC.addItem({name0:'C网日均忙时PDSN（EVDO）在线用户数（晚忙时21点）',name1:"6",name2:"绵阳市",name3:328108,name4:600262.09,name5:31109.5,name6:56913.74,name7:213.38});
+				
+				dg1ACC.addItem({name0:'C网彩信终端发送MMS条数',name1:"7",name2:"达州市",name3:305000.98,name4:537895.15,name5:857427.86,name6:51000.43,name7:191.64});
+				dg1ACC.addItem({name0:'C网彩信应用发送MMS条数',name1:"8",name2:"乐山市",name3:260469.46,name4:421122.01,name5:104295.74,name6:39928.61,name7:339.18});
+				dg1ACC.addItem({name0:'C网短信发送成功总量',name1:"9",name2:"南充市",name3:248448.51,name4:401251.77,name5:74677.21,name6:38044.61,name7:106.01});
+				dg1ACC.addItem({name0:'C网短信接收成功总量',name1:"10",name2:"遂宁市",name3:267604.54,name4:256101.64,name5:59709.88,name6:24282.23,name7:107.01});
+				
+				dg1ACC.addItem({name0:'全局疏通话务量',name1:"11",name2:"自贡市",name3:176822.86,name4:231506.46,name5:53324,name6:21950.24,name7:425.2});
+				
+				//var dgColumns:Array = ["性能数据","2011-7-1","2011-7-2","2011-7-3","2011-7-4","2011-7-5","2011-7-6","2011-7-7",];
+				
+//				var columns:Array = [];
+//				var len:int = dgColumns.length;
+//				for(var i:int = 0; i<len; i++){
+//					var value:String = dgColumns[i];
+//					var 
+//				}
+				
+//				this.dg.dataProvider = dg1ACC;
+				
+			}
+			
+			protected function panelEventHandler(event:PanelEvent):void
+			{
+				FlexUtil.panelEventHandler(event);
+			}
+			
+			protected function queryBtn_clickHandler(event:MouseEvent):void
+			{
+				var queryInfo:CNetwork_QueryInfo = new CNetwork_QueryInfo();
+				queryInfo.glowFilterMark = true;
+				PopUpUtil.messageWindow(queryInfo,this,false);	
+			}
+					
+		]]>
+	</fx:Script>
+
+	<s:layout>
+		<s:VerticalLayout paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10"/>
+	</s:layout>
+	
+	<components:Panel height="310" closeBtn="false" title="C网性能数据数据列表" width="100%" panelEvent="panelEventHandler(event)">
+		<components:menuContent>
+			<s:HGroup top="4" right="48" gap="0">
+				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
+			</s:HGroup>
+			<components:QueryBtn top="2" right="80" text="查询" click="queryBtn_clickHandler(event)"/>
+		</components:menuContent>	
+		<components:content>
+			<s:Scroller  top="10" horizontalCenter="0" width="100%" height="100%">
+				<s:Group width="100%" height="100%">
+					<s:HGroup gap="0" horizontalCenter="0">
+						
+						<s:VGroup gap="0" horizontalAlign="right">
+							<components:Column width="280" text="性能数据" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<s:HGroup gap="0">
+								<s:VGroup gap="0">
+									<components:Column width="100" height="132" text="C网" />
+									<components:Column width="100" height="88" text="业务平台" />
+									<components:Column width="100" text="软交换" />
+								</s:VGroup>
+								<s:VGroup gap="0">
+									<components:Column width="180" text="C网日均VLR忙时登记用户数(晚忙时20点)" />
+									<components:Column width="180" text="C网日均语音话务量" />
+									<components:Column width="180" text="C网日均1X数据话务量" />
+									<components:Column width="180" text="C网日均EVDO话务量" />
+									<components:Column width="180" text="C网日均忙时PDSN(1X)在线用户数(晚忙时21点)" />
+									<components:Column width="180" text="C网日均忙时PDSN（EVDO）在线用户数（晚忙时21点）" />
+									<components:Column width="180" text="C网彩信终端发送MMS条数" />
+									<components:Column width="180" text="C网彩信应用发送MMS条数" />
+									<components:Column width="180" text="C网短信发送成功总量" />
+									<components:Column width="180" text="C网短信接收成功总量" />
+									<components:Column width="180" text="全局疏通话务量" />
+								</s:VGroup>
+							</s:HGroup>			
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-01" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-02" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-03" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-04" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-05" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-06" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-08" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-09" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="4806986" />
+							<components:Column width="110" text="1103711.05" />
+							<components:Column width="110" text="516082.76" />
+							<components:Column width="110" text="787289.15" />
+							<components:Column width="110" text="56043" />
+							<components:Column width="110" text="152265" />
+							<components:Column width="110" text="20118" />
+							<components:Column width="110" text="1037422" />
+							<components:Column width="110" text="5543770" />
+							<components:Column width="110" text="14304810" />
+							<components:Column width="110" text="843189.5" />
+						</s:VGroup>
+						
+					</s:HGroup>
+				</s:Group>				
+			</s:Scroller>
+		</components:content>
+	</components:Panel>
+	
+	<components:Panel height="150" closeBtn="false" title="C网指标数据数据列表" width="100%" panelEvent="panelEventHandler(event)">
+		<components:menuContent>
+			<s:HGroup top="4" right="48" gap="0">
+				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
+			</s:HGroup>
+			<components:QueryBtn top="2" right="80" text="查询" click="queryBtn_clickHandler(event)"/>
+		</components:menuContent>	
+		<components:content>
+			<s:Scroller  top="10" horizontalCenter="0" width="100%" height="100%">
+				<s:Group width="100%" height="100%">
+					<s:HGroup gap="0" horizontalCenter="0">
+						
+						<s:VGroup gap="0" horizontalAlign="right">
+							<components:Column width="280" text="性能数据" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<s:HGroup gap="0">
+								<components:Column width="100" height="66" text="CDMA" />
+								<s:VGroup gap="0">
+									<components:Column width="180" text="C网短消息首次下发成功率（≥97%)" />
+									<components:Column width="180" text="C网寻呼成功率（≥96%)" />
+									<components:Column width="180" text="C网基站断站率（≤0.8%)" />
+								</s:VGroup>
+							</s:HGroup>			
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-01" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-02" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-03" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-04" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-05" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-06" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-08" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+						<s:VGroup gap="0">
+							<components:Column width="110" text="2011-07-09" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+							<components:Column width="110" text="97.748180882%" />
+							<components:Column width="110" text="96.1%" />
+							<components:Column width="110" text="0.41%" />
+						</s:VGroup>
+						
+					</s:HGroup>
+				</s:Group>				
+			</s:Scroller>
+		</components:content>
+	</components:Panel>
+
+	
+</s:Group>

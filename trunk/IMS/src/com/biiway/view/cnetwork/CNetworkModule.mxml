@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModuleTools xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 xmlns="com.biiway.components.*"
+			 xmlns:subpage="com.biiway.view.cnetwork.subpage.*"
+			 menuBarEvent="menuBarEventHandler(event)"
+			 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.core.ICommunication;
+			import com.biiway.event.MenuBarEvent;
+			import com.biiway.util.ViewConst;
+			import com.biiway.view.cnetwork.subpage.CNetworkChart;
+			import com.biiway.view.wlan.subpage.WLANChart;
+			
+			import mx.events.FlexEvent;
+			
+			import org.hu.flextools.util.PopUpUtil;	
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initNavMenu = navMenu_xml;
+			}
+			
+			protected function menuBarEventHandler(event:MenuBarEvent):void
+			{
+				switch(event.menuType)
+				{
+					case "CNETWORK_DATA_ITEM":
+						this.scroller.viewport = null;
+						scroller.viewport = new CNetworkList();
+						break;
+					
+					case "WLAN_CHART_ScrollLine2D" :
+						var line:CNetworkChart = this.getChart();
+						line.chartType = "MSLine";
+						line.xmlData = getXML2();
+						scroller.viewport = line;	
+						//group.addElement(line);
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
+			private function getXML2():String
+			{
+				return  "<chart caption='全省WLAN网汇总数据报表 -- 折线图' slantLabels='1' rotateLabels='1' baseFontSize='12' formatNumberScale='0' xAxisName='日期' yAxisName='峰值' showValues='0' >"+
+					
+					"<categories>"+
+					"<category label='2011-07-01' />"+
+					"<category label='2011-07-02' />"+
+					"<category label='2011-07-03' />"+
+					"<category label='2011-07-04' />"+
+					"<category label='2011-07-05' />"+
+					"<category label='2011-07-06' />"+
+					"<category label='2011-07-07' />"+
+					"<category label='2011-07-08' />"+
+					"<category label='2011-07-09' />"+
+					"<category label='2011-07-10' />"+
+					"<category label='2011-07-12' />"+
+					"<category label='2011-07-13' />"+
+					"<category label='2011-07-14' />"+
+					"<category label='2011-07-15' />"+
+					"<category label='2011-07-16' />"+
+					"<category label='2011-07-17' />"+
+					"<category label='2011-07-18' />"+
+					"<category label='2011-07-19' />"+
+					"<category label='2011-07-20' />"+
+					"<category label='2011-07-21' />"+
+					"<category label='2011-07-22' />"+
+					"<category label='2011-07-23' />"+
+					"<category label='2011-07-24' />"+
+					"<category label='2011-07-25' />"+
+					"<category label='2011-07-26' />"+
+					"<category label='2011-07-27' />"+
+					"<category label='2011-07-28' />"+
+					"<category label='2011-07-29' />"+
+					"<category label='2011-07-30' />"+
+					"<category label='2011-07-31' />"+
+					"</categories>"+
+					
+					"<dataset seriesName='AP无线侧接收量(M)'>"+
+					"<set value='14165811.990572' />"+
+					"<set value='13459170.3070822'/>"+
+					"<set value='12956840.6655216' />"+
+					"<set value='10703908.280797' />"+
+					"<set value='10028509.6816378' />"+
+					"<set value='9537199.30836582' />"+
+					"<set value='8821794.59150505' />"+
+					"<set value='8216913.37878132' />"+
+					"<set value='7093220.62773991' />"+
+					"<set value='5932661.30757141' />"+
+					"<set value='4920732.26491547' />"+
+					"<set value='4747038.22979546' />"+
+					"<set value='4053189.48924923' />"+
+					"<set value='3459970.66600895' />"+
+					"<set value='3070355.17391682' />"+
+					"<set value='2850714.24760914' />"+
+					"<set value='3105967.63987637' />"+
+					"<set value='2631924.17877579' />"+
+					"<set value='2894774.11401081' />"+
+					"<set value='2573483.10835838' />"+
+					"<set value='2537540.10370731' />"+
+					"<set value='2693174.73983288' />"+
+					"<set value='2246957.27160645' />"+
+					"<set value='2234305.00004101' />"+
+					"<set value='2249637.91001797' />"+
+					"<set value='2184681.43535423' />"+
+					"<set value='2274752.2243309' />"+
+					"<set value='2100731.91439056' />"+
+					"<set value='1611641.60986233' />"+
+					"<set value='1887261.78843498' />"+
+					"<set value='2271373.23769951' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='AP无线侧发送量(M)' >"+
+					"<set value='19301522.1905136'/>"+
+					"<set value='16705724.6555624'/>"+
+					"<set value='15324500.8307161'/>"+
+					"<set value='13567236.8059549'/>"+
+					"<set value='12540227.327426' />"+
+					"<set value='11946058.3706846' />"+
+					"<set value='11486792.1544247' />"+
+					"<set value='10254008.7279062' />"+
+					"<set value='8117170.77362728' />"+
+					"<set value='7053946.97028637' />"+
+					"<set value='6416310.70636368' />"+
+					"<set value='6178673.81219006' />"+
+					"<set value='5373734.19491673' />"+
+					"<set value='4722758.13845539' />"+
+					"<set value='4618898.42590714' />"+
+					"<set value='4100158.43421078' />"+
+					"<set value='4441388.32373047' />"+
+					"<set value='3979273.40897655' />"+
+					"<set value='4287010.20884419' />"+
+					"<set value='3843647.95421219' />"+
+					"<set value='3726752.03642559' />"+
+					"<set value='3927650.0645256' />"+
+					"<set value='3441852.79870224' />"+
+					"<set value='3483716.74636078' />"+
+					"<set value='3429894.1692028' />"+
+					"<set value='3592404.0564909' />"+
+					"<set value='3608271.42524052' />"+
+					"<set value='3329896.14046669' />"+
+					"<set value='2849615.67667103' />"+
+					"<set value='3012658.08960438' />"+
+					"<set value='3409195.62330055' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='AP无线侧接收流量(Kbps)' >"+
+					"<set value='1343128.84'/>"+
+					"<set value='1276128.74'/>"+
+					"<set value='1228500.45'/>"+
+					"<set value='1014889.08'/>"+
+					"<set value='950851.29' />"+
+					"<set value='904267.79' />"+
+					"<set value='836436.82' />"+
+					"<set value='779085.12' />"+
+					"<set value='672542.4' />"+
+					"<set value='562504.18' />"+
+					"<set value='466558.32' />"+
+					"<set value='450089.55' />"+
+					"<set value='384302.41' />"+
+					"<set value='328056.48' />"+
+					"<set value='291115.16' />"+
+					"<set value='270289.94' />"+
+					"<set value='294491.75' />"+
+					"<set value='249545.4' />"+
+					"<set value='274467.47' />"+
+					"<set value='244004.32' />"+
+					"<set value='240596.4' />"+
+					"<set value='255352.86' />"+
+					"<set value='213299' />"+
+					"<set value='207140.17' />"+
+					"<set value='215680.21' />"+
+					"<set value='199180.51' />"+
+					"<set value='152807.5' />"+
+					"<set value='178940.38' />"+
+					"<set value='215359.83' />"+
+					"<set value='205880.81' />"+
+					"<set value='208601.8' />"+
+					"</dataset>"+
+
+					"<dataset seriesName='AP无线侧发送流量(Kbps)' >"+
+					"<set value='1830070.25'/>"+
+					"<set value='1583950.19'/>"+
+					"<set value='1452989.71'/>"+
+					"<set value='1286375.05'/>"+
+					"<set value='1188999.33' />"+
+					"<set value='1132663.31' />"+
+					"<set value='1089118.07' />"+
+					"<set value='972231.94' />"+
+					"<set value='769628.04' />"+
+					"<set value='668818.68' />"+
+					"<set value='608361.31' />"+
+					"<set value='585829.81' />"+
+					"<set value='509509.61' />"+
+					"<set value='447787.44' />"+
+					"<set value='388755.76' />"+
+					"<set value='421109.41' />"+
+					"<set value='377294.07' />"+
+					"<set value='406472.08' />"+
+					"<set value='364434.77' />"+
+					"<set value='353351.3' />"+
+					"<set value='372399.41' />"+
+					"<set value='326338.64' />"+
+					"<set value='340613.13' />"+
+					"<set value='342117.59' />"+
+					"<set value='315723.49' />"+
+					"<set value='270185.78' />"+
+					"<set value='285644.62' />"+
+					"<set value='323242.25' />"+
+					"<set value='322811.03' />"+
+					"<set value='314117.02' />"+
+					"</dataset>"+
+					
+					"<dataset seriesName='日平均在线用户数' >"+
+					"<set value='7081.56'/>"+
+					"<set value='5939.09'/>"+
+					"<set value='5503.4'/>"+
+					"<set value='6006.85'/>"+
+					"<set value='5529.6' />"+
+					"<set value='5448.61' />"+
+					"<set value='4772.17' />"+
+					"<set value='4059.74' />"+
+					"<set value='3162.37' />"+
+					"<set value='2985.57' />"+
+					"<set value='3407.23' />"+
+					"<set value='3341.86' />"+
+					"<set value='3265.58' />"+
+					"<set value='3127.9' />"+
+					"<set value='3098.6' />"+
+					"<set value='2596.51' />"+
+					"<set value='2447.53' />"+
+					"<set value='2800.97' />"+
+					"<set value='3106.07' />"+
+					"<set value='3056.37' />"+
+					"<set value='3063.2' />"+
+					"<set value='3011.57' />"+
+					"<set value='2350.87' />"+
+					"<set value='2201.08' />"+
+					"<set value='2787.62' />"+
+					"<set value='2868.47' />"+
+					"<set value='2961.23' />"+
+					"<set value='2955.73' />"+
+					"<set value='2392.94' />"+
+					"<set value='2156.89' />"+
+					"<set value='2146.95' />"+
+					"</dataset>"+
+					
+					
+					"<styles>"+
+					
+					"<definition>"+
+					"<style name='CanvasAnim' type='animation' param='_xScale' start='0' duration='1' />"+
+					"</definition>"+
+					
+					"<application>"+
+					"<apply toObject='Canvas' styles='CanvasAnim' />"+
+					"</application>"+   
+					
+					"</styles>"+
+					
+					"</chart>";
+			}
+			
+			private function getChart():CNetworkChart
+			{
+				var alarmChart:CNetworkChart = null;
+				//				if(scroller.viewport is AlarmChart){
+				//					alarmChart =scroller.viewport as AlarmChart;						
+				//				}else{
+				scroller.viewport  = null;
+				alarmChart =  new CNetworkChart();;
+				//				}
+				
+				return alarmChart;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:XMLList xmlns="" id="navMenu_xml">
+			<node label="C网数据列表" type="CNETWORK_DATA_ITEM" />			
+		</fx:XMLList>		
+	</fx:Declarations>
+	
+	<content>
+		<s:Scroller width="100%" height="100%" top="23" id="scroller">
+			<subpage:CNetworkList/>
+		</s:Scroller>
+	</content>
+	
+</ModuleTools>

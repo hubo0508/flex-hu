@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.biiway.components.*"
+				   creationComplete="_creationCompleteHandler(event)" 
+				   initialize="_initializeHandler(event)"
+				   width="100%"
+				   height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.event.PanelEvent;
+			import com.biiway.util.FlexUtil;
+			import com.biiway.util.TellAlarmConst;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			
+			import org.hu.flextools.util.PopUpUtil;
+
+			[Bindable]private var dgACC:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dg2ACC:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dg3ACC:ArrayCollection = new ArrayCollection();
+			[Bindable]private var dg4ACC:ArrayCollection = new ArrayCollection();
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function _creationCompleteHandler(event:FlexEvent):void
+			{
+				
+			}
+			
+			protected function _initializeHandler(event:FlexEvent):void
+			{
+				this.initData();
+			}
+			
+			private function initData():void
+			{
+			
+				dgACC.addItem({name1:"设备告警",name2:76745,name3:4532,name4:34344,name5:6768,name6:452,name7:6524,name8:6784,name9:2312,name10:4342,name11:23});
+				dgACC.addItem({name1:"处理错误",name2:4323,name3:2564,name4:37434,name5:767,name6:43455,name7:56765,name8:87865,name9:43456,name10:4342,name11:231});
+				dgACC.addItem({name1:"环境告警",name2:65565,name3:34556,name4:5656,name5:2,name6:656,name7:6512,name8:875,name9:2312,name10:5632,name11:33});
+				dgACC.addItem({name1:"其它告警",name2:65565,name3:34556,name4:5656,name5:2,name6:656,name7:6512,name8:875,name9:2312,name10:5632,name11:33});
+				//dgACC.addItem({name1:"数据网",name2:9665,name3:6564,name4:76565,name5:9899,name6:76455,name7:6785,name8:656,name9:2312,name10:54678,name11:341});
+				//dgACC.addItem({name1:"传输网",name2:785,name3:8756,name4:4543,name5:1233,name6:6532,name7:7678,name8:6567,name9:2312,name10:45367,name11:23531});
+				//dgACC.addItem({name1:"动环",name2:65887,name3:65654,name4:54567,name5:6567,name6:6784,name7:8799,name8:2453,name9:2312,name10:568,name11:86});
+				
+				dg2ACC.addItem({name1:"设备告警",name2:656,name3:656,name4:565,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
+				dg2ACC.addItem({name1:"处理错误",name2:56789,name3:656,name4:656,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:234,name11:2221,name12:22,name13:642,name14:312,name15:4523});
+				dg2ACC.addItem({name1:"环境告警",name2:6732,name3:656,name4:565,name5:7896,name6:7896,name7:234,name8:323,name9:1554,name10:56789,name11:56789,name12:22,name13:642,name14:312,name15:4523});
+				dg2ACC.addItem({name1:"其它告警",name2:656,name3:2221,name4:565,name5:234,name6:1554,name7:7896,name8:1554,name9:7896,name10:312,name11:56789,name12:56789,name13:642,name14:2221,name15:4523});
+				//dg2ACC.addItem({name1:"传输网",name2:656,name3:656,name4:7896,name5:6767,name6:6767,name7:1554,name8:332,name9:6767,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
+				//dg2ACC.addItem({name1:"动环",name2:656,name3:656,name4:56789,name5:234,name6:6767,name7:7896,name8:6732,name9:7896,name10:2221,name11:22,name12:22,name13:642,name14:312,name15:4523});
+				//dg2ACC.addItem({name1:"超时工单",name2:656,name3:656,name4:565,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
+				
+				dg3ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"光口光模块无光",name3:"机架:1,机框:1,槽位:4,子单元:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"次要告警",name6:"2011-11-8 11:38:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+				dg3ACC.addItem({
+					name1:[
+						{key:"派单人工终止派单",url:"assets/images/s003.png"},
+						{key:"工单处理中",url:"assets/images/s005.png"},
+						{key:"告警已确认",url:"assets/images/s006.png"},
+						{key:"工程现网状态",url:"assets/images/s010.png"},
+						{key:"告警已读",url:"assets/images/s008.png"}
+					],
+					name2:"未探测到RTR",name3:"机架:2,机框:1,槽位:1",name4:"132[(工程调测)李家巷局(N_B7_132_金牛_I2_川)-A]",name5:"次要告警",name6:"2011-11-8 11:28:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+				
+				dg3ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"CPU使用率过高",name3:"机架:3,机框:1,槽位:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"主要告警",name6:"2011-11-8 10:38:00",name7:"处理错误",name8:"102811[CD-BSC11]",name9:"255",name10:"BSC"});
+				
+				dg3ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"低功率异常",name3:"机架:3,机框:1,槽位:1",name4:"0[成都BSC11]",name5:"紧急告警",name6:"2011-11-8 11:38:00",name7:"环境告警",name8:"102811[CD-BSC11]",name9:"0",name10:"CBTS I2"});
+				dg3ACC.addItem({
+					name1:[
+						{key:"派单人工终止派单",url:"assets/images/s003.png"},
+						{key:"工单处理中",url:"assets/images/s005.png"},
+						{key:"告警已确认",url:"assets/images/s006.png"},
+						{key:"工程现网状态",url:"assets/images/s010.png"},
+						{key:"告警已读",url:"assets/images/s008.png"}
+					],
+					name2:"信道下行帧失锁",name3:"机架:1,机框:1,槽位:15,子单元:1",name4:"0[成都BSC11]",name5:"紧急告警",name6:"2011-11-8 11:38:00",name7:"环境告警",name8:"102801[CD-BSC1]",name9:"255",name10:"CBTS I2"});
+				
+				
+				//dg4
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"光口光模块无光",name3:"机架:1,机框:1,槽位:4,子单元:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"次要告警",name6:"2011-11-8 11:38:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+								
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"CPU使用率过高",name3:"机架:3,机框:1,槽位:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"主要告警",name6:"2011-11-8 10:38:00",name7:"处理错误",name8:"102811[CD-BSC11]",name9:"255",name10:"BSC"});
+				
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"低功率异常",name3:"机架:3,机框:1,槽位:1",name4:"0[成都BSC11]",name5:"紧急告警",name6:"2011-11-8 11:38:00",name7:"环境告警",name8:"102811[CD-BSC11]",name9:"0",name10:"CBTS I2"});
+				dg4ACC.addItem({
+					name1:[
+						{key:"派单人工终止派单",url:"assets/images/s003.png"},
+						{key:"工单处理中",url:"assets/images/s005.png"},
+						{key:"告警已确认",url:"assets/images/s006.png"},
+						{key:"工程现网状态",url:"assets/images/s010.png"},
+						{key:"告警已读",url:"assets/images/s008.png"}
+					],
+					name2:"信道下行帧失锁",name3:"机架:1,机框:1,槽位:15,子单元:1",name4:"0[成都BSC11]",name5:"紧急告警",name6:"2011-11-8 11:38:00",name7:"环境告警",name8:"102801[CD-BSC1]",name9:"255",name10:"CBTS I2"});
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"光口光模块无光",name3:"机架:1,机框:1,槽位:4,子单元:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"次要告警",name6:"2011-11-8 11:38:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+				dg4ACC.addItem({
+					name1:[
+						{key:"派单人工终止派单",url:"assets/images/s003.png"},
+						{key:"工单处理中",url:"assets/images/s005.png"},
+						{key:"告警已确认",url:"assets/images/s006.png"},
+						{key:"工程现网状态",url:"assets/images/s010.png"},
+						{key:"告警已读",url:"assets/images/s008.png"}
+					],
+					name2:"未探测到RTR",name3:"机架:2,机框:1,槽位:1",name4:"132[(工程调测)李家巷局(N_B7_132_金牛_I2_川)-A]",name5:"次要告警",name6:"2011-11-8 11:28:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+				
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"CPU使用率过高",name3:"机架:3,机框:1,槽位:1",name4:"13[东泰(n_B7_13_金牛_I2_那)-C]",name5:"主要告警",name6:"2011-11-8 10:38:00",name7:"处理错误",name8:"102811[CD-BSC11]",name9:"255",name10:"BSC"});
+				
+				dg4ACC.addItem({
+					name1:[
+						{key:"等待派单",url:"assets/images/s002.png"},
+						{key:"工单关闭",url:"assets/images/s009.png"},
+						{key:"告警未确认",url:"assets/images/s006_2.png"},
+						{key:"工程规划状态",url:"assets/images/s007.png"},
+						{key:"告警未读",url:"assets/images/s008_2.png"}
+					],
+					name2:"低功率异常",name3:"机架:3,机框:1,槽位:1",name4:"0[成都BSC11]",name5:"紧急告警",name6:"2011-11-8 11:38:00",name7:"环境告警",name8:"102811[CD-BSC11]",name9:"0",name10:"CBTS I2"});
+				dg4ACC.addItem({
+					name1:[
+						{key:"派单人工终止派单",url:"assets/images/s003.png"},
+						{key:"工单处理中",url:"assets/images/s005.png"},
+						{key:"告警已确认",url:"assets/images/s006.png"},
+						{key:"工程现网状态",url:"assets/images/s010.png"},
+						{key:"告警已读",url:"assets/images/s008.png"}
+					],
+					name2:"未探测到RTR",name3:"机架:2,机框:1,槽位:1",name4:"132[(工程调测)李家巷局(N_B7_132_金牛_I2_川)-A]",name5:"次要告警",name6:"2011-11-8 11:28:00",name7:"设备告警",name8:"102807[CD-BSC7]",name9:"0",name10:"BS8800"});
+
+			}
+			
+			protected function panelEventHandler(event:PanelEvent):void
+			{
+				FlexUtil.panelEventHandler(event);
+			}
+			//**详细信息
+			protected function viewInfo_clickHandler(event:MouseEvent=null):void
+			{
+				var dg:DataGrid = tn.selectedIndex == 0 ? dg3 : dg4;				 
+				
+				if (dg.selectedIndex >= 0)
+				{
+					var itemInfo:Specialty_ItemInfo=new Specialty_ItemInfo();
+					itemInfo.glowFilterMark=true;
+					itemInfo.itemData = dg.selectedItem;
+					PopUpUtil.messageWindow(itemInfo, this, false);
+				}
+				else
+				{
+					PopUpUtil.messageBox("请选择一条记录");
+				}
+			}
+
+			
+			//**告警查询
+			protected function queryBtn_clickHandler(event:MouseEvent = null):void
+			{
+				var queryInfo:Specialty_QueryInfo = new Specialty_QueryInfo();
+				queryInfo.glowFilterMark = true;
+				PopUpUtil.messageWindow(queryInfo,this,false);	
+			}			
+
+			protected function activityDg_doubleClickHandler(event:MouseEvent):void
+			{
+				this.viewInfo_clickHandler();
+			}		
+
+			protected function tn_changeHandler(event:IndexChangedEvent):void
+			{
+				if(event.newIndex == 0){
+					urgent.title = "2";
+					main.title = "1";
+					secondary.title = "2";
+				}else if(event.newIndex == 1){
+					urgent.title = "4";
+					main.title = "2";
+					secondary.title = "4";
+				}
+			}
+			
+		]]>
+	</fx:Script>
+
+	<s:layout>
+		<s:VerticalLayout paddingTop="10" paddingBottom="10" paddingLeft="10" paddingRight="10"/>
+	</s:layout>
+	
+	<components:Panel height="142" closeBtn="false" title="全类型告警概览表" width="100%" panelEvent="panelEventHandler(event)">
+		<components:menuContent>
+			<s:HGroup top="4" right="48" gap="0">
+				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
+				<!--<mx:LinkButton icon="@Embed('assets/images/i009.png')" toolTip="帮助"/>
+				<mx:LinkButton icon="@Embed('assets/images/i001.png')" toolTip="设置"/>-->
+			</s:HGroup>
+		</components:menuContent>	
+		<components:content>
+			<mx:DataGrid top="5" bottom="2" id="dg" width="100%" height="100%" styleName="dataGrid" rowCount="6" dataProvider="{this.dgACC}">
+				<mx:columns> 
+					<mx:DataGridColumn dataField="name1" headerText="告警专业" visible="true"/>
+					<mx:DataGridColumn dataField="name2" headerText="告警总数"/>
+					<mx:DataGridColumn dataField="name3" headerText="工程告警数"/>
+					<mx:DataGridColumn dataField="name4" headerText="告警关联数"/>
+					<mx:DataGridColumn dataField="name5" headerText="次要告警" headerRenderer="com.biiway.renderers.TellAlarmRenderers"/>
+					<mx:DataGridColumn dataField="name6" headerText="主要告警" headerRenderer="com.biiway.renderers.TellAlarmRenderers"/>
+					<mx:DataGridColumn dataField="name7" headerText="紧急告警" headerRenderer="com.biiway.renderers.TellAlarmRenderers"/>
+					<mx:DataGridColumn dataField="name9" headerText="工单数"/>
+					<mx:DataGridColumn dataField="name10" headerText="影响客户数"/>
+					<mx:DataGridColumn dataField="name11" headerText="超时工单数"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</components:content>
+	</components:Panel>
+	
+	<components:Panel height="142" closeBtn="false" title="全省各地市告警统计列表" width="100%" panelEvent="panelEventHandler(event)">
+		<components:menuContent>
+			<s:HGroup top="4" right="48" gap="0">
+				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
+				<!--<mx:LinkButton icon="@Embed('assets/images/i009.png')" toolTip="帮助"/>
+				<mx:LinkButton icon="@Embed('assets/images/i001.png')" toolTip="设置"/>-->
+			</s:HGroup>
+		</components:menuContent>	
+		<components:content>
+			<mx:DataGrid top="5" bottom="2" id="dg2" width="100%" height="100%" styleName="dataGrid" rowCount="7" dataProvider="{this.dg2ACC}">
+				<mx:columns> 
+					<mx:DataGridColumn dataField="name1" headerText="告警类型"/>
+					<mx:DataGridColumn dataField="name2" headerText="全省"/>
+					<mx:DataGridColumn dataField="name3" headerText="成都市"/>
+					<mx:DataGridColumn dataField="name4" headerText="攀枝花市"/>
+					<mx:DataGridColumn dataField="name5" headerText="德阳市"/>
+					<mx:DataGridColumn dataField="name6" headerText="宜宾市"/>
+					<mx:DataGridColumn dataField="name7" headerText="泸州市"/>
+					<mx:DataGridColumn dataField="name8" headerText="绵阳市"/>
+					<mx:DataGridColumn dataField="name9" headerText="达州市"/>
+					<mx:DataGridColumn dataField="name10" headerText="乐山市"/>
+					<mx:DataGridColumn dataField="name11" headerText="南充市"/>
+					<mx:DataGridColumn dataField="name12" headerText="遂宁市"/>
+					<mx:DataGridColumn dataField="name13" headerText="自贡市"/>
+					<mx:DataGridColumn dataField="name14" headerText="广元市"/>
+					<mx:DataGridColumn dataField="name15" headerText="眉山市"/>					
+					<mx:DataGridColumn dataField="name4" headerText="雅安市"/>
+					<mx:DataGridColumn dataField="name15" headerText="凉山州"/>
+					<mx:DataGridColumn dataField="name2" headerText="广安市"/>
+					<mx:DataGridColumn dataField="name11" headerText="阿坝州"/>
+					<mx:DataGridColumn dataField="name5" headerText="甘孜州"/>
+					<mx:DataGridColumn dataField="name15" headerText="内江市"/>
+					<mx:DataGridColumn dataField="name10" headerText="资阳市"/>
+					<mx:DataGridColumn dataField="name7" headerText="巴中市"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</components:content>
+	</components:Panel>
+	
+	<components:Panel height="100%" closeBtn="false" width="100%" panelEvent="panelEventHandler(event)">
+		<components:menuContent>
+			<s:HGroup top="4" right="48" gap="0">				
+				<mx:LinkButton id="viewInfo" icon="@Embed('assets/images/i008.gif')" toolTip="查看详细" click="viewInfo_clickHandler(event)"/>
+				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
+				<!--<mx:LinkButton icon="@Embed('assets/images/i009.png')" toolTip="帮助"/>
+				<mx:LinkButton icon="@Embed('assets/images/i001.png')" toolTip="设置"/>-->
+			</s:HGroup>
+			<s:HGroup top="6" left="8">
+				<components:DGHeader id="urgent" title="2" color="{TellAlarmConst.ONE_COLOR}"/>
+				<components:DGHeader id="main" title="1" color="{TellAlarmConst.TWO_COLOR}"/>
+				<components:DGHeader id="secondary" title="2" color="{TellAlarmConst.THREE_COLOR}"/>
+			</s:HGroup>
+			<components:QueryBtn id="queryBtn" top="2" right="120" text="告警查询" click="queryBtn_clickHandler(event)"/>
+		</components:menuContent>	
+		<components:content>
+			<mx:TabNavigator change="tn_changeHandler(event)" tabWidth="110" id="tn" width="100%" height="100%" borderColor="#CCCCCC" top="8" horizontalGap="6">
+				
+				<mx:VBox label="活动告警(7条)" width="100%" height="100%">
+					<mx:DataGrid top="5" bottom="2" id="dg3" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dg3ACC}" doubleClickEnabled="true" doubleClick="activityDg_doubleClickHandler(event)">
+						<mx:columns> 
+							<mx:DataGridColumn dataField="name1" headerText="标识状态" itemRenderer="com.biiway.renderers.SpecialtyFlagStateItemRenderer"/>
+							<mx:DataGridColumn dataField="name2" headerText="告警描述"/>
+							<mx:DataGridColumn dataField="name3" headerText="物理位置"/>
+							<mx:DataGridColumn dataField="name4" headerText="网元"/>
+							<mx:DataGridColumn dataField="name5" headerText="告警级别" itemRenderer="com.biiway.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+							<mx:DataGridColumn dataField="name6" headerText="发生时间"/>
+							<mx:DataGridColumn dataField="name7" headerText="告警类型"/>
+							<mx:DataGridColumn dataField="name8" headerText="节点"/>
+							<mx:DataGridColumn dataField="name9" headerText="子系统"/>
+							<mx:DataGridColumn dataField="name10" headerText="基站类型"/>
+							<mx:DataGridColumn dataField="name11" headerText="恢复类型"/>
+							<mx:DataGridColumn dataField="name12" headerText="持续时间"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+				
+				<mx:VBox label="清除告警(近期)" width="100%" height="100%">
+					<mx:DataGrid top="5" bottom="2" id="dg4" width="100%" height="100%" styleName="dataGrid" dataProvider="{this.dg4ACC}" doubleClickEnabled="true" doubleClick="activityDg_doubleClickHandler(event)">
+						<mx:columns> 
+							<mx:DataGridColumn dataField="name1" headerText="标识状态" itemRenderer="com.biiway.renderers.SpecialtyFlagStateItemRenderer"/>
+							<mx:DataGridColumn dataField="name2" headerText="告警描述"/>
+							<mx:DataGridColumn dataField="name3" headerText="物理位置"/>
+							<mx:DataGridColumn dataField="name4" headerText="网元"/>
+							<mx:DataGridColumn dataField="name5" headerText="告警级别" itemRenderer="com.biiway.renderers.SpecialtyTellAlarmTitleItemRenderer"/>
+							<mx:DataGridColumn dataField="name6" headerText="发生时间"/>
+							<mx:DataGridColumn dataField="name7" headerText="告警类型"/>
+							<mx:DataGridColumn dataField="name8" headerText="节点"/>
+							<mx:DataGridColumn dataField="name9" headerText="子系统"/>
+							<mx:DataGridColumn dataField="name10" headerText="基站类型"/>
+							<mx:DataGridColumn dataField="name11" headerText="恢复类型"/>
+							<mx:DataGridColumn dataField="name12" headerText="持续时间"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:VBox>
+				
+			</mx:TabNavigator>
+		</components:content>
+	</components:Panel>
+	
+</s:Group>

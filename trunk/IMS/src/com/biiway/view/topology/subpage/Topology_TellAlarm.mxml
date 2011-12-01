@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+				  xmlns:s="library://ns.adobe.com/flex/spark"
+				  xmlns:mx="library://ns.adobe.com/flex/mx"
+				  xmlns:components="com.biiway.components.*"
+				  panelEvent="tellAlarm_ClickHanler(event)"
+				  title="告警统计"
+				  closeBtn="false"
+				  top="65"
+				  left="160"
+				  height="200"
+				  width="170">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.event.PanelEvent;
+			
+			/**
+			 * 告警统计点击按钮函数
+			 */
+			protected function tellAlarm_ClickHanler(event:PanelEvent):void
+			{
+				switch(event.clickType)
+				{
+					case Panel.CLOSE_BTN : 
+						break;
+					
+					case Panel.MAXIMIZE_BTN : 
+						this.showContent();
+						break;
+					
+					case Panel.MINIMIZE_BTN :
+						this.hideContent();
+						break;
+					
+					default:
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<components:content>
+		<mx:DataGrid top="5" bottom="2" id="dg" width="100%" height="100%" styleName="dataGrid">
+			<mx:columns> 
+				<mx:DataGridColumn dataField="name" headerText="网元类型"/>
+				<mx:DataGridColumn dataField="phone" headerText="网元数量"/>
+				<mx:DataGridColumn dataField="email" headerText="告警网元数量"/>
+			</mx:columns>
+		</mx:DataGrid>
+	</components:content>
+</components:Panel>

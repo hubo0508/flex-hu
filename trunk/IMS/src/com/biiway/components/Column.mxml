@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components:Box xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:components="com.biiway.components.*"
+				mouseOutColor="#FFFFFF"
+				mouseOverColor="#CEDBEF"
+				borderSides="bottom right top left"
+				borderColor="#CDCDCD" height="22"
+				width="80">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _text:String;
+			
+			[Bindable]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+			
+			public function reDrawing():void
+			{
+				super.invalidateDisplayList();
+			}
+
+		]]>
+	</fx:Script>
+	
+	<mx:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+</components:Box>

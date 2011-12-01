@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tools:MXModule xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:tools="library://flex.tools"
+			   implements="com.biiway.core.ICommunication"
+			   SID="{ViewConst.LOGIN_URL}"
+			   creationComplete="creationCompleteHandler(event)"
+			   width="100%"
+			   height="100%"
+			   layout="absolute">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.core.ICommunication;
+			import com.biiway.event.LoginEvent;
+			import com.biiway.util.IconConst;
+			import com.biiway.util.ViewConst;
+			import org.hu.flextools.util.PopUpUtil;
+			import org.hu.flextools.util.StringUtil;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.CursorManager;
+			
+			import spark.events.TextOperationEvent;
+			
+			/**登录按钮是否可用标识*/
+			[Bindable]private var login_flag:Boolean = false;
+			
+			private var dataArr:Array;
+			
+			/**
+			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initUsernameAndPassword();
+				this.loginBtn_endabled();
+				this.init();
+			}
+			private function init():void
+			{
+				this.username.setFocus();
+				
+				this.addEventListener(KeyboardEvent.KEY_UP, onKeyboardEvent);
+			}
+
+			public function onKeyboardEvent(event:KeyboardEvent):void
+			{
+				if(Keyboard.ENTER == event.keyCode)
+				{
+					this.loginDispatchEvent(this.username.text,this.password.text);
+				}
+			}
+
+			
+			/**
+			 * 初始化用户名与密码
+			 */
+			private function initUsernameAndPassword():void
+			{
+				this.username.text = dataArr[0];
+				this.password.text = dataArr[1];
+			}
+
+			/**
+			 * 登录处理函数
+			 */
+			protected function login_clickHandler(event:MouseEvent):void
+			{
+				this.loginDispatchEvent(this.username.text,this.password.text);
+			}
+			
+			/**
+			 * 派发登录事件函数
+			 */
+			public function loginDispatchEvent(usernameStr:String,passwordStr:String):void
+			{
+				var event:LoginEvent = new LoginEvent(LoginEvent.LOGIN_EVENT);
+				event.username = usernameStr;
+				event.password = passwordStr;
+				
+				this.dispatchEvent(event);
+			}
+			
+			/**
+			 * 重置处理函数
+			 */
+			protected function reset_clickHandler(event:MouseEvent):void
+			{
+				if(StringUtil.isNotEmpty(this.username.text)) 
+					this.username.text = null;
+				
+				if(StringUtil.isNotEmpty(this.password.text))
+					this.password.text = null;
+			}
+
+
+			/**
+			 * 在用户编辑操作完成后分派
+			 */
+			protected function username_changeHandler(event:TextOperationEvent):void
+			{
+				this.loginBtn_endabled();
+			}
+
+			
+			/**
+			 * 在用户编辑操作完成后分派
+			 */
+			protected function password_changeHandler(event:TextOperationEvent):void
+			{
+				this.loginBtn_endabled();
+			}
+			
+			/**
+			 * 设置登录按钮是否可用
+			 */
+			private function loginBtn_endabled():void
+			{
+				if(StringUtil.isEmpty(this.username.text) || StringUtil.isEmpty(this.password.text))
+				{
+					if(this.login_flag == true)
+						this.login_flag = false;
+				}
+				else
+				{
+					if(this.login_flag == false) 
+						this.login_flag = true;
+				}
+			}
+			
+			/**
+			 * 设置默认用户名与密码
+			 */
+			public function setMessage(obj:Object):void
+			{				
+				this.dataArr = obj as Array;
+			}
+			
+			public function getMessage():Object
+			{
+				return null;
+			}			
+
+		]]>
+	</fx:Script>
+
+	<!--登录模块-->
+	
+	<s:BorderContainer  cornerRadius="12" borderColor="#999999"  width="353"  height="222" horizontalCenter="0" verticalCenter="0">
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xEEEEEE"/>
+				<s:GradientEntry color="0xCCCCCC"/>
+			</s:LinearGradient>	
+		</s:backgroundFill> 
+		
+		<mx:Image  source="{IconConst.logo}" horizontalCenter="0" top="20"/>
+
+		<mx:Form top="60" left="20" right="20" verticalGap="15">
+			<mx:FormItem label="用户名：" width="100%">
+				<s:TextInput id="username" styleName="input" width="100%" change="username_changeHandler(event)"/>
+			</mx:FormItem>
+			<mx:FormItem label="密  码：" width="100%">
+				<s:TextInput id="password" styleName="input" width="100%"  displayAsPassword="true" change="password_changeHandler(event)"/>
+			</mx:FormItem>
+		</mx:Form>
+
+		<s:HGroup bottom="25" horizontalCenter="0" gap="15">
+			<mx:Button id="login" label="登录" useHandCursor="true" buttonMode="true" click="login_clickHandler(event)" enabled="{login_flag}"/>
+			<mx:Button id="reset" label="重置" useHandCursor="true" buttonMode="true" click="reset_clickHandler(event)"/>
+		</s:HGroup>
+		
+	</s:BorderContainer>
+	
+</tools:MXModule>

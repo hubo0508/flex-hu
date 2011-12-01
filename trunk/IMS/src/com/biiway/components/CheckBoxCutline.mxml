@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  gap="5" useHandCursor="true" buttonMode="true"
+		  width="100%"
+		  verticalAlign="middle">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _icon:String;
+			private var _label:String;
+			private var _selected:Boolean = false;
+			
+			protected function box_clickHandler(event:MouseEvent):void
+			{
+				this.setSelected();
+			}
+			
+			protected function img_clickHandler(event:MouseEvent):void
+			{
+				this.setSelected();
+			}
+			
+			protected function label_clickHandler(event:MouseEvent):void
+			{
+				this.setSelected();
+			}
+			
+			private function setSelected():void
+			{
+				if(this.selected)
+				{
+					this.selected = false;
+				}
+				else
+				{
+					this.selected = true;
+				}	
+			}
+
+			[Bindable(event="box_change")]
+			public function get selected():Boolean
+			{
+				return _selected;
+			}
+
+			public function set selected(value:Boolean):void
+			{
+				_selected = value;
+				
+				this.dispatchEvent(new Event("box_change"));
+			}
+
+			[Bindable]
+			public function get label():String
+			{
+				return _label;
+			}
+			
+			public function set label(value:String):void
+			{
+				_label = value;
+			}
+
+			[Bindable]
+			public function get icon():String
+			{
+				return _icon;
+			}
+
+			public function set icon(value:String):void
+			{
+				_icon = value;
+			}
+
+		]]>
+	</fx:Script>
+	
+	<mx:CheckBox  selected="{this.selected}" click="box_clickHandler(event)"/>
+	
+	<mx:Image source="{icon}"  click="img_clickHandler(event)" useHandCursor="true" buttonMode="true"/>
+	
+	<mx:Label text="{label}"  click="label_clickHandler(event)"  useHandCursor="true" buttonMode="true"/>
+	
+</s:HGroup>

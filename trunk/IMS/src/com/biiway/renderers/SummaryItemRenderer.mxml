@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Box xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:components="com.biiway.components.*"
+		creationComplete="group1_creationCompleteHandler(event)"
+		width="100%"
+		height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.components.DGHeader;
+			import com.biiway.util.TellAlarmConst;
+			
+			import mx.controls.Label;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.FlexEvent;
+			
+			private var _label:Label;
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var title:String = (super.data as DataGridColumn).headerText;
+				
+				_label = new Label();
+				_label.text = this.data[title];
+				
+				this.addElement(_label);				
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth,unscaledHeight);
+				
+				if(label)
+				{
+					var w:Number = (unscaledWidth -_label.width)/2;
+					_label.x = w;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+</mx:Box>
