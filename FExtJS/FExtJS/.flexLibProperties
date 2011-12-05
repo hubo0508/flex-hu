@@ -4,10 +4,11 @@
     <classEntry path="org.hu.fextjs.ui.TitleLabel"/>
     <classEntry path="org.hu.fextjs.event.tt"/>
     <classEntry path="org.hu.fextjs.event.sdf"/>
-    <classEntry path="org.hu.fextjs.ui.ExtContainer"/>
+    <classEntry path="org.hu.fextjs.ui.FContainer"/>
+    <classEntry path="org.hu.fextjs.ui.FContent"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests>
-    <namespaceManifestEntry manifest="manifest.xml" namespace="library://FExtJS.HU"/>
+    <namespaceManifestEntry manifest="manifest.xml" namespace="library://FExt.HU"/>
   </namespaceManifests>
 </flexLibProperties>
