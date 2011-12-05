@@ -5,7 +5,7 @@
 			   minWidth="955"
 			   minHeight="600"
 			   xmlns:FExt="library://FExt.HU"
-			   xmlns:local="*">
+			   xmlns:local="*" xmlns:components="org.hu.fextjs.components.*">
 	
 	<FExt:FContainer top="50" left="50" right="50" >
 		<FExt:TitleLabel>
@@ -14,7 +14,8 @@
 			</FExt:customComponents>			
 		</FExt:TitleLabel>
 		<FExt:FContent>
-			
+			<components:FDataGrid/>
+			<!--
 			<FExt:DataGrid id="dg">
 				<FExt:columns>
 					<FExt:CheckBoxColumn radioBox="true"/>		
@@ -25,6 +26,7 @@
 					<mx:DataGridColumn dataField="email" headerText="email"/>
 				</FExt:columns>
 			</FExt:DataGrid>
+			-->
 		</FExt:FContent>
 	</FExt:FContainer>
 	
