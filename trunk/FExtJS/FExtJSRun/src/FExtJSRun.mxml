@@ -4,15 +4,18 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   minWidth="955"
 			   minHeight="600"
-			   xmlns:ui="org.hu.fextjs.ui.*" xmlns:local="*">
-
+			   xmlns:FExtJS="library://FExtJS.HU"
+			   xmlns:local="*">
 	
-	<ui:ExtBox top="50" left="50" right="50" >
-		<ui:TitleLabel id="til">
-			<ui:customComponents>
+	<FExtJS:EContainer top="50" left="50" right="50" >
+		<FExtJS:TitleLabel>
+			<FExtJS:customComponents>
 				<s:Label id="moreLabelText"  fontFamily="宋体" fontSize="12" buttonMode="true"  fontWeight="bold" verticalCenter="0" right="5" color="#0C387F" useHandCursor="true" text="更多..." />
-			</ui:customComponents>			
-		</ui:TitleLabel>
-	</ui:ExtBox>
+			</FExtJS:customComponents>			
+		</FExtJS:TitleLabel>
+		<FExtJS:EContent>
+			
+		</FExtJS:EContent>
+	</FExtJS:EContainer>
 	
 </s:Application>
