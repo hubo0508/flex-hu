@@ -2,7 +2,9 @@
 <componentPackage>
 
 	 <component id="Container" class="org.hu.fextjs.components.Container" />
-	 <component id="ExtContainer" class="org.hu.fextjs.ui.ExtContainer" />
+	 <component id="EContainer" class="org.hu.fextjs.ui.EContainer" />
+	 <component id="EContent" class="org.hu.fextjs.ui.EContent" />
+	 
 	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
 	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
 	 
