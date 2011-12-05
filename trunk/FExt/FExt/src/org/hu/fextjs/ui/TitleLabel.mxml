@@ -18,9 +18,9 @@
 			
 			private var _customComponents:Object;
 			
-			public function set title(label:String):void
+			public function set text(text:String):void
 			{
-				titleLabel.text=label;
+				titleLabel.text=text;
 			}
 						
 			override protected function createChildren():void
