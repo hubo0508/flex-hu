@@ -12,7 +12,7 @@ package org.hu.fextjs.components
 	/**
 	 * 扩展spark.components.Group组件
 	 */
-	public class Box extends Group 
+	public class Container extends Group 
 	{
 		private const LEFT:String="left";
 		private const RIGHT:String="right";
@@ -28,7 +28,7 @@ package org.hu.fextjs.components
 		
 		private var _backgroupColor:uint;
 		
-		public function Box()
+		public function Container()
 		{
 			super();
 		}

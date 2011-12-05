@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <componentPackage>
 
-	 <component id="Box" class="org.hu.fextjs.components.Box" />
-	 <component id="ExtBox" class="org.hu.fextjs.ui.ExtBox" />
+	 <component id="Container" class="org.hu.fextjs.components.Container" />
+	 <component id="ExtContainer" class="org.hu.fextjs.ui.ExtContainer" />
 	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
+	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
 	 
 </componentPackage> 
