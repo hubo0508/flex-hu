@@ -15,6 +15,16 @@
 		</FExt:TitleLabel>
 		<FExt:FContent>
 			
+			<FExt:DataGrid id="dg">
+				<FExt:columns>
+					<FExt:CheckBoxColumn radioBox="true"/>		
+					<FExt:SequenceColumn/>
+					<mx:DataGridColumn dataField="id" headerText="id" visible="true" />
+					<mx:DataGridColumn dataField="name" headerText="name"/>
+					<mx:DataGridColumn dataField="phone" headerText="phone"/>
+					<mx:DataGridColumn dataField="email" headerText="email"/>
+				</FExt:columns>
+			</FExt:DataGrid>
 		</FExt:FContent>
 	</FExt:FContainer>
 	
