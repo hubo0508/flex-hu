@@ -2,8 +2,8 @@
 <componentPackage>
 
 	 <component id="Container" class="org.hu.fextjs.components.Container" />
-	 <component id="EContainer" class="org.hu.fextjs.ui.EContainer" />
-	 <component id="EContent" class="org.hu.fextjs.ui.EContent" />
+	 <component id="FContainer" class="org.hu.fextjs.ui.FContainer" />
+	 <component id="FContent" class="org.hu.fextjs.ui.FContent" />
 	 
 	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
 	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
