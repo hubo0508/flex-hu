@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 top="0"
+		 right="0"
+		 left="0"
+		 bottom="0">
+	<fx:Script>
+		<![CDATA[
+			
+			private const LEFT:String="left";
+			private const RIGHT:String="right";
+			private const TOP:String="top";
+			private const BOTTOM:String="bottom";
+			private const LINE_TOP:String = "lineTop";
+			
+			public function set lineTopHeight(value:int):void
+			{
+				this.lineTop.height = value;
+			}
+			
+			public function set border(lineArr:Array):void
+			{
+				for(var i:int = 0; i<lineArr.length; i++)
+				{
+					var line:String=lineArr[i];
+					if (line == this.LEFT)
+					{
+						this.leftBorder.visible = true;
+					}
+					if (line == this.RIGHT)
+					{
+						this.rightBorder.visible = true;
+					}
+					if (line == this.TOP)
+					{
+						this.topBorder.visible = true;
+					}
+					if (line == this.BOTTOM)
+					{
+						this.bottomBorder.visible = true;
+					}
+					if(line == this.LINE_TOP)
+					{
+						this.lineTop.visible = true;
+					}
+				
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Rect top="0" left="0" right="0" bottom="0" id="topFill" visible="true">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xE8EFF8"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	<s:Rect left="0" right="0"  height="1" top="0" id="lineTop" visible="false">
+		 <s:fill>
+			 <s:LinearGradient rotation="90">
+				 <s:GradientEntry color="0xFFFFFF"/>
+			 </s:LinearGradient>
+		 </s:fill>
+	 </s:Rect>
+	<s:Rect left="0" right="0" top="0" height="1" id="topBorder" visible="false">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xB6D0F1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	<s:Rect left="0" right="0" bottom="0" height="1" id="bottomBorder" visible="false">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xB6D0F1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	<s:Rect left="0"  top="0" bottom="0" width="1" id="leftBorder" visible="false">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xB6D0F1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	<s:Rect right="0" top="0" bottom="0" width="1" id="rightBorder" visible="false">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xB6D0F1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+</s:Group>
