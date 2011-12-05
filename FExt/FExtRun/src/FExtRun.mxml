@@ -7,15 +7,15 @@
 			   xmlns:FExt="library://FExt.HU"
 			   xmlns:local="*">
 	
-	<FExt:EContainer top="50" left="50" right="50" >
+	<FExt:FContainer top="50" left="50" right="50" >
 		<FExt:TitleLabel>
 			<FExt:customComponents>
 				<s:Label id="moreLabelText"  fontFamily="宋体" fontSize="12" buttonMode="true"  fontWeight="bold" verticalCenter="0" right="5" color="#0C387F" useHandCursor="true" text="更多..." />
 			</FExt:customComponents>			
 		</FExt:TitleLabel>
-		<FExt:EContent>
+		<FExt:FContent>
 			
-		</FExt:EContent>
-	</FExt:EContainer>
+		</FExt:FContent>
+	</FExt:FContainer>
 	
 </s:Application>
