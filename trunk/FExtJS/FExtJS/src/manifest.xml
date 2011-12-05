@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <componentPackage>
 
-	
+	 <component id="Box" class="org.hu.fextjs.components.Box" />
+	 <component id="ExtBox" class="org.hu.fextjs.ui.ExtBox" />
+	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
+	 
 </componentPackage> 
