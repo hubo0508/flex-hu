@@ -12,9 +12,7 @@
 		   width="100%"
 		   height="350">
 
-	<layout>
-		<s:VerticalLayout gap="0"/>
-	</layout>
+	
 
 </Container>
 
