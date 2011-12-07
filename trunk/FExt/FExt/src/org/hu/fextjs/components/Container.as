@@ -3,9 +3,12 @@ package org.hu.fextjs.components
 	import flash.display.CapsStyle;
 	import flash.display.Graphics;
 	import flash.display.LineScaleMode;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
+	
+	import org.hu.fextjs.event.CellsMouseEvent;
 	
 	import spark.components.Group;
 
@@ -36,13 +39,31 @@ package org.hu.fextjs.components
 		protected function mouseOverHandler(event:MouseEvent):void
 		{
 			this._backgroupColor = _mouseOverColor;
-			this.invalidateDisplayList();
+			this.invalidateDisplayList();			
+			
+			this.dispatchFColumnMouseEvent(event.type);
 		}
 		
 		protected function mouseOutHandler(event:MouseEvent):void
 		{
 			this._backgroupColor = _mouseOutColor;
 			this.invalidateDisplayList();
+			
+			this.dispatchFColumnMouseEvent(event.type);
+		}
+		
+		public function changeBackgroupColor(color:uint):void
+		{
+			this._backgroupColor = color;
+			this.invalidateDisplayList();		
+		}
+		
+		protected function dispatchFColumnMouseEvent(type:String):void
+		{
+			var evt:CellsMouseEvent = new CellsMouseEvent(CellsMouseEvent.EVENT_TYPE);
+			evt.types = type;
+			
+			this.dispatchEvent(evt);
 		}
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
