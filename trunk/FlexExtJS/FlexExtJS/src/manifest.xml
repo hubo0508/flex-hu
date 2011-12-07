@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<componentPackage>
+
+	<component id="comboBoxIsNotEditable" class="org.hubo.flexextjs.components.ComboBoxIsNotEditable"/>
+
+   <!--FieldSet-->
+    <component id="FieldSet" class="org.hubo.flexextjs.components.FieldSet" />     
+
+	<!--Tree-->
+    <component id="TreeLine" class="org.hubo.flexextjs.components.tree.TreeLine" />
+
+	<!--DataGrid-->
+    <component id="DGCheckBoxColumn" class="org.hubo.flexextjs.ui.datagrid.DGCheckBoxColumn" />
+    <component id="DataGrid" class="org.hubo.flexextjs.ui.datagrid.DataGrid" />
+    <component id="DGSequenceColumn" class="org.hubo.flexextjs.ui.datagrid.DGSequenceColumn" />
+    <component id="Column" class="org.hubo.flexextjs.ui.datagrid.Column" />
+    
+    <!--SimpleGrid-->
+    <component id="SGButtonBar" class="org.hubo.flexextjs.ui.simpleGrid.SGButtonBar" />
+    <component id="SGContent" class="org.hubo.flexextjs.ui.simpleGrid.SGContent" />
+    <component id="SGPageBar" class="org.hubo.flexextjs.ui.simpleGrid.SGPageBar" />
+    <component id="SGTitle" class="org.hubo.flexextjs.ui.simpleGrid.SGTitle" />
+    <component id="SimpleGrid" class="org.hubo.flexextjs.ui.simpleGrid.SimpleGrid" />
+    
+    <!--Layout-->
+    <component id="Box" class="org.hubo.flexextjs.components.Box" />
+    <component id="Colum" class="org.hubo.flexextjs.components.Colum" />
+    <component id="Row" class="org.hubo.flexextjs.components.Row" /> 
+    
+    <!--validateor-->
+    <component id="RegexpValidatorInput" class="org.hubo.flexextjs.validator.RegexpValidatorInput"/>
+    <component id="RegexpValidatorArea"  class="org.hubo.flexextjs.validator.RegexpValidatorArea"/>
+    <component id="StringValidatorInput"   class="org.hubo.flexextjs.validator.StringValidatorInput"/>
+    <component id="StringValidatorArea"    class="org.hubo.flexextjs.validator.StringValidatorArea"/>
+	
+</componentPackage>

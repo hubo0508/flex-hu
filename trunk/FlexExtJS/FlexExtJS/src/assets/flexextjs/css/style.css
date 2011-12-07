@@ -1,0 +1,46 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+	
+	*{
+		fontFamily: "宋体";
+	}
+
+	mx|DataGrid {
+		horizontalGridLines: false;
+		horizontalGridLineColor: #000000;
+		verticalGridLines: false;
+		useRollOver: true;
+		borderColor: #B5B8C8;
+	}
+	
+	s|TextInput
+	{
+		borderColor:#B5B8C8;
+	}
+	
+	s|ComboBox
+	{
+		borderColor:#B5B8C8;
+	}
+	
+	s|TextArea
+	{
+		borderColor:#B5B8C8;
+	}
+	
+	mx|DateField
+	{
+		borderColor:#B5B8C8;
+	}
+	
+	s|TitleWindow{ 
+		skinClass: ClassReference("org.hubo.flexextjs.skin.SkinTitleWindow");
+		cornerRadius: 10;
+	}
+	
+	.skinButton{
+		skinClass: ClassReference("org.hubo.flexextjs.skin.SkinButton");
+	}
+
+

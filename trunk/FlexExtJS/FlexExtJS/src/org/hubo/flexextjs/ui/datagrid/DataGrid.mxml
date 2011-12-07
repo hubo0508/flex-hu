@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 creationComplete="onCreationCompleteHandler(event)"
+			 width="100%" 
+			 borderVisible="false"
+			 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			import org.hubo.flexextjs.components.dataGrid.DGColumn;
+			import org.hubo.flexextjs.event.DGCheckBoxColumnEvent;
+			import org.hubo.flexextjs.ui.simpleGrid.SGContent;
+			
+			private var _cascadeItemClick:Boolean = false;
+			
+			/**************************************************************************************/
+			/**初始化*/
+			/**************************************************************************************/
+			
+			protected function onCreationCompleteHandler(event:FlexEvent):void
+			{
+				//this.addEventListener(ListEvent.ITEM_CLICK,itemClickHandler);
+			}
+			
+			/**************************************************************************************/
+			/**addEventListenerHandler*/
+			/**************************************************************************************/
+			
+			protected function itemClickHandler(event:ListEvent):void
+			{
+				if(cascadeItemClick)
+				{					
+					if(this.allowMultipleSelection)
+					{
+
+					}
+					else
+					{
+						this.tagSingeSelectedTrueOrFalse(this.selectedItem);
+					}
+				}				
+			}
+			
+			private function tagSingeSelectedTrueOrFalse(selectedItem:Object):void
+			{
+				var dgcolumn:DGColumn=getColumn();	
+				var saveSelectedItem:Array = dgcolumn.saveSelectedItem;
+				var selectItemsData:Array = dgcolumn.selectItemsData;
+				
+				var index:int = this.getArrayIndexById(selectedItem,selectItemsData);
+				if(index >= 0)
+				{
+					var obj:Object = saveSelectedItem[index];
+					if(obj.selected)
+					{
+						obj.selected = false;
+					}
+					else
+					{
+						obj.selected = true;
+					}					
+				}
+			}
+			
+			private function getArrayIndexById(selectedItem:Object, arr:Array):int
+			{
+				for(var i:int=0; i<arr.length; i++)
+				{
+					if(selectedItem.id == arr[i].id)
+					{
+						return i;	
+					}
+				}
+				
+				return -1;
+			}
+			
+			/**************************************************************************************/
+			/**override*/
+			/**************************************************************************************/
+			
+			/**
+			 * 清除缓存CheckBox状态与用户选择内存值
+			 * @author HUBO hubo.0508@gmail.com
+			 */
+			public function set dataProviderAndClearCache(value:Object):void
+			{
+				this.clearValueCache();
+				super.dataProvider = value;
+			}
+			
+			/**************************************************************************************/
+			/**public*/
+			/**************************************************************************************/
+			
+			/**
+			 * 清空列表值
+			 * @author HUBO hubo.0508@gmail.com
+			 */
+			public function clearValueCache():void
+			{
+				var dgcolumn:DGColumn=getColumn();
+				if(dgcolumn)
+				{
+					dgcolumn.selectItemsData.length = 0;
+					this.clearCacheValueFromArray(dgcolumn.saveSelectedItem,"selected");
+				}
+			}
+
+			/**
+			 * 取得当前DataGrid中选择了的项值
+			 * @author HUBO hubo.0508@gmail.com
+			 */
+			public function selectedItemValue():Array
+			{
+				var dgcolumn:DGColumn=getColumn();
+				return dgcolumn.selectItemsData;
+			}
+			
+//			public function set selectedItems(ids:Array):void
+//			{
+//				
+//			}
+			
+			
+			/**************************************************************************************/
+			/**private*/
+			/**************************************************************************************/
+
+			/**
+			 * 取得添加了复选框的列
+			 * @author HUBO hubo.0508@gmail.com
+			 */
+			private function getColumn():DGColumn
+			{
+				var columnsArr:Array=this.columns;
+				for (var c:int=0; c < columnsArr.length; c++)
+				{
+					if (columnsArr[c] is DGColumn)
+					{
+						var column:DGColumn=columnsArr[c];
+						return column;
+					}
+				}
+				return null;
+			}
+			
+			/**
+			 * 清除内存值
+			 * @author HUBO hubo.0508@gmail.com
+			 */
+			private function clearCacheValueFromArray(items:Array, type:String = ""):void
+			{			
+				for (var i:Number=0; i < items.length; i++)
+				{
+					if(type == "selected")
+					{
+						items[i].selected = false;
+						items.splice(i, 1);
+					}	
+				}
+			}
+			
+			/**************************************************************************************/
+			/**get and set*/
+			/**************************************************************************************/
+
+			/**级联点击项*/
+			public function get cascadeItemClick():Boolean
+			{
+				return _cascadeItemClick;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set cascadeItemClick(value:Boolean):void
+			{
+				_cascadeItemClick = value;
+				
+				this.addEventListener(ListEvent.ITEM_CLICK,itemClickHandler);
+			}
+
+
+		]]>
+	</fx:Script>
+</mx:DataGrid>
