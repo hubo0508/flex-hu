@@ -19,6 +19,8 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			
+			import org.hu.fextjs.event.CellsMouseEvent;
+			
 			private var _columns:Array;
 			private var _dataProvider:Object;
 			
@@ -37,28 +39,55 @@
 					var len:int = ac.length;
 					for(var i:int=0; i<len; i++)
 					{
-						this.settingRowData(ac.getItemAt(i));
+						this.settingRowData(ac.getItemAt(i),i);
 					}
 				}
 			}
 			
-			protected function settingRowData(item:Object):void
+			protected function settingRowData(item:Object,rowIndex:int):void
 			{
 				var len:int = this.columns.length;
 				for(var i:int=0; i<len; i++)
 				{
-					var columnContainer:FDGColumn = this.columns[i] as FDGColumn;
-					var columnItem:FColumn = this.createColumn(item[columnContainer.dataField]);
-					if(columnContainer.percentWidth == 100){
-						columnItem.percentWidth = 100;
+					var column:FDGColumn = this.columns[i] as FDGColumn;
+					var cells:FCells = this.getCells(item[column.dataField]);
+					if(column.percentWidth == 100){
+						cells.percentWidth = 100;
 					}
-					columnContainer.addElement(columnItem);
+					cells.id = rowIndex+"";
+					cells.addEventListener(CellsMouseEvent.EVENT_TYPE,cellsMouseEvent,false,0,true);
+					column.addElement(cells);
 				}
 			}
 
-			private function createColumn(text:String):FColumn
+			protected function cellsMouseEvent(event:CellsMouseEvent):void
 			{
-				var column:FColumn	= new FColumn();
+				var currentCells:FCells = event.currentTarget as FCells;
+				var column:FDGColumn = currentCells.parent as FDGColumn;			
+				var len:int = columns.length;
+
+				for(var i:int=0; i<len; i++)
+				{
+					var sibingColumn:FDGColumn = columns[i] as FDGColumn;
+					if(sibingColumn.id != column.id){	
+						var at:int = int(currentCells.id)+1;
+						var siblingCell:FCells =	sibingColumn.getElementAt(at) as FCells;
+						if(MouseEvent.MOUSE_OUT  == event.types){
+							siblingCell.changeBackgroupColor(currentCells.mouseOutColor);
+						}else{
+							siblingCell.changeBackgroupColor(currentCells.mouseOverColor);
+						}
+						
+						//this.settingCellsStyle(cells,column);
+						//siblingCell.invalidateDisplayList();
+					}
+				}
+
+			}
+			
+			private function getCells(text:String):FCells
+			{
+				var column:FCells	= new FCells();
 				column.text = text;
 				
 				return column;
@@ -70,19 +99,25 @@
 				
 				var len:int = _columns.length;
 				for(var i:int=0; i<len; i++){
-					var columnContainer:FDGColumn = value[i] as FDGColumn;
-					var columnItem:FColumn = this.createColumn(columnContainer.headerText);
-					columnItem.mouseOutColor = columnContainer.fmouseOutColor;
-					columnItem.mouseOverColor = columnContainer.fmouseOverColor;
-					columnItem.backgroupColor = columnContainer.fbackgroupColor;
-					columnItem.borderColor = columnContainer.fborderColor;
-					if(columnContainer.width == 0){
-						columnItem.percentWidth = 100;
-						columnContainer.percentWidth = 100;
+					var column:FDGColumn = value[i] as FDGColumn;
+					var cells:FCells = this.getCells(column.headerText);
+					this.settingCellsStyle(cells,column);
+					if(column.width == 0){
+						cells.percentWidth = 100;
+						column.percentWidth = 100;
 					}
-					columnContainer.addElement(columnItem);
-					this.addElement(columnContainer);
+					column.addElement(cells);
+					column.id = i+"";
+					this.addElement(column);
 				}
+			}
+			
+			public function settingCellsStyle(cells:FCells,column:FDGColumn):void
+			{
+				cells.mouseOutColor = column.fmouseOutColor;
+				cells.mouseOverColor = column.fmouseOverColor;
+				cells.backgroupColor = column.fbackgroupColor;
+				cells.borderColor = column.fborderColor;
 			}
 
 			public function get dataProvider():Object
