@@ -7,8 +7,12 @@
 	 
 	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
 	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
+	 
 	 <component id="DataGrid" class="org.hu.fextjs.ui.datagrid.DataGrid" />
 	 <component id="SequenceColumn" class="org.hu.fextjs.ui.datagrid.SequenceColumn" />
 	 <component id="CheckBoxColumn" class="org.hu.fextjs.ui.datagrid.CheckBoxColumn" />
+	 <component id="FCells" class="org.hu.fextjs.ui.datagrid.FCells" />
+	 <component id="FDataGrid" class="org.hu.fextjs.ui.datagrid.FDataGrid" />
+	 <component id="FDGColumn" class="org.hu.fextjs.ui.datagrid.FDGColumn" />
 	 
 </componentPackage> 
