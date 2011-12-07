@@ -15,6 +15,7 @@ package org.hu.fextjs.event
 		public static const EVENT_TYPE:String = "cellsMouseEvent";
 		
 		public var types:String;
+		public var rowIndex:int;
 		
 		public function CellsMouseEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
