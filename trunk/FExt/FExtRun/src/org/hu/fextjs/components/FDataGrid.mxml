@@ -24,6 +24,53 @@
 			private var _columns:Array;
 			private var _dataProvider:Object;
 			
+			private var _fmouseOutColor:uint = 0xA8A8A8;
+			private var _fmouseOverColor:uint = 0xCEDBEF;			
+			private var _fborderColor:uint=0x696969;			
+			private var _fbackgroupColor:uint = 0xA8A8A8;
+			
+			public function get fbackgroupColor():uint
+			{
+				return _fbackgroupColor;
+			}
+			
+			public function set fbackgroupColor(value:uint):void
+			{
+				_fbackgroupColor = value;
+			}
+			
+			public function get fborderColor():uint
+			{
+				return _fborderColor;
+			}
+			
+			public function set fborderColor(value:uint):void
+			{
+				_fborderColor = value;
+			}
+			
+			public function get fmouseOverColor():uint
+			{
+				return _fmouseOverColor;
+			}
+			
+			public function set fmouseOverColor(value:uint):void
+			{
+				_fmouseOverColor = value;
+			}
+			
+			public function get fmouseOutColor():uint
+			{
+				return _fmouseOutColor;
+			}
+			
+			public function set fmouseOutColor(value:uint):void
+			{
+				_fmouseOutColor = value;
+			}
+			
+		
+			
 			public function set dataProvider(value:Object):void
 			{
 				this._dataProvider = value;
@@ -50,26 +97,28 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var column:FDGColumn = this.columns[i] as FDGColumn;
-					var cells:FCells = this.getCells(item[column.dataField]);
-					if(column.percentWidth == 100){
-						cells.percentWidth = 100;
-					}
-					cells.id = rowIndex+"";
-					cells.addEventListener(CellsMouseEvent.EVENT_TYPE,cellsMouseEvent,false,0,true);
-					column.addElement(cells);
+					if(column){
+						var cells:FCells = this.getCells(item[column.dataField]);
+						if(column.percentWidth == 100){
+							cells.percentWidth = 100;
+						}
+						cells.id = rowIndex+"";
+						cells.addEventListener(CellsMouseEvent.EVENT_TYPE,cellsMouseEvent,false,0,true);
+						column.addElement(cells);
+					}					
 				}
 			}
 
 			protected function cellsMouseEvent(event:CellsMouseEvent):void
 			{
 				var currentCells:FCells = event.currentTarget as FCells;
-				var column:FDGColumn = currentCells.parent as FDGColumn;			
+				var column:FDGColumn = currentCells.parent as FDGColumn;						
 				var len:int = columns.length;
 
 				for(var i:int=0; i<len; i++)
 				{
 					var sibingColumn:FDGColumn = columns[i] as FDGColumn;
-					if(sibingColumn.id != column.id){	
+					if(sibingColumn && sibingColumn.id != column.id){	
 						var at:int = int(currentCells.id)+1;
 						var siblingCell:FCells =	sibingColumn.getElementAt(at) as FCells;
 						if(MouseEvent.MOUSE_OUT  == event.types){
@@ -80,9 +129,8 @@
 						
 						//this.settingCellsStyle(cells,column);
 						//siblingCell.invalidateDisplayList();
-					}
+					}					
 				}
-
 			}
 			
 			private function getCells(text:String):FCells
@@ -100,24 +148,28 @@
 				var len:int = _columns.length;
 				for(var i:int=0; i<len; i++){
 					var column:FDGColumn = value[i] as FDGColumn;
-					var cells:FCells = this.getCells(column.headerText);
-					this.settingCellsStyle(cells,column);
-					if(column.width == 0){
-						cells.percentWidth = 100;
-						column.percentWidth = 100;
-					}
-					column.addElement(cells);
-					column.id = i+"";
-					this.addElement(column);
+					if(column){
+						var cells:FCells = this.getCells(column.headerText);
+						this.settingCellsStyle(cells,column);
+						if(column.width == 0){
+							cells.percentWidth = 100;
+							column.percentWidth = 100;
+						}
+						column.addElement(cells);
+						column.id = i+"";
+						this.addElement(column);
+					}else{
+						this.addElement(value[i]);
+					}					
 				}
 			}
 			
 			public function settingCellsStyle(cells:FCells,column:FDGColumn):void
 			{
-				cells.mouseOutColor = column.fmouseOutColor;
-				cells.mouseOverColor = column.fmouseOverColor;
-				cells.backgroupColor = column.fbackgroupColor;
-				cells.borderColor = column.fborderColor;
+				cells.mouseOutColor = fmouseOutColor;
+				cells.mouseOverColor = fmouseOverColor;
+				cells.backgroupColor = fbackgroupColor;
+				cells.borderColor = fborderColor;
 			}
 
 			public function get dataProvider():Object
