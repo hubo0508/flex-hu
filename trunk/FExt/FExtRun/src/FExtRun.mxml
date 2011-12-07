@@ -2,10 +2,34 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:components="org.hu.fextjs.components.*" 
+			   creationComplete="creationCompleteHandler(event)"
 			   minWidth="955"
 			   minHeight="600"
 			   xmlns:FExt="library://FExt.HU"
-			   xmlns:local="*" xmlns:components="org.hu.fextjs.components.*">
+			   xmlns:local="*">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({name:9043184.44,name2:232});
+				acc.addItem({name:1099994.14,name2:232});
+				acc.addItem({name:787611.15,name2:232});
+				acc.addItem({name:629752.65,name2:232});
+				acc.addItem({name:562401.59,name2:232});
+				acc.addItem({name:328108,name2:232});
+				acc.addItem({name:305000.98,name2:232});
+				acc.addItem({name:260469.46,name2:232});
+				
+				this.fdg.dataProvider = acc;
+			}
+
+		]]>
+	</fx:Script>
 	
 	<FExt:FContainer top="50" left="50" right="50" >
 		<FExt:TitleLabel>
@@ -14,9 +38,18 @@
 			</FExt:customComponents>			
 		</FExt:TitleLabel>
 		<FExt:FContent>
-			<components:FDataGrid/>
+
+			<components:FDataGrid id="fdg">
+				<components:columns>
+					<components:FDGColumn dataField="name" headerText="2011-07-01"/>
+					<components:FDGColumn dataField="name2" headerText="2011-07-02"/>
+					<components:FDGColumn dataField="name" headerText="2011-07-03"/>
+					<components:FDGColumn dataField="name2" headerText="2011-07-04"/>
+				</components:columns>	
+			</components:FDataGrid>
+			
 			<!--
-			<FExt:DataGrid id="dg">
+			<FExt:DataGrid id="dg" dataProvider="">
 				<FExt:columns>
 					<FExt:CheckBoxColumn radioBox="true"/>		
 					<FExt:SequenceColumn/>
@@ -26,6 +59,36 @@
 					<mx:DataGridColumn dataField="email" headerText="email"/>
 				</FExt:columns>
 			</FExt:DataGrid>
+			
+			<s:VGroup gap="0">
+			<components:Column width="110" text="2011-07-01" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+			<components:Column width="110" text="4806986" />
+			<components:Column width="110" text="1103711.05" />
+			<components:Column width="110" text="516082.76" />
+			<components:Column width="110" text="787289.15" />
+			<components:Column width="110" text="56043" />
+			<components:Column width="110" text="152265" />
+			<components:Column width="110" text="20118" />
+			<components:Column width="110" text="1037422" />
+			<components:Column width="110" text="5543770" />
+			<components:Column width="110" text="14304810" />
+			<components:Column width="110" text="843189.5" />
+			</s:VGroup>
+			
+			<s:VGroup gap="0">
+			<components:Column width="110" text="2011-07-02" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
+			<components:Column width="110" text="4806986" />
+			<components:Column width="110" text="1103711.05" />
+			<components:Column width="110" text="516082.76" />
+			<components:Column width="110" text="787289.15" />
+			<components:Column width="110" text="56043" />
+			<components:Column width="110" text="152265" />
+			<components:Column width="110" text="20118" />
+			<components:Column width="110" text="1037422" />
+			<components:Column width="110" text="5543770" />
+			<components:Column width="110" text="14304810" />
+			<components:Column width="110" text="843189.5" />
+			</s:VGroup>
 			-->
 		</FExt:FContent>
 	</FExt:FContainer>

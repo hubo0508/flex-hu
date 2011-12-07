@@ -16,151 +16,85 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			
-			override protected function updateDisplayList(w:Number, h:Number):void
+			private var _columns:Array;
+			private var _dataProvider:Object;
+			
+			public function set dataProvider(value:Object):void
 			{
-				super.updateDisplayList(w,h);
-				trace("updateDisplayList");
+				this._dataProvider = value;
+				
+				this.eachDataProvider();
 			}
 			
-			override protected function createChildren():void
+			protected function eachDataProvider():void
 			{
-				super.childrenCreated();
-				trace("createChildren");
+				if(_dataProvider is ArrayCollection)
+				{
+					var ac:ArrayCollection = _dataProvider as ArrayCollection;
+					var len:int = ac.length;
+					for(var i:int=0; i<len; i++)
+					{
+						this.settingRowData(ac.getItemAt(i));
+					}
+				}
 			}
 			
-			override protected function commitProperties():void
+			protected function settingRowData(item:Object):void
 			{
-				super.commitProperties();
-				trace("measure");
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var columnContainer:FDGColumn = this.columns[i] as FDGColumn;
+					var columnItem:FColumn = this.createColumn(item[columnContainer.dataField]);
+					if(columnContainer.percentWidth == 100){
+						columnItem.percentWidth = 100;
+					}
+					columnContainer.addElement(columnItem);
+				}
+			}
+
+			private function createColumn(text:String):FColumn
+			{
+				var column:FColumn	= new FColumn();
+				column.text = text;
+				
+				return column;
 			}
 			
-			override protected function measure():void
+			public function set columns(value:Array):void
 			{
-				super.measure();
-				trace("measure");
+				_columns = value;
+				
+				var len:int = _columns.length;
+				for(var i:int=0; i<len; i++){
+					var columnContainer:FDGColumn = value[i] as FDGColumn;
+					var columnItem:FColumn = this.createColumn(columnContainer.headerText);
+					columnItem.mouseOutColor = columnContainer.fmouseOutColor;
+					columnItem.mouseOverColor = columnContainer.fmouseOverColor;
+					columnItem.backgroupColor = columnContainer.fbackgroupColor;
+					columnItem.borderColor = columnContainer.fborderColor;
+					if(columnContainer.width == 0){
+						columnItem.percentWidth = 100;
+						columnContainer.percentWidth = 100;
+					}
+					columnContainer.addElement(columnItem);
+					this.addElement(columnContainer);
+				}
 			}
+
+			public function get dataProvider():Object
+			{
+				return _dataProvider;
+			}
+			
+			public function get columns():Array
+			{
+				return _columns;
+			}
+			
 		]]>
 	</fx:Script>
-
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-01" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-02" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-03" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-04" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-05" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-06" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-08" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
-	<s:VGroup gap="0">
-		<components:Column width="110" text="2011-07-09" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-		<components:Column width="110" text="4806986" />
-		<components:Column width="110" text="1103711.05" />
-		<components:Column width="110" text="516082.76" />
-		<components:Column width="110" text="787289.15" />
-		<components:Column width="110" text="56043" />
-		<components:Column width="110" text="152265" />
-		<components:Column width="110" text="20118" />
-		<components:Column width="110" text="1037422" />
-		<components:Column width="110" text="5543770" />
-		<components:Column width="110" text="14304810" />
-		<components:Column width="110" text="843189.5" />
-	</s:VGroup>
-	
 </components:HContainer>
