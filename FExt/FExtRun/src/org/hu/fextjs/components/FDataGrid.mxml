@@ -29,45 +29,6 @@
 			private var _fborderColor:uint=0x696969;			
 			private var _fbackgroupColor:uint = 0xA8A8A8;
 			
-			public function get fbackgroupColor():uint
-			{
-				return _fbackgroupColor;
-			}
-			
-			public function set fbackgroupColor(value:uint):void
-			{
-				_fbackgroupColor = value;
-			}
-			
-			public function get fborderColor():uint
-			{
-				return _fborderColor;
-			}
-			
-			public function set fborderColor(value:uint):void
-			{
-				_fborderColor = value;
-			}
-			
-			public function get fmouseOverColor():uint
-			{
-				return _fmouseOverColor;
-			}
-			
-			public function set fmouseOverColor(value:uint):void
-			{
-				_fmouseOverColor = value;
-			}
-			
-			public function get fmouseOutColor():uint
-			{
-				return _fmouseOutColor;
-			}
-			
-			public function set fmouseOutColor(value:uint):void
-			{
-				_fmouseOutColor = value;
-			}
 			
 		
 			
@@ -181,6 +142,47 @@
 			{
 				return _columns;
 			}
+			
+			public function get fbackgroupColor():uint
+			{
+				return _fbackgroupColor;
+			}
+			
+			public function set fbackgroupColor(value:uint):void
+			{
+				_fbackgroupColor = value;
+			}
+			
+			public function get fborderColor():uint
+			{
+				return _fborderColor;
+			}
+			
+			public function set fborderColor(value:uint):void
+			{
+				_fborderColor = value;
+			}
+			
+			public function get fmouseOverColor():uint
+			{
+				return _fmouseOverColor;
+			}
+			
+			public function set fmouseOverColor(value:uint):void
+			{
+				_fmouseOverColor = value;
+			}
+			
+			public function get fmouseOutColor():uint
+			{
+				return _fmouseOutColor;
+			}
+			
+			public function set fmouseOutColor(value:uint):void
+			{
+				_fmouseOutColor = value;
+			}
+			
 			
 		]]>
 	</fx:Script>
