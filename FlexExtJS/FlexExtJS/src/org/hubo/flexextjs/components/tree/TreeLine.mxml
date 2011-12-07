@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Tree xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 itemRenderer="org.hubo.flexextjs.components.tree.renderer.TreeLineRenderer"
+		 labelField="@label"
+		 disclosureClosedIcon="@Embed(source='assets/flexextjs/image/tree/tree_openNode.png')"
+		 disclosureOpenIcon="@Embed(source='assets/flexextjs/image/tree/tree_closeNode.png')"
+		 folderClosedIcon="@Embed(source='assets/flexextjs/image/tree/status.png')"
+		 folderOpenIcon="@Embed(source='assets/flexextjs/image/tree/status.png')"
+		 defaultLeafIcon="{this.defaultLeafIcon()}"
+		 showRoot="false"
+		 borderVisible="false"
+		 width="100%"
+		 height="100%">
+	<fx:Script>
+		<![CDATA[
+			private function defaultLeafIcon():Class
+			{
+				return null;
+			}
+		]]>
+	</fx:Script>
+</mx:Tree>

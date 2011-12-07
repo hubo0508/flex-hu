@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="org.hubo.flexextjs.components.*"
+		 creationComplete="creationCompleteHandler(event)"		 
+		 width="100%"
+		 height="26"
+		 top="1"
+		 left="1"
+		 right="0" >
+	
+	<fx:Metadata>
+		[Event(name="keyQuery",type="org.hubo.flexextjs.event.KeyQueryEvent")]
+		[Event(name="expertQuery",type="org.hubo.flexextjs.event.ExpertQueryEvent")]
+		[Event(name="addClick",type="org.hubo.flexextjs.event.gridButton.AddEvent")]
+		[Event(name="updateClick",type="org.hubo.flexextjs.event.gridButton.UpdateEvent")]
+		[Event(name="buttonClick",type="org.hubo.flexextjs.event.gridButton.ButtonEvent")]
+		[Event(name="deleteClick",type="org.hubo.flexextjs.event.gridButton.DeleteEvent")]
+		[Event(name="submitClick",type="org.hubo.flexextjs.event.gridButton.SubmitEvent")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.controls.Spacer;
+			import mx.controls.VRule;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.hubo.flexextjs.components.Alert;
+			import org.hubo.flexextjs.components.Image;
+			import org.hubo.flexextjs.components.LinkButton;
+			import org.hubo.flexextjs.components.dataGrid.DGColumn;
+			import org.hubo.flexextjs.event.ExpertQueryEvent;
+			import org.hubo.flexextjs.event.KeyQueryEvent;
+			import org.hubo.flexextjs.event.gridButton.*;
+			import org.hubo.flexextjs.ui.datagrid.DataGrid;
+			import org.hubo.flexextjs.utils.IconUtils;
+			import org.hubo.flexextjs.utils.StringUtils;
+			/**++++++++++++++++++++++*/
+			
+			[Bindable]
+			public var datagrid:DataGrid;
+			[Bindable]
+			private var _showExpertBtn:Boolean;
+			
+			public function set showExpertBtn(showExpertBtn:Boolean):void{
+				if(showExpertBtn == true){
+					var image:mx.controls.Image = new mx.controls.Image();
+					image.source = IconUtils.searchText;
+					image.buttonMode = true;
+					image.useHandCursor = true;
+					this.searchGroup.addElement(image);
+					image.addEventListener(MouseEvent.CLICK,expertSearchHandler);
+				}
+			}
+			
+			private function get showExpertBtn():Boolean{
+				return this._showExpertBtn;
+			}
+			
+			private function expertSearchHandler(event:MouseEvent):void{
+				this.dispatchEvent(new ExpertQueryEvent(ExpertQueryEvent.EXPERT_QUERY));
+			}
+			
+			/**++++++++++++++++++++++*/
+			
+			public function buttonEnabledInAll(arr:Array):void
+			{
+				if(arr == null || arr.length < 0) return;	
+				
+				for(var i:int=0; i<arr.length; i++)
+				{
+					this.buttonEnabled(arr[i].event,arr[i].enabled);
+				}
+			}
+			
+			public function buttonEnabled(eventName:String,enabled:Boolean):void
+			{
+				var numEle:int = this.tbarContent.numElements;
+				for(var i:int=0; i<numEle; i++)
+				{
+					var lb:LinkButton = this.tbarContent.getElementAt(i) as LinkButton;
+					if(lb && lb.event == eventName)
+					{
+						if(lb.enabled != enabled)
+						{
+							lb.enabled = enabled;
+							break;
+						}	
+					}
+				}
+			}
+			
+			/**
+			 * 初始化加载
+			 * 
+			 * @param event:FlexEvent
+			 */
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				//边框初始化
+				nb.border = StringUtils.lineSides("bottom lineTop");
+				
+				//添加监听事件
+				this.searchBtn.addEventListener(MouseEvent.CLICK,searchHandler);				
+			}
+			
+			/**
+			 * 点击查询按钮处理函数
+			 * 
+			 * @event:MouseEvent 
+			 */
+			protected function searchHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;			
+				
+				//回调函数
+				if(img.callback)
+				{
+					this.callbackHandler(img.callback,queryText.text);
+				}
+				else
+				{
+					//抛出查询事件
+					var query:KeyQueryEvent = new KeyQueryEvent(KeyQueryEvent.KEY_QUERY,img.bubbles);
+					query.queryText = queryText.text;
+					
+					dispatchEvent(query);
+				}
+				
+			}
+			
+			
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			/**get and set methods*/
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			
+			
+			/**
+			 * 显示边框线
+			 * 
+			 * 格式：left top bottom right lineTop
+			 */
+			public function set borderSides(value:String):void
+			{
+				nb.border = StringUtils.lineSides(value);
+			}
+			
+			
+			/**
+			 * 查询控件是否显示到页面
+			 * 
+			 * @param value:Boolean(default=true)
+			 */
+			public function set searchVisible(value:Boolean):void
+			{
+				if(!value)
+				{
+					this.hg.removeElement(this.searchGroup);
+				}
+//				this.searchGroup.visible  = value;
+			}
+			
+			/**
+			 * 查询控件参数设置信息
+			 * 
+			 * @param defaulttext:String(default=请输入查询关键字)  指定组件默认提示值。
+			 * 
+			 * @param width:int(default=组件最小宽度) 指定组件在父坐标中的宽度的数字（以像素为单位）。
+			 * 
+			 * @param tooltip:String(default=null) 要在 ToolTip 中显示的文本。
+			 * 
+			 * @param callback:String(default=null) 指定按钮动作处理回调函数全路径。
+ 			 *
+			 * @param bubbles:Boolean(default=false) 指示事件是否为冒泡事件。
+			 * 
+			 * @param source:Icon(default=false) 自定义查询控件图标
+			 * 
+			 */
+			public function set query(value:Array):void
+			{
+				try
+				{
+					var len:int = value.length;		
+					for(var i:int=0; i<len; i++)
+					{
+						var v:Object = value[i];
+						if(v.defaulttext != undefined)
+						{
+							queryText.emptyText = v.defaulttext;
+						}
+						if(v.width != undefined)
+						{
+							queryText.width = v.width;
+						}
+						if(v.tooltip != undefined)
+						{
+							queryText.toolTip = v.tooltip;
+						}
+						if(v.callback != undefined)
+						{
+							searchBtn.callback = v.callback;
+						}
+						if(v.bubbles != undefined)
+						{
+							searchBtn.bubbles = v.bubbles;
+						}
+						if(v.source != undefined)
+						{
+							searchBtn.source = v.source;
+						}
+					}
+				}catch(e:*){
+					trace(e)
+				}				
+			}
+			
+			/**
+			 * 设置功能菜单按钮
+			 * 
+			 * @param label:String(default=null) 要在控件上显示的文本。
+			 * 
+			 * @param tooltip:String(default=null) 要在 ToolTip 中显示的文本。
+			 * 
+			 * @param icon:String(default=null) 要在控件上显示的图标。可指定由系统提供的静态字符串代替或自定义路径"@Embed(source='assets/add.png')"。
+			 * 
+			 * @param page:String(default=null) 触发按钮事件时，弹出的页面全路径。
+			 * 
+			 * @param items:String(default=null) 触发按钮事件时，弹出的页面的条件。如比需选中一条数据源，如果没有选择一条数据则提示请选择一条数据，自动关闭提示弹出框时间为2秒：1:请选择一条数据:2；格式[选择条数(默认不选):错误提示信息:自动关闭时间(默认无自动关闭)。
+			 * 
+			 * @param callback:String(default=null) 指定按钮动作处理回调函数全路径。
+			 * 
+			 * @param event:String(defalut=null) 自定义事件类型
+			 * 
+			 * @param bubbles:Boolean(default=false) 指示事件是否为冒泡事件。
+			 * 
+			 */
+			public function set tbar(buttons:Array):void
+			{			
+				var len:int = buttons.length;				
+
+				for(var i:int=0; i<len; i++)
+				{
+					if(buttons[i] is UIComponent){
+						tbarContent.addElement(buttons[i]);
+						continue;
+					}
+					
+					var btn:Object = buttons[i];
+					var sgb:LinkButton = new LinkButton();
+					if(btn.label != undefined)
+					{
+						sgb.label = btn.label;
+					}
+					if(btn.icon != undefined)
+					{
+						sgb.setStyle("icon",IconUtils.getIcon(btn.icon));
+					}
+					if(btn.page != undefined)
+					{
+						sgb.pageClass =btn.page;
+					}					
+					if(btn.callback != undefined)
+					{
+						sgb.callback = btn.callback;
+					}
+					if(btn.event != undefined)
+					{
+						sgb.event = btn.event;
+					}
+					if(btn.bubbles != undefined)
+					{
+						sgb.bubbles = btn.bubbles;
+					}
+					if(btn.tooltip != undefined)
+					{
+						sgb.toolTip = btn.tooltip;
+					}
+					if(btn.items != undefined)
+					{
+						sgb.items = btn.items;
+					}
+					
+					sgb.addEventListener(MouseEvent.CLICK,sgButtonHandler);
+					
+					tbarContent.addElement(sgb);
+					
+					//按钮分割线
+					if(i < (len-1))
+					{
+						var vrule:VRule = new VRule();
+						vrule.height = 18;
+						tbarContent.addElement(vrule);
+					}
+				}				
+			}		
+			
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			/**private methods*/
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+			/**
+			 * 点击SGButtonBar功能按钮时，调用
+			 * 
+			 * @param event:MouseEvent
+			 */
+			private function sgButtonHandler(event:MouseEvent):void
+			{				
+				var sgb:LinkButton = event.currentTarget as LinkButton;
+				var datagrdiFlag:Boolean = false;
+				
+				//取得DataGrid与选择数据
+				var column:DGColumn;
+				var dg:DataGrid;
+				if(datagrid)
+				{
+					column =  datagrid.columns[0] as DGColumn;
+				}
+				else
+				{
+					//取得DataGrid
+					var sgContent:SGContent= parent as SGContent;
+					var childrens:int = sgContent.numElements;
+					for(var ch:int=0; ch<childrens; ch++)
+					{
+						if(sgContent.getElementAt(ch) is DataGrid)
+						{
+							dg = sgContent.getElementAt(ch) as DataGrid;
+							datagrdiFlag = true;
+							break;
+						}
+					}
+					
+					if(dg != null)
+					{						
+						//取得CheckBox自定义列
+						var columnsArr:Array = dg.columns;
+						for(var c:int=0; c<columnsArr.length; c++)
+						{
+							if(columnsArr[c] is DGColumn)
+							{
+								column = columnsArr[c];
+								break;
+							}
+						}
+					}
+					else
+					{	
+						if(datagrdiFlag)
+						{
+							this.popupHandler(sgb.pageClass);
+						}						
+					}
+				}
+				
+				//取得选择值
+				var items:Array = [];
+				if(column)
+				{
+					items = column.selectItemsData;			
+				}
+				
+				//弹出页面
+				if(sgb.pageClass)
+				{
+					//判断是否需要选择值
+					var massaesInfo:Array = this.splitItems(sgb.items);//相应参数
+					if(massaesInfo.items != undefined && massaesInfo.items >=1)
+					{
+						if(items.length >= massaesInfo.items)
+						{
+							this.popupHandler(sgb.pageClass);
+						}
+						else
+						{		
+							//错误提示信息
+							if(massaesInfo.timeout != undefined && massaesInfo.timeout >=1)
+							{
+								org.hubo.flexextjs.components.Alert.setTimeOut(massaesInfo.timeout);			
+							}							
+							org.hubo.flexextjs.components.Alert.show(massaesInfo.massaes,"提示");
+						}
+					}
+					else
+					{					
+						this.popupHandler(sgb.pageClass);
+					}					
+				}
+				
+				//回调函数
+				if(sgb.callback)
+				{
+					this.callbackHandler(sgb.callback,items);
+				}
+				
+				//抛出事件
+				var flagEvent:Boolean = true;
+				if(sgb.event == AddEvent.ADD)
+				{
+					flagEvent = false;
+					var addEvent:AddEvent = new AddEvent(AddEvent.ADD,sgb.bubbles);
+					addEvent.dataGrid = dg;
+					addEvent.data = items;
+					
+					dispatchEvent(addEvent);
+				}
+				if(sgb.event == UpdateEvent.UPDATE)
+				{
+					flagEvent = false;
+					var updateEvent:UpdateEvent = new UpdateEvent(UpdateEvent.UPDATE,sgb.bubbles);
+					updateEvent.dataGrid = dg;
+					updateEvent.data = items;
+					
+					dispatchEvent(updateEvent);
+				}
+				if(sgb.event == SubmitEvent.SUBMIT)
+				{
+					flagEvent = false;
+					var submtEvent:SubmitEvent = new SubmitEvent(SubmitEvent.SUBMIT,sgb.bubbles);
+					submtEvent.dataGrid = dg;
+					submtEvent.data = items;
+					
+					dispatchEvent(submtEvent);
+				}
+				if(sgb.event == DeleteEvent.DELETE)
+				{
+					flagEvent = false;
+					var deleteEevent:DeleteEvent = new DeleteEvent(DeleteEvent.DELETE,sgb.bubbles);
+					deleteEevent.dataGrid = dg;
+					deleteEevent.data = items;
+					
+					dispatchEvent(deleteEevent);
+				}				
+				if(flagEvent)
+				{
+					var buttonEvent:ButtonEvent = new ButtonEvent(ButtonEvent.BUTTON,sgb.bubbles);
+					buttonEvent.dataGrid = dg;
+					buttonEvent.data = items;
+					buttonEvent.eventType = sgb.event;
+					
+					dispatchEvent(buttonEvent);					
+				}
+				
+			}	
+			
+			/**
+			 * 回调处理函数
+			 * 
+			 * @param path:String 回调函数全路径[包名+类名+函数名称]
+			 * 
+			 * @param value:回调函数进行参数传递
+			 */
+			private function callbackHandler(path:String,value:Object = null):void
+			{
+				var url:Array = StringUtils.analysisPackage(path);
+				var ClassReference:Class=getDefinitionByName(url.packages) as Class;
+				var instance:Object=new ClassReference();
+				var fun:Function=instance[url.methods];
+				fun.call(null,value);	
+			}
+			
+			private function popupHandler(pageClass:String):void
+			{
+				var ClassReference:Class=getDefinitionByName(pageClass) as Class;
+				var instance:IFlexDisplayObject = new ClassReference();
+				
+				PopUpManager.addPopUp(instance, parentDocument as DisplayObject, true);
+				PopUpManager.centerPopUp(instance);
+			}
+			
+			private function splitItems(value:String):Array
+			{
+				var itemsArr:Array = [];
+				
+				if(value == null)
+				{
+					return itemsArr;	
+				}
+				
+				value = StringUtils.trim(value);
+				var arr:Array = value.split(":");
+				if(arr.length<=3)
+				{
+					itemsArr.items = arr[0] == "" ? 0 : arr[0] ;
+					itemsArr.massaes = arr[1];
+					itemsArr.timeout = arr[2] == "" ? 0 : arr[2];
+				}
+
+				return itemsArr;	
+			}
+			
+			/**
+			 * 
+			 * 移除多个按钮
+			 * @param arr 移除按钮数组<br/>
+			 * 例：	var buttons:Array = [];<br/>
+			 *		buttons.push({event:"addEvent"});
+			 *		
+			 * 
+			 */
+			public function removeButtons(arr:Array):void
+			{
+				if(arr == null || arr.length < 0) return;	
+				
+				for(var i:int=0; i<arr.length; i++)
+				{
+					this.removeButton(arr[i].event);
+				}
+			}
+			
+			/**
+			 * 
+			 * 移除单个按钮
+			 * @param eventName 事件名<br/> 
+			 * 例："addEvent"
+			 * 
+			 */
+			public function removeButton(eventName:String):void
+			{
+				var numEle:int = this.tbarContent.numElements;
+				for(var i:int=0; i<numEle; i++)
+				{
+					var lb:LinkButton = this.tbarContent.getElementAt(i) as LinkButton;
+					if(lb && lb.event == eventName)
+					{
+						tbarContent.removeElementAt(i);
+						if(numEle > 1 && i < numEle - 1){//当前移除元素不是最后一个元素，移除分割线
+							tbarContent.removeElementAt(i);	
+						}else if(numEle > 1 &&  i == numEle - 1){//最后一个元素
+							tbarContent.removeElementAt(i-1);
+						}
+						break;
+					}
+				}
+				
+				
+			}
+
+		]]>
+	</fx:Script>
+	
+	<components:NavigatorBackground id="nb" />
+	
+	<s:HGroup height="100%" width="100%" verticalAlign="middle" paddingLeft="2" paddingRight="5" id="hg">
+		
+		<!--content-->
+		<s:HGroup id="tbarContent" left="2"/>
+		
+		<mx:Spacer width="100%"/>
+		
+		<!--search-->
+		<s:HGroup right="5" paddingLeft="1" paddingRight="1"  height="26" verticalAlign="middle" gap="0"  id="searchGroup">
+			<components:Input emptyText="请输入查询关键字" borderColor="#B5B8C8" height="20" id="queryText" fontFamily="宋体"/>
+			<components:Image id="searchBtn" />
+		</s:HGroup>	
+		
+	</s:HGroup>
+	
+</s:Group>

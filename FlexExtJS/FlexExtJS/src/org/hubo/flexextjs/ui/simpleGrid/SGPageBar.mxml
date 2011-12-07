@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="org.hubo.flexextjs.components.*"
+		 creationComplete="creationCompleteHandler(event)"
+		 width="100%"
+		 height="26"
+		 top="1"
+		 left="1"
+		 right="0">
+
+	<fx:Metadata>
+		[Event(name="pageEvent",type="org.hubo.flexextjs.event.PageEvent")]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.controls.LinkButton;
+			import mx.controls.Spacer;
+			import mx.controls.VRule;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.hubo.flexextjs.event.PageEvent;
+			import org.hubo.flexextjs.utils.IconUtils;
+			import org.hubo.flexextjs.utils.Page;
+			import org.hubo.flexextjs.utils.StringUtils;
+			import org.hubo.flexextjs.utils.SystemIcon;
+			import org.hubo.flexextjs.vo.JavaPageVo;
+
+			[Bindable]
+			public var page:Page;
+
+			/**
+			 * 总页数
+			 */
+			[Bindable]
+			private var _totalPage:int;
+
+			/**
+			 * 每页显示的行数
+			 */
+			[Bindable]
+			private var _pageSize:int;
+
+			/**
+			 * 总行数
+			 */
+			[Bindable]
+			private var _totalRecords:int;
+
+			/**
+			 * 当前页
+			 */
+			[Bindable]
+			private var _cuurrentPage:int;			
+			
+			private var _pageBtnVisible:Boolean = true;
+			
+			public function set pageBtnVisible(pageBtnVisible:Boolean):void{
+				this._pageBtnVisible = pageBtnVisible;
+			}
+			
+			[Bindable]
+			public function get pageBtnVisible():Boolean{
+				return this._pageBtnVisible;
+			}
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				//this.nb.border = StringUtils.lineSides("top lineTop");
+				
+				this.initEventListener();
+			}
+
+			private function initEventListener():void
+			{
+				this.pageFirst.addEventListener(MouseEvent.CLICK, pageFirstHandler, false, 0, true);
+				this.pageNext.addEventListener(MouseEvent.CLICK, pageNextHandler, false, 0, true);
+				this.pagePrev.addEventListener(MouseEvent.CLICK, pagePrevHandler, false, 0, true);
+				this.pageLast.addEventListener(MouseEvent.CLICK, pageLastHandler, false, 0, true);
+				this.refresh.addEventListener(MouseEvent.CLICK, refreshHandler, false, 0, true);
+				
+			//	this.currPageSize.addEventListener(Event.CANCEL,currPageSize_changeHandler,false,0,true);
+			}
+
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			/**private methods*/
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+
+			/**
+			 * 显示边框线
+			 *
+			 * 格式：left top bottom right lineTop
+			 */
+			public function set borderSides(value:String):void
+			{
+				//nb.border = StringUtils.lineSides(value);
+			}
+
+
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			/**get and set methods*/
+			/**+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+			
+			/**
+			 * 
+			 */
+			protected function currPageSize_changeHandler(event:Event):void
+			{
+				var txt:TextInput = event.currentTarget as TextInput;
+				
+				var currPageSize:int = int(txt.text) > 0  ? int(txt.text) : 1;
+				
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(currPageSize);
+				jpv.setPageSize(this._pageSize);
+				
+				if (this.page)
+				{
+					this.page.currentPage=jpv.currentPage;
+				}
+				
+				createAndDispatchEvent(jpv, null);
+			}
+
+
+			/**
+			 * 点击首页图标调用
+			 */
+			protected function pageFirstHandler(event:MouseEvent):void
+			{
+				var linkBtn:LinkButton=event.currentTarget as LinkButton;
+
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(1);
+				jpv.setPageSize(this._pageSize);
+
+				if (this.page)
+				{
+					this.page.currentPage=1;
+				}				
+
+				createAndDispatchEvent(jpv, linkBtn.id);
+			}
+
+			/**
+			 * 点击上一页图标调用
+			 */
+			protected function pagePrevHandler(event:MouseEvent):void
+			{
+				var linkBtn:LinkButton=event.currentTarget as LinkButton;
+
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(this._cuurrentPage > 1 ? this._cuurrentPage - 1 : this._cuurrentPage);
+				jpv.setPageSize(this._pageSize);
+
+				if (this.page)
+				{
+					this.page.currentPage=jpv.currentPage;
+				}
+
+				createAndDispatchEvent(jpv, linkBtn.id);
+			}
+
+			/**
+			 * 点击下一页图标调用
+			 */
+			protected function pageNextHandler(event:MouseEvent):void
+			{
+				var linkBtn:LinkButton=event.currentTarget as LinkButton;
+
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(this._cuurrentPage < _totalPage ? this._cuurrentPage + 1 : this._cuurrentPage);
+				jpv.setPageSize(this._pageSize);
+
+				if (this.page)
+				{
+					this.page.currentPage=jpv.currentPage;
+				}
+
+				createAndDispatchEvent(jpv, linkBtn.id);
+			}
+
+			/**
+			 * 点击末页图标调用
+			 */
+			protected function pageLastHandler(event:MouseEvent):void
+			{
+				var linkBtn:LinkButton=event.currentTarget as LinkButton;
+
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(_totalPage);
+				jpv.setPageSize(this._pageSize);
+
+				if (this.page)
+				{
+					this.page.currentPage=jpv.currentPage;
+				}
+
+				createAndDispatchEvent(jpv, linkBtn.id);
+			}
+
+			/**
+			 * 点击刷新图标调用
+			 *
+			 * @param event:MouseEvent
+			 */
+			protected function refreshHandler(event:MouseEvent):void
+			{
+
+				var jpv:JavaPageVo=new JavaPageVo();
+				jpv.setCurrentPage(this._cuurrentPage < _totalPage ? this._cuurrentPage : this._cuurrentPage);
+				jpv.setPageSize(this._pageSize);
+
+				createAndDispatchEvent(jpv, null);
+			}
+			
+			/***************************************************************************************************************/
+
+			public function set pageSize(value:int):void
+			{
+				this._pageSize=value;
+			}
+
+			/**
+			 * 当显示数据有变化时，需要手动调用该方法
+			 * 
+			 * @param value:int(default=null) 数据总记录数
+			 */
+			public function set totalSize(value:int):void
+			{
+				this.totalOfPagesModulus(value);
+
+				if (_cuurrentPage > _totalPage && _totalPage != 0)
+				{
+					_cuurrentPage=_totalPage;
+				}
+				else if (_cuurrentPage == _totalPage && _totalPage != 0)
+				{
+					_cuurrentPage=1;
+				}
+
+				this._totalRecords=value;
+				this.updateDisplayRecords();
+			}
+
+			public function set currentPage(value:int):void
+			{
+				this._cuurrentPage=value;
+				this.updateDisplayRecords();
+			}
+
+			/***************************************************************************************************************/
+
+			/**
+			 * “求模”算出一共有多少页
+			 */
+			protected function totalOfPagesModulus(value:int):void
+			{
+				if (value % this._pageSize <= this._pageSize)
+				{
+					if (value % this._pageSize == 0)
+					{
+						this._totalPage=Math.floor(value / this._pageSize)
+					}
+					else
+					{
+						this._totalPage=Math.floor(value / this._pageSize) + 1;
+					}
+				}
+				else
+				{
+					this._totalPage=value / this._pageSize;
+				}
+			}
+
+			/**
+			 * 创建并派发分页事件
+			 */
+			private function createAndDispatchEvent(jpv:JavaPageVo, type:String):void
+			{
+				var pageEvent:PageEvent=new PageEvent(PageEvent.PAGE_EVENT);
+				pageEvent.pageVo=jpv;
+				pageEvent.pageType=type;
+
+				dispatchEvent(pageEvent);
+			}
+
+			/**
+			 * 更新记录数
+			 */
+			private function updateDisplayRecords():void
+			{
+				var start:int=1;
+				var limit:int=0;
+				if (this._cuurrentPage == 1)
+				{
+					limit=this._pageSize * this._cuurrentPage;
+				}
+				else
+				{
+					start=this._pageSize * (this._cuurrentPage - 1) + 1;
+					if (this._cuurrentPage == this._totalPage)
+					{
+						limit=this._pageSize * (this._cuurrentPage - 1) + this._totalRecords % this._pageSize;
+					}
+					else
+					{
+						limit=this._pageSize * this._cuurrentPage;
+					}
+				}
+
+				if (limit > _totalRecords)
+				{
+					limit=_totalRecords;
+				}
+
+				this.records.text="当前记录数：" + start + " - " + limit + "  总记录数：" + this._totalRecords;
+			}
+		]]>
+	</fx:Script>
+
+	<components:NavigatorBackground id="nb" top="0" right="0" left="0" bottom="0" lineTopHeight="2"/>
+	
+	<s:HGroup height="100%" width="100%" verticalAlign="middle" paddingLeft="2" paddingRight="5">
+		<mx:LinkButton visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" enabled="{this._cuurrentPage == (1 || 0) ? false : true}" id="pageFirst" icon="{SystemIcon.pageFirst}" paddingLeft="0" paddingRight="0"/>
+		<mx:LinkButton visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" enabled="{this._cuurrentPage == (1 || 0) ? false : true}" id="pagePrev" icon="{SystemIcon.pagePrev}" paddingLeft="0" paddingRight="0"/>
+		<mx:VRule visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" height="15"/>
+		<s:Label visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" text="第"/>
+		<s:TextInput visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" paddingTop="2" width="40" height="18" text="{this._cuurrentPage}" id="currPageSize"  focusOut="currPageSize_changeHandler(event)"/>
+		<s:Label visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" text="页"/>
+		<s:Label visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" text="共{this._totalPage}页"/>
+		<mx:VRule visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" height="15"/>
+		<mx:LinkButton visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" enabled="{this._cuurrentPage == this._totalPage ? false : true}" id="pageNext" icon="{SystemIcon.pageNext}" paddingLeft="0" paddingRight="0"/>
+		<mx:LinkButton visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" enabled="{this._cuurrentPage == this._totalPage ? false : true}" id="pageLast" icon="{SystemIcon.pageLast}" paddingLeft="0" paddingRight="0"/>
+		<mx:VRule visible="{pageBtnVisible}" includeInLayout="{pageBtnVisible}" height="15"/>
+		<mx:LinkButton id="refresh" icon="{SystemIcon.refresh}" paddingLeft="0" paddingRight="0"/>
+		<mx:Spacer width="100%"/>
+		<s:Label text="当前记录数：{0} - {0}  总记录数：{this._totalRecords}" id="records"/>
+	</s:HGroup>
+	
+</s:Group>
