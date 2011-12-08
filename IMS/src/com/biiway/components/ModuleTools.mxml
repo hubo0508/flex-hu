@@ -16,6 +16,18 @@
 			
 			private var objContent:IVisualElement;
 			
+			private var _customComponents:Object;
+			
+			public function get customComponents():Object
+			{
+				return _customComponents;
+			}
+
+			public function set customComponents(value:Object):void
+			{
+				_customComponents = value;			
+			}
+
 			protected function navMenu_HG_secondMenuBarEventHandler(event:MenuBarEvent):void
 			{
 				var e:MenuBarEvent = new MenuBarEvent(MenuBarEvent.MENU_BAR_EVENT);
@@ -55,6 +67,23 @@
 				super.createChildren();
 				
 				if(this.objContent) this.addElement(objContent);
+				
+				if(customComponents == null)return;
+				
+				if(customComponents is Array)
+				{
+					var eleArr:Array = customComponents as Array;
+					var eleNum:int = eleArr.length;
+					for(var i:int = 0; i<eleNum; i++)
+					{
+						var ele:IVisualElement = eleArr[i] as IVisualElement;
+						group.addElement(ele);
+					}	
+				}
+				else
+				{
+					group.addElement(customComponents as IVisualElement);
+				}		
 			}
 			
 			public function set initNavMenu(value:XMLList):void
@@ -68,7 +97,7 @@
 		[Event(name="menuBarEvent",type="com.biiway.event.MenuBarEvent")]
 	</fx:Metadata>
 
-	<s:Group width="100%" height="100%" >
+	<s:Group width="100%" height="100%" id="group">
 		
 		<!--背景颜色-->	
 		<s:Rect width="100%" height="24" top="0">

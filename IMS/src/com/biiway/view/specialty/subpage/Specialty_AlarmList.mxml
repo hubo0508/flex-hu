@@ -11,6 +11,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.event.PanelEvent;
+			import com.biiway.util.DateConverter;
 			import com.biiway.util.FlexUtil;
 			import com.biiway.util.TellAlarmConst;
 			
@@ -26,6 +27,10 @@
 			[Bindable]private var dg3ACC:ArrayCollection = new ArrayCollection();
 			[Bindable]private var dg4ACC:ArrayCollection = new ArrayCollection();
 			
+			private var timer1:Timer;
+			private var timer2:Timer;
+			private var timer3:Timer;
+			
 			/**
 			 * 当组件完成其构建、属性处理、测量、布置和绘制时分派
 			 */
@@ -36,27 +41,20 @@
 			
 			protected function _initializeHandler(event:FlexEvent):void
 			{
-				this.initData();
+				this.initData();			
 			}
 			
 			private function initData():void
-			{
-			
+			{			
 				dgACC.addItem({name1:"设备告警",name2:76745,name3:4532,name4:34344,name5:6768,name6:452,name7:6524,name8:6784,name9:2312,name10:4342,name11:23});
 				dgACC.addItem({name1:"处理错误",name2:4323,name3:2564,name4:37434,name5:767,name6:43455,name7:56765,name8:87865,name9:43456,name10:4342,name11:231});
 				dgACC.addItem({name1:"环境告警",name2:65565,name3:34556,name4:5656,name5:2,name6:656,name7:6512,name8:875,name9:2312,name10:5632,name11:33});
 				dgACC.addItem({name1:"其它告警",name2:65565,name3:34556,name4:5656,name5:2,name6:656,name7:6512,name8:875,name9:2312,name10:5632,name11:33});
-				//dgACC.addItem({name1:"数据网",name2:9665,name3:6564,name4:76565,name5:9899,name6:76455,name7:6785,name8:656,name9:2312,name10:54678,name11:341});
-				//dgACC.addItem({name1:"传输网",name2:785,name3:8756,name4:4543,name5:1233,name6:6532,name7:7678,name8:6567,name9:2312,name10:45367,name11:23531});
-				//dgACC.addItem({name1:"动环",name2:65887,name3:65654,name4:54567,name5:6567,name6:6784,name7:8799,name8:2453,name9:2312,name10:568,name11:86});
 				
 				dg2ACC.addItem({name1:"设备告警",name2:656,name3:656,name4:565,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
 				dg2ACC.addItem({name1:"处理错误",name2:56789,name3:656,name4:656,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:234,name11:2221,name12:22,name13:642,name14:312,name15:4523});
 				dg2ACC.addItem({name1:"环境告警",name2:6732,name3:656,name4:565,name5:7896,name6:7896,name7:234,name8:323,name9:1554,name10:56789,name11:56789,name12:22,name13:642,name14:312,name15:4523});
 				dg2ACC.addItem({name1:"其它告警",name2:656,name3:2221,name4:565,name5:234,name6:1554,name7:7896,name8:1554,name9:7896,name10:312,name11:56789,name12:56789,name13:642,name14:2221,name15:4523});
-				//dg2ACC.addItem({name1:"传输网",name2:656,name3:656,name4:7896,name5:6767,name6:6767,name7:1554,name8:332,name9:6767,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
-				//dg2ACC.addItem({name1:"动环",name2:656,name3:656,name4:56789,name5:234,name6:6767,name7:7896,name8:6732,name9:7896,name10:2221,name11:22,name12:22,name13:642,name14:312,name15:4523});
-				//dg2ACC.addItem({name1:"超时工单",name2:656,name3:656,name4:565,name5:234,name6:6767,name7:7896,name8:6732,name9:1554,name10:2221,name11:56789,name12:22,name13:642,name14:312,name15:4523});
 				
 				dg3ACC.addItem({
 					name1:[
@@ -244,6 +242,7 @@
 					secondary.title = "4";
 				}
 			}
+		
 			
 		]]>
 	</fx:Script>
@@ -254,10 +253,8 @@
 	
 	<components:Panel height="142" closeBtn="false" title="全类型告警概览表" width="100%" panelEvent="panelEventHandler(event)">
 		<components:menuContent>
-			<s:HGroup top="4" right="48" gap="0">
+			<s:HGroup top="4" right="48" gap="0" verticalAlign="middle">				
 				<mx:LinkButton icon="@Embed('assets/images/i006.png')" toolTip="刷新"/>
-				<!--<mx:LinkButton icon="@Embed('assets/images/i009.png')" toolTip="帮助"/>
-				<mx:LinkButton icon="@Embed('assets/images/i001.png')" toolTip="设置"/>-->
 			</s:HGroup>
 		</components:menuContent>	
 		<components:content>
