@@ -14,6 +14,7 @@
 			import com.biiway.util.DateConverter;
 			import com.biiway.util.ViewConst;
 			import com.biiway.view.specialty.subpage.AlarmChart;
+			import com.biiway.view.specialty.subpage.SpecialtyManager;
 			import com.biiway.view.specialty.subpage.Specialty_AlarmList;
 			
 			import mx.core.IVisualElement;
@@ -21,6 +22,8 @@
 			
 			import org.hu.flextools.util.PopUpUtil;
 			
+			import spark.components.BorderContainer;
+			import spark.components.Group;
 			import spark.components.Scroller;	
 			
 			/**
@@ -34,59 +37,55 @@
 			
 			protected function menuBarEventHandler(event:MenuBarEvent):void
 			{
-				//group.removeAllElements();
-				//scroller.removeAllElements();
 				switch(event.menuType)
 				{
 					case "alarmList":
+						this.settingTimer();
 						this.scroller.viewport = null;
 						scroller.viewport = new Specialty_AlarmList();
-						//group.addElement(new Specialty_AlarmList());
 						break;
 					
 					case "alarmChart_city_MSColumn3D" :
+						this.settingTimer();
 						var alarmChart:AlarmChart = this.getChart();				
 						alarmChart.chartType = "MSColumn3D";
 						alarmChart.xmlData = getXML1();
 						scroller.viewport = alarmChart;
-						//group.addElement(alarmChart);
 						break;
 					 
 					case "alarmChart_city_ScrollLine2D" :
+						this.settingTimer();
 						var line:AlarmChart = this.getChart();
 						line.chartType = "ScrollLine2D";
 						line.xmlData = getXML2();
 						scroller.viewport = line;	
-						//group.addElement(line);
 						break;
 					
 					case "alarmChart_Pie2D" :
+						this.settingTimer();
 						var pie:AlarmChart = this.getChart();
 						pie.chartType = "Pie2D";
 						pie.xmlData = getXML3();
 						scroller.viewport = pie;
-						//group.addElement(pie);
 						break;					
 					
 					case "setManagement" :
-						
+						this.stopTimer();
+						this.scroller.viewport = null;
+						var group:Group = new Group();
+						group.addElement(new SpecialtyManager());
+						scroller.viewport = group;
 						break;
 					
 					default :
 						break;
 				}
-			}
+			}	
 			
 			private function getChart():AlarmChart
 			{
-				var alarmChart:AlarmChart = null;
-//				if(scroller.viewport is AlarmChart){
-//					alarmChart =scroller.viewport as AlarmChart;						
-//				}else{
-					scroller.viewport  = null;
-					alarmChart =  new AlarmChart();;
-//				}
-				
+				scroller.viewport  = null;
+				var alarmChart:AlarmChart =  new AlarmChart();;				
 				return alarmChart;
 			}
 			
@@ -338,6 +337,7 @@
 			private var currentSeconds:int = TIME_SECONDS;
 			protected function settingTimer():void
 			{
+				this.currentSeconds = TIME_SECONDS;
 				if(timer && timer.running){
 					timer.stop();
 					timer == null;
@@ -361,6 +361,12 @@
 				currentSeconds = TIME_SECONDS;
 				this.settingTimer();
 				//flash.utils.setTimeout(function():void{settingTimer();},TIME_SECONDS*TIME_RATE,null);		
+			}
+			
+			protected function stopTimer():void
+			{
+				this.timer.stop();
+				this.nextTimer.text = "";
 			}
 			
 		]]>
