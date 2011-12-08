@@ -11,6 +11,7 @@
 		<![CDATA[
 			import com.biiway.core.ICommunication;
 			import com.biiway.event.MenuBarEvent;
+			import com.biiway.util.DateConverter;
 			import com.biiway.util.ViewConst;
 			import com.biiway.view.specialty.subpage.AlarmChart;
 			import com.biiway.view.specialty.subpage.Specialty_AlarmList;
@@ -28,6 +29,7 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				this.initNavMenu = navMenu_xml;
+				this.settingTimer();
 			}
 			
 			protected function menuBarEventHandler(event:MenuBarEvent):void
@@ -328,6 +330,39 @@
 					"</chart>";
 			}
 			
+			/********************消息轮询***********************/
+			private var timer:Timer;
+			private static const TIME_SECONDS:int = 60;
+			private static const TIME_RATE:int = 1000;
+			private var nextTimerStr:String = "下次轮询时间："+DateConverter.convert(new Date());
+			private var currentSeconds:int = TIME_SECONDS;
+			protected function settingTimer():void
+			{
+				if(timer && timer.running){
+					timer.stop();
+					timer == null;
+				}
+				timer = new Timer(TIME_RATE,TIME_SECONDS);
+				timer.addEventListener(TimerEvent.TIMER, timerHandler,false,0,true);
+				timer.addEventListener(TimerEvent.TIMER_COMPLETE, nextChangeTime,false,0,true);
+				timer.start();
+			}
+			
+			protected function timerHandler(event:TimerEvent):void
+			{
+				currentSeconds = currentSeconds-1;
+				nextTimer.text = nextTimerStr + "("+currentSeconds+")";
+			}
+			
+			protected function nextChangeTime(event:TimerEvent):void
+			{ 
+				var nextDate:Number = new Date().getTime()+(TIME_SECONDS*TIME_RATE);
+				nextTimer.text = nextTimerStr = "下次轮询时间："+DateConverter.convert(new Date(nextDate));
+				currentSeconds = TIME_SECONDS;
+				this.settingTimer();
+				//flash.utils.setTimeout(function():void{settingTimer();},TIME_SECONDS*TIME_RATE,null);		
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -351,5 +386,8 @@
 			<subpage:Specialty_AlarmList/>
 		</s:Scroller>
 	</content>
+	<customComponents>
+		<s:Label id="nextTimer" color="#FF1818" fontSize="12" fontFamily="微软雅黑,黑体" right="10" top="7"/>
+	</customComponents>
 	
 </ModuleTools>
