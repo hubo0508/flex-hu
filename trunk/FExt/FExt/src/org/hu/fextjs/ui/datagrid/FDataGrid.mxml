@@ -27,10 +27,7 @@
 			private var _fmouseOutColor:uint = 0xA8A8A8;
 			private var _fmouseOverColor:uint = 0xCEDBEF;			
 			private var _fborderColor:uint=0x696969;			
-			private var _fbackgroupColor:uint = 0xA8A8A8;
-			
-			
-		
+			private var _fbackgroupColor:uint = 0xA8A8A8;		
 			
 			public function set dataProvider(value:Object):void
 			{
@@ -75,22 +72,22 @@
 				var currentCells:FCells = event.currentTarget as FCells;
 				var column:FDGColumn = currentCells.parent as FDGColumn;						
 				var len:int = columns.length;
-
-				for(var i:int=0; i<len; i++)
+				for (var i:int=0; i < len; i++)
 				{
-					var sibingColumn:FDGColumn = columns[i] as FDGColumn;
-					if(sibingColumn && sibingColumn.id != column.id){	
-						var at:int = int(currentCells.id)+1;
-						var siblingCell:FCells =	sibingColumn.getElementAt(at) as FCells;
-						if(MouseEvent.MOUSE_OUT  == event.types){
+					var sibingColumn:FDGColumn=columns[i] as FDGColumn;
+					if (sibingColumn && sibingColumn.id != column.id)
+					{
+						var at:int=int(currentCells.id) + 1;
+						var siblingCell:FCells=sibingColumn.getElementAt(at) as FCells;
+						if (MouseEvent.MOUSE_OUT == event.types)
+						{
 							siblingCell.changeBackgroupColor(currentCells.mouseOutColor);
-						}else{
+						}
+						else
+						{
 							siblingCell.changeBackgroupColor(currentCells.mouseOverColor);
 						}
-						
-						//this.settingCellsStyle(cells,column);
-						//siblingCell.invalidateDisplayList();
-					}					
+					}
 				}
 			}
 			
