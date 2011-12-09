@@ -4,10 +4,11 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:components="org.hu.fextjs.components.*" 
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="955"
+			   minWidth="955" 
 			   minHeight="600"
 			   xmlns:FExt="library://FExt.HU"
 			   xmlns:local="*">
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -16,24 +17,44 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({name:9043184.44,name2:232});
-				acc.addItem({name:1099994.14,name2:232});
-				acc.addItem({name:787611.15,name2:232});
-				acc.addItem({name:629752.65,name2:232});
-				acc.addItem({name:562401.59,name2:232});
-				acc.addItem({name:328108,name2:232});
-				acc.addItem({name:305000.98,name2:232});
-				acc.addItem({name:260469.46,name2:232});
-				acc.addItem({name:328108,name2:232});
-				acc.addItem({name:305000.98,name2:232});
-				acc.addItem({name:260469.46,name2:232});
+				acc.addItem({nametitle:"C网日均VLR忙时登记用户数(晚忙时20点)",name:9043184.44,name2:232});
+				acc.addItem({nametitle:"C网日均语音话务量",name:1099994.14,name2:232});
+				acc.addItem({nametitle:"C网日均1X数据话务量",name:787611.15,name2:232});
+				acc.addItem({nametitle:"C网日均EVDO话务量",name:629752.65,name2:232});
+				acc.addItem({nametitle:"C网日均忙时PDSN(1X)在线用户数(晚忙时21点)",name:562401.59,name2:232});
+				acc.addItem({nametitle:"C网日均忙时PDSN（EVDO）在线用户数（晚忙时21点）",name:328108,name2:232});
+				acc.addItem({nametitle:"C网彩信终端发送MMS条数",name:305000.98,name2:232});
+				acc.addItem({nametitle:"C网彩信应用发送MMS条数",name:260469.46,name2:232});
+				acc.addItem({nametitle:"C网短信发送成功总量",name:328108,name2:232});
+				acc.addItem({nametitle:"C网短信接收成功总量",name:305000.98,name2:232});
+				acc.addItem({nametitle:"全局疏通话务量",name:260469.46,name2:232});
 				
-				this.fdg.dataProvider = acc;
+				this.fdg.dataProvider = acc;	
+				
+				for(var i:int=0; i<acc.length; i++)
+				{
+					var cells:FCells = fdg.getFCells(fdgcolumn,acc[i],i,"nametitle");
+					fdgcolumn.addElement(cells);
+				}
 			}
 
 		]]>
 	</fx:Script>
 	
+	<fx:Style>
+		@namespace FExt "library://FExt.HU";
+		
+		FExt|FDataGrid{
+			titleBackgroupColor:#A8A8A8;
+			titleBorderColor:#696969;
+			titleBorderVisible:true;
+			borderColor:#696969;
+			alternatingItemColors: #FFFFFF, #F7F7F7;
+			rollOverColor: #B2E1FF;
+			selectionColor: #99cc66;
+		}
+		
+	</fx:Style>
 	<FExt:FContainer top="50" left="50" right="50" >
 		<FExt:TitleLabel>
 			<FExt:customComponents>
@@ -41,50 +62,31 @@
 			</FExt:customComponents>			
 		</FExt:TitleLabel>
 		<FExt:FContent>
-
-			<FExt:FDataGrid id="fdg">
+			<FExt:layout>
+				<s:BasicLayout/>
+			</FExt:layout>
+			<FExt:FDataGrid id="fdg" width="90%" left="10" top="10" paddingLeft="0">
 				<FExt:columns>
-					<s:VGroup gap="0" horizontalAlign="right">
-						<FExt:FCells width="280" text="性能数据" backgroupColor="#A8A8A8" borderSides="left right" borderColor="0x696969" mouseOutColor="#A8A8A8"/>
-						<s:HGroup gap="0">
-							<s:VGroup gap="0" width="100">
-								<FExt:FCells width="100%" height="132" text="C网" />
-								<FExt:FCells width="100%" height="88" text="业务平台" />
-								<FExt:FCells width="100%" text="软交换" />
-							</s:VGroup>
-							<s:VGroup gap="0" width="180">
-								<FExt:FCells width="100%" text="C网日均VLR忙时登记用户数(晚忙时20点)" />
-								<FExt:FCells width="100%" text="C网日均语音话务量" />
-								<FExt:FCells width="100%" text="C网日均1X数据话务量" />
-								<FExt:FCells width="100%" text="C网日均EVDO话务量" />
-								<FExt:FCells width="100%" text="C网日均忙时PDSN(1X)在线用户数(晚忙时21点)" />
-								<FExt:FCells width="100%" text="C网日均忙时PDSN（EVDO）在线用户数（晚忙时21点）" />
-								<FExt:FCells width="100%" text="C网彩信终端发送MMS条数" />
-								<FExt:FCells width="100%" text="C网彩信应用发送MMS条数" />
-								<FExt:FCells width="100%" text="C网短信发送成功总量" />
-								<FExt:FCells width="100%" text="C网短信接收成功总量" />
-								<FExt:FCells width="100%" text="全局疏通话务量" />
-							</s:VGroup>
+					
+					<FExt:VContainer gap="0" horizontalAlign="right" bottom="right">
+						<FExt:FCells width="280" text="性能数据" backgroupColor="#A8A8A8" borderSides="" borderColor="0x696969"/>
+						<s:HGroup gap="1">
+							<FExt:VContainer gap="0" width="100" borderSides="right">
+								<FExt:FCells width="100%" height="132" text="C网" borderSides="bottom"/>
+								<FExt:FCells width="100%" height="88" text="业务平台" borderSides="bottom"/>
+								<FExt:FCells width="100%" text="软交换" borderSides=""/>
+							</FExt:VContainer>						
+							<FExt:FDGColumn id="fdgcolumn" width="180"/>
 						</s:HGroup>			
-					</s:VGroup>
+					</FExt:VContainer>
+					
 					<FExt:FDGColumn dataField="name" headerText="2011-07-01"/>
 					<FExt:FDGColumn dataField="name2" headerText="2011-07-02"/>
 					<FExt:FDGColumn dataField="name" headerText="2011-07-03"/>
 					<FExt:FDGColumn dataField="name2" headerText="2011-07-04"/>
+					
 				</FExt:columns>	
-			</FExt:FDataGrid>
-			
-			<!--
-			<FExt:DataGrid id="dg" dataProvider="">
-				<FExt:columns>
-					<FExt:CheckBoxColumn radioBox="true"/>		
-					<FExt:SequenceColumn/>
-					<mx:DataGridColumn dataField="id" headerText="id" visible="true" />
-					<mx:DataGridColumn dataField="name" headerText="name"/>
-					<mx:DataGridColumn dataField="phone" headerText="phone"/>
-					<mx:DataGridColumn dataField="email" headerText="email"/>
-				</FExt:columns>
-			</FExt:DataGrid>-->			
+			</FExt:FDataGrid>			
 			
 		</FExt:FContent>
 	</FExt:FContainer>
