@@ -2,18 +2,14 @@
 <components:Container xmlns:fx="http://ns.adobe.com/mxml/2009"
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  xmlns:components="org.hu.fextjs.components.*"
-					  mouseOutColor="#FFFFFF"
-					  mouseOverColor="#CEDBEF"
-					  borderSides="bottom right top left"
-					  borderColor="#CDCDCD"
-					  height="22"
-					  width="80">
+					  xmlns:components="org.hu.fextjs.components.*">
 	
 	<fx:Script>
 		<![CDATA[
 			
 			private var _text:String;
+			
+			public var selectionColorMark:Boolean = false;
 			
 			[Bindable]
 			public function get text():String
@@ -25,14 +21,9 @@
 			{
 				_text = value;
 			}
-			
-			public function reDrawing():void
-			{
-				super.invalidateDisplayList();
-			}
-
 		]]>
 	</fx:Script>
 	
 	<mx:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+	
 </components:Container>
