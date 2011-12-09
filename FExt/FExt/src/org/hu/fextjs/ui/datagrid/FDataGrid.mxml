@@ -8,179 +8,336 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:components="org.hu.fextjs.components.*"
-					   gap="0"
-					   horizontalCenter="0"
-					   width="100%"
-					   height="100%"
-					   borderSides="left right top bottom">
-	
+					   gap="1"
+					   paddingLeft="0"
+					   horizontalCenter="0">
+
+	<fx:Metadata>
+		[Style(name="titleBackgroupColor", type="uint", format="Color", inherit="yes", theme="spark")]
+		[Style(name="titleBorderColor", type="uint", format="Color", inherit="yes", theme="spark")]
+		[Style(name="titleBorderVisible", type="Boolean", inherit="no")]
+	</fx:Metadata>
+
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
-			
-			import org.hu.fextjs.event.CellsMouseEvent;
-			
+
 			private var _columns:Array;
 			private var _dataProvider:Object;
-			
-			private var _fmouseOutColor:uint = 0xA8A8A8;
-			private var _fmouseOverColor:uint = 0xCEDBEF;			
-			private var _fborderColor:uint=0x696969;			
-			private var _fbackgroupColor:uint = 0xA8A8A8;		
-			
-			public function set dataProvider(value:Object):void
+			private var EVENT_MARK:String;
+			private var historySelectionRows:Array=[];
+			public var selectItem:Object;
+
+			/*Style*/
+			private var rollOverColor:uint=0xB2E1FF;
+			private var alternatingItemColors:Array=["#FFFFFF", "#F7F7F7"];
+			private var verticalGridLines:Boolean;
+			private var titleBorderVisible:Boolean=true;
+			private var selectionColor:uint=0x7FCEFF;
+
+			/*Style*/
+
+			override protected function updateDisplayList(w:Number, h:Number):void
 			{
-				this._dataProvider = value;
-				
-				this.eachDataProvider();
+				super.updateDisplayList(w, h);
+//				trace("++++++++++++++++++updateDisplayList");
+//				trace(this.getStyle("titleBorderColor"));
 			}
-			
-			protected function eachDataProvider():void
+
+			override protected function commitProperties():void
 			{
-				if(_dataProvider is ArrayCollection)
+				super.commitProperties();
+//				trace("++++++++++++++++++commitProperties");
+//				trace(this.getStyle("titleBackgroupColor"));
+			}
+
+			override protected function measure():void
+			{
+				super.measure();
+//				trace("++++++++++++++++++measure");
+//				trace(this.getStyle("borderColor"));
+			}
+
+
+			override protected function createChildren():void
+			{
+				super.createChildren();
+//				trace("++++++++++++++++++createChildren");
+//				trace(this.getStyle("titleBackgroupColor"));
+				this.displayTitleRow();
+			}
+
+			/**
+			 * 初始化单元格列数
+			 */
+			protected function displayTitleRow():void
+			{
+				var len:int=_columns.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var ac:ArrayCollection = _dataProvider as ArrayCollection;
-					var len:int = ac.length;
-					for(var i:int=0; i<len; i++)
+					var column:FDGColumn=_columns[i] as FDGColumn;
+					if (column)
 					{
-						this.settingRowData(ac.getItemAt(i),i);
-					}
-				}
-			}
-			
-			protected function settingRowData(item:Object,rowIndex:int):void
-			{
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
-				{
-					var column:FDGColumn = this.columns[i] as FDGColumn;
-					if(column){
-						var cells:FCells = this.getCells(item[column.dataField]);
-						if(column.percentWidth == 100){
-							cells.percentWidth = 100;
+						var cells:FCells=this.createCells(column.headerText);
+						this.settingTitleCellsStyle(cells);
+						if (column.width == 0)
+						{
+							cells.percentWidth=100;
+							column.percentWidth=100;
 						}
-						cells.id = rowIndex+"";
-						cells.addEventListener(CellsMouseEvent.EVENT_TYPE,cellsMouseEvent,false,0,true);
 						column.addElement(cells);
-					}					
+						column.id=i + "";
+						this.addElement(column);
+					}
+					else
+					{
+						this.addElement(_columns[i]);
+					}
 				}
 			}
 
-			protected function cellsMouseEvent(event:CellsMouseEvent):void
+			private function settingTitleCellsStyle(cells:FCells):void
 			{
-				var currentCells:FCells = event.currentTarget as FCells;
-				var column:FDGColumn = currentCells.parent as FDGColumn;						
-				var len:int = columns.length;
+				var _borderColor:uint=this.getStyle("borderColor");
+				cells.borderColor=_borderColor == 0 ? borderColor : _borderColor;
+
+				var _titleBorderVisible:Boolean=this.getStyle("titleBorderVisible");
+				if (_titleBorderVisible)
+				{
+					cells.borderSides="bottom";
+				}
+				else
+				{
+					cells.borderSides="";
+				}
+
+				var _titleBackgroupColor:uint=this.getStyle("titleBackgroupColor");
+				cells.backgroupColor=_titleBackgroupColor == 0 ? backgroupColor : _titleBackgroupColor;
+			}
+
+			public function set dataProvider(value:Object):void
+			{
+				this._dataProvider=value;
+
+				this.eachDataProvider();
+			}
+
+			protected function eachDataProvider():void
+			{
+				if (_dataProvider is ArrayCollection)
+				{
+					var ac:ArrayCollection=_dataProvider as ArrayCollection;
+					var len:int=ac.length;
+					for (var i:int=0; i < len; i++)
+					{
+						this.settingRowData(ac.getItemAt(i), i);
+					}
+				}
+			}
+
+			/**
+			 * 根据行数据创建行单元格数据
+			 *
+			 * item:当前行数据
+			 * rowIndex:当前行号
+			 */
+			protected function settingRowData(item:Object, rowIndex:int):void
+			{
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var column:FDGColumn=this.columns[i] as FDGColumn;
+					if (column)
+					{
+						var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
+						cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
+						column.addElement(cells);
+					}
+				}
+			}
+
+			/**
+			 * 创建统一样式单元格
+			 */
+			public function getFCells(column:FDGColumn, item:Object, rowIndex:int, dataField:String):FCells
+			{
+				var cells:FCells=this.createCells(item[dataField]);
+				cells.backgroupColor=this.getRowColors(rowIndex);
+				cells.borderSides="";
+				if (column.percentWidth == 100)
+				{
+					cells.percentWidth=100;
+				}
+				else
+				{
+					cells.width=column.width;
+				}
+				cells.id=rowIndex + "";
+
+				return cells;
+			}
+
+
+			/**
+			 * 1、取得当前行值
+			 * 2、设置当前行选择中颜色
+			 */
+			protected function cellsClickHandler(event:MouseEvent):void
+			{
+				this.EVENT_MARK=event.type;
+				this.changeRowsColor(event.currentTarget as FCells, event.type);
+			}
+
+			/**
+			 * 1、鼠标移入，移出单元格时，更新背景颜色
+			 * 2、同时更新当前行的颜色
+			 */
+			protected function cellsRollHandler(event:MouseEvent):void
+			{
+				if (EVENT_MARK == MouseEvent.CLICK && MouseEvent.ROLL_OVER == event.type)
+				{
+					this.EVENT_MARK=event.type;
+					trace("cellsRollHandler reutrn");
+				}
+				this.changeRowsColor(event.currentTarget as FCells, event.type);
+			}
+
+			private function changeRowsColor(cells:FCells, type:String):void
+			{
+				if ((EVENT_MARK == MouseEvent.CLICK && type == MouseEvent.ROLL_OUT))
+				{
+					EVENT_MARK="";
+					trace("changeRowsColor reutrn + EVENT_MARK = " + EVENT_MARK + " | type = " + type);
+					return;
+				}
+
+				if (MouseEvent.CLICK == type)
+				{
+					this.clearOtherSelectionRows();
+				}
+
+				var _selectionColor:uint=getStyle("selectionColor");
+				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
+
+				var _rollOverColor:uint=getStyle("rollOverColor");
+				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
+
+				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
 					var sibingColumn:FDGColumn=columns[i] as FDGColumn;
-					if (sibingColumn && sibingColumn.id != column.id)
+					if (sibingColumn)
 					{
-						var at:int=int(currentCells.id) + 1;
-						var siblingCell:FCells=sibingColumn.getElementAt(at) as FCells;
-						if (MouseEvent.MOUSE_OUT == event.types)
+						var rowIndex:int=int(cells.id) + 1;
+						var siblingCell:FCells=sibingColumn.getElementAt(rowIndex) as FCells;
+						if (MouseEvent.ROLL_OUT == type)
 						{
-							siblingCell.changeBackgroupColor(currentCells.mouseOutColor);
+							if (cells.selectionColorMark)
+							{
+								siblingCell.backgroupColor=_selectionColor;
+							}
+							else
+							{
+								siblingCell.backgroupColor=this.getRowColors(rowIndex - 1);
+							}
+							siblingCell.invalidateDisplayList();
 						}
-						else
+						else if (MouseEvent.ROLL_OVER == type)
 						{
-							siblingCell.changeBackgroupColor(currentCells.mouseOverColor);
+							siblingCell.backgroupColor=_rollOverColor;
+							siblingCell.invalidateDisplayList();
+						}
+						else if (MouseEvent.CLICK == type)
+						{
+							siblingCell.backgroupColor=_selectionColor;
+							siblingCell.selectionColorMark=true;
+							historySelectionRows=[rowIndex];
+							siblingCell.invalidateDisplayList();
 						}
 					}
 				}
 			}
-			
-			private function getCells(text:String):FCells
+
+			/**
+			 * 清除其它选择行的颜色
+			 */
+			public function clearOtherSelectionRows():void
 			{
-				var column:FCells	= new FCells();
-				column.text = text;
-				
-				return column;
-			}
-			
-			public function set columns(value:Array):void
-			{
-				_columns = value;
-				
-				var len:int = _columns.length;
-				for(var i:int=0; i<len; i++){
-					var column:FDGColumn = value[i] as FDGColumn;
-					if(column){
-						var cells:FCells = this.getCells(column.headerText);
-						this.settingCellsStyle(cells,column);
-						if(column.width == 0){
-							cells.percentWidth = 100;
-							column.percentWidth = 100;
+				for (var j:int=0; j < historySelectionRows.length; j++)
+				{
+					var len:int=columns.length;
+					for (var i:int=0; i < len; i++)
+					{
+						var column:FDGColumn=columns[i] as FDGColumn;
+						if (column)
+						{
+							var rowIndex:int=historySelectionRows[j];
+							var designateCell:FCells=column.getElementAt(historySelectionRows[j]) as FCells;
+							designateCell.backgroupColor=getRowColors(rowIndex);
+							designateCell.selectionColorMark=false;
+							designateCell.invalidateDisplayList();
 						}
-						column.addElement(cells);
-						column.id = i+"";
-						this.addElement(column);
-					}else{
-						this.addElement(value[i]);
-					}					
+					}
 				}
 			}
-			
-			public function settingCellsStyle(cells:FCells,column:FDGColumn):void
+
+			public function getRowColors(rowIndex:int):uint
 			{
-				cells.mouseOutColor = fmouseOutColor;
-				cells.mouseOverColor = fmouseOverColor;
-				cells.backgroupColor = fbackgroupColor;
-				cells.borderColor = fborderColor;
+				var _alternatingItemColors:Array=this.getStyle("alternatingItemColors");
+				_alternatingItemColors=_alternatingItemColors.length == 0 ? alternatingItemColors : _alternatingItemColors;
+
+				if (rowIndex >= 0 && rowIndex <= 9)
+				{
+					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+				}
+				else
+				{
+					var rowIndexStr:String=rowIndex.toString();
+					rowIndex=int(rowIndexStr.substr(rowIndexStr.length - 1));
+					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+				}
+			}
+
+			private function getItemColorsByIndex(_alternatingItemColors:Array, index:int):uint
+			{
+				if (index == 0 || index == 2 || index == 4 || index == 6 || index == 8)
+				{
+					return _alternatingItemColors[0] as uint;
+				}
+				else
+				{
+					return _alternatingItemColors[1] as uint;
+				}
+			}
+
+			/**
+			 * 创建单元
+			 */
+			private function createCells(text:String):FCells
+			{
+				var column:FCells=new FCells();
+				column.text=text;
+
+				return column;
+			}
+
+			public function set columns(value:Array):void
+			{
+				_columns=value;
 			}
 
 			public function get dataProvider():Object
 			{
 				return _dataProvider;
 			}
-			
+
 			public function get columns():Array
 			{
 				return _columns;
 			}
-			
-			public function get fbackgroupColor():uint
-			{
-				return _fbackgroupColor;
-			}
-			
-			public function set fbackgroupColor(value:uint):void
-			{
-				_fbackgroupColor = value;
-			}
-			
-			public function get fborderColor():uint
-			{
-				return _fborderColor;
-			}
-			
-			public function set fborderColor(value:uint):void
-			{
-				_fborderColor = value;
-			}
-			
-			public function get fmouseOverColor():uint
-			{
-				return _fmouseOverColor;
-			}
-			
-			public function set fmouseOverColor(value:uint):void
-			{
-				_fmouseOverColor = value;
-			}
-			
-			public function get fmouseOutColor():uint
-			{
-				return _fmouseOutColor;
-			}
-			
-			public function set fmouseOutColor(value:uint):void
-			{
-				_fmouseOutColor = value;
-			}
-			
-			
 		]]>
 	</fx:Script>
 </components:HContainer>
