@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 @作者：HUBO
+	 @创建时间：2011-12-12
+	 @邮件：hubo.0508@gmail.com
+-->
+<ns:Container xmlns:fx="http://ns.adobe.com/mxml/2009"
+			  xmlns:s="library://ns.adobe.com/flex/spark"
+			  xmlns:mx="library://ns.adobe.com/flex/mx"
+			  xmlns:ns="library://FExt.HU">
+	
+	<ns:layout>
+		<s:BasicLayout/>
+	</ns:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _mergeCellsIndex:String;
+			private var _mergeCellsText:String;
+			
+			public function get mergeCellsText():String
+			{
+				return _mergeCellsText;
+			}
+
+			public function set mergeCellsText(value:String):void
+			{
+				_mergeCellsText = value;
+			}
+
+			public function get mergeCellsIndex():String
+			{
+				return _mergeCellsIndex;
+			}
+
+			public function set mergeCellsIndex(value:String):void
+			{
+				_mergeCellsIndex = value;
+			}
+
+		]]>
+	</fx:Script>
+	
+</ns:Container>

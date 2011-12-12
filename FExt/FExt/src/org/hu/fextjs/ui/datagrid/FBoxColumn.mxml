@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 @作者：HUBO
+	 @创建时间：2011-12-12
+	 @邮件：hubo.0508@gmail.com
+-->
+<ns:VContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:ns="library://FExt.HU" gap="0">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			public static const RADIO_BUTTON:String = "radioButton";
+			public static const CHECK_BOX:String = "checkBox";
+			
+			private var _headerText:String;
+			
+			private var _boxType:String = CHECK_BOX;
+
+			public function get headerText():String
+			{
+				return _headerText;
+			}
+
+			public function set headerText(value:String):void
+			{
+				_headerText = value;
+			}
+
+			public function get boxType():String
+			{
+				return _boxType;
+			}
+
+			public function set boxType(value:String):void
+			{
+				_boxType = value;
+			}
+
+		]]>
+	</fx:Script>
+	
+</ns:VContainer>

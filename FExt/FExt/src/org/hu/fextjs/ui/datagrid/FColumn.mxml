@@ -15,6 +15,8 @@
 		<![CDATA[
 			private var _dataField:String;
 			private var _headerText:String;
+			
+			private var _itemRenderer:Object;
 		
 			public function get headerText():String
 			{
@@ -35,6 +37,18 @@
 			{
 				_dataField=value;
 			}
+
+			public function get itemRenderer():Object
+			{
+				return _itemRenderer;
+			}
+
+			public function set itemRenderer(value:Object):void
+			{
+				trace("FDGColumn-itemRenderer");
+				_itemRenderer = value;
+			}
+
 		]]>
 	</fx:Script>
 
