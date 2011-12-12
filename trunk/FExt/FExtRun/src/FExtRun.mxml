@@ -95,6 +95,7 @@
 					<FExt:layout>
 						<s:BasicLayout/>
 					</FExt:layout>
+					
 					<FExt:FDataGrid id="fdg" width="90%" left="10" top="10" paddingLeft="0" itemClick="fdg_itemClickHandler(event)" titleRowHeight="30">
 						<FExt:mergeCells>
 							<FExt:FMultiCells mergeCellsIndex="1,2,3" mergeCellsText="AP无线侧"/>
