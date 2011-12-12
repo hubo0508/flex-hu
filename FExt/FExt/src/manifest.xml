@@ -9,12 +9,15 @@
 	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
 	 
 	  <component id="VContainer" class="org.hu.fextjs.components.VContainer" />
+	  <component id="HContainer" class="org.hu.fextjs.components.HContainer" />
 	 
 	 <component id="DataGrid" class="org.hu.fextjs.ui.datagrid.DataGrid" />
 	 <component id="SequenceColumn" class="org.hu.fextjs.ui.datagrid.SequenceColumn" />
 	 <component id="CheckBoxColumn" class="org.hu.fextjs.ui.datagrid.CheckBoxColumn" />
 	 <component id="FCells" class="org.hu.fextjs.ui.datagrid.FCells" />
 	 <component id="FDataGrid" class="org.hu.fextjs.ui.datagrid.FDataGrid" />
-	 <component id="FDGColumn" class="org.hu.fextjs.ui.datagrid.FDGColumn" />
+	 <component id="FBoxColumn" class="org.hu.fextjs.ui.datagrid.FBoxColumn" />
+	 <component id="FColumn" class="org.hu.fextjs.ui.datagrid.FColumn" />
+	 <component id="FMultiCells" class="org.hu.fextjs.ui.datagrid.FMultiCells" />
 	 
 </componentPackage> 
