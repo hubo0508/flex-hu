@@ -208,7 +208,7 @@
 			protected function boxColumnChangeHandler(event:GridEvent):void
 			{
 				
-				this.changeRowsColor();
+				//this.changeRowsColor();
 			}
 			
 			public function initContentRowEventListener(cells:FCells):void				
