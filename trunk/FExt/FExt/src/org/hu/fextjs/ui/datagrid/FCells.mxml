@@ -4,26 +4,82 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
 					  xmlns:components="org.hu.fextjs.components.*">
 	
+	<fx:Metadata>
+		[Event(name="itemClick",type="org.hu.fextjs.event.GridEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
+			import org.hu.fextjs.event.GridEvent;
 			
-			private var _text:String;
+			import spark.components.CheckBox;
 			
+			public static const LABEL:String = "label";
+			public static const CHECK_BOX:String = "checkBox";
+			
+			private var _type:String = LABEL;			
+			private var _text:String;			
 			public var selectionColorMark:Boolean = false;
 			
+			private var _selected:Boolean = false;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(type == LABEL)
+				{
+					this.removeElement(_c);
+				}else if(type == CHECK_BOX)
+				{
+					this.removeElement(_l);
+				}
+			}			
+			
+			protected function checkBoxclickHandler(event:MouseEvent):void
+			{
+				var e:GridEvent = new GridEvent(GridEvent.BOX_COLUMN_CHANGE);
+				e.selected = this._c.selected;
+				e.selectRowsIndex = [int(this.id)+1];
+				
+				this.dispatchEvent(e);
+			}
+
 			[Bindable]
 			public function get text():String
 			{
 				return _text;
 			}
-
+			
 			public function set text(value:String):void
 			{
 				_text = value;
 			}
+			
+			public function get type():String
+			{
+				return _type;
+			}
+			
+			public function set type(value:String):void
+			{
+				_type = value;
+			}
+			
+			[Bindable]
+			public function get selected():Boolean
+			{
+				return _selected;
+			}
+			
+			public function set selected(value:Boolean):void
+			{
+				_selected = value;
+			}
 		]]>
 	</fx:Script>
 	
-	<mx:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+	<mx:Label id="_l" horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+	<s:CheckBox id="_c" horizontalCenter="2" verticalCenter="0" selected="{selected}" click="checkBoxclickHandler(event)"/>
 	
 </components:Container>

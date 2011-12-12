@@ -17,10 +17,17 @@
 			import mx.events.FlexEvent;
 			
 			private var _customComponents:Object;
+			private var _text:String = "标题标签";
 			
 			public function set text(text:String):void
 			{
-				titleLabel.text=text;
+				_text=text;
+			}
+			
+			[Bindable]
+			public function get text():String
+			{
+				return this._text;
 			}
 						
 			override protected function createChildren():void
@@ -101,5 +108,5 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	<s:Label id="titleLabel" text="标题标签" fontFamily="宋体" fontSize="12"  fontWeight="bold" verticalCenter="0" left="5" color="#0C387F"/>
+	<s:Label id="titleLabel" text="{text}" fontFamily="宋体" fontSize="12"  fontWeight="bold" verticalCenter="0" left="5" color="#0C387F"/>
 </s:BorderContainer>
