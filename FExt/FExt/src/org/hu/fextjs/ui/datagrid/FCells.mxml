@@ -21,7 +21,7 @@
 			private var _text:String;			
 			public var selectionColorMark:Boolean = false;
 			
-			private var _selected:Boolean = false;
+			[Bindable]private var _selected:Boolean = false;
 			
 			override protected function createChildren():void
 			{
@@ -66,10 +66,9 @@
 				_type = value;
 			}
 			
-			[Bindable]
 			public function get selected():Boolean
 			{
-				return _selected;
+				return _c.selected;
 			}
 			
 			public function set selected(value:Boolean):void
@@ -80,6 +79,6 @@
 	</fx:Script>
 	
 	<mx:Label id="_l" horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
-	<s:CheckBox id="_c" horizontalCenter="2" verticalCenter="0" selected="{selected}" click="checkBoxclickHandler(event)"/>
+	<s:CheckBox id="_c" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
 	
 </components:Container>

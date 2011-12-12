@@ -29,6 +29,8 @@
 			import mx.core.IVisualElement;
 			
 			import org.hu.fextjs.event.GridEvent;
+			
+			import spark.components.CheckBox;
 
 			private var _columns:Array;
 			private var _mergeCells:Array;
@@ -206,9 +208,18 @@
 			}
 			
 			protected function boxColumnChangeHandler(event:GridEvent):void
-			{
-				
-				//this.changeRowsColor();
+			{				
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var boxColumn:FBoxColumn = this.columns[i] as FBoxColumn;
+					if(boxColumn)
+					{
+						var cells:FCells = boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;
+						this.changeRowsColor(cells,MouseEvent.CLICK);	
+						break;
+					}					
+				}				
 			}
 			
 			public function initContentRowEventListener(cells:FCells):void				
@@ -296,7 +307,7 @@
 						if (boxColumn)
 						{
 							var cells:FCells = boxColumn.getElementAt(historyselectRowsIndex[j]) as FCells;
-							cells.selected = selected;		
+							(cells.getElementAt(0) as CheckBox).selected = selected;
 						}
 					}
 				}
