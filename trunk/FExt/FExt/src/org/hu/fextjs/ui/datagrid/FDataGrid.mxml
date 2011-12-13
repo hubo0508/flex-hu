@@ -36,7 +36,7 @@
 			private var _mergeCells:Array;
 			private var _dataProvider:Object;
 			public var eventMark:String;//click mark
-			public var historyselectRowsIndex:Array=[];
+			public var historySelectRowsIndex:Array=[];
 			public var selectItems:Array;
 			private var _titleRowHeight:int = 0;
 			private var _associationsChoose:Boolean = true;
@@ -222,8 +222,14 @@
 						}
 						else
 						{
-							historyselectRowsIndex.push(event.selectRowsIndex[0]);
-							this.clearOtherselectRowsIndex();
+							//单选
+							if(boxColumn.radio){
+								this.clearOtherOptionsBoxState(boxColumn,false);
+								historySelectRowsIndex.push(event.selectRowsIndex[0]);
+								this.clearOtherOptionsRowColors();
+							}else{
+								
+							}							
 						}
 						
 						break;
@@ -296,7 +302,7 @@
 			{
 				var e:GridEvent = new GridEvent(GridEvent.ITEM_CLICK);
 				e.selectItems = this.selectItems;
-				e.selectRowsIndex = historyselectRowsIndex;
+				e.selectRowsIndex = historySelectRowsIndex;
 				
 				this.dispatchEvent(e);
 			}
@@ -306,7 +312,7 @@
 			 */
 			protected function setCascadeState(selected:Boolean,rowsIndex:String = null):void
 			{
-				var len:int = historyselectRowsIndex.length;
+				var len:int = historySelectRowsIndex.length;
 				var lenColumns:int=columns.length;
 				for (var j:int=0; j < len; j++)
 				{
@@ -315,7 +321,7 @@
 						var boxColumn:FBoxColumn=columns[i] as FBoxColumn;
 						if (boxColumn)
 						{
-							var cells:FCells = boxColumn.getElementAt(historyselectRowsIndex[j]) as FCells;
+							var cells:FCells = boxColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
 							if(cells.id != rowsIndex)
 							{
 								(cells.getElementAt(0) as CheckBox).selected = selected;
@@ -390,7 +396,7 @@
 			public function getSelectRowValue():Array
 			{
 				var array:Array = [];
-				var len:int = historyselectRowsIndex.length;
+				var len:int = historySelectRowsIndex.length;
 				var lenColumns:int=columns.length;
 				for (var j:int=0; j < len; j++)
 				{
@@ -400,7 +406,7 @@
 						var column:FColumn=columns[i] as FColumn;
 						if (column)
 						{
-							var cells:FCells = column.getElementAt(historyselectRowsIndex[j]) as FCells;
+							var cells:FCells = column.getElementAt(historySelectRowsIndex[j]) as FCells;
 							obj[column.dataField] = cells.text;							
 						}
 					}
@@ -442,7 +448,7 @@
 				if (MouseEvent.CLICK == eventtype)
 				{					
 					this.setCascadeState(false,cells.id);
-					this.clearOtherselectRowsIndex();					
+					this.clearOtherOptionsRowColors();					
 				}
 
 				var _selectionColor:uint=getStyle("selectionColor");
@@ -481,7 +487,7 @@
 						{
 							siblingCell.backgroupColor=_selectionColor;
 							siblingCell.selectionColorMark=true;
-							historyselectRowsIndex=[rowIndex];
+							historySelectRowsIndex=[rowIndex];
 							siblingCell.invalidateDisplayList();
 						}
 					}
@@ -491,9 +497,9 @@
 			/**
 			 * 清除其它选择行的颜色
 			 */
-			public function clearOtherselectRowsIndex():void
+			private function clearOtherOptionsRowColors():void
 			{
-				for (var j:int=0; j < historyselectRowsIndex.length; j++)
+				for (var j:int=0; j < historySelectRowsIndex.length; j++)
 				{
 					var len:int=columns.length;
 					for (var i:int=0; i < len; i++)
@@ -502,14 +508,28 @@
 						var objColumn:Object=columns[i];
 						if (objColumn is FColumn || objColumn is FBoxColumn )
 						{
-							var rowIndex:int=historyselectRowsIndex[j];
-							var designateCell:FCells=objColumn.getElementAt(historyselectRowsIndex[j]) as FCells;
+							var rowIndex:int=historySelectRowsIndex[j];
+							var designateCell:FCells=objColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
 							designateCell.backgroupColor=getRowColors(rowIndex+1);
 							designateCell.selectionColorMark=false;
 							designateCell.invalidateDisplayList();
 						}
 					}
 				}
+			}
+			
+			private function clearOtherOptionsBoxState(boxColumn:FBoxColumn,state:Boolean):void
+			{
+				var lenRec:int = this.historySelectRowsIndex.length;
+				var len:int = boxColumn.numElements;
+				for(var j:int = 0; j<lenRec; j++)
+				{
+					for(var i:int = 0; i<len; i++)
+					{
+						var designateCell:FCells = boxColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
+						designateCell.selected = state;
+					}
+				}				
 			}
 			
 			/**
