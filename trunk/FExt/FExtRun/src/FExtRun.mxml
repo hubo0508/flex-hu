@@ -41,9 +41,6 @@
 				}
 			}
 
-
-
-
 			protected function fdg_itemClickHandler(event:GridEvent):void
 			{
 				var lenValue:int = event.selectItems.length;
