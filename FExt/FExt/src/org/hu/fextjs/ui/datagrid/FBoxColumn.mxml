@@ -15,8 +15,9 @@
 			public static const RADIO_BUTTON:String = "radioButton";
 			public static const CHECK_BOX:String = "checkBox";
 			
-			private var _headerText:String;
+			private var _radio:Boolean = true;
 			
+			private var _headerText:String;			
 			private var _boxType:String = CHECK_BOX;
 
 			public function get headerText():String
@@ -37,6 +38,16 @@
 			public function set boxType(value:String):void
 			{
 				_boxType = value;
+			}
+
+			public function get radio():Boolean
+			{
+				return _radio;
+			}
+
+			public function set radio(value:Boolean):void
+			{
+				_radio = value;
 			}
 
 		]]>
