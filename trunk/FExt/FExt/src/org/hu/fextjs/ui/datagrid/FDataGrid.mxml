@@ -234,7 +234,10 @@
 						
 						break;
 					}					
-				}				
+				}		
+				
+				this.selectItems = this.getSelectRowValue();
+				this.dispatchItemClick();
 			}
 			
 			public function initContentRowEventListener(cells:FCells):void				
