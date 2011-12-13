@@ -215,8 +215,17 @@
 					var boxColumn:FBoxColumn = this.columns[i] as FBoxColumn;
 					if(boxColumn)
 					{
-						var cells:FCells = boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;
-						this.changeRowsColor(cells,MouseEvent.CLICK);	
+						var cells:FCells = boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;						
+						if(cells.selected)
+						{						
+							this.changeRowsColor(cells,MouseEvent.CLICK);						
+						}
+						else
+						{
+							historyselectRowsIndex.push(event.selectRowsIndex[0]);
+							this.clearOtherselectRowsIndex();
+						}
+						
 						break;
 					}					
 				}				
@@ -279,7 +288,7 @@
 				this.eventMark=event.type;
 				this.changeRowsColor(event.currentTarget as FCells, event.type);
 				this.selectItems = this.getSelectRowValue();
-				this.setAssociationsChoose(true);
+				this.setCascadeState(true);
 				this.dispatchItemClick();
 			}
 
@@ -295,7 +304,7 @@
 			/**
 			 * 设置级联选择
 			 */
-			protected function setAssociationsChoose(selected:Boolean):void
+			protected function setCascadeState(selected:Boolean,rowsIndex:String = null):void
 			{
 				var len:int = historyselectRowsIndex.length;
 				var lenColumns:int=columns.length;
@@ -307,7 +316,10 @@
 						if (boxColumn)
 						{
 							var cells:FCells = boxColumn.getElementAt(historyselectRowsIndex[j]) as FCells;
-							(cells.getElementAt(0) as CheckBox).selected = selected;
+							if(cells.id != rowsIndex)
+							{
+								(cells.getElementAt(0) as CheckBox).selected = selected;
+							}							
 						}
 					}
 				}
@@ -428,9 +440,9 @@
 			public function changeRowsColor(cells:FCells, eventtype:String):void
 			{
 				if (MouseEvent.CLICK == eventtype)
-				{
-					this.clearOtherselectRowsIndex();
-					this.setAssociationsChoose(false);
+				{					
+					this.setCascadeState(false,cells.id);
+					this.clearOtherselectRowsIndex();					
 				}
 
 				var _selectionColor:uint=getStyle("selectionColor");
