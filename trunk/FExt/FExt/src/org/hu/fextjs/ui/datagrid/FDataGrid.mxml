@@ -559,10 +559,12 @@
 							break;
 						}
 					}
+					return;
 				}
 				if(type == "push")
 				{
 					this.historySelectRowsIndex.push(rowIndex);
+					return;
 				}
 				if(type == "newvalue")
 				{
@@ -570,8 +572,8 @@
 						this.historySelectRowsIndex = rowIndexArr;
 					}else{
 						this.historySelectRowsIndex = [rowIndex];
-					}
-					
+					}				
+					return;
 				}
 			}
 			
