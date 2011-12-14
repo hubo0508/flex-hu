@@ -299,11 +299,13 @@
 			protected function cellsClickHandler(event:MouseEvent):void
 			{
 				this.eventMark=event.type;
-				this.setCascadeState(false,event.currentTarget.id);
-				this.restoreLineColor();		
-				this.changeRowsColor(event.currentTarget as FCells, event.type);
+				this.chageBoxSelected(false);
+				this.restoreLineColor();					
+				var cells:FCells = event.currentTarget as FCells;
+				this.chageRecoredRows(int(cells.id)+1,"newvalue");
+				this.chageBoxSelected(true);
+				this.changeRowsColor(cells, event.type);
 				this.selectItems = this.getSelectRowValue();
-				this.setCascadeState(true);
 				this.dispatchItemClick();
 			}
 
