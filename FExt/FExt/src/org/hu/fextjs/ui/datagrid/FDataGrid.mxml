@@ -218,18 +218,22 @@
 						var cells:FCells = boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;						
 						if(cells.selected)
 						{						
-							this.changeRowsColor(cells,MouseEvent.CLICK);						
+							if(boxColumn.radio){							
+								this.chageBoxSelected(false,boxColumn);
+								this.restoreLineColor();
+								this.chageRecoredRows(event.selectRowsIndex[0],"newvalue");
+								this.chageBoxSelected(true,boxColumn);																
+								this.changeRowsColor(cells,MouseEvent.CLICK);		
+							}else{
+								this.chageRecoredRows(event.selectRowsIndex[0],"push");
+								this.eventMark=event.type;
+								this.changeRowsColor(cells, MouseEvent.CLICK);
+							}
 						}
 						else
-						{
-							//单选
-							if(boxColumn.radio){
-								this.clearOtherOptionsBoxState(boxColumn,false);
-								historySelectRowsIndex.push(event.selectRowsIndex[0]);
-								this.clearOtherOptionsRowColors();
-							}else{
-								
-							}							
+						{							
+							this.chageRecoredRows(event.selectRowsIndex[0],"remove");
+							this.restoreLineColorByRowIndex(event.selectRowsIndex[0]);
 						}
 						
 						break;
@@ -295,6 +299,8 @@
 			protected function cellsClickHandler(event:MouseEvent):void
 			{
 				this.eventMark=event.type;
+				this.setCascadeState(false,event.currentTarget.id);
+				this.restoreLineColor();		
 				this.changeRowsColor(event.currentTarget as FCells, event.type);
 				this.selectItems = this.getSelectRowValue();
 				this.setCascadeState(true);
@@ -327,7 +333,8 @@
 							var cells:FCells = boxColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
 							if(cells.id != rowsIndex)
 							{
-								(cells.getElementAt(0) as CheckBox).selected = selected;
+								cells.selected = selected;
+								//(cells.getElementAt(0) as CheckBox).selected = selected;
 							}							
 						}
 					}
@@ -448,12 +455,6 @@
 			 */
 			public function changeRowsColor(cells:FCells, eventtype:String):void
 			{
-				if (MouseEvent.CLICK == eventtype)
-				{					
-					this.setCascadeState(false,cells.id);
-					this.clearOtherOptionsRowColors();					
-				}
-
 				var _selectionColor:uint=getStyle("selectionColor");
 				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
 
@@ -463,7 +464,6 @@
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
-					//var sibingColumn:FColumn=columns[i] as FColumn;
 					var sibingColumn:Object=columns[i];
 					if (sibingColumn is FColumn || sibingColumn is FBoxColumn)
 					{
@@ -500,39 +500,94 @@
 			/**
 			 * 清除其它选择行的颜色
 			 */
-			private function clearOtherOptionsRowColors():void
+			private function restoreLineColor():void
 			{
 				for (var j:int=0; j < historySelectRowsIndex.length; j++)
 				{
-					var len:int=columns.length;
-					for (var i:int=0; i < len; i++)
+					var rowIndex:int=historySelectRowsIndex[j];
+					this.restoreLineColorByRowIndex(rowIndex);
+				}
+			}
+			
+			private function restoreLineColorByRowIndex(rowIndex:int):void
+			{
+				var len:int=columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var objColumn:Object=columns[i];
+					if (objColumn is FColumn || objColumn is FBoxColumn )
 					{
-						//var column:FColumn=columns[i] as FColumn;
-						var objColumn:Object=columns[i];
-						if (objColumn is FColumn || objColumn is FBoxColumn )
-						{
-							var rowIndex:int=historySelectRowsIndex[j];
-							var designateCell:FCells=objColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
-							designateCell.backgroupColor=getRowColors(rowIndex+1);
-							designateCell.selectionColorMark=false;
-							designateCell.invalidateDisplayList();
-						}
+						var designateCell:FCells=objColumn.getElementAt(rowIndex) as FCells;
+						designateCell.backgroupColor=getRowColors(rowIndex+1);
+						designateCell.selectionColorMark=false;
+						designateCell.invalidateDisplayList();
 					}
 				}
 			}
 			
-			private function clearOtherOptionsBoxState(boxColumn:FBoxColumn,state:Boolean):void
-			{
-				var lenRec:int = this.historySelectRowsIndex.length;
-				var len:int = boxColumn.numElements;
-				for(var j:int = 0; j<lenRec; j++)
+			private function chageBoxSelected(state:Boolean,boxColumn:FBoxColumn = null):void
+			{				
+				boxColumn = boxColumn || this.getBoxColumn();
+				var len:int = historySelectRowsIndex.length;
+				for (var j:int=0; j < len; j++)
 				{
-					for(var i:int = 0; i<len; i++)
+					var rowIndex:int = historySelectRowsIndex[j];
+					this.chageBoxSelectedByRowIndex(state,rowIndex,boxColumn);
+				}
+			}
+			
+			private function chageBoxSelectedByRowIndex(state:Boolean,rowIndex:int,boxColumn:FBoxColumn = null):void
+			{
+				boxColumn = boxColumn || this.getBoxColumn();			
+				var cells:FCells = boxColumn.getElementAt(rowIndex) as FCells;
+				if(cells.selected != state)
+				{
+					cells.selected = state;
+				}
+			}
+			
+			private function chageRecoredRows(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
+			{
+				if(type == "remove")
+				{
+					var len:int = this.historySelectRowsIndex.length;
+					for(var i:int=0; i<len; i++)
 					{
-						var designateCell:FCells = boxColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
-						designateCell.selected = state;
+						var oldRowIndex:int = int(this.historySelectRowsIndex[i]);
+						if(oldRowIndex == rowIndex){
+							this.historySelectRowsIndex.slice(i,1);
+							break;
+						}
 					}
-				}				
+				}
+				if(type == "push")
+				{
+					this.historySelectRowsIndex.push(rowIndex);
+				}
+				if(type == "newvalue")
+				{
+					if(rowIndexArr){
+						this.historySelectRowsIndex = rowIndexArr;
+					}else{
+						this.historySelectRowsIndex = [rowIndex];
+					}
+					
+				}
+			}
+			
+			private function getBoxColumn():FBoxColumn
+			{
+				var boxColumn:FBoxColumn;
+				var lenColumns:int=columns.length;
+				for (var i:int=0; i < lenColumns; i++)
+				{
+					boxColumn=columns[i] as FBoxColumn;
+					if (boxColumn)
+					{
+						break;
+					}
+				}
+				return boxColumn;
 			}
 			
 			/**
