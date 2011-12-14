@@ -544,7 +544,8 @@
 				var cells:FCells = boxColumn.getElementAt(rowIndex) as FCells;
 				if(cells.selected != state)
 				{
-					cells.selected = state;
+					(cells.getElementAt(0) as CheckBox).selected = state;
+					//cells.selected = state;
 				}
 			}
 			
