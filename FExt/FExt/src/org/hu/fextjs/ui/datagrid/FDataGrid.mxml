@@ -219,20 +219,20 @@
 						if(cells.selected)
 						{						
 							if(boxColumn.radio){							
-								this.chageBoxSelected(false,boxColumn);
+								this.changeBoxSelected(false,boxColumn);
 								this.restoreLineColor();
-								this.chageRecoredRows(event.selectRowsIndex[0],"newvalue");
-								this.chageBoxSelected(true,boxColumn);																
+								this.changeRecoredIndex(event.selectRowsIndex[0],"newvalue");
+								this.changeBoxSelected(true,boxColumn);																
 								this.changeRowsColor(cells,MouseEvent.CLICK);		
 							}else{
-								this.chageRecoredRows(event.selectRowsIndex[0],"push");
+								this.changeRecoredIndex(event.selectRowsIndex[0],"push");
 								this.eventMark=event.type;
 								this.changeRowsColor(cells, MouseEvent.CLICK);
 							}
 						}
 						else
 						{							
-							this.chageRecoredRows(event.selectRowsIndex[0],"remove");
+							this.changeRecoredIndex(event.selectRowsIndex[0],"remove");
 							this.restoreLineColorByRowIndex(event.selectRowsIndex[0]);
 						}
 						
@@ -298,15 +298,25 @@
 			 */
 			protected function cellsClickHandler(event:MouseEvent):void
 			{
-				this.eventMark=event.type;
-				this.chageBoxSelected(false);
-				this.restoreLineColor();					
 				var cells:FCells = event.currentTarget as FCells;
-				this.chageRecoredRows(int(cells.id)+1,"newvalue");
-				this.chageBoxSelected(true);
-				this.changeRowsColor(cells, event.type);
-				this.selectItems = this.getSelectRowValue();
-				this.dispatchItemClick();
+				var rowIndex:int = int(cells.id)+1;
+				if(cells.selectionColorMark)
+				{
+					this.restoreLineColorByRowIndex(rowIndex);
+					this.changeBoxSelectedByRowIndex(false,rowIndex);
+					this.changeRecoredIndex(rowIndex,"remove");
+				}
+				else
+				{
+					this.eventMark=event.type;
+					this.changeBoxSelected(false);
+					this.restoreLineColor();	
+					this.changeRecoredIndex(rowIndex,"newvalue");
+					this.changeBoxSelected(true);
+					this.changeRowsColor(cells, event.type);
+					this.selectItems = this.getSelectRowValue();
+					this.dispatchItemClick();
+				}				
 			}
 
 			public function dispatchItemClick():void
@@ -432,13 +442,9 @@
 			 * 改变标题呢行背景颜色
 			 */
 			public function changeTitleCellsColor(cells:FCells, eventtype:String):void
-			{				
-				
-				var _rollOverColor:uint=getStyle("rollOverColor");
-				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
-				
-				var _titleBackgroupColor:uint = getStyle("titleBackgroupColor");
-				_titleBackgroupColor=_titleBackgroupColor == 0 ? titleBackgroupColor : _titleBackgroupColor;
+			{								
+				var _rollOverColor:uint=this.getRollOverColor();				
+				var _titleBackgroupColor:uint = this.getTitleBackgroupColor();
 				
 				if (MouseEvent.ROLL_OVER == eventtype)
 				{
@@ -457,11 +463,8 @@
 			 */
 			public function changeRowsColor(cells:FCells, eventtype:String):void
 			{
-				var _selectionColor:uint=getStyle("selectionColor");
-				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
-
-				var _rollOverColor:uint=getStyle("rollOverColor");
-				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
+				var _selectionColor:uint=this.getSelectionColor();
+				var _rollOverColor:uint=this.getRollOverColor();
 	
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
@@ -492,7 +495,6 @@
 						{
 							siblingCell.backgroupColor=_selectionColor;
 							siblingCell.selectionColorMark=true;
-							historySelectRowsIndex=[rowIndex];
 							siblingCell.invalidateDisplayList();
 						}
 					}
@@ -500,7 +502,7 @@
 			}
 
 			/**
-			 * 清除其它选择行的颜色
+			 * 还原选择中行颜色
 			 */
 			private function restoreLineColor():void
 			{
@@ -527,18 +529,18 @@
 				}
 			}
 			
-			private function chageBoxSelected(state:Boolean,boxColumn:FBoxColumn = null):void
+			private function changeBoxSelected(state:Boolean,boxColumn:FBoxColumn = null):void
 			{				
 				boxColumn = boxColumn || this.getBoxColumn();
 				var len:int = historySelectRowsIndex.length;
 				for (var j:int=0; j < len; j++)
 				{
 					var rowIndex:int = historySelectRowsIndex[j];
-					this.chageBoxSelectedByRowIndex(state,rowIndex,boxColumn);
+					this.changeBoxSelectedByRowIndex(state,rowIndex,boxColumn);
 				}
 			}
 			
-			private function chageBoxSelectedByRowIndex(state:Boolean,rowIndex:int,boxColumn:FBoxColumn = null):void
+			private function changeBoxSelectedByRowIndex(state:Boolean,rowIndex:int,boxColumn:FBoxColumn = null):void
 			{
 				boxColumn = boxColumn || this.getBoxColumn();			
 				var cells:FCells = boxColumn.getElementAt(rowIndex) as FCells;
@@ -549,7 +551,7 @@
 				}
 			}
 			
-			private function chageRecoredRows(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
+			private function changeRecoredIndex(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
 			{
 				if(type == "remove")
 				{
@@ -593,6 +595,27 @@
 					}
 				}
 				return boxColumn;
+			}
+			
+			private function getSelectionColor():uint
+			{
+				var _selectionColor:uint=getStyle("selectionColor");
+				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
+				return _selectionColor;
+			}
+			
+			private function getRollOverColor():uint
+			{
+				var _rollOverColor:uint=getStyle("rollOverColor");
+				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
+				return _rollOverColor;
+			}
+			
+			private function getTitleBackgroupColor():uint
+			{
+				var _titleBackgroupColor:uint = getStyle("titleBackgroupColor");
+				_titleBackgroupColor=_titleBackgroupColor == 0 ? titleBackgroupColor : _titleBackgroupColor;
+				return _titleBackgroupColor;
 			}
 			
 			/**
