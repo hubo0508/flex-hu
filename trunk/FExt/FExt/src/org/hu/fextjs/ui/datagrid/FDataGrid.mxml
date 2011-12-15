@@ -330,32 +330,7 @@
 				e.selectRowsIndex = historySelectRowsIndex;
 				
 				this.dispatchEvent(e);
-			}
-			
-			/**
-			 * 设置级联选择
-			 */
-			protected function setCascadeState(selected:Boolean,rowsIndex:String = null):void
-			{
-				var len:int = historySelectRowsIndex.length;
-				var lenColumns:int=columns.length;
-				for (var j:int=0; j < len; j++)
-				{
-					for (var i:int=0; i < lenColumns; i++)
-					{
-						var boxColumn:FBoxColumn=columns[i] as FBoxColumn;
-						if (boxColumn)
-						{
-							var cells:FCells = boxColumn.getElementAt(historySelectRowsIndex[j]) as FCells;
-							if(cells.id != rowsIndex)
-							{
-								cells.selected = selected;
-								//(cells.getElementAt(0) as CheckBox).selected = selected;
-							}							
-						}
-					}
-				}
-			}
+			}			
 			
 			/**
 			 * 1、鼠标移入，移出单元格时，更新背景颜色
