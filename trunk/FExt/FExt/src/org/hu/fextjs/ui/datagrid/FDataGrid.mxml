@@ -129,8 +129,7 @@
 			 */
 			private function settingTitleCellsStyle(cells:FCells):void
 			{
-				var _borderColor:uint=this.getStyle("borderColor");
-				cells.borderColor=_borderColor == 0 ? borderColor : _borderColor;
+				cells.borderColor=getBorderColor();
 
 				var _titleBorderVisible:Boolean=this.getStyle("titleBorderVisible");
 				if (_titleBorderVisible)
@@ -142,8 +141,7 @@
 					cells.borderSides="";
 				}
 
-				var _titleBackgroupColor:uint=this.getStyle("titleBackgroupColor");
-				cells.backgroupColor=_titleBackgroupColor == 0 ? backgroupColor : _titleBackgroupColor;
+				cells.backgroupColor=this.getTitleBackgroupColor();
 			}
 
 			public function set dataProvider(value:Object):void
@@ -616,6 +614,13 @@
 				var _titleBackgroupColor:uint = getStyle("titleBackgroupColor");
 				_titleBackgroupColor=_titleBackgroupColor == 0 ? titleBackgroupColor : _titleBackgroupColor;
 				return _titleBackgroupColor;
+			}
+			
+			private function getBorderColor():uint
+			{
+				var _borderColor:uint=this.getStyle("borderColor");
+			 	_borderColor == 0 ? borderColor : _borderColor;
+				return _borderColor;
 			}
 			
 			/**

@@ -17,6 +17,7 @@
 			public static const CHECK_BOX:String = "checkBox";
 			
 			private var _radio:Boolean = true;
+			private var _rowMultiSelection:Boolean = false;
 			
 			private var _headerText:String;			
 			private var _boxType:String = CHECK_BOX;
@@ -50,6 +51,17 @@
 			{
 				_radio = value;
 			}
+
+			public function get rowMultiSelection():Boolean
+			{
+				return _rowMultiSelection;
+			}
+
+			public function set rowMultiSelection(value:Boolean):void
+			{
+				_rowMultiSelection = value;
+			}
+
 
 		]]>
 	</fx:Script>
