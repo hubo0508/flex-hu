@@ -105,7 +105,7 @@
 							<FExt:FColumn id="fdgcolumn" width="180"/>
 						</s:HGroup>
 					</FExt:VContainer>
-					<FExt:FBoxColumn headerText="选择" width="40" radio="false"/>
+					<FExt:FBoxColumn headerText="选择" width="40" radio="false" rowMultiSelection="true"/>
 					<FExt:FColumn dataField="name" headerText="接收量(M)" itemRenderer="xx"/>
 					<FExt:FColumn dataField="name2" headerText="发送量(M)"/>
 					<FExt:FColumn dataField="name3" headerText="接收流量(Kbps) "/>
