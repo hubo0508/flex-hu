@@ -238,7 +238,7 @@
 					}					
 				}		
 				
-				this.selectItems = this.getSelectRowValue();
+				this.selectItems = this.getSelectionValue();
 				this.dispatchItemClick();
 			}
 			
@@ -307,13 +307,19 @@
 				else
 				{
 					this.eventMark=event.type;
-					this.changeBoxSelected(false);
-					this.restoreLineColor();	
-					this.changeRecoredIndex(rowIndex,"newvalue");
-					this.changeBoxSelected(true);
+					var boxColumn:FBoxColumn = this.getBoxColumn();
+					if(!boxColumn.radio && boxColumn.rowMultiSelection){						
+						this.changeRecoredIndex(rowIndex,"push");
+						this.changeBoxSelectedByRowIndex(true,rowIndex);
+					}else{
+						this.changeBoxSelected(false);
+						this.restoreLineColor();	
+						this.changeRecoredIndex(rowIndex,"newvalue");
+						this.changeBoxSelected(true);						
+					}						
 					this.changeRowsColor(cells, event.type);
-					this.selectItems = this.getSelectRowValue();
-					this.dispatchItemClick();
+					this.selectItems = this.getSelectionValue();
+					this.dispatchItemClick();	
 				}				
 			}
 
@@ -413,7 +419,7 @@
 			/**
 			 * 取得所有组件自定义值
 			 */
-			public function getSelectRowValue():Array
+			public function getSelectionValue():Array
 			{
 				var array:Array = [];
 				var len:int = historySelectRowsIndex.length;
