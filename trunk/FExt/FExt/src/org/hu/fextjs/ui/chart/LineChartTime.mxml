@@ -145,13 +145,18 @@
 				return arr;
 			}
 			
-			protected function chartChildHandler(event:MouseEvent):void
-			{
+			protected function chartColumnRollHandler(event:MouseEvent):void
+			{								
+				var targetId:String = Object(event.relatedObject).id;
+				trace(event.type+" | " + targetId);
+				if((targetId == "chartRound" || targetId == "chartLine") && event.type == MouseEvent.ROLL_OVER){
+					return;
+				}
 				var chartChild:Container = event.currentTarget as Container;
 				switch(event.type)
 				{
-					case MouseEvent.ROLL_OUT:
-						chartChild.backgroupColor = historyOfColor;								
+					case MouseEvent.ROLL_OUT:							
+						chartChild.backgroupColor = historyOfColor;				
 						break;
 					
 					case MouseEvent.ROLL_OVER:
@@ -162,9 +167,8 @@
 					default:
 						break;
 				}
-				chartChild.invalidateDisplayList();
-				
-				this.changeRoundStyle(int(chartChild.id),event.type);
+				chartChild.invalidateDisplayList();					
+				this.changeRoundStyle(int(chartChild.id),event.type);			
 			}	
 			
 			protected function changeRoundStyle(index:int, type:String):void
@@ -193,8 +197,9 @@
 			private function createChildContainer(index:String,width:Number,backgroupColor:uint = 0xFFFFFF):Container
 			{				
 				var container:Container = new Container();
-				container.addEventListener(MouseEvent.ROLL_OVER,chartChildHandler);
-				container.addEventListener(MouseEvent.ROLL_OUT,chartChildHandler);
+				container.addEventListener(MouseEvent.ROLL_OVER,chartColumnRollHandler,false,0,true);
+				container.addEventListener(MouseEvent.ROLL_OUT,chartColumnRollHandler,false,0,true);
+				container.addEventListener(flash.events.FocusEvent.FOCUS_OUT,chartColumnFocusHandler,false,0,true);
 				container.borderSides = "left right";
 				container.percentHeight=100;
 				container.width = width;				
@@ -202,6 +207,11 @@
 				container.id = index;
 				
 				return container;
+			}
+			
+			protected function chartColumnFocusHandler(event:FocusEvent):void
+			{
+
 			}
 
 			public function get field():String
