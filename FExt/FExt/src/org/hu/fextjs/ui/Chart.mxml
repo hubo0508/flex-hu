@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955"
+			   creationComplete="creationCompleteHandler(event)"
+			   minHeight="600"
+			   xmlns:ns="library://FExt.HU">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.IVisualElement;
+			import mx.events.FlexEvent;
+			
+			import org.hu.fextjs.components.Container;
+			
+			private var historyOfColor:uint;
+			
+			private var basePoint:Point=new Point();
+			
+			private var field:String = "price";
+			
+			private var childWidth:int = 17;
+			
+			private var numericalIdentification:Array;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initChart();
+				this.drawLine(getData());
+			}
+			
+			private function getData():ArrayCollection
+			{
+				var ac:ArrayCollection = new ArrayCollection();
+				ac.addItem({price:576});
+				ac.addItem({price:656});
+				ac.addItem({price:656});
+				ac.addItem({price:656});
+				ac.addItem({price:551});
+				ac.addItem({price:556});
+				ac.addItem({price:651});
+				ac.addItem({price:456});
+				ac.addItem({price:471});
+				ac.addItem({price:656});
+				ac.addItem({price:626});
+				ac.addItem({price:456});
+				ac.addItem({price:521});
+				ac.addItem({price:576});
+				ac.addItem({price:391});
+				ac.addItem({price:496});
+				ac.addItem({price:451});
+				
+				return ac;
+			}
+			
+			protected function drawLine(data:ArrayCollection):void
+			{
+				if(data == null || data.length == 0) return;
+				
+				this.numericalIdentification  = this.getMaximumAndMinimumValues(data);
+				
+				chartLine.graphics.lineStyle(1, 0x0066DD, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
+				basePoint.x = childWidth*0.5;
+				
+				var len:int=data.length;
+				for(var i:int=0; i<len; i++)
+				{					
+					var item:Object = data.getItemAt(i);
+					basePoint.y = this.getYAxisShowsValue(int(item[field]));				
+					
+					var node:RoundNode = new RoundNode();
+					node.x = basePoint.x-node.width*0.5;
+					node.y = basePoint.y-node.width*0.5;
+					node.id = i+"";
+					
+					this.chartRound.addElement(node);
+					
+					if(i==0){
+						chartLine.graphics.moveTo(basePoint.x ,basePoint.y);
+					}
+					
+					chartLine.graphics.lineTo(basePoint.x ,basePoint.y);
+					
+					basePoint.x  = basePoint.x+childWidth;
+				}				
+			}
+			
+			private function getYAxisShowsValue(value:int):Number
+			{
+				var maximum:int = int(numericalIdentification["maximum"]);
+				var chartContainerH:Number = chartContainer.height;
+				if(maximum < chartContainerH || maximum > chartContainerH)
+				{					
+					return chartContainerH-((chartContainerH/maximum)*value)+30;
+				}	
+				
+				if(maximum == chartContainerH)
+				{
+					return value;
+				}	
+				
+				return 0;
+			}
+			
+			private function getMaximumAndMinimumValues(data:ArrayCollection):Array
+			{
+				var maximum:int = 0;
+				var minimum:int  = 0;
+				var len:int = data.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var item:Object = data.getItemAt(i);
+					var num:int = int(item[field]);
+					
+					maximum = maximum < num ? num : maximum;
+					minimum = minimum < num ? minimum : num;
+				}
+				
+				var arr:Array = [];
+				arr["maximum"] = maximum;
+				arr["minimum"] = minimum;
+				
+				return arr;
+			}
+		
+			protected function chartChildHandler(event:MouseEvent):void
+			{
+				var chartChild:Container = event.currentTarget as Container;
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_OUT:
+						chartChild.backgroupColor = historyOfColor;								
+						break;
+					
+					case MouseEvent.MOUSE_OVER:
+						historyOfColor = chartChild.backgroupColor;
+						chartChild.backgroupColor = 0xF9DFE0;						
+						break;
+					
+					default:
+						break;
+				}
+				chartChild.invalidateDisplayList();
+				
+				this.changeRoundStyle(int(chartChild.id),event.type);
+			}	
+			
+			protected function changeRoundStyle(index:int, type:String):void
+			{
+				var roundNode:RoundNode = this.chartRound.getElementAt(index) as RoundNode;
+				var upColor:uint = 0;
+				switch(type)
+				{
+					case MouseEvent.MOUSE_OUT:
+						upColor = roundNode.solidColor;
+						roundNode.solidColor = roundNode.contentColor;
+						roundNode.contentColor = upColor;
+						break;
+					
+					case MouseEvent.MOUSE_OVER:					
+						upColor = roundNode.solidColor;
+						roundNode.solidColor = roundNode.contentColor;
+						roundNode.contentColor = upColor;
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function createChildContainer(index:String,backgroupColor:uint = 0xFFFFFF,width:int = 17):Container
+			{				
+				var container:Container = new Container();
+				container.addEventListener(MouseEvent.MOUSE_OVER,chartChildHandler);
+				container.addEventListener(MouseEvent.MOUSE_OUT,chartChildHandler);
+				container.borderSides = "left right";
+				container.percentHeight=100;
+				container.width = width;				
+				container.backgroupColor = backgroupColor;
+				container.id = index;
+				
+				return container;
+			}
+			
+			private function initChart():void
+			{
+				var len:int = 30;
+				for(var i:int=0; i<len; i++)
+				{
+					var contaier:Container = this.createChildContainer(i+"");
+					this.chartContainer.addElement(contaier);
+				}				
+				
+			}
+
+			
+		]]>
+	</fx:Script>
+	
+	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="300" top="100" left="100" gap="0" />
+	
+	<s:Group id="chartLine" height="300" width="{chartContainer.width}" top="100" left="100"/>	
+	<s:Group id="chartRound" height="300" width="{chartContainer.width}" top="100" left="100"/>
+	
+</s:Application>
