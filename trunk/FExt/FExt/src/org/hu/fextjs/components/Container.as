@@ -50,7 +50,7 @@ package org.hu.fextjs.components
 			if(backgroupColor != 0)
 			{
 				g.beginFill(backgroupColor, 1);
-				g.drawRect(0, 0, w, h);
+				g.drawRect(0, 1, w, h-1);
 				g.endFill();
 			}
 			

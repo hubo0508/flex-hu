@@ -29,6 +29,7 @@
 			import mx.core.IVisualElement;
 			
 			import org.hu.fextjs.event.GridEvent;
+			import org.hu.fextjs.ui.Renderer;
 			
 			import spark.components.CheckBox;
 
@@ -184,8 +185,17 @@
 						var column:FColumn=this.columns[i] as FColumn;
 						if (column)
 						{
-							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
-							this.initContentRowEventListener(cells);
+							var cells:FCells;
+//							if(column.customComponents){
+//								cells =new FCells();
+//								cells.id = rowIndex+"";
+//								cells.addElement(column.customComponents);
+//							}else{
+								cells=getFCells(column, item, rowIndex, column.dataField);								
+//							}		
+							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+							cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
 							column.addElement(cells);
 						}
 					}
@@ -204,6 +214,16 @@
 					}
 				}
 			}
+			
+			
+			
+			public function initContentRowEventListener(cells:FCells):void				
+			{
+				cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+				cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+				cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
+			}
+
 			
 			protected function boxColumnChangeHandler(event:GridEvent):void
 			{				
@@ -241,14 +261,7 @@
 				this.selectItems = this.getSelectionValue();
 				this.dispatchItemClick();
 			}
-			
-			public function initContentRowEventListener(cells:FCells):void				
-			{
-				cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
-				cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
-				cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
-			}
-
+	
 			/**
 			 * 创建统一样式单元格
 			 */

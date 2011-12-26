@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   minWidth="955"
-			   creationComplete="creationCompleteHandler(event)"
-			   minHeight="600"
-			   xmlns:ns="library://FExt.HU">
+<!--
+	 @作者：HUBO
+	 @创建时间：2011-12-26
+	 @邮件：hubo.0508@gmail.com
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ns="library://FExt.HU"
+		 height="200">
 	
 	<fx:Script>
 		<![CDATA[
@@ -14,72 +17,45 @@
 			import mx.events.FlexEvent;
 			
 			import org.hu.fextjs.components.Container;
+			import org.hu.fextjs.components.RoundNode;
 			
+			//历史颜色
 			private var historyOfColor:uint;
 			
+			//周末工作日背景
 			private var weekendColor:uint = 0xF1F8FE;
 			
+			//坐标
 			private var basePoint:Point=new Point();
 			
-			private var field:String = "price";
+			//取值key
+			private var _field:String = "price";
 			
-			private var childWidth:int = 17;
+			//列宽
+			private var columnWidth:int = 16;
 			
+			//存储最大值与最小值
 			private var numericalIdentification:Array;
 			
+			//是否周末
 			private var weekendCount:int = 0;
-			
-			protected function creationCompleteHandler(event:FlexEvent):void
+
+			public function dataProvider(data:ArrayCollection):void
 			{
-				var data:ArrayCollection = this.getData();
-				this.initChartContainer(data.length);
-				this.drawLine(getData());
+				this.initChartContainer(data.length+3);
+				this.draw(data);
 			}
-			
-			private function getData():ArrayCollection
-			{
-				var ac:ArrayCollection = new ArrayCollection();
-				ac.addItem({price:276});
-				ac.addItem({price:356});
-				ac.addItem({price:356});
-				ac.addItem({price:251});
-				ac.addItem({price:256});
-				ac.addItem({price:351});
-				ac.addItem({price:156});
-				ac.addItem({price:171});
-				ac.addItem({price:356});
-				ac.addItem({price:326});
-				ac.addItem({price:156});
-				ac.addItem({price:221});
-				ac.addItem({price:276});
-				ac.addItem({price:91});
-				ac.addItem({price:196});
-				ac.addItem({price:151});
-				ac.addItem({price:351});
-				ac.addItem({price:156});
-				ac.addItem({price:171});
-				ac.addItem({price:356});
-				ac.addItem({price:326});
-				ac.addItem({price:156});
-				ac.addItem({price:221});
-				ac.addItem({price:276});
-				ac.addItem({price:91});
-				ac.addItem({price:196});
-				ac.addItem({price:151});				
-				
-				return ac;
-			}
-			
 			
 			private function initChartContainer(num:int):void
 			{
+				weekendCount = 0;
 				for(var i:int=0; i<num; i++)
 				{
 					var contaier:Container;
 					if(isWeekend()){
-						contaier= this.createChildContainer(i+"",weekendColor);
+						contaier= this.createChildContainer(i+"",columnWidth,weekendColor);
 					}else{
-						contaier= this.createChildContainer(i+"");
+						contaier= this.createChildContainer(i+"",columnWidth);
 					}
 					
 					this.chartContainer.addElement(contaier);
@@ -99,14 +75,14 @@
 				return false;
 			}
 			
-			protected function drawLine(data:ArrayCollection):void
+			protected function draw(data:ArrayCollection):void
 			{
 				if(data == null || data.length == 0) return;
 				
 				this.numericalIdentification  = this.getMaximumAndMinimumValues(data);
 				
 				chartLine.graphics.lineStyle(1, 0x0066DD, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
-				basePoint.x = childWidth*0.5;
+				basePoint.x = columnWidth*0.5;
 				
 				var len:int=data.length;
 				for(var i:int=0; i<len; i++)
@@ -127,7 +103,7 @@
 					
 					chartLine.graphics.lineTo(basePoint.x ,basePoint.y);
 					
-					basePoint.x  = basePoint.x+childWidth;
+					basePoint.x  = basePoint.x+columnWidth;
 				}
 			}
 			
@@ -174,11 +150,11 @@
 				var chartChild:Container = event.currentTarget as Container;
 				switch(event.type)
 				{
-					case MouseEvent.MOUSE_OUT:
+					case MouseEvent.ROLL_OUT:
 						chartChild.backgroupColor = historyOfColor;								
 						break;
 					
-					case MouseEvent.MOUSE_OVER:
+					case MouseEvent.ROLL_OVER:
 						historyOfColor = chartChild.backgroupColor;
 						chartChild.backgroupColor = 0xF9DFE0;						
 						break;
@@ -197,13 +173,13 @@
 				var upColor:uint = 0;
 				switch(type)
 				{
-					case MouseEvent.MOUSE_OUT:
+					case MouseEvent.ROLL_OUT:
 						upColor = roundNode.solidColor;
 						roundNode.solidColor = roundNode.contentColor;
 						roundNode.contentColor = upColor;
 						break;
 					
-					case MouseEvent.MOUSE_OVER:					
+					case MouseEvent.ROLL_OVER:					
 						upColor = roundNode.solidColor;
 						roundNode.solidColor = roundNode.contentColor;
 						roundNode.contentColor = upColor;
@@ -214,11 +190,11 @@
 				}
 			}
 			
-			private function createChildContainer(index:String,backgroupColor:uint = 0xFFFFFF,width:int = 17):Container
+			private function createChildContainer(index:String,width:Number,backgroupColor:uint = 0xFFFFFF):Container
 			{				
 				var container:Container = new Container();
-				container.addEventListener(MouseEvent.MOUSE_OVER,chartChildHandler);
-				container.addEventListener(MouseEvent.MOUSE_OUT,chartChildHandler);
+				container.addEventListener(MouseEvent.ROLL_OVER,chartChildHandler);
+				container.addEventListener(MouseEvent.ROLL_OUT,chartChildHandler);
 				container.borderSides = "left right";
 				container.percentHeight=100;
 				container.width = width;				
@@ -227,13 +203,24 @@
 				
 				return container;
 			}
+
+			public function get field():String
+			{
+				return _field;
+			}
+
+			public function set field(value:String):void
+			{
+				_field = value;
+			}
+
 			
 		]]>
 	</fx:Script>
+
+	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="100%" gap="0" />
 	
-	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="300" top="100" left="100" gap="0" />
+	<s:Group id="chartLine" height="{chartContainer.height}" width="{chartContainer.width}" />	
+	<s:Group id="chartRound" height="{chartContainer.height}" width="{chartContainer.width}" />
 	
-	<s:Group id="chartLine" height="300" width="{chartContainer.width}" top="100" left="100"/>	
-	<s:Group id="chartRound" height="300" width="{chartContainer.width}" top="100" left="100"/>
-	
-</s:Application>
+</s:Group>
