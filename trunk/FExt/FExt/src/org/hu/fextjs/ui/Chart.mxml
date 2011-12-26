@@ -17,6 +17,8 @@
 			
 			private var historyOfColor:uint;
 			
+			private var weekendColor:uint = 0xF1F8FE;
+			
 			private var basePoint:Point=new Point();
 			
 			private var field:String = "price";
@@ -24,35 +26,77 @@
 			private var childWidth:int = 17;
 			
 			private var numericalIdentification:Array;
-
+			
+			private var weekendCount:int = 0;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				this.initChart();
+				var data:ArrayCollection = this.getData();
+				this.initChartContainer(data.length);
 				this.drawLine(getData());
 			}
 			
 			private function getData():ArrayCollection
 			{
 				var ac:ArrayCollection = new ArrayCollection();
-				ac.addItem({price:576});
-				ac.addItem({price:656});
-				ac.addItem({price:656});
-				ac.addItem({price:656});
-				ac.addItem({price:551});
-				ac.addItem({price:556});
-				ac.addItem({price:651});
-				ac.addItem({price:456});
-				ac.addItem({price:471});
-				ac.addItem({price:656});
-				ac.addItem({price:626});
-				ac.addItem({price:456});
-				ac.addItem({price:521});
-				ac.addItem({price:576});
-				ac.addItem({price:391});
-				ac.addItem({price:496});
-				ac.addItem({price:451});
+				ac.addItem({price:276});
+				ac.addItem({price:356});
+				ac.addItem({price:356});
+				ac.addItem({price:251});
+				ac.addItem({price:256});
+				ac.addItem({price:351});
+				ac.addItem({price:156});
+				ac.addItem({price:171});
+				ac.addItem({price:356});
+				ac.addItem({price:326});
+				ac.addItem({price:156});
+				ac.addItem({price:221});
+				ac.addItem({price:276});
+				ac.addItem({price:91});
+				ac.addItem({price:196});
+				ac.addItem({price:151});
+				ac.addItem({price:351});
+				ac.addItem({price:156});
+				ac.addItem({price:171});
+				ac.addItem({price:356});
+				ac.addItem({price:326});
+				ac.addItem({price:156});
+				ac.addItem({price:221});
+				ac.addItem({price:276});
+				ac.addItem({price:91});
+				ac.addItem({price:196});
+				ac.addItem({price:151});				
 				
 				return ac;
+			}
+			
+			
+			private function initChartContainer(num:int):void
+			{
+				for(var i:int=0; i<num; i++)
+				{
+					var contaier:Container;
+					if(isWeekend()){
+						contaier= this.createChildContainer(i+"",weekendColor);
+					}else{
+						contaier= this.createChildContainer(i+"");
+					}
+					
+					this.chartContainer.addElement(contaier);
+				}
+			}
+			
+			private function isWeekend():Boolean
+			{
+				weekendCount++;
+				if(weekendCount == 6 || weekendCount == 7)
+				{
+					if(weekendCount == 7){
+						weekendCount = 0
+					}
+					return true;
+				}
+				return false;
 			}
 			
 			protected function drawLine(data:ArrayCollection):void
@@ -84,7 +128,7 @@
 					chartLine.graphics.lineTo(basePoint.x ,basePoint.y);
 					
 					basePoint.x  = basePoint.x+childWidth;
-				}				
+				}
 			}
 			
 			private function getYAxisShowsValue(value:int):Number
@@ -124,7 +168,7 @@
 				
 				return arr;
 			}
-		
+			
 			protected function chartChildHandler(event:MouseEvent):void
 			{
 				var chartChild:Container = event.currentTarget as Container;
@@ -170,7 +214,7 @@
 				}
 			}
 			
-			protected function createChildContainer(index:String,backgroupColor:uint = 0xFFFFFF,width:int = 17):Container
+			private function createChildContainer(index:String,backgroupColor:uint = 0xFFFFFF,width:int = 17):Container
 			{				
 				var container:Container = new Container();
 				container.addEventListener(MouseEvent.MOUSE_OVER,chartChildHandler);
@@ -183,18 +227,6 @@
 				
 				return container;
 			}
-			
-			private function initChart():void
-			{
-				var len:int = 30;
-				for(var i:int=0; i<len; i++)
-				{
-					var contaier:Container = this.createChildContainer(i+"");
-					this.chartContainer.addElement(contaier);
-				}				
-				
-			}
-
 			
 		]]>
 	</fx:Script>
