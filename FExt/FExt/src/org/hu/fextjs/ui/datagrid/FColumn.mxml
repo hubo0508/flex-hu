@@ -13,10 +13,12 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
 			private var _dataField:String;
 			private var _headerText:String;
 			
-			private var _itemRenderer:Object;
+			private var _customComponents:IVisualElement;
 		
 			public function get headerText():String
 			{
@@ -38,17 +40,17 @@
 				_dataField=value;
 			}
 
-			public function get itemRenderer():Object
+			public function get customComponents():IVisualElement
 			{
-				return _itemRenderer;
+				return _customComponents;
 			}
 
-			public function set itemRenderer(value:Object):void
+			public function set customComponents(value:IVisualElement):void
 			{
-				trace("FDGColumn-itemRenderer");
-				_itemRenderer = value;
+				_customComponents = value;
 			}
 
+	
 		]]>
 	</fx:Script>
 
