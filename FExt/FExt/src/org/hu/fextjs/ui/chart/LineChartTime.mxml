@@ -346,15 +346,15 @@
 				switch(type)
 				{
 					case MouseEvent.ROLL_OUT:
-						upColor = roundNode.solidColor;
-						roundNode.solidColor = roundNode.contentColor;
-						roundNode.contentColor = upColor;
+						//upColor = roundNode.solidColor;
+						roundNode.solidColor = 0x0066DD;
+						roundNode.contentColor = 0xFFFFFF;
 						break;
 					
 					case MouseEvent.ROLL_OVER:					
-						upColor = roundNode.solidColor;
-						roundNode.solidColor = roundNode.contentColor;
-						roundNode.contentColor = upColor;
+						//upColor = roundNode.solidColor;
+						roundNode.solidColor = 0xFFFFFF;
+						roundNode.contentColor = 0x0066DD;
 						break;
 					
 					default:
