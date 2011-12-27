@@ -25,6 +25,8 @@
 			//周末工作日背景
 			private var weekendColor:uint = 0xF1F8FE;
 			
+			private var columnOverColor:uint = 0xF9DFE0;
+			
 			//坐标
 			private var basePoint:Point=new Point();
 			
@@ -39,6 +41,13 @@
 			
 			//是否周末
 			private var weekendCount:int = 0;
+			
+			//y空闲高度
+			private var yTop:int = 30;
+			
+			//x-axis scale
+			private var yCalibrationNumber:int = 3;
+			private var yCalibrationValue:Array = [100,200,300];
 
 			public function dataProvider(data:ArrayCollection):void
 			{
@@ -90,12 +99,7 @@
 					var item:Object = data.getItemAt(i);
 					basePoint.y = this.getYAxisShowsValue(int(item[field]));				
 					
-					var node:RoundNode = new RoundNode();
-					node.x = basePoint.x-node.width*0.5;
-					node.y = basePoint.y-node.width*0.5;
-					node.id = i+"";
-					
-					this.chartRound.addElement(node);
+					this.drawRoundNode(i.toString());
 					
 					if(i==0){
 						chartLine.graphics.moveTo(basePoint.x ,basePoint.y);
@@ -105,15 +109,96 @@
 					
 					basePoint.x  = basePoint.x+columnWidth;
 				}
+				
+				this.drawYCalibration();
 			}
+			
+			private function drawYCalibration():void
+			{
+				chartLine.graphics.lineStyle(3, columnOverColor, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
+				if(this.yCalibrationValue && this.yCalibrationValue.length > 0)
+				{
+					var len:int = this.yCalibrationValue.length;
+					for(var i:int=0; i<1; i++)
+					{
+						var yaxisValue:Number = this.getYAxisShowsValue(yCalibrationValue[i]);
+						trace(yaxisValue);
+//						chartLine.graphics.moveTo(0,yaxisValue);
+//						chartLine.graphics.lineTo(chartLine.width ,yaxisValue);
+					}
+				}
+				else
+				{
+						
+				}
+			}
+			
+			private function drawRoundNode(index:String):void
+			{
+				var node:RoundNode = new RoundNode();
+				node.x = basePoint.x-node.width*0.5;
+				node.y = basePoint.y-node.width*0.5;
+				node.id = index;
+				
+				this.chartRound.addElement(node);
+			}
+			
+			/** 
+			 * 画线 
+			 * @param g 
+			 * @param fromX 
+			 * @param fromY 
+			 * @param toX 
+			 * @param toY 
+			 * @param solidLen      实线长度 
+			 * @param brokenLen     虚线间隔 
+			 */  
+			public function drawBrokenLine(g:Graphics,fromX:Number,fromY:Number,toX:Number,toY:Number,solidLen:Number=5,brokenLen:Number=0):void  
+			{  
+				//如果间隔为0,直接画实线  
+				if(brokenLen == 0 || solidLen == 0)  
+				{  
+					g.moveTo(fromX,fromY);  
+					g.lineTo(toX,toY);  
+					return;  
+				}  
+				//如果间隔不为0,画虚线  
+				var xOffset:Number = toX - fromX;  
+				var yOffset:Number = toY - fromY ;  
+				//正切角度值  
+				var atan:Number = Math.atan2(yOffset,xOffset);  
+				//线的总长度  
+				var totalLen:Number =Math.sqrt(Math.pow(xOffset,2)+Math.pow(yOffset,2));  
+				//已经画线长度  
+				var len:Number = 0;  
+				//当前循环是否画实线  
+				var isDrawSolid:Boolean = true;  
+				var tempFX:Number = fromX;  
+				var tempFY:Number = fromY;  
+				while(totalLen>len)  
+				{  
+					len = isDrawSolid ? len + solidLen : len + brokenLen;  
+					//利用三角函数,计算该段终点坐标  
+					var tempTX:Number = Math.cos(atan)*len + fromX;  
+					var tempTY:Number = Math.sin(atan)*len + fromY;  
+					if(isDrawSolid)  
+					{  
+						g.moveTo(tempFX,tempFY);  
+						g.lineTo(tempTX,tempTY);  
+					}  
+					isDrawSolid = !isDrawSolid;  
+					tempFX = tempTX ;  
+					tempFY = tempTY ;  
+				}  				
+			}  
 			
 			private function getYAxisShowsValue(value:int):Number
 			{
 				var maximum:int = int(numericalIdentification["maximum"]);
-				var chartContainerH:Number = chartContainer.height;
+				var chartContainerH:Number = chartContainer.height-yTop;
 				if(maximum < chartContainerH || maximum > chartContainerH)
 				{					
-					return chartContainerH-((chartContainerH/maximum)*value)+30;
+					return chartContainerH-((chartContainerH/maximum)*value)+yTop;
 				}	
 				
 				if(maximum == chartContainerH)
@@ -209,7 +294,7 @@
 					
 					case MouseEvent.ROLL_OVER:
 						historyOfColor = chartColumn.backgroupColor;
-						chartColumn.backgroupColor = 0xF9DFE0;		
+						chartColumn.backgroupColor = columnOverColor;		
 						chartColumn.name = MouseEvent.ROLL_OVER;
 						break;
 					
@@ -249,7 +334,7 @@
 				container.addEventListener(MouseEvent.ROLL_OVER,chartColumnRollHandler,false,0,true);
 				container.addEventListener(MouseEvent.ROLL_OUT,chartColumnRollHandler,false,0,true);
 				container.addEventListener(flash.events.FocusEvent.FOCUS_OUT,chartColumnFocusHandler,false,0,true);
-				container.borderSides = "left right";
+				container.borderSides = "left";
 				container.percentHeight=100;
 				container.width = width;				
 				container.backgroupColor = backgroupColor;
@@ -273,13 +358,11 @@
 			{
 				_field = value;
 			}
-
 			
 		]]>
 	</fx:Script>
 
-	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="100%" gap="0" />
-	
+	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="100%" gap="0" />	
 	<s:Group id="chartLine" height="{chartContainer.height}" width="{chartContainer.width}" />	
 	<s:Group id="chartRound" height="{chartContainer.height}" width="{chartContainer.width}" />
 	
