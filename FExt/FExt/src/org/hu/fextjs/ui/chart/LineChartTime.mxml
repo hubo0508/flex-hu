@@ -7,7 +7,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:ns="library://FExt.HU"
+		 xmlns:ns="library://FExt.HU" 
+		 creationComplete="group1_creationCompleteHandler(event)"
 		 height="200">
 	
 	<fx:Script>
@@ -18,6 +19,8 @@
 			
 			import org.hu.fextjs.components.Container;
 			import org.hu.fextjs.components.RoundNode;
+			
+			import spark.components.Label;
 			
 			//历史颜色
 			private var historyOfColor:uint;
@@ -47,10 +50,21 @@
 			
 			//x-axis scale
 			private var yCalibrationNumber:int = 3;
-			private var yCalibrationValue:Array = [100,200,300];
+			private var _yCalibrationValue:Array;
+			
+			private var data:ArrayCollection;
+			
+			private var _unit:String = "";
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				//this.draw(data);
+			}
 
 			public function dataProvider(data:ArrayCollection):void
 			{
+				this.data = data;
+				
 				this.initChartContainer(data.length+3);
 				this.draw(data);
 			}
@@ -88,8 +102,18 @@
 			{
 				if(data == null || data.length == 0) return;
 				
+				this.chartLine.graphics.clear();
+				this.chartRound.removeAllElements();
+				
 				this.numericalIdentification  = this.getMaximumAndMinimumValues(data);
 				
+				this.drawYCalibration();
+				
+				this.drawLine(data);
+			}	
+			
+			private function drawLine(data:ArrayCollection):void
+			{
 				chartLine.graphics.lineStyle(1, 0x0066DD, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
 				basePoint.x = columnWidth*0.5;
 				
@@ -109,28 +133,47 @@
 					
 					basePoint.x  = basePoint.x+columnWidth;
 				}
-				
-				this.drawYCalibration();
 			}
 			
 			private function drawYCalibration():void
 			{
-				chartLine.graphics.lineStyle(3, columnOverColor, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
+				chartLine.graphics.lineStyle(1, columnOverColor, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
+				var yw:Number = this.chartContainer.numElements*columnWidth;
 				if(this.yCalibrationValue && this.yCalibrationValue.length > 0)
 				{
 					var len:int = this.yCalibrationValue.length;
-					for(var i:int=0; i<1; i++)
+					for(var i:int=0; i<len; i++)
 					{
 						var yaxisValue:Number = this.getYAxisShowsValue(yCalibrationValue[i]);
-						trace(yaxisValue);
-//						chartLine.graphics.moveTo(0,yaxisValue);
-//						chartLine.graphics.lineTo(chartLine.width ,yaxisValue);
+						chartLine.graphics.moveTo(0,yaxisValue);
+						chartLine.graphics.lineTo(yw,yaxisValue);
+						
+						//var yaxis:Label = this.createLabel(Math.floor(yaxisValue).toString());
+						var yaxis:Label = this.createLabel(unit+" "+yCalibrationValue[i].toString());
+						yaxis.x = yw-getTextWidth(yaxis,yaxis.text)-3;
+						yaxis.y = (yaxisValue+3)-getTextHeight(yaxis,yaxis.text);
+						
+						this.chartAxis.addElement(yaxis);
 					}
 				}
 				else
 				{
 						
 				}
+			}
+			
+			private function getTextWidth(label:Label,text:String):int
+			{
+				label.regenerateStyleCache( false ); 
+				var textMetrics:TextLineMetrics = label.measureText(text); 
+				return textMetrics.width;
+			}
+			
+			private function getTextHeight(label:Label,text:String):int
+			{
+				label.regenerateStyleCache( false ); 
+				var textMetrics:TextLineMetrics = label.measureText(text); 
+				return textMetrics.height;
 			}
 			
 			private function drawRoundNode(index:String):void
@@ -277,7 +320,7 @@
 				//trace(event.type+" | " + targetId+" | chartColumn.id "+chartColumn.id);				
 					
 				//
-				if(targetId == "chartLine" || targetId == "chartRound")
+				if(targetId == "chartLine" || targetId == "chartRound" || targetId == "chartAxis")
 				{
 					return;
 				}else{
@@ -344,6 +387,14 @@
 				return container;
 			}
 			
+			private function createLabel(text:String):Label
+			{
+				var label:Label = new Label();
+				label.text = text;
+				
+				return label;
+			}
+			
 			protected function chartColumnFocusHandler(event:FocusEvent):void
 			{
 
@@ -358,12 +409,36 @@
 			{
 				_field = value;
 			}
+
+			public function get yCalibrationValue():Array
+			{
+				return _yCalibrationValue;
+			}
+
+			public function set yCalibrationValue(value:Array):void
+			{
+				_yCalibrationValue = value;
+			}
+
+			public function get unit():String
+			{
+				return _unit;
+			}
+
+			public function set unit(value:String):void
+			{
+				_unit = value;
+			}
 			
+
+		
+
 		]]>
 	</fx:Script>
 
 	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="100%" gap="0" />	
 	<s:Group id="chartLine" height="{chartContainer.height}" width="{chartContainer.width}" />	
 	<s:Group id="chartRound" height="{chartContainer.height}" width="{chartContainer.width}" />
+	<s:Group id="chartAxis" height="{chartContainer.height}" width="{chartContainer.width}" />
 	
 </s:Group>
