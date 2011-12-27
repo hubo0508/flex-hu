@@ -145,20 +145,61 @@
 				return arr;
 			}
 			
-			private function clearCacheColor(id:int):void
+			private function clearCacheColor(currentId:String):void
 			{
-				var upChartColumn:Container = this.chartContainer.getElementAt(id) as Container;
-				if(upChartColumn.name == MouseEvent.ROLL_OVER)
+				
+//				var id:int = int(currentId);
+//				id = id < 0 ? 0 : id;
+//				var upColumnChart:Container = this.chartContainer.getElementAt(id) as Container;
+//				if(upColumnChart.name == MouseEvent.ROLL_OVER)
+//				{
+//					upColumnChart.name = MouseEvent.ROLL_OUT;
+//					upColumnChart.backgroupColor = getBgColor(id+1);
+//					upColumnChart.invalidateDisplayList();
+//				}
+				
+				var len:int = this.chartContainer.numElements;
+				for(var i:int=0; i<len; i++)
 				{
-					upChartColumn.name = MouseEvent.ROLL_OUT;
-					upChartColumn.backgroupColor = historyOfColor;
+					var obj:Object = Object(chartContainer.getElementAt(i));
+					if(obj.name == MouseEvent.ROLL_OVER)
+					{
+						obj.name = MouseEvent.ROLL_OUT;
+						obj.backgroupColor = getBgColor(i+1);
+						obj.invalidateDisplayList();
+					}
+				}				
+			}
+			
+			private function getBgColor(value:int):uint
+			{
+				if(value == 0)
+				{
+					return 0xFFFFFF;
 				}
+				trace(value+" % 6 = " + value % 6 + "  | "+value+" % 7 = "+value % 7);
+				if(value % 6 == 0 || value % 7 == 0){
+					return weekendColor;
+				}
+				
+				return 0xFFFFFF;
 			}
 			
 			protected function chartColumnRollHandler(event:MouseEvent):void
 			{					
-				var chartColumn:Container = event.currentTarget as Container;	
-				this.clearCacheColor(int(chartColumn.id));				
+				var chartColumn:Container = event.currentTarget as Container;					
+				var targetId:String = Object(event.relatedObject).id;
+				//trace(event.type+" | " + targetId+" | chartColumn.id "+chartColumn.id);				
+					
+				//
+				if(targetId == "chartLine" || targetId == "chartRound")
+				{
+					return;
+				}else{
+					this.clearCacheColor(chartColumn.id);
+				}											
+				//trace("++++++++++++++++++执行++++++++++++++++++++");
+				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT:							
@@ -176,7 +217,7 @@
 						break;
 				}
 				chartColumn.invalidateDisplayList();					
-				this.changeRoundStyle(int(chartColumn.id),event.type);			
+				this.changeRoundStyle(int(chartColumn.id),event.type);		
 			}	
 			
 			protected function changeRoundStyle(index:int, type:String):void
@@ -214,8 +255,6 @@
 				container.backgroupColor = backgroupColor;
 				container.id = index;
 				container.name = MouseEvent.ROLL_OUT;
-				
-				trace("index = " + index);
 				
 				return container;
 			}
