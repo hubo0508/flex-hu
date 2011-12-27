@@ -145,30 +145,38 @@
 				return arr;
 			}
 			
-			protected function chartColumnRollHandler(event:MouseEvent):void
-			{								
-				var targetId:String = Object(event.relatedObject).id;
-				trace(event.type+" | " + targetId);
-				if((targetId == "chartRound" || targetId == "chartLine") && event.type == MouseEvent.ROLL_OVER){
-					return;
+			private function clearCacheColor(id:int):void
+			{
+				var upChartColumn:Container = this.chartContainer.getElementAt(id) as Container;
+				if(upChartColumn.name == MouseEvent.ROLL_OVER)
+				{
+					upChartColumn.name = MouseEvent.ROLL_OUT;
+					upChartColumn.backgroupColor = historyOfColor;
 				}
-				var chartChild:Container = event.currentTarget as Container;
+			}
+			
+			protected function chartColumnRollHandler(event:MouseEvent):void
+			{					
+				var chartColumn:Container = event.currentTarget as Container;	
+				this.clearCacheColor(int(chartColumn.id));				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT:							
-						chartChild.backgroupColor = historyOfColor;				
+						chartColumn.backgroupColor = historyOfColor;		
+						chartColumn.name  = MouseEvent.ROLL_OUT;
 						break;
 					
 					case MouseEvent.ROLL_OVER:
-						historyOfColor = chartChild.backgroupColor;
-						chartChild.backgroupColor = 0xF9DFE0;						
+						historyOfColor = chartColumn.backgroupColor;
+						chartColumn.backgroupColor = 0xF9DFE0;		
+						chartColumn.name = MouseEvent.ROLL_OVER;
 						break;
 					
 					default:
 						break;
 				}
-				chartChild.invalidateDisplayList();					
-				this.changeRoundStyle(int(chartChild.id),event.type);			
+				chartColumn.invalidateDisplayList();					
+				this.changeRoundStyle(int(chartColumn.id),event.type);			
 			}	
 			
 			protected function changeRoundStyle(index:int, type:String):void
@@ -205,6 +213,9 @@
 				container.width = width;				
 				container.backgroupColor = backgroupColor;
 				container.id = index;
+				container.name = MouseEvent.ROLL_OUT;
+				
+				trace("index = " + index);
 				
 				return container;
 			}
