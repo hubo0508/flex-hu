@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955"
+			   creationComplete="creationCompleteHandler(event)"
+			   minHeight="600"
+			   xmlns:ns="library://FExt.HU">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.core.IVisualElement;
+			import mx.events.FlexEvent;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{				
+				var data:ArrayCollection = this.getData();
+				this.lct.dataProvider(data);
+			}
+			
+			private function getData():ArrayCollection
+			{
+				var ac:ArrayCollection = new ArrayCollection();
+				ac.addItem({price:10,time:'1月1日',weeks:"星期一"});
+				ac.addItem({price:20,time:'1月2日',weeks:"星期二"});
+				ac.addItem({price:6,time:'1月3日',weeks:"星期三"});
+				ac.addItem({price:251,time:'1月4日',weeks:"星期四"});
+				ac.addItem({price:256,time:'1月5日',weeks:"星期五"});
+				ac.addItem({price:351,time:'1月6日',weeks:"星期六"});
+				ac.addItem({price:156,time:'1月7日',weeks:"星期天"});
+				ac.addItem({price:171,time:'1月8日',weeks:"星期一"});
+				ac.addItem({price:356,time:'1月9日',weeks:"星期二"});
+				ac.addItem({price:326,time:'1月10日',weeks:"星期三"});
+				ac.addItem({price:156,time:'1月11日',weeks:"星期四"});
+				ac.addItem({price:221,time:'1月12日',weeks:"星期五"});
+				ac.addItem({price:276,time:'1月13日',weeks:"星期六"});
+				ac.addItem({price:91,time:'1月14日',weeks:"星期天"});
+				ac.addItem({price:196,time:'1月15日',weeks:"星期一"});
+				ac.addItem({price:151,time:'1月16日',weeks:"星期二"});
+				ac.addItem({price:351,time:'1月17日',weeks:"星期三"});
+				ac.addItem({price:156,time:'1月18日',weeks:"星期四"});
+				ac.addItem({price:171,time:'1月19日',weeks:"星期五"});
+				ac.addItem({price:356,time:'1月20日',weeks:"星期六"});
+				ac.addItem({price:326,time:'1月21日',weeks:"星期天"});
+				ac.addItem({price:156,time:'1月22日',weeks:"星期一"});
+				ac.addItem({price:221,time:'1月23日',weeks:"星期二"});
+				ac.addItem({price:276,time:'1月24日',weeks:"星期三"});
+				ac.addItem({price:91,time:'1月25日',weeks:"星期四"});
+				ac.addItem({price:196,time:'1月26日',weeks:"星期五"});
+				ac.addItem({price:151,time:'1月27日',weeks:"星期六"});				
+				
+				return ac;
+			}
+				
+		]]>
+	</fx:Script>
+	
+	<ns:LineChartTime id="lct" left="100" top="100" field="[price,time,weeks]" height="200" width="450" yCalibrationValue="[100,200,300,350]" unit="$"/>
+	
+</s:Application>
