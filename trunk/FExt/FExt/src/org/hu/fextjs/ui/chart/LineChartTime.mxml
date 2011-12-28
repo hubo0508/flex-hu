@@ -4,7 +4,7 @@
 	 @创建时间：2011-12-26
 	 @邮件：hubo.0508@gmail.com
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:ns="library://FExt.HU" 
@@ -15,7 +15,9 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			
 			import org.hu.fextjs.components.Container;
 			import org.hu.fextjs.components.RoundNode;
@@ -26,18 +28,22 @@
 			private var historyOfColor:uint;
 			
 			//周末工作日背景
-			private var weekendColor:uint = 0xF1F8FE;
+			private var _weekendColor:uint = 0xF1F8FE;
 			
-			private var columnOverColor:uint = 0xF9DFE0;
+			//鼠标移过后颜色
+			private var _columnOverColor:uint = 0xF9DFE0;
+			
+			//Y轴color
+			private var _YCalibrationColor:uint = 0xE6B261;
 			
 			//坐标
 			private var basePoint:Point=new Point();
 			
 			//取值key
-			private var _field:String = "price";
+			private var _field:Array;
 			
 			//列宽
-			private var columnWidth:int = 16;
+			private var _columnWidth:int = 16;
 			
 			//存储最大值与最小值
 			private var numericalIdentification:Array;
@@ -52,34 +58,61 @@
 			private var yCalibrationNumber:int = 3;
 			private var _yCalibrationValue:Array;
 			
+			//数据源
 			private var data:ArrayCollection;
 			
+			//单位
 			private var _unit:String = "";
+			
+			private var newTips:NewTips;
 			
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				//this.draw(data);
+				this.contentGroup.clipAndEnableScrolling = true;
 			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				var numberOfColumns:Number = this.width/columnWidth;
+				var finalColumns:int = int(numberOfColumns) == numberOfColumns ? numberOfColumns : Math.floor(numberOfColumns) + 1;
+				
+				this.createColumnsContainer(finalColumns);
+				
+				if(newTips == null)
+				{
+					newTips = new NewTips();
+					newTips.includeInLayout = false;
+					newTips.visible = false;
 
+					var parent:UIComponent = this;
+					var disylayObj:DisplayObject = 
+						parent.parentApplication as DisplayObject == null 
+						? 
+						parent as DisplayObject : parent.parentApplication as DisplayObject;
+					PopUpManager.addPopUp(newTips, disylayObj, false);
+				}
+			}
+			
 			public function dataProvider(data:ArrayCollection):void
 			{
 				this.data = data;
 				
-				this.initChartContainer(data.length+3);
 				this.draw(data);
 			}
 			
-			private function initChartContainer(num:int):void
+			private function createColumnsContainer(num:int):void
 			{
 				weekendCount = 0;
 				for(var i:int=0; i<num; i++)
 				{
 					var contaier:Container;
 					if(isWeekend()){
-						contaier= this.createChildContainer(i+"",columnWidth,weekendColor);
+						contaier= this.createContainer(i.toString(),columnWidth,weekendColor);
 					}else{
-						contaier= this.createChildContainer(i+"",columnWidth);
-					}
+						contaier= this.createContainer(i.toString(),columnWidth);
+					}				
 					
 					this.chartContainer.addElement(contaier);
 				}
@@ -121,7 +154,7 @@
 				for(var i:int=0; i<len; i++)
 				{					
 					var item:Object = data.getItemAt(i);
-					basePoint.y = this.getYAxisShowsValue(int(item[field]));				
+					basePoint.y = this.getYAxisShowsValue(int(item[field[0]]));				
 					
 					this.drawRoundNode(i.toString());
 					
@@ -137,8 +170,9 @@
 			
 			private function drawYCalibration():void
 			{
-				chartLine.graphics.lineStyle(1, 0xE7E7E7, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
-				var yw:Number = this.chartContainer.numElements*columnWidth;
+				chartLine.graphics.lineStyle(1, YCalibrationColor, 1, false, LineScaleMode.VERTICAL, CapsStyle.NONE, JointStyle.MITER, 10);
+//				var yw:Number = this.chartContainer.numElements*columnWidth;
+				var yw:Number = this.width;
 				if(this.yCalibrationValue && this.yCalibrationValue.length > 0)
 				{
 					var len:int = this.yCalibrationValue.length;
@@ -183,6 +217,7 @@
 				node.x = basePoint.x-node.width*0.5;
 				node.y = basePoint.y-node.width*0.5;
 				node.id = index;
+				node.name = MouseEvent.ROLL_OUT;
 				
 				this.chartRound.addElement(node);
 			}
@@ -251,7 +286,7 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var item:Object = data.getItemAt(i);
-					var num:int = int(item[field]);
+					var num:int = int(item[field[0]]);
 					
 					maximum = maximum < num ? num : maximum;
 					minimum = minimum < num ? minimum : num;
@@ -284,20 +319,38 @@
 					if(obj.name == MouseEvent.ROLL_OVER)
 					{
 						obj.name = MouseEvent.ROLL_OUT;
+						trace("obj.id = " + obj.id);
 						obj.backgroupColor = getBgColor(i+1);
 						obj.invalidateDisplayList();
 					}
-				}				
+				}
+			}
+			
+			private function clearRoundCacheColor(currentId:String):void
+			{			
+				var len:int = this.chartRound.numElements;
+				for(var i:int=0; i<len; i++)
+				{
+					var obj:Object = Object(chartContainer.getElementAt(i));
+					if(obj.name == MouseEvent.ROLL_OVER)
+					{
+						obj.name = MouseEvent.ROLL_OUT;
+						obj.solidColor = 0x0066DD;
+						obj.contentColor = 0xFFFFFF;
+					}
+				}
 			}
 			
 			private function getBgColor(value:int):uint
 			{
-				if(value == 0)
-				{
-					return 0xFFFFFF;
+				while(true){
+					if(value <= 7)
+					{
+						break;
+					}
+					value = value-7;					
 				}
-				trace(value+" % 6 = " + value % 6 + "  | "+value+" % 7 = "+value % 7);
-				if(value % 6 == 0 || value % 7 == 0){
+				if(6== value ||  value == 7){
 					return weekendColor;
 				}
 				
@@ -306,53 +359,106 @@
 			
 			protected function chartColumnRollHandler(event:MouseEvent):void
 			{					
-				var chartColumn:Container = event.currentTarget as Container;					
+				var column:Container = event.currentTarget as Container;		
+				var columnId:int = int(column.id);
 				var targetId:String = Object(event.relatedObject).id;
-				//trace(event.type+" | " + targetId+" | chartColumn.id "+chartColumn.id);				
+				//trace(event.type+" | " + targetId+" | column.id "+column.id);				
 					
 				//
 				if(targetId == "chartLine" || targetId == "chartRound" || targetId == "chartAxis")
 				{
 					return;
 				}else{
-					this.clearCacheColor(chartColumn.id);
+					this.clearCacheColor(column.id);
 				}											
 				//trace("++++++++++++++++++执行++++++++++++++++++++");
 				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT:							
-						chartColumn.backgroupColor = historyOfColor;		
-						chartColumn.name  = MouseEvent.ROLL_OUT;
+						column.backgroupColor = this.getBgColor(columnId+1);		
+						column.name  = MouseEvent.ROLL_OUT;
+						
+						this.newTipsVisible(int(column.id),false);
 						break;
 					
 					case MouseEvent.ROLL_OVER:
-						historyOfColor = chartColumn.backgroupColor;
-						chartColumn.backgroupColor = columnOverColor;		
-						chartColumn.name = MouseEvent.ROLL_OVER;
+						column.backgroupColor = columnOverColor;		
+						column.name = MouseEvent.ROLL_OVER;
+						
+						this.newTipsVisible(int(column.id),true);
 						break;
 					
 					default:
 						break;
 				}
-				chartColumn.invalidateDisplayList();					
-				this.changeRoundStyle(int(chartColumn.id),event.type);		
+				column.invalidateDisplayList();					
+				this.changeRoundStyle(int(column.id),event.type);		
 			}	
 			
+			private function newTipsVisible(index:int,value:Boolean):void
+			{
+				var point:Point = getNewTipsPoint(index);
+				var item:Object = this.data.getItemAt(index);
+				var absolutePosition:Point = this.getUiAbsolutePosition(this);
+				if(value)
+				{
+					this.newTips.visible = true;
+					newTips.x = point.x+newTips.width*0.5+columnWidth*0.5+3;
+					newTips.y = point.y+newTips.height+10;	
+					newTips.time = item[field[1]]+" "+item[field[2]];
+					newTips.price =  this.unit+item[field[0]];
+				}
+				else
+				{
+			
+				}
+			}
+						
+			private function getNewTipsPoint(index:int):Point
+			{
+				var targetRound:IVisualElement = this.chartRound.getElementAt(index);
+				this.basePoint.x = targetRound.x;
+				this.basePoint.y = targetRound.y;
+				
+				return this.basePoint;
+			}
+			
+			public function getUiAbsolutePosition(ui:UIComponent):Point
+			{
+				var point:Point=new Point();
+				point.x=ui.x;
+				point.y=ui.y;
+				var temp:DisplayObject=ui;
+				do
+				{
+					var parent:DisplayObject=temp.parent;
+					if(parent == null)
+					{
+						break;	
+					}
+					point.x+=parent.x;
+					point.y+=parent.y;
+					temp=parent;
+					
+				} while (parent !== ui.parentApplication)
+				
+				return point;
+			}
+
 			protected function changeRoundStyle(index:int, type:String):void
 			{
 				var roundNode:RoundNode = this.chartRound.getElementAt(index) as RoundNode;
-				var upColor:uint = 0;
 				switch(type)
 				{
 					case MouseEvent.ROLL_OUT:
-						//upColor = roundNode.solidColor;
+						roundNode.name = MouseEvent.ROLL_OUT;
 						roundNode.solidColor = 0x0066DD;
 						roundNode.contentColor = 0xFFFFFF;
 						break;
 					
 					case MouseEvent.ROLL_OVER:					
-						//upColor = roundNode.solidColor;
+						roundNode.name = MouseEvent.ROLL_OVER;
 						roundNode.solidColor = 0xFFFFFF;
 						roundNode.contentColor = 0x0066DD;
 						break;
@@ -362,13 +468,17 @@
 				}
 			}
 			
-			private function createChildContainer(index:String,width:Number,backgroupColor:uint = 0xFFFFFF):Container
+			private function createContainer(index:String,width:Number,backgroupColor:uint = 0xFFFFFF):Container
 			{				
 				var container:Container = new Container();
 				container.addEventListener(MouseEvent.ROLL_OVER,chartColumnRollHandler,false,0,true);
 				container.addEventListener(MouseEvent.ROLL_OUT,chartColumnRollHandler,false,0,true);
 				container.addEventListener(flash.events.FocusEvent.FOCUS_OUT,chartColumnFocusHandler,false,0,true);
-				container.borderSides = "left";
+				if(index == "0"){
+					container.borderSides = "";
+				}else{
+					container.borderSides = "left";
+				}				
 				container.percentHeight=100;
 				container.width = width;				
 				container.backgroupColor = backgroupColor;
@@ -391,12 +501,12 @@
 
 			}
 
-			public function get field():String
+			public function get field():Array
 			{
 				return _field;
 			}
 
-			public function set field(value:String):void
+			public function set field(value:Array):void
 			{
 				_field = value;
 			}
@@ -420,16 +530,54 @@
 			{
 				_unit = value;
 			}
-			
 
-		
+			public function get columnWidth():int
+			{
+				return _columnWidth;
+			}
+
+			public function set columnWidth(value:int):void
+			{
+				_columnWidth = value;
+			}
+
+			public function get YCalibrationColor():uint
+			{
+				return _YCalibrationColor;
+			}
+
+			public function set YCalibrationColor(value:uint):void
+			{
+				_YCalibrationColor = value;
+			}
+
+			public function get columnOverColor():uint
+			{
+				return _columnOverColor;
+			}
+
+			public function set columnOverColor(value:uint):void
+			{
+				_columnOverColor = value;
+			}
+
+			public function get weekendColor():uint
+			{
+				return _weekendColor;
+			}
+
+			public function set weekendColor(value:uint):void
+			{
+				_weekendColor = value;
+			}
+
 
 		]]>
 	</fx:Script>
 
-	<ns:HContainer id="chartContainer" borderColor="#CECECE" height="100%" gap="0" />	
-	<s:Group id="chartLine" height="{chartContainer.height}" width="{chartContainer.width}" />	
-	<s:Group id="chartRound" height="{chartContainer.height}" width="{chartContainer.width}" />
-	<s:Group id="chartAxis" height="{chartContainer.height}" width="{chartContainer.width}" />
+	<ns:HContainer id="chartContainer"  height="100%" gap="0"   borderSides=""/>	
+	<s:Group id="chartLine" height="{chartContainer.height}" width="{chartContainer.width}"   />	
+	<s:Group id="chartRound" height="{chartContainer.height}" width="{chartContainer.width}"   />
+	<s:Group id="chartAxis" height="{chartContainer.height}" width="{chartContainer.width}"   />
 	
-</s:Group>
+</s:BorderContainer>
