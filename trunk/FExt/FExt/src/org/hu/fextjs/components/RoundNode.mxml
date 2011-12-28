@@ -16,6 +16,8 @@
 			[Bindable]public var solidColor:uint = 0x0066DD;
 			[Bindable]public var contentColor:uint = 0xFFFFFF;
 			
+			public var name:String;
+			
 		]]>
 	</fx:Script>
 	
