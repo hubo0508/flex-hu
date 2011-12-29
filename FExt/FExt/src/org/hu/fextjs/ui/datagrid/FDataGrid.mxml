@@ -13,7 +13,7 @@
 					   horizontalCenter="0">
 
 	<fx:Metadata>
-		[Style(name="titleBackgroupColor", type="uint", format="Color", inherit="yes", theme="spark")]
+		[Style(name="headerColor", type="uint", format="Color", inherit="yes", theme="spark")]
 		[Style(name="titleBorderColor", type="uint", format="Color", inherit="yes", theme="spark")]
 		[Style(name="titleBorderVisible", type="Boolean", inherit="no")]
 	</fx:Metadata>
@@ -46,17 +46,16 @@
 			private var rollOverColor:uint=0xB2E1FF;
 			private var alternatingItemColors:Array=["#FFFFFF", "#F7F7F7"];
 			private var verticalGridLines:Boolean;
-			private var titleBorderVisible:Boolean=true;
 			private var selectionColor:uint=0x7FCEFF;
-			private var titleBackgroupColor:uint = 0xA8A8A8;
+			private var headerColor:uint = 0xA8A8A8;
 			/*default style end*/	
 
 			override protected function createChildren():void
 			{
 				super.createChildren();
 //				trace("+++++++++++++FDataGrid++++createChildren");
-//				trace(this.getStyle("titleBackgroupColor"));
-				this.createAndDisplayColumns();
+//				trace(this.getStyle("headerColor"));
+				this.createAndDisplayHeaderColumns();
 			}
 			
 //			<ns:VContainer width="100%" height="60" gap="0">
@@ -70,7 +69,7 @@
 			/**
 			 * 初始化单元格列数
 			 */
-			protected function createAndDisplayColumns():void
+			protected function createAndDisplayHeaderColumns():void
 			{
 				var len:int=_columns.length;
 				for (var i:int=0; i < len; i++)
@@ -82,7 +81,7 @@
 						cells.addEventListener(MouseEvent.ROLL_OUT,titleRowRollHandler,false,0,true);
 						cells.addEventListener(MouseEvent.ROLL_OVER,titleRowRollHandler,false,0,true);
 						cells.addEventListener(MouseEvent.CLICK,titleRowClickHandler,false,0,true);
-						this.settingTitleCellsStyle(cells);
+						this.setHeaderStyle(cells);
 						
 						if (objColumn.width == 0){
 							cells.percentWidth=100;
@@ -100,7 +99,7 @@
 						}
 						
 						objColumn.addElement(cells);
-						objColumn.id=i + "";
+						objColumn.id=i.toString();
 						this.addElement(objColumn as IVisualElement);
 					}
 					else
@@ -123,34 +122,24 @@
 			/**
 			 * 设置列表头样式
 			 */
-			private function settingTitleCellsStyle(cells:FCells):void
+			private function setHeaderStyle(cells:FCells):void
 			{
 				cells.borderColor=getBorderColor();
-
-				var _titleBorderVisible:Boolean=this.getStyle("titleBorderVisible");
-				if (_titleBorderVisible)
-				{
-					cells.borderSides="bottom";
-				}
-				else
-				{
-					cells.borderSides="";
-				}
-
-				cells.backgroupColor=this.getTitleBackgroupColor();
+				cells.borderSides="";
+				cells.backgroupColor=this.getHeaderColor();
 			}
 
 			public function set dataProvider(value:Object):void
 			{
 				this._dataProvider=value;
 
-				this.eachDataProvider();
+				this.createAndDisplayDataColumns();
 			}
 
 			/**
 			 * 创建并显示数据
 			 */
-			protected function eachDataProvider():void
+			protected function createAndDisplayDataColumns():void
 			{
 				if (_dataProvider is ArrayCollection)
 				{
@@ -158,7 +147,7 @@
 					var len:int=ac.length;
 					for (var i:int=0; i < len; i++)
 					{
-						this.settingRowData(ac.getItemAt(i), i);
+						this.dataColumns(ac.getItemAt(i), i);
 					}
 				}
 			}
@@ -169,7 +158,7 @@
 			 * item:当前行数据
 			 * rowIndex:当前行号
 			 */
-			protected function settingRowData(item:Object, rowIndex:int):void
+			protected function dataColumns(item:Object, rowIndex:int):void
 			{
 				var len:int=this.columns.length;
 				for (var i:int=0; i < len; i++)
@@ -431,7 +420,7 @@
 			public function changeTitleCellsColor(cells:FCells, eventtype:String):void
 			{								
 				var _rollOverColor:uint=this.getRollOverColor();				
-				var _titleBackgroupColor:uint = this.getTitleBackgroupColor();
+				var _headerColor:uint = this.getHeaderColor();
 				
 				if (MouseEvent.ROLL_OVER == eventtype)
 				{
@@ -440,7 +429,7 @@
 				}
 				else if (MouseEvent.ROLL_OUT == eventtype)
 				{
-					cells.backgroupColor=_titleBackgroupColor;
+					cells.backgroupColor=_headerColor;
 					cells.invalidateDisplayList();
 				}
 			}
@@ -598,11 +587,11 @@
 				return _rollOverColor;
 			}
 			
-			private function getTitleBackgroupColor():uint
+			private function getHeaderColor():uint
 			{
-				var _titleBackgroupColor:uint = getStyle("titleBackgroupColor");
-				_titleBackgroupColor=_titleBackgroupColor == 0 ? titleBackgroupColor : _titleBackgroupColor;
-				return _titleBackgroupColor;
+				var _headerColor:uint = getStyle("headerColor");
+				_headerColor=_headerColor == 0 ? headerColor : _headerColor;
+				return _headerColor;
 			}
 			
 			private function getBorderColor():uint
