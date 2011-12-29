@@ -253,16 +253,13 @@
 			{
 				var cells:FCells=this.createCells(item[dataField]);
 				cells.backgroupColor=this.getRowColors(rowIndex);
-				cells.borderSides="";
-				if (column.percentWidth == 100)
-				{
+				if (column.percentWidth == 100){
 					cells.percentWidth=100;
-				}
-				else
-				{
+				}else{
 					cells.width=column.width;
 				}
-				cells.id=rowIndex + "";
+				cells.id=rowIndex.toString();
+				cells.data = item;
 
 				return cells;
 			}
