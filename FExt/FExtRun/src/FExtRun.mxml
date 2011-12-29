@@ -18,9 +18,9 @@
 		}
 		
 		FExt|FDataGrid{
-			titleBackgroupColor:#7AB4F4;
-			titleBorderColor:#696969;
-			borderColor:#696969;
+			headerColor:#7AB4F4;
+			/*titleBorderColor:#864211;*/
+			borderColor:#A40000;
 			alternatingItemColors: #FFFFFF, #F7F7F7;
 			rollOverColor: #B2E1FF;
 			selectionColor: #99cc66;
@@ -96,7 +96,7 @@
 				<FExt:columns>							
 					<FExt:VContainer gap="0" horizontalAlign="right" bottom="right">
 						<FExt:FCells width="280" text="性能数据" backgroupColor="#7AB4F4" borderSides="" borderColor="0x696969" height="30"/>
-						<s:HGroup gap="1">
+						<s:HGroup gap="0">
 							<FExt:VContainer gap="0" width="100" borderSides="right">
 								<FExt:FCells width="100%" height="132" text="C网" borderSides="bottom"/>
 								<FExt:FCells width="100%" height="88" text="业务平台" borderSides="bottom"/>
@@ -106,8 +106,12 @@
 						</s:HGroup>
 					</FExt:VContainer>
 					<FExt:FBoxColumn headerText="选择" width="40" radio="false" rowMultiSelection="true"/>
-					<FExt:FColumn dataField="name" headerText="接收量(M)" itemRenderer="xx"/>
-					<FExt:FColumn dataField="name2" headerText="发送量(M)"/>
+					<FExt:FColumn dataField="name" headerText="接收量(M)">
+						<FExt:customComponents>
+							<s:BorderContainer width="100%" height="22" backgroundColor="#99cc66"/>
+						</FExt:customComponents>
+					</FExt:FColumn>
+					<FExt:FColumn dataField="name2" headerText="发送量(M)" />
 					<FExt:FColumn dataField="name3" headerText="接收流量(Kbps) "/>
 					<FExt:FColumn dataField="name4" headerText="发送流量(Kbps)"/>
 					<FExt:FColumn dataField="name4" headerText="日平均在线用户数"/>							
@@ -120,6 +124,6 @@
 	<s:TextArea x="226" y="398" width="147" borderVisible="false" id="chooseIndex"/>
 	<s:Label x="226" y="377" text="DataGrid选中行索引"/>
 	<s:Label x="56" y="376" text="DataGrid选中值"/>
-	
+
 	
 </s:Application>
