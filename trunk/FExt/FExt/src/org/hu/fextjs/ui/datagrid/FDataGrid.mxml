@@ -225,11 +225,11 @@
 								this.restoreLineColor();
 								this.changeRecoredIndex(event.selectRowsIndex[0],"newvalue");
 								this.changeBoxSelected(true,boxColumn);																
-								this.changeRowsColor(cells,MouseEvent.CLICK);		
+								this.changeCellsColor(cells,MouseEvent.CLICK);		
 							}else{
 								this.changeRecoredIndex(event.selectRowsIndex[0],"push");
 								this.eventMark=event.type;
-								this.changeRowsColor(cells, MouseEvent.CLICK);
+								this.changeCellsColor(cells, MouseEvent.CLICK);
 							}
 						}
 						else
@@ -314,7 +314,7 @@
 						this.changeRecoredIndex(rowIndex,"newvalue");
 						this.changeBoxSelected(true);						
 					}						
-					this.changeRowsColor(cells, event.type);
+					this.changeCellsColor(cells, event.type);
 					this.selectItems = this.getSelectionValue();
 					this.dispatchItemClick();	
 				}				
@@ -360,7 +360,7 @@
 						break;
 				}
 				
-				this.changeRowsColor(event.currentTarget as FCells, event.type);				
+				this.changeCellsColor(event.currentTarget as FCells, event.type);				
 			}
 			
 			/**
@@ -435,9 +435,9 @@
 			}
 
 			/**
-			 * 改变内容行背景颜色
+			 * 更改单元格背景颜色
 			 */
-			public function changeRowsColor(cells:FCells, eventtype:String):void
+			public function changeCellsColor(cells:FCells, eventtype:String):void
 			{
 				var _selectionColor:uint=this.getSelectionColor();
 				var _rollOverColor:uint=this.getRollOverColor();
