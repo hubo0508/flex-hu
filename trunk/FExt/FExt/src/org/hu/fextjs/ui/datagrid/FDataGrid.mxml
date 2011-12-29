@@ -56,7 +56,7 @@
 				super.createChildren();
 //				trace("+++++++++++++FDataGrid++++createChildren");
 //				trace(this.getStyle("titleBackgroupColor"));
-				this.displayTitleRow();
+				this.createAndDisplayColumns();
 			}
 			
 //			<ns:VContainer width="100%" height="60" gap="0">
@@ -70,7 +70,7 @@
 			/**
 			 * 初始化单元格列数
 			 */
-			protected function displayTitleRow():void
+			protected function createAndDisplayColumns():void
 			{
 				var len:int=_columns.length;
 				for (var i:int=0; i < len; i++)
@@ -79,22 +79,24 @@
 					if (objColumn is FColumn || objColumn is FBoxColumn)
 					{
 						var cells:FCells=this.createCells(objColumn.headerText);
-						this.initTitleRowEventListener(cells);
+						cells.addEventListener(MouseEvent.ROLL_OUT,titleRowRollHandler,false,0,true);
+						cells.addEventListener(MouseEvent.ROLL_OVER,titleRowRollHandler,false,0,true);
+						cells.addEventListener(MouseEvent.CLICK,titleRowClickHandler,false,0,true);
 						this.settingTitleCellsStyle(cells);
 						
-						if (objColumn.width == 0)
-						{
+						if (objColumn.width == 0){
 							cells.percentWidth=100;
 							objColumn.percentWidth=100;
-						}
-						else
-						{
+						}else{
 							cells.width = objColumn.width;
 						}
 						
-						if(titleRowHeight != 0)
-						{
+						if(titleRowHeight != 0){
 							cells.height = titleRowHeight;
+						}
+						
+						if(i == (len-1)){
+							objColumn.borderSides = "";
 						}
 						
 						objColumn.addElement(cells);
@@ -106,13 +108,6 @@
 						this.addElement(objColumn as IVisualElement);
 					}
 				}
-			}
-			
-			public function initTitleRowEventListener(cells:FCells):void
-			{
-				cells.addEventListener(MouseEvent.ROLL_OUT,titleRowRollHandler,false,0,true);
-				cells.addEventListener(MouseEvent.ROLL_OVER,titleRowRollHandler,false,0,true);
-				cells.addEventListener(MouseEvent.CLICK,titleRowClickHandler,false,0,true);
 			}
 			
 			protected function titleRowRollHandler(event:MouseEvent):void

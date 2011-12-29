@@ -9,7 +9,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:components="org.hu.fextjs.components.*"
 					   gap="0"
-					   borderSides="all">
+					   borderSides="right">
 	
 	<fx:Script>
 		<![CDATA[
