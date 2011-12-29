@@ -27,10 +27,13 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
 			
 			import org.hu.fextjs.event.GridEvent;
 			import org.hu.fextjs.ui.Renderer;
+			import org.hu.fextjs.util.UtilFunctions;
 			
+			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
 
 			private var _columns:Array;
@@ -152,6 +155,13 @@
 				}
 			}
 
+			private function cloneObject(obj:Object):*{  
+				var ba:ByteArray=new ByteArray();  
+				ba.writeObject(obj);  
+				ba.position=0;  
+				return ba.readObject();  
+			}  
+			
 			/**
 			 * 根据行数据创建行单元格数据
 			 *
@@ -169,14 +179,14 @@
 						var column:FColumn=this.columns[i] as FColumn;
 						if (column)
 						{
-							var cells:FCells;
-//							if(column.customComponents){
-//								cells =new FCells();
-//								cells.id = rowIndex+"";
-//								cells.addElement(column.customComponents);
-//							}else{
-								cells=getFCells(column, item, rowIndex, column.dataField);								
-//							}		
+							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
+							if(column.customComponents){	
+								var ui:UIComponent =  UtilFunctions.clone(column.customComponents) as UIComponent;
+								ui.percentWidth = 100;
+								ui.height = 20;
+								ui.top  =1;
+								cells.addElement(ui);
+							}
 							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 							cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
