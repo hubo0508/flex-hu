@@ -19,6 +19,8 @@
 			private var _headerText:String;
 			
 			private var _customComponents:IVisualElement;
+			
+			private var _customFunction:Function;
 		
 			public function get headerText():String
 			{
@@ -49,6 +51,18 @@
 			{
 				_customComponents = value;
 			}
+
+			public function get customFunction():Function
+			{
+				return _customFunction;
+			}
+
+			public function set customFunction(value:Function):void
+			{
+				_customFunction = value;
+			}
+
+
 
 	
 		]]>
