@@ -45,6 +45,7 @@
 			public var selectItems:Array;
 			private var _titleRowHeight:int = 0;
 			private var _associationsChoose:Boolean = true;
+			private var _rowHeight:int = 22;
 
 			/*default style start*/
 			private var rollOverColor:uint=0xB2E1FF;
@@ -177,10 +178,13 @@
 							var fun:Function = column.customFunction;
 							if(fun != null){	
 								var bc:IVisualElement = fun.call(null,item,column);
-//								var newui:UIComponent =  ui;
-//								newui.percentWidth = 100;
-//								newui.height = 20;
-//								newui.top  =2;
+								if(bc.height == 0){
+									bc.height = cells.height-2;
+									bc.top = 1;
+								}
+								if(bc.width == 0){
+									bc.percentWidth = 100;
+								}
 								cells.addElement(bc);
 							}
 							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
@@ -266,6 +270,7 @@
 				}
 				cells.id=rowIndex.toString();
 				cells.data = item;
+				cells.height = this.rowHeight;
 
 				return cells;
 			}
@@ -713,6 +718,16 @@
 			public function set associationsChoose(value:Boolean):void
 			{
 				_associationsChoose = value;
+			}
+
+			public function get rowHeight():int
+			{
+				return _rowHeight;
+			}
+
+			public function set rowHeight(value:int):void
+			{
+				_rowHeight = value;
 			}
 
 			
