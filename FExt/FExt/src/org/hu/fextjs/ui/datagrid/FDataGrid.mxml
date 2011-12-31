@@ -28,6 +28,7 @@
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
+			import mx.utils.ObjectUtil;
 			
 			import org.hu.fextjs.event.GridEvent;
 			import org.hu.fextjs.ui.Renderer;
@@ -154,13 +155,6 @@
 					}
 				}
 			}
-
-			private function cloneObject(obj:Object):*{  
-				var ba:ByteArray=new ByteArray();  
-				ba.writeObject(obj);  
-				ba.position=0;  
-				return ba.readObject();  
-			}  
 			
 			/**
 			 * 根据行数据创建行单元格数据
@@ -180,12 +174,14 @@
 						if (column)
 						{
 							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
-							if(column.customComponents){	
-								var ui:UIComponent =  UtilFunctions.clone(column.customComponents) as UIComponent;
-								ui.percentWidth = 100;
-								ui.height = 20;
-								ui.top  =1;
-								cells.addElement(ui);
+							var fun:Function = column.customFunction;
+							if(fun != null){	
+								var bc:IVisualElement = fun.call(null,item,column);
+//								var newui:UIComponent =  ui;
+//								newui.percentWidth = 100;
+//								newui.height = 20;
+//								newui.top  =2;
+								cells.addElement(bc);
 							}
 							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
