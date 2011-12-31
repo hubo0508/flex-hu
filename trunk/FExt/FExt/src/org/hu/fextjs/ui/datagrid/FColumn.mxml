@@ -20,7 +20,7 @@
 			
 			private var _customComponents:IVisualElement;
 			
-			private var _customFunction:Function;
+			private var _rendererFunction:Function;
 		
 			public function get headerText():String
 			{
@@ -51,15 +51,14 @@
 			{
 				_customComponents = value;
 			}
-
-			public function get customFunction():Function
+			public function get rendererFunction():Function
 			{
-				return _customFunction;
+				return _rendererFunction;
 			}
 
-			public function set customFunction(value:Function):void
+			public function set rendererFunction(value:Function):void
 			{
-				_customFunction = value;
+				_rendererFunction = value;
 			}
 
 
