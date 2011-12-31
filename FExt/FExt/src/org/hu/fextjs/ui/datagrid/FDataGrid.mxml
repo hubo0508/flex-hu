@@ -175,7 +175,7 @@
 						if (column)
 						{
 							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
-							var fun:Function = column.customFunction;
+							var fun:Function = column.rendererFunction;
 							if(fun != null){	
 								var bc:IVisualElement = fun.call(null,item,column);
 								if(bc.height == 0){
