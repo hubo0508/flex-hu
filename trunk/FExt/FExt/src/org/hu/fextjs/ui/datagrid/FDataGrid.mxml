@@ -233,19 +233,19 @@
 							if(boxColumn.radio){							
 								this.changeBoxSelected(false,boxColumn);
 								this.restoreLineColor();
-								this.changeRecoredIndex(event.selectRowsIndex[0],"newvalue");
+								this.changesInIndex(event.selectRowsIndex[0],"newvalue");
 								this.changeBoxSelected(true,boxColumn);																
 								this.changeCellsColor(cells,MouseEvent.CLICK);		
 							}else{
-								this.changeRecoredIndex(event.selectRowsIndex[0],"push");
+								this.changesInIndex(event.selectRowsIndex[0],"push");
 								this.eventMark=event.type;
 								this.changeCellsColor(cells, MouseEvent.CLICK);
 							}
 						}
 						else
 						{							
-							this.changeRecoredIndex(event.selectRowsIndex[0],"remove");
-							this.restoreLineColorByRowIndex(event.selectRowsIndex[0]);
+							this.changesInIndex(event.selectRowsIndex[0],"remove");
+							this.restoreTheLineColor(event.selectRowsIndex[0]);
 						}
 						
 						break;
@@ -313,21 +313,21 @@
 				var rowIndex:int = int(cells.id)+1;
 				if(cells.selectionColorMark)
 				{
-					this.restoreLineColorByRowIndex(rowIndex);
+					this.restoreTheLineColor(rowIndex);
 					this.changeBoxSelectedByRowIndex(false,rowIndex);
-					this.changeRecoredIndex(rowIndex,"remove");
+					this.changesInIndex(rowIndex,"remove");
 				}
 				else
 				{
 					this.eventMark=event.type;
 					var boxColumn:FBoxColumn = this.getBoxColumn();
 					if(!boxColumn.radio && boxColumn.rowMultiSelection){						
-						this.changeRecoredIndex(rowIndex,"push");
+						this.changesInIndex(rowIndex,"push");
 						this.changeBoxSelectedByRowIndex(true,rowIndex);
 					}else{
 						this.changeBoxSelected(false);
 						this.restoreLineColor();	
-						this.changeRecoredIndex(rowIndex,"newvalue");
+						this.changesInIndex(rowIndex,"newvalue");
 						this.changeBoxSelected(true);						
 					}						
 					this.changeCellsColor(cells, event.type);
@@ -501,11 +501,11 @@
 				for (var j:int=0; j < historySelectRowsIndex.length; j++)
 				{
 					var rowIndex:int=historySelectRowsIndex[j];
-					this.restoreLineColorByRowIndex(rowIndex);
+					this.restoreTheLineColor(rowIndex);
 				}
 			}
 			
-			private function restoreLineColorByRowIndex(rowIndex:int):void
+			private function restoreTheLineColor(rowIndex:int):void
 			{
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
@@ -543,7 +543,7 @@
 				}
 			}
 			
-			private function changeRecoredIndex(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
+			private function changesInIndex(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
 			{
 				if(type == "remove")
 				{
