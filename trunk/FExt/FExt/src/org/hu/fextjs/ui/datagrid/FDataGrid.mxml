@@ -673,7 +673,7 @@
 			/**
 			 * 创建单元
 			 */
-			private function createCells(text:String):FCells
+			public function createCells(text:String):FCells
 			{
 				var column:FCells=new FCells();
 				column.text=text;
