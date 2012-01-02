@@ -116,7 +116,7 @@
 			
 			protected function headerColumnsRollHandler(event:MouseEvent):void
 			{
-				this.changeTitleCellsColor(event.currentTarget as FCells,event.type);
+				this.changeHeaderCellsColor(event.currentTarget as FCells,event.type);
 			}
 			
 			protected function headerColumnsClickHandler(event:MouseEvent):void
@@ -433,7 +433,7 @@
 			/**
 			 * 改变标题呢行背景颜色
 			 */
-			public function changeTitleCellsColor(cells:FCells, eventtype:String):void
+			public function changeHeaderCellsColor(cells:FCells, eventtype:String):void
 			{								
 				var _rollOverColor:uint=this.getRollOverColor();				
 				var _headerColor:uint = this.getHeaderColor();
@@ -680,8 +680,7 @@
 				column.text=text;
 
 				return column;
-			}
-	
+			}	
 
 			public function set columns(value:Array):void
 			{
@@ -705,7 +704,6 @@
 
 			public function set titleRowHeight(value:int):void
 			{
-				trace("_titleRowHeight");
 				_titleRowHeight = value;
 			}
 
