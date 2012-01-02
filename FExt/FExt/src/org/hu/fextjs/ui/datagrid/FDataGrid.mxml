@@ -179,8 +179,8 @@
 							if(fun != null){	
 								var bc:IVisualElement = fun.call(null,item,column);
 								if(bc.height == 0){
-									bc.height = cells.height-2;
-									bc.top = 1;
+									bc.height = cells.height-3;
+									bc.top =2;
 								}
 								if(bc.width == 0){
 									bc.percentWidth = 100;
@@ -261,7 +261,15 @@
 			 */
 			public function getFCells(column:FColumn, item:Object, rowIndex:int, dataField:String):FCells
 			{
-				var cells:FCells=this.createCells(item[dataField]);
+				var text:String;
+				var labelFun:Function = column.labelFunction;
+				if(labelFun == null){
+					text = item[dataField];
+				}else{
+					text = labelFun.call(null,item,column);
+				}
+				
+				var cells:FCells=this.createCells(text);
 				cells.backgroupColor=this.getRowColors(rowIndex);
 				if (column.percentWidth == 100){
 					cells.percentWidth=100;

@@ -20,6 +20,7 @@
 	 <component id="FBoxColumn" class="org.hu.fextjs.ui.datagrid.FBoxColumn" />
 	 <component id="FColumn" class="org.hu.fextjs.ui.datagrid.FColumn" />
 	 <component id="FMultiCells" class="org.hu.fextjs.ui.datagrid.FMultiCells" />
+	 <component id="FCellsRenderer" class="org.hu.fextjs.ui.datagrid.FCellsRenderer" />
 	 
 	 <component id="LineChartTime" class="org.hu.fextjs.ui.chart.LineChartTime" />
 	 

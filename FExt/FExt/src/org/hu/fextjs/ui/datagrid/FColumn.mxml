@@ -21,6 +21,8 @@
 			private var _customComponents:IVisualElement;
 			
 			private var _rendererFunction:Function;
+			
+			private var _labelFunction:Function;
 		
 			public function get headerText():String
 			{
@@ -59,6 +61,16 @@
 			public function set rendererFunction(value:Function):void
 			{
 				_rendererFunction = value;
+			}
+
+			public function get labelFunction():Function
+			{
+				return _labelFunction;
+			}
+
+			public function set labelFunction(value:Function):void
+			{
+				_labelFunction = value;
 			}
 
 
