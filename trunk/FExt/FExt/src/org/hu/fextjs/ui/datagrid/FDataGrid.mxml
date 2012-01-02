@@ -70,12 +70,55 @@
 //					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 //				</ns:HContainer>			
 //			</ns:VContainer>
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+				trace("w = " + w + " | h = " + h);
+				
+			//	this.setColumnsWidth();
+			}
+			
+			private function setColumnsWidth():void
+			{
+				var singleColumnWidth:Number = getSingleColumnWidth();
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var obj:Object = columns[i];
+					if(obj.width == obj.measuredWidth)
+					{
+						obj.width = singleColumnWidth;
+					}
+				}
+			}
+			
+			private function getSingleColumnWidth():Number
+			{
+				var manuallyDefineColumnWidth:Number = 0;
+				var count:int = 0;
+				
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var obj:Object = columns[i];
+					if(obj.width != obj.measuredWidth)
+					{
+						manuallyDefineColumnWidth += Number(obj.width);
+						count ++;
+					}
+				}
+				
+				return (this.width-manuallyDefineColumnWidth)/(len-count);
+			}
 
 			/**
 			 * 初始化单元格列数
 			 */
 			protected function createAndDisplayHeaderColumns():void
 			{
+			
 				var len:int=_columns.length;
 				for (var i:int=0; i < len; i++)
 				{					
@@ -88,6 +131,8 @@
 						cells.addEventListener(MouseEvent.CLICK,headerColumnsClickHandler,false,0,true);
 						this.setHeaderStyle(cells);
 					
+						//cells.percentWidth=100;
+						
 						if (objColumn.width == 0){
 							cells.percentWidth=100;
 							objColumn.percentWidth=100;
