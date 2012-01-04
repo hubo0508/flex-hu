@@ -57,26 +57,10 @@ package org.hu.fextjs.components
 			//边框线条颜色
 			g.lineStyle(1, borderColor);
 			
-			if (sides.left == "left")
-			{
-				g.moveTo(0, 0);
-				g.lineTo(0, h);
-			}
-			if (sides.right == "right")
-			{
-				g.moveTo(w, 0);
-				g.lineTo(w, h);
-			}
-			if (sides.top == "top")
-			{
-				g.moveTo(0, 0);
-				g.lineTo(w, 0);
-			}
-			if (sides.bottom == 'bottom')
-			{
-				g.moveTo(0, h);
-				g.lineTo(w, h);
-			}
+			if (sides.left == "left")             {g.moveTo(0, 0);	g.lineTo(0, h);}
+			if (sides.right == "right")	        {g.moveTo(w, 0);   g.lineTo(w, h);}
+			if (sides.top == "top")             {g.moveTo(0, 0);   g.lineTo(w, 0);}
+			if (sides.bottom == 'bottom')  {g.moveTo(0, h);	g.lineTo(w, h);}
 		}
 		
 		private function lineSides(value:String):Array
