@@ -46,6 +46,7 @@
 			private var _titleRowHeight:int = 0;
 			private var _associationsChoose:Boolean = true;
 			private var _rowHeight:int = 22;
+			private var singleColumnWidth:Number;
 
 			/*default style start*/
 			private var rollOverColor:uint=0xB2E1FF;
@@ -62,7 +63,6 @@
 //				trace(this.getStyle("headerColor"));
 				this.createAndDisplayHeaderColumns();
 			}
-			
 //			<ns:VContainer width="100%" height="60" gap="0">
 //				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 //				<ns:HContainer width="100%" height="30" gap="0">
@@ -70,15 +70,20 @@
 //					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 //				</ns:HContainer>			
 //			</ns:VContainer>
-			
+
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
-				super.updateDisplayList(w,h);
+				//singleColumnWidth=getSingleColumnWidth();
 				
-				trace("w = " + w + " | h = " + h);
+				trace(singleColumnWidth+"u");
 				
-			//	this.setColumnsWidth();
+				//this.dispatchEvent(new Event("changeLabelMaxWidth",true));
+				
+				super.updateDisplayList(w, h);
+
+				//	this.setColumnsWidth();
 			}
+
 			
 			private function setColumnsWidth():void
 			{
@@ -103,7 +108,7 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var obj:Object = columns[i];
-					if(obj.width != obj.measuredWidth)
+					if(obj.width == 0)
 					{
 						manuallyDefineColumnWidth += Number(obj.width);
 						count ++;
@@ -733,6 +738,7 @@
 			{
 				var column:FCells=new FCells();
 				column.text=text;
+				//column.addEventListener("changeLabelMaxWidth",changeLabelMaxWidthHandler,false,0,true);
 				
 				var textAlign:String = this.getTextAlign().toString();
 				if(textAlign == "left"){
@@ -747,6 +753,12 @@
 				
 				return column;
 			}	
+			
+			protected function changeLabelMaxWidthHandler(event:Event):void
+			{
+				var cell:FCells = event.currentTarget as FCells;
+				cell._l.maxWidth = this.singleColumnWidth;
+			}
 
 			public function set columns(value:Array):void
 			{

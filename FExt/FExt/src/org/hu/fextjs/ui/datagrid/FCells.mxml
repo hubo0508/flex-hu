@@ -46,6 +46,16 @@
 				
 				this.dispatchEvent(e);
 			}
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+//				trace("w = " + w + " | h = " + h);
+				
+//				_l.maxWidth = w;
+				//	this.setColumnsWidth();
+			}
 
 			[Bindable]
 			public function get text():String
