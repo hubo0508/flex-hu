@@ -56,6 +56,6 @@
 		]]>
 	</fx:Script>
 	
-	<ns:LineChartTime id="lct" left="100" top="100" field="[price,time,weeks]" height="200" width="450" yCalibrationValue="[100,200,300,350]" unit="$"/>
+	<ns:LineChartTime id="lct" left="100" top="100" field="[price,time,weeks]" height="500" width="550" yCalibrationValue="[100,200,300,350]" unit="$"/>
 	
 </s:Application>
