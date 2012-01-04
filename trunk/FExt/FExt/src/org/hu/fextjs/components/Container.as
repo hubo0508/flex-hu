@@ -8,9 +8,9 @@ package org.hu.fextjs.components
 	
 	import mx.controls.Alert;	
 	
-	import spark.components.Group;
+	import spark.components.SkinnableContainer;
 	
-	public class Container extends Group 
+	public class Container extends SkinnableContainer 
 	{		
 		public var borderSides:String="all";
 		public var backgroupColor:uint = 0;
@@ -26,7 +26,7 @@ package org.hu.fextjs.components
 		{
 			super.measure();
 			measuredHeight = 22;
-			measuredWidth = 80;
+			measuredWidth = 22;
 		}
 		
 		override protected function createChildren():void
