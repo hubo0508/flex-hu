@@ -34,6 +34,7 @@
 			import mx.utils.ObjectUtil;
 			
 			import org.hu.fextjs.event.GridEvent;
+			import org.hu.fextjs.util.Constant;
 			import org.hu.fextjs.util.UtilFunctions;
 			
 			import spark.components.BorderContainer;
@@ -93,15 +94,21 @@
 					{						
 						var cell:FCells;
 						var objColumn:Object=columns[i];
+						
 						if (objColumn is FColumn)
 						{
 							cell = getInitializeCell(k+1);
 						}
-						
+
 						if(objColumn is FBoxColumn)
 						{							
-							cell = getInitializeCell(k+1,FCells.CHECK_BOX);							
-						}						
+							cell = getInitializeCell(k+1,Constant.CHECKBOX);							
+						}
+						
+						if(objColumn is FSequenceColumn)
+						{
+							cell = getInitializeCell(k+1,Constant.SEQ);
+						}
 						
 						if((lineNum-1) == k){
 							this.setLastRowsHeight(k,cell,objColumn);
@@ -111,13 +118,16 @@
 					}
 				}				
 			}
+			
 			private function setLastRowsHeight(index:int, cell:FCells,objColumn:Object):void
 			{
 				var lineHeight:Number=this.height - (index * rowHeight + titleRowHeight);
 				cell.height=lineHeight;
 				if (objColumn is FBoxColumn)
 				{
-					cell.boxVisible=false;
+					cell.cellsVisible=false;
+				}else if(objColumn is FSequenceColumn){
+					cell.cellsVisible=false;
 				}
 			}
 
@@ -132,7 +142,7 @@
 				for (var i:int=0; i < len; i++)
 				{
 					var objColumn:Object=_columns[i];
-					if (objColumn is FColumn || objColumn is FBoxColumn)
+					if (objColumn is FColumn || objColumn is FBoxColumn || objColumn is FSequenceColumn)
 					{
 						var cells:FCells=this.createCells(objColumn.headerText);
 						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
@@ -323,16 +333,6 @@
 				{
 					text=labelFun.call(null, item, column);
 				}
-				
-//				cells.backgroupColor=this.getRowColors(rowIndex);
-//				if (column.percentWidth == 100){
-//				cells.percentWidth=100;
-//				}else{
-//					cells.width=column.width;
-//				}
-//				cells.id=rowIndex.toString();
-				
-//				cells.height=this.rowHeight;
 
 				var cells:FCells=column.getElementAt(rowIndex) as FCells;
 				cells.data=item;
@@ -350,8 +350,11 @@
 				cells.id=rowIndex.toString();
 				cells.height=this.rowHeight;
 				
-				if(type == FCells.CHECK_BOX){
-					cells.boxVisible = true;
+				if(type == Constant.CHECKBOX){
+					cells.cellsVisible = true;
+				}else if(type == Constant.SEQ){
+					cells.text = (rowIndex-1).toString();
+					cells.type = Constant.LABEL;
 				}
 				
 				return cells;

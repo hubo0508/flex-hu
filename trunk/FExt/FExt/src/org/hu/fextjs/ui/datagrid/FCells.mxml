@@ -11,22 +11,20 @@
 	<fx:Script>
 		<![CDATA[
 			import org.hu.fextjs.event.GridEvent;
+			import org.hu.fextjs.util.Constant;
 			
 			import spark.components.CheckBox;
 			
-			public var data:Object;
-			
-			public static const LABEL:String = "label";
-			public static const CHECK_BOX:String = "checkBox";
-			
-			private var _type:String = LABEL;						
+			public var data:Object;			
+
+			private var _type:String = Constant.LABEL;						
 			public var selectionColorMark:Boolean = false;
 			
 			[Bindable]public var text:String;			
 			[Bindable]public var labelHorizontalCenter:Object = 0;
 			[Bindable]public var labelLeft:Object = "undefined";
 			[Bindable]public var labelRight:Object = "undefined";
-			[Bindable]public var boxVisible:Boolean = true;
+			[Bindable]public var cellsVisible:Boolean = true;
 			
 			[Bindable]private var _selected:Boolean = false;
 			
@@ -34,10 +32,10 @@
 			{
 				super.createChildren();
 				
-				if(type == LABEL)
+				if(type == Constant.LABEL)
 				{
 					this.removeElement(_c);
-				}else if(type == CHECK_BOX)
+				}else if(type == Constant.CHECKBOX)
 				{
 					this.removeElement(_l);
 				}
@@ -45,10 +43,10 @@
 			
 			public function changeBox(type:String):void
 			{
-				if(type == LABEL)
+				if(type == Constant.LABEL)
 				{
 					this.removeElement(_c);
-				}else if(type == CHECK_BOX)
+				}else if(type == Constant.CHECKBOX)
 				{
 					this.removeElement(_l);
 				}
@@ -85,7 +83,7 @@
 		]]>
 	</fx:Script>
 	
-	<mx:Label id="_l" horizontalCenter="{labelHorizontalCenter}" left="{labelLeft}" right="{labelRight}" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
-	<s:CheckBox id="_c" visible="{boxVisible}" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
+	<mx:Label id="_l"      visible="{cellsVisible}" horizontalCenter="{labelHorizontalCenter}" left="{labelLeft}" right="{labelRight}" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+	<s:CheckBox id="_c" visible="{cellsVisible}" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
 	
 </components:Container>

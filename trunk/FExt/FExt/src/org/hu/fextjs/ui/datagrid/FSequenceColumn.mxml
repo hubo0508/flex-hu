@@ -17,6 +17,18 @@
 			
 			[Bindable]public var text:String;			
 			[Bindable]public var textHorizontalCenter:Object = 0;
+			
+			private var _headerText:String;			
+			
+			public function get headerText():String
+			{
+				return _headerText;
+			}
+
+			public function set headerText(value:String):void
+			{
+				_headerText = value;
+			}
 
 		]]>
 	</fx:Script>
