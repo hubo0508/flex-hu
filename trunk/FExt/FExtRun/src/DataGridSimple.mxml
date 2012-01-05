@@ -4,8 +4,6 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"  preloader="org.hu.fextjs.core.preloader.Preloader"
 			   xmlns:components="org.hu.fextjs.components.*" 
 			   creationComplete="creationCompleteHandler(event)"
-			   minWidth="955"
-			   minHeight="600"
 			   xmlns:FExt="library://FExt.HU"
 			   xmlns:local="*" xmlns:datagrid="org.hu.fextjs.ui.datagrid.*">
 	
