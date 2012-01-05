@@ -9,7 +9,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ns="library://FExt.HU"
 			   borderSides="right"
-			   width="40"
+			   width="35"
 			   gap="0">
 	
 	<fx:Script>
@@ -18,6 +18,8 @@
 			[Bindable]public var textHorizontalCenter:Object = 0;
 			
 			private var _headerText:String;			
+			
+			public var textAlign:String = "center";
 			
 			public function get headerText():String
 			{

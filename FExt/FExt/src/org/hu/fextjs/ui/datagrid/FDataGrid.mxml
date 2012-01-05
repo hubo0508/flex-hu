@@ -127,7 +127,7 @@
 				for (var i:int=0; i < len; i++)
 				{
 					var objColumn:Object=_columns[i];
-					if (objColumn is FColumn || objColumn is FBoxColumn || objColumn is FSequenceColumn)
+					if (isFColumn(objColumn))
 					{
 						var cells:FCells=this.createCells(objColumn.headerText);
 						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
@@ -353,9 +353,12 @@
 					
 				if(objColumn is FSequenceColumn)
 				{
-					cells.type = Constant.SEQ;
 					cells.text = (rowIndex).toString();
 					cells.type = Constant.LABEL;
+					
+					cells.labelHorizontalCenter = 0;
+						
+					//this.getTextAlign(objColumn.textAlign.toString());
 				}
 				
 				return cells;
@@ -581,7 +584,7 @@
 				for (var i:int=0; i < len; i++)
 				{
 					var objColumn:Object=columns[i];
-					if (objColumn is FColumn || objColumn is FBoxColumn)
+					if (isFColumn(objColumn))
 					{
 						var designateCell:FCells=objColumn.getElementAt(rowIndex) as FCells;
 						designateCell.backgroupColor=getRowColors(rowIndex);
@@ -589,6 +592,15 @@
 						designateCell.invalidateDisplayList();
 					}
 				}
+			}
+			
+			private function isFColumn(objColumn:Object):Boolean
+			{
+				if (objColumn is FColumn || objColumn is FBoxColumn || objColumn is FSequenceColumn)
+				{
+					return true;
+				}
+				return false;
 			}
 
 			private function changeBoxSelected(state:Boolean, boxColumn:FBoxColumn=null):void
@@ -663,9 +675,9 @@
 				return boxColumn;
 			}
 
-			private function getTextAlign():Object
+			private function getTextAlign(value:String = null):Object
 			{
-				var _textAlign:String=getStyle("textAlign");
+				var _textAlign:String= value == null ? getStyle("textAlign") : value ;
 				if (_textAlign == "start" || _textAlign == "center")
 				{
 					return "0";
