@@ -766,14 +766,14 @@
 				var textAlign:String=this.getTextAlign().toString();
 				if (textAlign == "left")
 				{
-					column._l.horizontalCenter="undefined";
-					column._l.left=2;
+					column.labelHorizontalCenter="undefined";
+					column.labelLeft=2;
 				}
 
 				if (textAlign == "right")
 				{
-					column._l.horizontalCenter="undefined";
-					column._l.right=2;
+					column.labelHorizontalCenter="undefined";
+					column.labelRight=2;
 				}
 
 				return column;
