@@ -10,7 +10,6 @@
 	 
 	  <component id="VContainer" class="org.hu.fextjs.components.VContainer" />
 	  <component id="HContainer" class="org.hu.fextjs.components.HContainer" />
-	  <component id="Renderer" class="org.hu.fextjs.ui.Renderer" />
 	 
 	 <component id="DataGrid" class="org.hu.fextjs.ui.datagrid.DataGrid" />
 	 <component id="SequenceColumn" class="org.hu.fextjs.ui.datagrid.SequenceColumn" />
