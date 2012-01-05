@@ -31,7 +31,6 @@
 			import mx.utils.ObjectUtil;
 
 			import org.hu.fextjs.event.GridEvent;
-			import org.hu.fextjs.ui.Renderer;
 			import org.hu.fextjs.util.UtilFunctions;
 
 			import spark.components.BorderContainer;
