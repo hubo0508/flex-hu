@@ -59,18 +59,18 @@
 				
 				for(var i:int=0; i<acc.length; i++)
 				{
-//					var cells:FCells = fdg.getFCells(fdgcolumn,acc[i],i,"nametitle");
-//					fdgcolumn.addElement(cells);
+					var cells:FCells = fdg.getFCells(fdgcolumn,acc[i],i,"nametitle");
+					//fdgcolumn.addElement(cells);
 				}
 			}
 			
 			protected function fdg_itemClickHandler(event:GridEvent):void
 			{
-				//				var lenValue:int = event.selectItems.length;
-				//				for(var i:int=0; i<lenValue; i++)
-				//				{
-				//					this.chooseValue.text = this.chooseValue.text +"&#xd;"+event.selectItems[i]["name"];
-				//				}
+								var lenValue:int = event.selectItems.length;
+								for(var i:int=0; i<lenValue; i++)
+								{
+									this.chooseValue.text = this.chooseValue.text +"&#xd;"+event.selectItems[i]["name"];
+								}
 				
 				var indexStr:String="";
 				
@@ -126,7 +126,7 @@
 				
 	<FExt:FDataGrid id="fdg"  width="90%" top="30" itemClick="fdg_itemClickHandler(event)" height="330">
 		<FExt:columns>							
-			<!--<FExt:VContainer gap="0" horizontalAlign="right" bottom="right" >
+			<FExt:VContainer gap="0" horizontalAlign="right" bottom="right" >
 				<FExt:FCells width="280" text="性能数据" backgroupColor="#7AB4F4" borderSides="" borderColor="0x696969" height="30"/>
 				<s:HGroup gap="0">
 					<FExt:VContainer gap="0" width="100" borderSides="right">
@@ -136,8 +136,8 @@
 					</FExt:VContainer>						
 					<FExt:FColumn id="fdgcolumn" width="180"  />
 				</s:HGroup>
-			</FExt:VContainer>-->
-			<FExt:FSequenceColumn headerText="序列"/>
+			</FExt:VContainer>
+			<FExt:FSequenceColumn headerText="序列" textAlign="center"/>
 			<FExt:FBoxColumn headerText="选择" radio="false" rowMultiSelection="true"/>
 			<FExt:FColumn dataField="name" headerText="接收量(M)"  rendererFunction="rendererFunction"/>
 			<FExt:FColumn dataField="name2" headerText="发送量(M)" labelFunction="labelFunction"/>
