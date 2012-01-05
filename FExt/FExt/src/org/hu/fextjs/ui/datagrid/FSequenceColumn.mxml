@@ -15,7 +15,6 @@
 	<fx:Script>
 		<![CDATA[
 			
-			[Bindable]public var text:String;			
 			[Bindable]public var textHorizontalCenter:Object = 0;
 			
 			private var _headerText:String;			
@@ -33,6 +32,5 @@
 		]]>
 	</fx:Script>
 	
-	<mx:Label id="_l" horizontalCenter="{textHorizontalCenter}" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
 	
 </ns:VContainer>

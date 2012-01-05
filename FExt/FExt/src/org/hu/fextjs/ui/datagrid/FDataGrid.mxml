@@ -73,7 +73,7 @@
 				this.createAndDisplayHeaderColumns();
 				
 				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
-				this.createLineBackground(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
+				this.initializationRows(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
 			}
 
 			override protected function updateDisplayList(w:Number, h:Number):void
@@ -84,7 +84,7 @@
 			/**
 			 * 创建内容背景行
 			 */
-			private function createLineBackground(lineNum:int):void
+			private function initializationRows(lineNum:int):void
 			{
 				var len:int=this.columns.length;
 				for(var k:int=0; k<lineNum; k++)
@@ -110,7 +110,8 @@
 				if (objColumn is FBoxColumn)
 				{
 					cell.cellsVisible=false;
-				}else if(objColumn is FSequenceColumn){
+				}
+				else if(objColumn is FSequenceColumn){
 					cell.cellsVisible=false;
 				}
 			}
@@ -259,6 +260,13 @@
 							//boxColumn.addElement(boxCells);
 						}
 					}
+					
+					if(objColumn is FSequenceColumn)
+					{
+						var cell:FCells = objColumn.getElementAt(rowIndex+1) as FCells;
+						cell.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+						cell.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+					}
 				}
 			}
 
@@ -340,7 +348,6 @@
 
 				if(objColumn is FBoxColumn)
 				{						
-					cells.type = Constant.CHECKBOX;
 					cells.type = Constant.CHECKBOX;
 				}
 					
@@ -525,7 +532,7 @@
 				for (var i:int=0; i < len; i++)
 				{
 					var sibingColumn:Object=columns[i];
-					if (sibingColumn is FColumn || sibingColumn is FBoxColumn)
+					if (sibingColumn is FColumn || sibingColumn is FBoxColumn || sibingColumn is FSequenceColumn)
 					{
 						var rowIndex:int=int(cells.id);
 						var siblingCell:FCells=sibingColumn.getElementAt(rowIndex) as FCells;
