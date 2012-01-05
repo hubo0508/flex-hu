@@ -17,7 +17,7 @@
 		[Style(name="titleBorderColor", type="uint", format="Color", inherit="yes", theme="spark")]
 		[Style(name="titleBorderVisible", type="Boolean", inherit="no")]
 	</fx:Metadata>
-	
+
 	<fx:Metadata>
 		[Event(name="itemClick",type="org.hu.fextjs.event.GridEvent")]
 	</fx:Metadata>
@@ -29,23 +29,23 @@
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.utils.ObjectUtil;
-			
+
 			import org.hu.fextjs.event.GridEvent;
 			import org.hu.fextjs.ui.Renderer;
 			import org.hu.fextjs.util.UtilFunctions;
-			
+
 			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
 
 			private var _columns:Array;
 			private var _mergeCells:Array;
 			private var _dataProvider:Object;
-			public var eventMark:String;//click mark
+			public var eventMark:String; //click mark
 			public var historySelectRowsIndex:Array=[];
 			public var selectItems:Array;
-			private var _titleRowHeight:int = 0;
-			private var _associationsChoose:Boolean = true;
-			private var _rowHeight:int = 22;
+			private var _titleRowHeight:int=30;
+			private var _associationsChoose:Boolean=true;
+			private var _rowHeight:int=22;
 			private var singleColumnWidth:Number;
 
 			/*default style start*/
@@ -53,8 +53,9 @@
 			private var alternatingItemColors:Array=["#FFFFFF", "#F7F7F7"];
 			private var verticalGridLines:Boolean;
 			private var selectionColor:uint=0x7FCEFF;
-			private var headerColor:uint = 0xA8A8A8;
-			/*default style end*/	
+			private var headerColor:uint=0xA8A8A8;
+
+			/*default style end*/
 
 			override protected function createChildren():void
 			{
@@ -63,6 +64,7 @@
 //				trace(this.getStyle("headerColor"));
 				this.createAndDisplayHeaderColumns();
 			}
+
 //			<ns:VContainer width="100%" height="60" gap="0">
 //				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 //				<ns:HContainer width="100%" height="30" gap="0">
@@ -74,48 +76,48 @@
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
 				//singleColumnWidth=getSingleColumnWidth();
-				
-				trace(singleColumnWidth+"u");
-				
+
+				trace(singleColumnWidth + "u");
+
 				//this.dispatchEvent(new Event("changeLabelMaxWidth",true));
-				
+
 				super.updateDisplayList(w, h);
 
 				//	this.setColumnsWidth();
 			}
 
-			
+
 			private function setColumnsWidth():void
 			{
-				var singleColumnWidth:Number = getSingleColumnWidth();
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
+				var singleColumnWidth:Number=getSingleColumnWidth();
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var obj:Object = columns[i];
-					if(obj.width == obj.measuredWidth)
+					var obj:Object=columns[i];
+					if (obj.width == obj.measuredWidth)
 					{
-						obj.width = singleColumnWidth;
+						obj.width=singleColumnWidth;
 					}
 				}
 			}
-			
+
 			private function getSingleColumnWidth():Number
 			{
-				var manuallyDefineColumnWidth:Number = 0;
-				var count:int = 0;
-				
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
+				var manuallyDefineColumnWidth:Number=0;
+				var count:int=0;
+
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var obj:Object = columns[i];
-					if(obj.width == 0)
+					var obj:Object=columns[i];
+					if (obj.width == 0)
 					{
-						manuallyDefineColumnWidth += Number(obj.width);
-						count ++;
+						manuallyDefineColumnWidth+=Number(obj.width);
+						count++;
 					}
 				}
-				
-				return (this.width-manuallyDefineColumnWidth)/(len-count);
+
+				return (this.width - manuallyDefineColumnWidth) / (len - count);
 			}
 
 			/**
@@ -123,36 +125,38 @@
 			 */
 			protected function createAndDisplayHeaderColumns():void
 			{
-			
+
 				var len:int=_columns.length;
 				for (var i:int=0; i < len; i++)
-				{					
-					var objColumn:Object = _columns[i];
+				{
+					var objColumn:Object=_columns[i];
 					if (objColumn is FColumn || objColumn is FBoxColumn)
 					{
 						var cells:FCells=this.createCells(objColumn.headerText);
-						cells.addEventListener(MouseEvent.ROLL_OUT,headerColumnsRollHandler,false,0,true);
-						cells.addEventListener(MouseEvent.ROLL_OVER,headerColumnsRollHandler,false,0,true);
-						cells.addEventListener(MouseEvent.CLICK,headerColumnsClickHandler,false,0,true);
+						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.ROLL_OVER, headerColumnsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);
 						this.setHeaderStyle(cells);
-					
+
 						//cells.percentWidth=100;
-						
-						if (objColumn.width == 0){
+
+						if (objColumn.width == 0)
+						{
 							cells.percentWidth=100;
 							objColumn.percentWidth=100;
-						}else{
-							cells.width = objColumn.width;
 						}
-						
-						if(titleRowHeight != 0){
-							cells.height = titleRowHeight;
+						else
+						{
+							cells.width=objColumn.width;
 						}
-						
-						if(i == (len-1)){
-							objColumn.borderSides = "";
+
+						cells.height=titleRowHeight;
+
+						if (i == (len - 1))
+						{
+							objColumn.borderSides="";
 						}
-						
+
 						objColumn.addElement(cells);
 						objColumn.id=i.toString();
 						this.addElement(objColumn as IVisualElement);
@@ -163,17 +167,17 @@
 					}
 				}
 			}
-			
+
 			protected function headerColumnsRollHandler(event:MouseEvent):void
 			{
-				this.changeHeaderCellsColor(event.currentTarget as FCells,event.type);
+				this.changeHeaderCellsColor(event.currentTarget as FCells, event.type);
 			}
-			
+
 			protected function headerColumnsClickHandler(event:MouseEvent):void
 			{
 				//do
 			}
-			
+
 			/**
 			 * 设置列表头样式
 			 */
@@ -206,7 +210,7 @@
 					}
 				}
 			}
-			
+
 			/**
 			 * 根据行数据创建行单元格数据
 			 *
@@ -218,22 +222,25 @@
 				var len:int=this.columns.length;
 				for (var i:int=0; i < len; i++)
 				{
-					var objColumn:Object = _columns[i];
+					var objColumn:Object=_columns[i];
 					if (objColumn is FColumn)
 					{
 						var column:FColumn=this.columns[i] as FColumn;
 						if (column)
 						{
 							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
-							var fun:Function = column.rendererFunction;
-							if(fun != null){	
-								var bc:IVisualElement = fun.call(null,item,column);
-								if(bc.height == 0){
-									bc.height = cells.height-3;
-									bc.top =2;
+							var fun:Function=column.rendererFunction;
+							if (fun != null)
+							{
+								var bc:IVisualElement=fun.call(null, item, column);
+								if (bc.height == 0)
+								{
+									bc.height=cells.height - 3;
+									bc.top=2;
 								}
-								if(bc.width == 0){
-									bc.percentWidth = 100;
+								if (bc.width == 0)
+								{
+									bc.percentWidth=100;
 								}
 								cells.addElement(bc);
 							}
@@ -243,98 +250,105 @@
 							column.addElement(cells);
 						}
 					}
-					
-					if(objColumn is FBoxColumn)
+
+					if (objColumn is FBoxColumn)
 					{
-						var boxColumn:FBoxColumn = this.columns[i] as FBoxColumn;
-						if(boxColumn)
+						var boxColumn:FBoxColumn=this.columns[i] as FBoxColumn;
+						if (boxColumn)
 						{
-							var boxCells:FCells = this.getBoxCells(boxColumn,rowIndex);
+							var boxCells:FCells=this.getBoxCells(boxColumn, rowIndex);
 							boxCells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							boxCells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
-							boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE,boxColumnChangeHandler,false,0,true);
+							boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE, boxColumnChangeHandler, false, 0, true);
 							boxColumn.addElement(boxCells);
-						}						
+						}
 					}
 				}
 			}
-			
-			public function initContentRowEventListener(cells:FCells):void				
+
+			public function initContentRowEventListener(cells:FCells):void
 			{
 				cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 				cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 				cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
 			}
 
-			
+
 			protected function boxColumnChangeHandler(event:GridEvent):void
-			{				
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
+			{
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var boxColumn:FBoxColumn = this.columns[i] as FBoxColumn;
-					if(boxColumn)
+					var boxColumn:FBoxColumn=this.columns[i] as FBoxColumn;
+					if (boxColumn)
 					{
-						var cells:FCells = boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;						
-						if(cells.selected)
-						{						
-							if(boxColumn.radio){							
-								this.changeBoxSelected(false,boxColumn);
+						var cells:FCells=boxColumn.getElementAt(int(event.selectRowsIndex[0])) as FCells;
+						if (cells.selected)
+						{
+							if (boxColumn.radio)
+							{
+								this.changeBoxSelected(false, boxColumn);
 								this.restoreLineColor();
-								this.changesInIndex(event.selectRowsIndex[0],"newvalue");
-								this.changeBoxSelected(true,boxColumn);																
-								this.changeCellsColor(cells,MouseEvent.CLICK);		
-							}else{
-								this.changesInIndex(event.selectRowsIndex[0],"push");
+								this.changesInIndex(event.selectRowsIndex[0], "newvalue");
+								this.changeBoxSelected(true, boxColumn);
+								this.changeCellsColor(cells, MouseEvent.CLICK);
+							}
+							else
+							{
+								this.changesInIndex(event.selectRowsIndex[0], "push");
 								this.eventMark=event.type;
 								this.changeCellsColor(cells, MouseEvent.CLICK);
 							}
-							
-							this.selectItems = this.getSelectionValue();
+
+							this.selectItems=this.getSelectionValue();
 							this.dispatchItemClick();
 						}
 						else
-						{							
-							this.changesInIndex(event.selectRowsIndex[0],"remove");
+						{
+							this.changesInIndex(event.selectRowsIndex[0], "remove");
 							this.restoreTheLineColor(event.selectRowsIndex[0]);
 						}
-						
+
 						break;
-					}					
-				}				
+					}
+				}
 			}
-	
+
 			/**
 			 * 创建统一样式单元格
 			 */
 			public function getFCells(column:FColumn, item:Object, rowIndex:int, dataField:String):FCells
 			{
 				var text:String;
-				var labelFun:Function = column.labelFunction;
-				if(labelFun == null){
-					text = item[dataField];
-				}else{
-					text = labelFun.call(null,item,column);
+				var labelFun:Function=column.labelFunction;
+				if (labelFun == null)
+				{
+					text=item[dataField];
 				}
-				
+				else
+				{
+					text=labelFun.call(null, item, column);
+				}
+
 				var cells:FCells=this.createCells(text);
 				cells.backgroupColor=this.getRowColors(rowIndex);
-				if (column.percentWidth == 100){
-					cells.percentWidth=100;
-				}else{
-					cells.width=column.width;
-				}
+//				if (column.percentWidth == 100){
+				cells.percentWidth=100;
+//				}else{
+//					cells.width=column.width;
+//				}
 				cells.id=rowIndex.toString();
-				cells.data = item;
-				cells.height = this.rowHeight;
+				cells.data=item;
+				cells.height=this.rowHeight;
 
 				return cells;
 			}
-			
-			public function getBoxCells(column:FBoxColumn,rowIndex:int):FCells
+
+
+			public function getBoxCells(column:FBoxColumn, rowIndex:int):FCells
 			{
-				var cells:FCells = new FCells();
-				cells.type = column.boxType;
+				var cells:FCells=new FCells();
+				cells.type=column.boxType;
 				cells.backgroupColor=this.getRowColors(rowIndex);
 				cells.borderSides="";
 				if (column.percentWidth == 100)
@@ -346,7 +360,7 @@
 					cells.width=column.width;
 				}
 				cells.id=rowIndex + "";
-				
+
 				return cells;
 			}
 
@@ -357,49 +371,52 @@
 			 */
 			protected function cellsClickHandler(event:MouseEvent):void
 			{
-				var cells:FCells = event.currentTarget as FCells;
-				var rowIndex:int = int(cells.id)+1;
-				if(cells.selectionColorMark)
+				var cells:FCells=event.currentTarget as FCells;
+				var rowIndex:int=int(cells.id) + 1;
+				if (cells.selectionColorMark)
 				{
 					this.restoreTheLineColor(rowIndex);
-					this.changeBoxSelectedByRowIndex(false,rowIndex);
-					this.changesInIndex(rowIndex,"remove");
+					this.changeBoxSelectedByRowIndex(false, rowIndex);
+					this.changesInIndex(rowIndex, "remove");
 				}
 				else
 				{
 					this.eventMark=event.type;
-					var boxColumn:FBoxColumn = this.getBoxColumn();
-					if(!boxColumn.radio && boxColumn.rowMultiSelection){						
-						this.changesInIndex(rowIndex,"push");
-						this.changeBoxSelectedByRowIndex(true,rowIndex);
-					}else{
+					var boxColumn:FBoxColumn=this.getBoxColumn();
+					if (!boxColumn.radio && boxColumn.rowMultiSelection)
+					{
+						this.changesInIndex(rowIndex, "push");
+						this.changeBoxSelectedByRowIndex(true, rowIndex);
+					}
+					else
+					{
 						this.changeBoxSelected(false);
-						this.restoreLineColor();	
-						this.changesInIndex(rowIndex,"newvalue");
-						this.changeBoxSelected(true);						
-					}						
+						this.restoreLineColor();
+						this.changesInIndex(rowIndex, "newvalue");
+						this.changeBoxSelected(true);
+					}
 					this.changeCellsColor(cells, event.type);
-					this.selectItems = this.getSelectionValue();
-					this.dispatchItemClick();	
-				}				
+					this.selectItems=this.getSelectionValue();
+					this.dispatchItemClick();
+				}
 			}
 
 			public function dispatchItemClick():void
 			{
-				var e:GridEvent = new GridEvent(GridEvent.ITEM_CLICK);
-				e.selectItems = this.selectItems;
-				e.selectRowsIndex = historySelectRowsIndex;
-				
+				var e:GridEvent=new GridEvent(GridEvent.ITEM_CLICK);
+				e.selectItems=this.selectItems;
+				e.selectRowsIndex=historySelectRowsIndex;
+
 				this.dispatchEvent(e);
-			}			
-			
+			}
+
 			/**
 			 * 1、鼠标移入，移出单元格时，更新背景颜色
 			 * 2、同时更新当前行的颜色
 			 */
 			protected function cellsRollHandler(event:MouseEvent):void
 			{
-				switch(event.type)
+				switch (event.type)
 				{
 					case MouseEvent.ROLL_OVER:
 						if (eventMark == MouseEvent.CLICK)
@@ -411,7 +428,7 @@
 							eventMark="";
 						}
 						break;
-					
+
 					case MouseEvent.ROLL_OUT:
 						if (eventMark == MouseEvent.CLICK)
 						{
@@ -419,73 +436,73 @@
 							return;
 						}
 						break;
-					
+
 					default:
 						break;
 				}
-				
-				this.changeCellsColor(event.currentTarget as FCells, event.type);				
+
+				this.changeCellsColor(event.currentTarget as FCells, event.type);
 			}
-			
+
 			/**
 			 * 根据行索引取得单元格值
 			 */
-			public function getColumnValueByRowIndex(rowIndex:Array,column:FColumn,target:Array = null):Array
+			public function getColumnValueByRowIndex(rowIndex:Array, column:FColumn, target:Array=null):Array
 			{
-				var array:Array = [];
-				
-				var len:int = rowIndex.length;
-				for(var i:int=0; i<len; i++)
+				var array:Array=[];
+
+				var len:int=rowIndex.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var cells:FCells = column.getElementAt(rowIndex[i]) as FCells;
-					if(target && target[i])
+					var cells:FCells=column.getElementAt(rowIndex[i]) as FCells;
+					if (target && target[i])
 					{
-						var obj:Object = target[i];
-						obj[column.dataField] = cells.text;
+						var obj:Object=target[i];
+						obj[column.dataField]=cells.text;
 					}
 					else
 					{
-						array.push(column.dataField,cells.text);
-					}					
+						array.push(column.dataField, cells.text);
+					}
 				}
-				
+
 				return target == null ? array : target;
 			}
-			
+
 			/**
 			 * 取得所有组件自定义值
 			 */
 			public function getSelectionValue():Array
 			{
-				var array:Array = [];
-				var len:int = historySelectRowsIndex.length;
+				var array:Array=[];
+				var len:int=historySelectRowsIndex.length;
 				var lenColumns:int=columns.length;
 				for (var j:int=0; j < len; j++)
 				{
-					var obj:Object = new Object();
+					var obj:Object=new Object();
 					for (var i:int=0; i < lenColumns; i++)
 					{
 						var column:FColumn=columns[i] as FColumn;
 						if (column)
 						{
-							var cells:FCells = column.getElementAt(historySelectRowsIndex[j]) as FCells;
-							obj[column.dataField] = cells.text;							
+							var cells:FCells=column.getElementAt(historySelectRowsIndex[j]) as FCells;
+							obj[column.dataField]=cells.text;
 						}
 					}
 					array.push(obj);
 				}
-				
+
 				return array;
 			}
-			
+
 			/**
 			 * 改变标题呢行背景颜色
 			 */
 			public function changeHeaderCellsColor(cells:FCells, eventtype:String):void
-			{								
-				var _rollOverColor:uint=this.getRollOverColor();				
-				var _headerColor:uint = this.getHeaderColor();
-				
+			{
+				var _rollOverColor:uint=this.getRollOverColor();
+				var _headerColor:uint=this.getHeaderColor();
+
 				if (MouseEvent.ROLL_OVER == eventtype)
 				{
 					cells.backgroupColor=_rollOverColor;
@@ -505,7 +522,7 @@
 			{
 				var _selectionColor:uint=this.getSelectionColor();
 				var _rollOverColor:uint=this.getRollOverColor();
-	
+
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
@@ -552,77 +569,80 @@
 					this.restoreTheLineColor(rowIndex);
 				}
 			}
-			
+
 			private function restoreTheLineColor(rowIndex:int):void
 			{
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
 					var objColumn:Object=columns[i];
-					if (objColumn is FColumn || objColumn is FBoxColumn )
+					if (objColumn is FColumn || objColumn is FBoxColumn)
 					{
 						var designateCell:FCells=objColumn.getElementAt(rowIndex) as FCells;
-						designateCell.backgroupColor=getRowColors(rowIndex+1);
+						designateCell.backgroupColor=getRowColors(rowIndex + 1);
 						designateCell.selectionColorMark=false;
 						designateCell.invalidateDisplayList();
 					}
 				}
 			}
-			
-			private function changeBoxSelected(state:Boolean,boxColumn:FBoxColumn = null):void
-			{				
-				boxColumn = boxColumn || this.getBoxColumn();
-				var len:int = historySelectRowsIndex.length;
+
+			private function changeBoxSelected(state:Boolean, boxColumn:FBoxColumn=null):void
+			{
+				boxColumn=boxColumn || this.getBoxColumn();
+				var len:int=historySelectRowsIndex.length;
 				for (var j:int=0; j < len; j++)
 				{
-					var rowIndex:int = historySelectRowsIndex[j];
-					this.changeBoxSelectedByRowIndex(state,rowIndex,boxColumn);
+					var rowIndex:int=historySelectRowsIndex[j];
+					this.changeBoxSelectedByRowIndex(state, rowIndex, boxColumn);
 				}
 			}
-			
-			private function changeBoxSelectedByRowIndex(state:Boolean,rowIndex:int,boxColumn:FBoxColumn = null):void
+
+			private function changeBoxSelectedByRowIndex(state:Boolean, rowIndex:int, boxColumn:FBoxColumn=null):void
 			{
-				boxColumn = boxColumn || this.getBoxColumn();			
-				var cells:FCells = boxColumn.getElementAt(rowIndex) as FCells;
-				if(cells.selected != state)
+				boxColumn=boxColumn || this.getBoxColumn();
+				var cells:FCells=boxColumn.getElementAt(rowIndex) as FCells;
+				if (cells.selected != state)
 				{
-					(cells.getElementAt(0) as CheckBox).selected = state;
-					//cells.selected = state;
+					(cells.getElementAt(0) as CheckBox).selected=state;
+						//cells.selected = state;
 				}
 			}
-			
-			private function changesInIndex(rowIndex:int,type:String = "push",rowIndexArr:Array = null):void
+
+			private function changesInIndex(rowIndex:int, type:String="push", rowIndexArr:Array=null):void
 			{
-				if(type == "remove")
+				if (type == "remove")
 				{
-					var len:int = this.historySelectRowsIndex.length;
-					for(var i:int=0; i<len; i++)
+					var len:int=this.historySelectRowsIndex.length;
+					for (var i:int=0; i < len; i++)
 					{
-						var oldRowIndex:int = int(this.historySelectRowsIndex[i]);
-						if(oldRowIndex == rowIndex)
+						var oldRowIndex:int=int(this.historySelectRowsIndex[i]);
+						if (oldRowIndex == rowIndex)
 						{
-							this.historySelectRowsIndex.splice(i,1);
+							this.historySelectRowsIndex.splice(i, 1);
 							break;
 						}
 					}
 					return;
 				}
-				if(type == "push")
+				if (type == "push")
 				{
 					this.historySelectRowsIndex.push(rowIndex);
 					return;
 				}
-				if(type == "newvalue")
+				if (type == "newvalue")
 				{
-					if(rowIndexArr){
-						this.historySelectRowsIndex = rowIndexArr;
-					}else{
-						this.historySelectRowsIndex = [rowIndex];
-					}				
+					if (rowIndexArr)
+					{
+						this.historySelectRowsIndex=rowIndexArr;
+					}
+					else
+					{
+						this.historySelectRowsIndex=[rowIndex];
+					}
 					return;
 				}
 			}
-			
+
 			private function getBoxColumn():FBoxColumn
 			{
 				var boxColumn:FBoxColumn;
@@ -637,53 +657,56 @@
 				}
 				return boxColumn;
 			}
-			
+
 			private function getTextAlign():Object
 			{
-				var _textAlign:String = getStyle("textAlign");
-				if(_textAlign == "start" || _textAlign == "center"){
+				var _textAlign:String=getStyle("textAlign");
+				if (_textAlign == "start" || _textAlign == "center")
+				{
 					return "0";
-				}else{
+				}
+				else
+				{
 					_textAlign;
 				}
-				
+
 				return _textAlign;
 			}
-			
+
 			private function getSelectionColor():uint
 			{
 				var _selectionColor:uint=getStyle("selectionColor");
 				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
 				return _selectionColor;
 			}
-			
+
 			private function getRollOverColor():uint
 			{
 				var _rollOverColor:uint=getStyle("rollOverColor");
 				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
 				return _rollOverColor;
 			}
-			
+
 			private function getHeaderColor():uint
 			{
-				var _headerColor:uint = getStyle("headerColor");
+				var _headerColor:uint=getStyle("headerColor");
 				_headerColor=_headerColor == 0 ? headerColor : _headerColor;
 				return _headerColor;
 			}
-			
+
 			private function getBorderColor():uint
 			{
 				var _borderColor:uint=this.getStyle("borderColor");
-			 	_borderColor == 0 ? borderColor : _borderColor;
+				_borderColor == 0 ? borderColor : _borderColor;
 				return _borderColor;
 			}
-			
+
 			/**
 			 * 根据列表行索引取得该行所有行单元格
 			 */
 			private function getRowCellsByRowIndex(rowsIndex:int):Array
 			{
-				var rowCells:Array = [];
+				var rowCells:Array=[];
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
@@ -695,7 +718,7 @@
 				}
 				return rowCells;
 			}
-			
+
 			/**
 			 * 根据列表行索引取行颜色值
 			 */
@@ -715,7 +738,7 @@
 					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
 				}
 			}
-			
+
 			/**
 			 * 根据行索引得到奇、偶数颜色值
 			 */
@@ -739,25 +762,27 @@
 				var column:FCells=new FCells();
 				column.text=text;
 				//column.addEventListener("changeLabelMaxWidth",changeLabelMaxWidthHandler,false,0,true);
-				
-				var textAlign:String = this.getTextAlign().toString();
-				if(textAlign == "left"){
-					column._l.horizontalCenter = "undefined";
-					column._l.left = 2;
+
+				var textAlign:String=this.getTextAlign().toString();
+				if (textAlign == "left")
+				{
+					column._l.horizontalCenter="undefined";
+					column._l.left=2;
 				}
-				
-				if(textAlign == "right"){
-					column._l.horizontalCenter = "undefined";
-					column._l.right = 2;
+
+				if (textAlign == "right")
+				{
+					column._l.horizontalCenter="undefined";
+					column._l.right=2;
 				}
-				
+
 				return column;
-			}	
-			
+			}
+
 			protected function changeLabelMaxWidthHandler(event:Event):void
 			{
-				var cell:FCells = event.currentTarget as FCells;
-				cell._l.maxWidth = this.singleColumnWidth;
+				var cell:FCells=event.currentTarget as FCells;
+				cell._l.maxWidth=this.singleColumnWidth;
 			}
 
 			public function set columns(value:Array):void
@@ -782,7 +807,7 @@
 
 			public function set titleRowHeight(value:int):void
 			{
-				_titleRowHeight = value;
+				_titleRowHeight=value;
 			}
 
 			public function get mergeCells():Array
@@ -792,7 +817,7 @@
 
 			public function set mergeCells(value:Array):void
 			{
-				_mergeCells = value;
+				_mergeCells=value;
 			}
 
 			public function get associationsChoose():Boolean
@@ -802,7 +827,7 @@
 
 			public function set associationsChoose(value:Boolean):void
 			{
-				_associationsChoose = value;
+				_associationsChoose=value;
 			}
 
 			public function get rowHeight():int
@@ -812,11 +837,9 @@
 
 			public function set rowHeight(value:int):void
 			{
-				_rowHeight = value;
+				_rowHeight=value;
 			}
-
-			
 		]]>
 	</fx:Script>
-	
+
 </components:HContainer>
