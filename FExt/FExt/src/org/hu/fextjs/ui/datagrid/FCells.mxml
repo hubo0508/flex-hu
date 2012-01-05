@@ -26,6 +26,7 @@
 			[Bindable]public var labelHorizontalCenter:Object = 0;
 			[Bindable]public var labelLeft:Object = "undefined";
 			[Bindable]public var labelRight:Object = "undefined";
+			[Bindable]public var boxVisible:Boolean = true;
 			
 			[Bindable]private var _selected:Boolean = false;
 			
@@ -42,11 +43,22 @@
 				}
 			}			
 			
+			public function changeBox(type:String):void
+			{
+				if(type == LABEL)
+				{
+					this.removeElement(_c);
+				}else if(type == CHECK_BOX)
+				{
+					this.removeElement(_l);
+				}
+			}
+			
 			protected function checkBoxclickHandler(event:MouseEvent):void
 			{
 				var e:GridEvent = new GridEvent(GridEvent.BOX_COLUMN_CHANGE);
 				e.selected = this._c.selected;
-				e.selectRowsIndex = [int(this.id)+1];
+				e.selectRowsIndex = [this.id];
 				
 				this.dispatchEvent(e);
 			}
@@ -74,6 +86,6 @@
 	</fx:Script>
 	
 	<mx:Label id="_l" horizontalCenter="{labelHorizontalCenter}" left="{labelLeft}" right="{labelRight}" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
-	<s:CheckBox id="_c" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
+	<s:CheckBox id="_c" visible="{boxVisible}" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
 	
 </components:Container>

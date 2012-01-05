@@ -9,7 +9,10 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:components="org.hu.fextjs.components.*"
 					   gap="1"
+					   clipAndEnableScrolling="false"
 					   paddingLeft="1"
+					   paddingBottom="0"
+					   paddingRight="0"
 					   horizontalCenter="0">
 
 	<fx:Metadata>
@@ -57,9 +60,11 @@
 			override protected function createChildren():void
 			{
 				super.createChildren();
-//				trace("+++++++++++++FDataGrid++++createChildren");
-//				trace(this.getStyle("headerColor"));
+
 				this.createAndDisplayHeaderColumns();
+				
+				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
+				this.createLineBackground(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
 			}
 
 //			<ns:VContainer width="100%" height="60" gap="0">
@@ -72,29 +77,43 @@
 
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
-				//singleColumnWidth=getSingleColumnWidth();
-
-				trace(singleColumnWidth + "u");
-
-				//this.dispatchEvent(new Event("changeLabelMaxWidth",true));
-
-				super.updateDisplayList(w, h);
-
-				//	this.setColumnsWidth();
-				
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
-				{
-					var objElement:IVisualElement = this.columns[i] as IVisualElement;
-					if(objElement is FColumn && objElement != titleRowHeight){					
-							mx.controls.Alert.show(objElement.height+"");
-							break;
-					}
-				}
+				super.updateDisplayList(w, h);				
 			}
-
-
 			
+			/**
+			 * 创建内容背景行
+			 */
+			private function createLineBackground(lineNum:int):void
+			{
+				var len:int=this.columns.length;
+				for(var k:int=0; k<lineNum; k++)
+				{
+					
+					for (var i:int=0; i < len; i++)
+					{						
+						var cell:FCells;
+						var objColumn:Object=columns[i];
+						if (objColumn is FColumn)
+						{
+							cell = getInitializeCell(k+1);
+						}
+						
+						if(objColumn is FBoxColumn)
+						{							
+							cell = getInitializeCell(k+1,FCells.CHECK_BOX);							
+						}						
+						
+						if((lineNum-1) == k){
+							var lineHeight:Number = this.height-((k)*rowHeight+titleRowHeight);
+								cell.height = lineHeight;
+								if(objColumn is FBoxColumn){
+									cell.boxVisible = false;
+								}
+							}						
+							objColumn.addElement(cell);
+					}
+				}				
+			}
 
 			/**
 			 * 初始化单元格列数
@@ -168,13 +187,13 @@
 			{
 				this._dataProvider=value;
 
-				this.createAndDisplayDataColumns();
+				this.displayDataToCell();
 			}
 
 			/**
 			 * 创建并显示数据
 			 */
-			protected function createAndDisplayDataColumns():void
+			protected function displayDataToCell():void
 			{
 				if (_dataProvider is ArrayCollection)
 				{
@@ -182,7 +201,7 @@
 					var len:int=ac.length;
 					for (var i:int=0; i < len; i++)
 					{
-						this.dataColumns(ac.getItemAt(i), i);
+						this.dataToColumns(ac.getItemAt(i), i);
 					}
 				}
 			}
@@ -193,7 +212,7 @@
 			 * item:当前行数据
 			 * rowIndex:当前行号
 			 */
-			protected function dataColumns(item:Object, rowIndex:int):void
+			protected function dataToColumns(item:Object, rowIndex:int):void
 			{
 				var len:int=this.columns.length;
 				for (var i:int=0; i < len; i++)
@@ -204,7 +223,7 @@
 						var column:FColumn=this.columns[i] as FColumn;
 						if (column)
 						{
-							var cells:FCells=getFCells(column, item, rowIndex, column.dataField);
+							var cells:FCells=getFCells(column, item, rowIndex+1, column.dataField);
 							var fun:Function=column.rendererFunction;
 							if (fun != null)
 							{
@@ -223,7 +242,7 @@
 							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 							cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
-							column.addElement(cells);
+							//column.addElement(cells);
 						}
 					}
 
@@ -232,23 +251,15 @@
 						var boxColumn:FBoxColumn=this.columns[i] as FBoxColumn;
 						if (boxColumn)
 						{
-							var boxCells:FCells=this.getBoxCells(boxColumn, rowIndex);
+							var boxCells:FCells=this.getBoxCells(boxColumn, rowIndex+1);
 							boxCells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							boxCells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 							boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE, boxColumnChangeHandler, false, 0, true);
-							boxColumn.addElement(boxCells);
+							//boxColumn.addElement(boxCells);
 						}
 					}
 				}
 			}
-
-			public function initContentRowEventListener(cells:FCells):void
-			{
-				cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
-				cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
-				cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
-			}
-
 
 			protected function boxColumnChangeHandler(event:GridEvent):void
 			{
@@ -305,37 +316,44 @@
 				{
 					text=labelFun.call(null, item, column);
 				}
-
-				var cells:FCells=this.createCells(text);
-				cells.backgroupColor=this.getRowColors(rowIndex);
+				
+//				cells.backgroupColor=this.getRowColors(rowIndex);
 //				if (column.percentWidth == 100){
-				cells.percentWidth=100;
+//				cells.percentWidth=100;
 //				}else{
 //					cells.width=column.width;
 //				}
-				cells.id=rowIndex.toString();
-				cells.data=item;
-				cells.height=this.rowHeight;
+//				cells.id=rowIndex.toString();
+				
+//				cells.height=this.rowHeight;
 
+				var cells:FCells=column.getElementAt(rowIndex) as FCells;
+				cells.data=item;
+				cells.text = text;
+				
+				return cells;
+			}
+			
+			private function getInitializeCell(rowIndex:int,type:String = "label"):FCells
+			{
+				var cells:FCells = new FCells();
+				cells.backgroupColor=this.getRowColors(rowIndex);
+				cells.percentWidth=100;
+				cells.type = type;
+				cells.id=rowIndex.toString();
+				cells.height=this.rowHeight;
+				
+				if(type == FCells.CHECK_BOX){
+					cells.boxVisible = true;
+				}
+				
 				return cells;
 			}
 
-
 			public function getBoxCells(column:FBoxColumn, rowIndex:int):FCells
 			{
-				var cells:FCells=new FCells();
-				cells.type=column.boxType;
-				cells.backgroupColor=this.getRowColors(rowIndex);
-				cells.borderSides="";
-				if (column.percentWidth == 100)
-				{
-					cells.percentWidth=100;
-				}
-				else
-				{
-					cells.width=column.width;
-				}
-				cells.id=rowIndex + "";
+				var cells:FCells=column.getElementAt(rowIndex) as FCells;				
+//				cells.boxVisible = true;
 
 				return cells;
 			}
@@ -348,7 +366,7 @@
 			protected function cellsClickHandler(event:MouseEvent):void
 			{
 				var cells:FCells=event.currentTarget as FCells;
-				var rowIndex:int=int(cells.id) + 1;
+				var rowIndex:int=int(cells.id);
 				if (cells.selectionColorMark)
 				{
 					this.restoreTheLineColor(rowIndex);
@@ -505,7 +523,7 @@
 					var sibingColumn:Object=columns[i];
 					if (sibingColumn is FColumn || sibingColumn is FBoxColumn)
 					{
-						var rowIndex:int=int(cells.id) + 1;
+						var rowIndex:int=int(cells.id);
 						var siblingCell:FCells=sibingColumn.getElementAt(rowIndex) as FCells;
 						if (MouseEvent.ROLL_OUT == eventtype)
 						{
@@ -515,7 +533,7 @@
 							}
 							else
 							{
-								siblingCell.backgroupColor=this.getRowColors(rowIndex - 1);
+								siblingCell.backgroupColor=this.getRowColors(rowIndex);
 							}
 							siblingCell.invalidateDisplayList();
 						}
@@ -555,7 +573,7 @@
 					if (objColumn is FColumn || objColumn is FBoxColumn)
 					{
 						var designateCell:FCells=objColumn.getElementAt(rowIndex) as FCells;
-						designateCell.backgroupColor=getRowColors(rowIndex + 1);
+						designateCell.backgroupColor=getRowColors(rowIndex);
 						designateCell.selectionColorMark=false;
 						designateCell.invalidateDisplayList();
 					}
