@@ -29,10 +29,10 @@
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.utils.ObjectUtil;
-
+			
 			import org.hu.fextjs.event.GridEvent;
 			import org.hu.fextjs.util.UtilFunctions;
-
+			
 			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
 
@@ -81,41 +81,20 @@
 				super.updateDisplayList(w, h);
 
 				//	this.setColumnsWidth();
-			}
-
-
-			private function setColumnsWidth():void
-			{
-				var singleColumnWidth:Number=getSingleColumnWidth();
-				var len:int=this.columns.length;
-				for (var i:int=0; i < len; i++)
+				
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
 				{
-					var obj:Object=columns[i];
-					if (obj.width == obj.measuredWidth)
-					{
-						obj.width=singleColumnWidth;
+					var objElement:IVisualElement = this.columns[i] as IVisualElement;
+					if(objElement is FColumn && objElement != titleRowHeight){					
+							mx.controls.Alert.show(objElement.height+"");
+							break;
 					}
 				}
 			}
 
-			private function getSingleColumnWidth():Number
-			{
-				var manuallyDefineColumnWidth:Number=0;
-				var count:int=0;
 
-				var len:int=this.columns.length;
-				for (var i:int=0; i < len; i++)
-				{
-					var obj:Object=columns[i];
-					if (obj.width == 0)
-					{
-						manuallyDefineColumnWidth+=Number(obj.width);
-						count++;
-					}
-				}
-
-				return (this.width - manuallyDefineColumnWidth) / (len - count);
-			}
+			
 
 			/**
 			 * 初始化单元格列数
@@ -815,6 +794,39 @@
 			public function set rowHeight(value:int):void
 			{
 				_rowHeight=value;
+			}
+			
+			private function setColumnsWidth():void
+			{
+				var singleColumnWidth:Number=getSingleColumnWidth();
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var obj:Object=columns[i];
+					if (obj.width == obj.measuredWidth)
+					{
+						obj.width=singleColumnWidth;
+					}
+				}
+			}
+			
+			private function getSingleColumnWidth():Number
+			{
+				var manuallyDefineColumnWidth:Number=0;
+				var count:int=0;
+				
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var obj:Object=columns[i];
+					if (obj.width == 0)
+					{
+						manuallyDefineColumnWidth+=Number(obj.width);
+						count++;
+					}
+				}
+				
+				return (this.width - manuallyDefineColumnWidth) / (len - count);
 			}
 		]]>
 	</fx:Script>
