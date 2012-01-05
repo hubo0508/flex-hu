@@ -22,7 +22,7 @@
 			alternatingItemColors: #FFFFFF, #F7F7F7;
 			rollOverColor: #B2E1FF;
 			selectionColor: #99cc66;
-			textAlign:"left";
+			textAlign:"right";
 		}
 		
 	</fx:Style>
@@ -137,6 +137,7 @@
 					<FExt:FColumn id="fdgcolumn" width="180"  />
 				</s:HGroup>
 			</FExt:VContainer>-->
+			<FExt:FSequenceColumn headerText="序列"/>
 			<FExt:FBoxColumn headerText="选择" radio="false" rowMultiSelection="true"/>
 			<FExt:FColumn dataField="name" headerText="接收量(M)"  rendererFunction="rendererFunction"/>
 			<FExt:FColumn dataField="name2" headerText="发送量(M)" labelFunction="labelFunction"/>
