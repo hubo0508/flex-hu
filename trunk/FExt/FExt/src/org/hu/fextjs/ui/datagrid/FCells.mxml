@@ -19,10 +19,10 @@
 			public static const LABEL:String = "label";
 			public static const CHECK_BOX:String = "checkBox";
 			
-			private var _type:String = LABEL;			
-			private var _text:String;			
+			private var _type:String = LABEL;						
 			public var selectionColorMark:Boolean = false;
 			
+			[Bindable]public var text:String;			
 			[Bindable]public var labelHorizontalCenter:Object = 0;
 			[Bindable]public var labelLeft:Object = "undefined";
 			[Bindable]public var labelRight:Object = "undefined";
@@ -51,17 +51,6 @@
 				this.dispatchEvent(e);
 			}
 
-			[Bindable]
-			public function get text():String
-			{
-				return _text;
-			}
-			
-			public function set text(value:String):void
-			{
-				_text = value;
-			}
-			
 			public function get type():String
 			{
 				return _type;
