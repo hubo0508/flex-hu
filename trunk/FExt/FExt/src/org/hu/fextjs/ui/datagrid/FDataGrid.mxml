@@ -104,16 +104,23 @@
 						}						
 						
 						if((lineNum-1) == k){
-							var lineHeight:Number = this.height-((k)*rowHeight+titleRowHeight);
-								cell.height = lineHeight;
-								if(objColumn is FBoxColumn){
-									cell.boxVisible = false;
-								}
-							}						
-							objColumn.addElement(cell);
+							this.setLastRowsHeight(k,cell,objColumn);
+						}	
+						
+						objColumn.addElement(cell);
 					}
 				}				
 			}
+			private function setLastRowsHeight(index:int, cell:FCells,objColumn:Object):void
+			{
+				var lineHeight:Number=this.height - (index * rowHeight + titleRowHeight);
+				cell.height=lineHeight;
+				if (objColumn is FBoxColumn)
+				{
+					cell.boxVisible=false;
+				}
+			}
+
 
 			/**
 			 * 初始化单元格列数
