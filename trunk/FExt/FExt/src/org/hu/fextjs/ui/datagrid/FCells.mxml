@@ -23,6 +23,10 @@
 			private var _text:String;			
 			public var selectionColorMark:Boolean = false;
 			
+			[Bindable]public var labelHorizontalCenter:Object = 0;
+			[Bindable]public var labelLeft:Object = "undefined";
+			[Bindable]public var labelRight:Object = "undefined";
+			
 			[Bindable]private var _selected:Boolean = false;
 			
 			override protected function createChildren():void
@@ -45,16 +49,6 @@
 				e.selectRowsIndex = [int(this.id)+1];
 				
 				this.dispatchEvent(e);
-			}
-			
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w,h);
-				
-//				trace("w = " + w + " | h = " + h);
-				
-//				_l.maxWidth = w;
-				//	this.setColumnsWidth();
 			}
 
 			[Bindable]
@@ -90,7 +84,7 @@
 		]]>
 	</fx:Script>
 	
-	<mx:Label id="_l" horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
+	<mx:Label id="_l" horizontalCenter="{labelHorizontalCenter}" left="{labelLeft}" right="{labelRight}" text="{text}" verticalCenter="0" maxWidth="{this.width}"/>
 	<s:CheckBox id="_c" horizontalCenter="2" verticalCenter="0" selected="{_selected}" click="checkBoxclickHandler(event)"/>
 	
 </components:Container>
