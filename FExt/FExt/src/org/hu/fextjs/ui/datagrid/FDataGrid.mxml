@@ -57,6 +57,14 @@
 			private var headerColor:uint=0xA8A8A8;
 
 			/*default style end*/
+			
+			//			<ns:VContainer width="100%" height="60" gap="0">
+			//				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//				<ns:HContainer width="100%" height="30" gap="0">
+			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//				</ns:HContainer>			
+			//			</ns:VContainer>
 
 			override protected function createChildren():void
 			{
@@ -67,14 +75,6 @@
 				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
 				this.createLineBackground(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
 			}
-
-//			<ns:VContainer width="100%" height="60" gap="0">
-//				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
-//				<ns:HContainer width="100%" height="30" gap="0">
-//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
-//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
-//				</ns:HContainer>			
-//			</ns:VContainer>
 
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
@@ -327,7 +327,7 @@
 			
 			private function getInitializeCell(objColumn:Object,rowIndex:int):FCells
 			{
-				var cells:FCells = new FCells();
+				var cells:FCells = this.createCells("");
 				cells.backgroupColor=this.getRowColors(rowIndex);
 				cells.percentWidth=100;
 				cells.id=rowIndex.toString();
@@ -759,7 +759,6 @@
 			{
 				var column:FCells=new FCells();
 				column.text=text;
-				//column.addEventListener("changeLabelMaxWidth",changeLabelMaxWidthHandler,false,0,true);
 
 				var textAlign:String=this.getTextAlign().toString();
 				if (textAlign == "left")
