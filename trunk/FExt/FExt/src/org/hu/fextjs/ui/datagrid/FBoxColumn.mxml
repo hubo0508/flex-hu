@@ -9,7 +9,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ns="library://FExt.HU"
 			   borderSides="right"
-			   width="40"
+			   width="35"
 			   gap="0">
 	
 	<fx:Script>
