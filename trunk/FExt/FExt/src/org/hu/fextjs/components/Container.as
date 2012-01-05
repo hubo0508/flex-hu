@@ -15,7 +15,6 @@ package org.hu.fextjs.components
 		public var borderSides:String="all";
 		public var backgroupColor:uint = 0;
 		public var borderColor:uint = 0xB5B8C8;		
-		public var rollOverColor:uint = 0xB2E1FF;
 		
 		public function Container()
 		{
