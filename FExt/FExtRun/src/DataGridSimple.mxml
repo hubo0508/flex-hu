@@ -124,7 +124,7 @@
 		]]>
 	</fx:Script>
 				
-	<FExt:FDataGrid id="fdg"  width="90%" top="30" itemClick="fdg_itemClickHandler(event)">
+	<FExt:FDataGrid id="fdg"  width="90%" top="30" itemClick="fdg_itemClickHandler(event)" height="330">
 		<FExt:columns>							
 			<!--<FExt:VContainer gap="0" horizontalAlign="right" bottom="right" >
 				<FExt:FCells width="280" text="性能数据" backgroupColor="#7AB4F4" borderSides="" borderColor="0x696969" height="30"/>
