@@ -9,7 +9,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:components="org.hu.fextjs.components.*"
 					   gap="1"
-					   paddingLeft="0"
+					   paddingLeft="1"
 					   horizontalCenter="0">
 
 	<fx:Metadata>
@@ -37,13 +37,11 @@
 			import spark.components.CheckBox;
 
 			private var _columns:Array;
-			private var _mergeCells:Array;
 			private var _dataProvider:Object;
 			public var eventMark:String; //click mark
 			public var historySelectRowsIndex:Array=[];
 			public var selectItems:Array;
 			private var _titleRowHeight:int=30;
-			private var _associationsChoose:Boolean=true;
 			private var _rowHeight:int=22;
 			private var singleColumnWidth:Number;
 
@@ -234,8 +232,8 @@
 								var bc:IVisualElement=fun.call(null, item, column);
 								if (bc.height == 0)
 								{
-									bc.height=cells.height - 3;
-									bc.top=2;
+									bc.height=cells.height - 2;
+									bc.top=1.5;
 								}
 								if (bc.width == 0)
 								{
@@ -807,26 +805,6 @@
 			public function set titleRowHeight(value:int):void
 			{
 				_titleRowHeight=value;
-			}
-
-			public function get mergeCells():Array
-			{
-				return _mergeCells;
-			}
-
-			public function set mergeCells(value:Array):void
-			{
-				_mergeCells=value;
-			}
-
-			public function get associationsChoose():Boolean
-			{
-				return _associationsChoose;
-			}
-
-			public function set associationsChoose(value:Boolean):void
-			{
-				_associationsChoose=value;
 			}
 
 			public function get rowHeight():int
