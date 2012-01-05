@@ -88,27 +88,11 @@
 			{
 				var len:int=this.columns.length;
 				for(var k:int=0; k<lineNum; k++)
-				{
-					
+				{					
 					for (var i:int=0; i < len; i++)
 					{						
-						var cell:FCells;
 						var objColumn:Object=columns[i];
-						
-						if (objColumn is FColumn)
-						{
-							cell = getInitializeCell(k+1);
-						}
-
-						if(objColumn is FBoxColumn)
-						{							
-							cell = getInitializeCell(k+1,Constant.CHECKBOX);							
-						}
-						
-						if(objColumn is FSequenceColumn)
-						{
-							cell = getInitializeCell(k+1,Constant.SEQ);
-						}
+						var cell:FCells = getInitializeCell(objColumn,k+1);
 						
 						if((lineNum-1) == k){
 							this.setLastRowsHeight(k,cell,objColumn);
@@ -341,19 +325,29 @@
 				return cells;
 			}
 			
-			private function getInitializeCell(rowIndex:int,type:String = "label"):FCells
+			private function getInitializeCell(objColumn:Object,rowIndex:int):FCells
 			{
 				var cells:FCells = new FCells();
 				cells.backgroupColor=this.getRowColors(rowIndex);
 				cells.percentWidth=100;
-				cells.type = type;
 				cells.id=rowIndex.toString();
 				cells.height=this.rowHeight;
 				
-				if(type == Constant.CHECKBOX){
-					cells.cellsVisible = true;
-				}else if(type == Constant.SEQ){
-					cells.text = (rowIndex-1).toString();
+				if (objColumn is FColumn)
+				{
+					cells.type = Constant.LABEL;
+				}
+
+				if(objColumn is FBoxColumn)
+				{						
+					cells.type = Constant.CHECKBOX;
+					cells.type = Constant.CHECKBOX;
+				}
+					
+				if(objColumn is FSequenceColumn)
+				{
+					cells.type = Constant.SEQ;
+					cells.text = (rowIndex).toString();
 					cells.type = Constant.LABEL;
 				}
 				
