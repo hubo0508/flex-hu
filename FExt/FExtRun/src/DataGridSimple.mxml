@@ -22,7 +22,7 @@
 			alternatingItemColors: #FFFFFF, #F7F7F7;
 			rollOverColor: #B2E1FF;
 			selectionColor: #99cc66;
-			textAlign:"center";
+			textAlign:"left";
 		}
 		
 	</fx:Style>
@@ -86,7 +86,7 @@
 			protected function labelFunction(data:Object,column:FColumn):String
 			{
 				if(data["name2"] == "12"){
-					return "rendererFunction";
+					return "rendererFunctionrendererFunctionrendererFunctionrendererFunctionrendererFunction";
 				}				
 				return data["name2"];
 			}
