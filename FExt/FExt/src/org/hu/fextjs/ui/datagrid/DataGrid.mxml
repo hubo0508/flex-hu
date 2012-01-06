@@ -41,7 +41,7 @@
 			import spark.components.CheckBox;
 
 			private var _columns:Array;
-			private var _dataProvider:Object;
+			private var _dataProvider:ArrayCollection;
 			public var eventMark:String; //click mark
 			public var historySelectRowsIndex:Array=[];
 			public var selectItems:Array;
@@ -143,10 +143,12 @@
 					if (isFColumn(objColumn))
 					{
 						var cells:Cells=this.createCells(objColumn.headerText);
+						cells.borderColor=getBorderColor();
+						cells.borderSides="";
+						cells.backgroupColor=this.getHeaderColor();
 						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
 						cells.addEventListener(MouseEvent.ROLL_OVER, headerColumnsRollHandler, false, 0, true);
-						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);
-						this.setHeaderStyle(cells);
+						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);						
 
 						if (objColumn.width == 0)
 						{
@@ -175,28 +177,29 @@
 					}
 				}
 			}
-
+			
+			/**
+			 * 鼠标移入、移出标题行单元格
+			 */
 			protected function headerColumnsRollHandler(event:MouseEvent):void
 			{
 				this.changeHeaderCellsColor(event.currentTarget as Cells, event.type);
 			}
-
+			
+			/**
+			 * 鼠标点击标题行单元格
+			 */
 			protected function headerColumnsClickHandler(event:MouseEvent):void
 			{
 				//do
 			}
-
+			
 			/**
-			 * 设置列表头样式
+			 * 设置显示数据源
+			 * 
+			 * @param value:ArrayCollection 显示数据源
 			 */
-			private function setHeaderStyle(cells:Cells):void
-			{
-				cells.borderColor=getBorderColor();
-				cells.borderSides="";
-				cells.backgroupColor=this.getHeaderColor();
-			}
-
-			public function set dataProvider(value:Object):void
+			public function set dataProvider(value:ArrayCollection):void
 			{
 				this._dataProvider=value;
 
@@ -204,28 +207,36 @@
 			}
 
 			/**
-			 * 创建并显示数据
+			 * 遍历显示数据源
 			 */
 			protected function displayDataToCell():void
 			{
-				if (_dataProvider is ArrayCollection)
+				var len:int=dataProvider.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var ac:ArrayCollection=_dataProvider as ArrayCollection;
-					var len:int=ac.length;
-					for (var i:int=0; i < len; i++)
-					{
-						this.dataToColumns(ac.getItemAt(i), i);
-					}
+					this.dataToColumns(dataProvider.getItemAt(i), i);
 				}
 			}
 
 			/**
-			 * 根据行数据创建行单元格数据
+			 * 将每行数据源显示到指定单元格中
+			 * 
+			 * <p>
+			 * 		例中有定义：
+			 * 			<ul>
+			 * 				<li>org.hu.fextjs.ui.datagrid.Column.rendererFunction(value:Function)</li>
+			 * 				<li>org.hu.fextjs.ui.datagrid.Column.labelFunction(value:Function)</li>
+			 * 			</ul>
+			 * 		在创建单元格时，逻辑将由开发人员自己定义
+			 * </p>
 			 *
-			 * item:当前行数据
-			 * rowIndex:当前行号
+			 * @param item:Object 当前行数据源
+			 * @param rowIndex:int 当前行索引(数据源要显示的行索引)
+			 * 
+			 * @see org.hu.fextjs.ui.datagrid.Column.rendererFunction(value:Function)
+			 * @see org.hu.fextjs.ui.datagrid.Column.labelFunction(value:Function)
 			 */
-			protected function dataToColumns(item:Object, rowIndex:int):void
+			public function dataToColumns(item:Object, rowIndex:int):void
 			{
 				var len:int=this.columns.length;
 				for (var i:int=0; i < len; i++)
@@ -234,29 +245,25 @@
 					if (objColumn is Column)
 					{
 						var column:Column=this.columns[i] as Column;
-						if (column)
+						var cells:Cells=getFCells(column, item, rowIndex+1, column.dataField);
+						var fun:Function=column.rendererFunction;
+						if (fun != null)
 						{
-							var cells:Cells=getFCells(column, item, rowIndex+1, column.dataField);
-							var fun:Function=column.rendererFunction;
-							if (fun != null)
+							var bc:IVisualElement=fun.call(null, item, column);
+							if (bc.height == 0)
 							{
-								var bc:IVisualElement=fun.call(null, item, column);
-								if (bc.height == 0)
-								{
-									bc.height=cells.height - 2;
-									bc.top=1.5;
-								}
-								if (bc.width == 0)
-								{
-									bc.percentWidth=100;
-								}
-								cells.addElement(bc);
+								bc.height=cells.height - 2;
+								bc.top=1.5;
 							}
-							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
-							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
-							cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
-							//column.addElement(cells);
+							if (bc.width == 0)
+							{
+								bc.percentWidth=100;
+							}
+							cells.addElement(bc);
 						}
+						cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
 					}
 
 					if (objColumn is BoxColumn)
@@ -268,7 +275,6 @@
 							boxCells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 							boxCells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 							boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE, boxColumnChangeHandler, false, 0, true);
-							//boxColumn.addElement(boxCells);
 						}
 					}
 					
@@ -280,43 +286,43 @@
 					}
 				}
 			}
-
+			
+			/**
+			 * BoxColumn状态更改时，根据selectIndex更改业务逻辑
+			 * 
+			 * @see org.hu.fextjs.event.GridEvent
+			 */
 			protected function boxColumnChangeHandler(event:GridEvent):void
 			{
-				var len:int=this.columns.length;
-				for (var i:int=0; i < len; i++)
+				var selectIndex:int = int(event.selectRowsIndex[0]);
+				var boxColumn:BoxColumn=getBoxColumn();
+				if (boxColumn)
 				{
-					var boxColumn:BoxColumn=this.columns[i] as BoxColumn;
-					if (boxColumn)
+					var cells:Cells=boxColumn.getElementAt(selectIndex) as Cells;
+					if (cells.selected)
 					{
-						var cells:Cells=boxColumn.getElementAt(int(event.selectRowsIndex[0])) as Cells;
-						if (cells.selected)
+						if (boxColumn.radio)
 						{
-							if (boxColumn.radio)
-							{
-								this.changeBoxSelected(false, boxColumn);
-								this.restoreLineColor();
-								this.changesInIndex(event.selectRowsIndex[0], "newvalue");
-								this.changeBoxSelected(true, boxColumn);
-								this.changeCellsColor(cells, MouseEvent.CLICK);
-							}
-							else
-							{
-								this.changesInIndex(event.selectRowsIndex[0], "push");
-								this.eventMark=event.type;
-								this.changeCellsColor(cells, MouseEvent.CLICK);
-							}
-
-							this.selectItems=this.getSelectionValue();
-							this.dispatchItemClick();
+							this.changeBoxSelected(false, boxColumn);
+							this.restoreLineColor();
+							this.changesInIndex(selectIndex, "newvalue");
+							this.changeBoxSelected(true, boxColumn);
+							this.changeCellsColor(cells, MouseEvent.CLICK);
 						}
 						else
 						{
-							this.changesInIndex(event.selectRowsIndex[0], "remove");
-							this.restoreTheLineColor(event.selectRowsIndex[0]);
+							this.changesInIndex(selectIndex, "push");
+							this.eventMark=event.type;
+							this.changeCellsColor(cells, MouseEvent.CLICK);
 						}
 
-						break;
+						this.selectItems=this.getSelectionValue();
+						this.dispatchItemClick();
+					}
+					else
+					{
+						this.changesInIndex(event.selectRowsIndex[0], "remove");
+						this.restoreTheLineColor(event.selectRowsIndex[0]);
 					}
 				}
 			}
@@ -523,7 +529,10 @@
 			}
 
 			/**
-			 * 改变标题呢行背景颜色
+			 * 改变标题行背景颜色
+			 * 
+			 * @param cells:Cells 目标单元格
+			 * @param eventtype:String 事件类型 
 			 */
 			public function changeHeaderCellsColor(cells:Cells, eventtype:String):void
 			{
@@ -535,7 +544,7 @@
 					cells.backgroupColor=_rollOverColor;
 					cells.invalidateDisplayList();
 				}
-				else if (MouseEvent.ROLL_OUT == eventtype)
+				if (MouseEvent.ROLL_OUT == eventtype)
 				{
 					cells.backgroupColor=_headerColor;
 					cells.invalidateDisplayList();
@@ -621,10 +630,13 @@
 				}
 				return false;
 			}
-
+			
+			/**
+			 * 
+			 */
 			private function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
 			{
-				boxColumn=boxColumn || this.getBoxColumn();
+				boxColumn = boxColumn || this.getBoxColumn();
 				var len:int=historySelectRowsIndex.length;
 				for (var j:int=0; j < len; j++)
 				{
@@ -825,7 +837,7 @@
 				_columns=value;
 			}
 
-			public function get dataProvider():Object
+			public function get dataProvider():ArrayCollection
 			{
 				return _dataProvider;
 			}
