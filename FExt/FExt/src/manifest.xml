@@ -11,16 +11,12 @@
 	  <component id="VContainer" class="org.hu.fextjs.components.VContainer" />
 	  <component id="HContainer" class="org.hu.fextjs.components.HContainer" />
 	 
+	 <component id="Cells" class="org.hu.fextjs.ui.datagrid.Cells" />
 	 <component id="DataGrid" class="org.hu.fextjs.ui.datagrid.DataGrid" />
+	 <component id="BoxColumn" class="org.hu.fextjs.ui.datagrid.BoxColumn" />
+	 <component id="Column" class="org.hu.fextjs.ui.datagrid.Column" />
+	 <component id="CellsRenderer" class="org.hu.fextjs.ui.datagrid.CellsRenderer" />
 	 <component id="SequenceColumn" class="org.hu.fextjs.ui.datagrid.SequenceColumn" />
-	 <component id="CheckBoxColumn" class="org.hu.fextjs.ui.datagrid.CheckBoxColumn" />
-	 
-	 <component id="FCells" class="org.hu.fextjs.ui.datagrid.FCells" />
-	 <component id="FDataGrid" class="org.hu.fextjs.ui.datagrid.FDataGrid" />
-	 <component id="FBoxColumn" class="org.hu.fextjs.ui.datagrid.FBoxColumn" />
-	 <component id="FColumn" class="org.hu.fextjs.ui.datagrid.FColumn" />
-	 <component id="FCellsRenderer" class="org.hu.fextjs.ui.datagrid.FCellsRenderer" />
-	 <component id="FSequenceColumn" class="org.hu.fextjs.ui.datagrid.FSequenceColumn" />
 	 
 	 <component id="LineChartTime" class="org.hu.fextjs.ui.chart.LineChartTime" />
 	 
