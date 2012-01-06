@@ -1,193 +1,894 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:DataGrid xmlns:fx="http://ns.adobe.com/mxml/2009"
-			 xmlns:s="library://ns.adobe.com/flex/spark"
-			 xmlns:mx="library://ns.adobe.com/flex/mx"
-			 creationComplete="onCreationCompleteHandler(event)"
-			 width="100%" 
-			 borderVisible="false"
-			 height="100%">
-	
+<!--
+	 @作者：HUBO
+	 @创建时间：2011-12-5
+	 @邮件：hubo.0508@gmail.com
+-->
+<components:HContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:components="org.hu.fextjs.components.*"
+					   gap="1"
+					   clipAndEnableScrolling="false"
+					   paddingLeft="1"
+					   paddingBottom="0"
+					   paddingRight="0"
+					   horizontalCenter="0">
+
+	<fx:Metadata>
+		[Style(name="headerColor", type="uint", format="Color", inherit="yes", theme="spark")]
+		[Style(name="titleBorderColor", type="uint", format="Color", inherit="yes", theme="spark")]
+		[Style(name="titleBorderVisible", type="Boolean", inherit="no")]
+	</fx:Metadata>
+
+	<fx:Metadata>
+		[Event(name="itemClick",type="org.hu.fextjs.event.GridEvent")]
+	</fx:Metadata>
+
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
-			import mx.controls.dataGridClasses.DataGridColumn;
-			import mx.events.FlexEvent;
-			import mx.events.ListEvent;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.utils.ObjectUtil;
 			
-			import org.hu.fextjs.components.dataGrid.DGColumn;
+			import org.hu.fextjs.event.GridEvent;
+			import org.hu.fextjs.util.Constant;
+			import org.hu.fextjs.util.UtilFunctions;
+			
+			import spark.components.BorderContainer;
+			import spark.components.CheckBox;
 
+			private var _columns:Array;
+			private var _dataProvider:Object;
+			public var eventMark:String; //click mark
+			public var historySelectRowsIndex:Array=[];
+			public var selectItems:Array;
+			private var _titleRowHeight:int=30;
+			private var _rowHeight:int=22;
+			private var singleColumnWidth:Number;
+
+			/*default style start*/
+			private var rollOverColor:uint=0xB2E1FF;
+			private var alternatingItemColors:Array=["#FFFFFF", "#F7F7F7"];
+			private var verticalGridLines:Boolean;
+			private var selectionColor:uint=0x7FCEFF;
+			private var headerColor:uint=0xA8A8A8;
+
+			/*default style end*/
 			
-			private var _cascadeItemClick:Boolean = false;
-			
-			/**************************************************************************************/
-			/**初始化*/
-			/**************************************************************************************/
-			
-			protected function onCreationCompleteHandler(event:FlexEvent):void
+			//			<ns:VContainer width="100%" height="60" gap="0">
+			//				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//				<ns:HContainer width="100%" height="30" gap="0">
+			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
+			//				</ns:HContainer>			
+			//			</ns:VContainer>
+
+			override protected function createChildren():void
 			{
-				//this.addEventListener(ListEvent.ITEM_CLICK,itemClickHandler);
+				super.createChildren();
+
+				this.initializationHeaderColumns();
+				
+				//根据FDataGrid总体高度计算出初始化行数
+				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
+				this.initializationRows(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
+			}
+
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w, h);				
 			}
 			
-			/**************************************************************************************/
-			/**addEventListenerHandler*/
-			/**************************************************************************************/
-			
-			protected function itemClickHandler(event:ListEvent):void
+			/**
+			 * 初始化行
+			 */
+			private function initializationRows(lineNum:int):void
 			{
-				if(cascadeItemClick)
+				var len:int=this.columns.length;
+				for(var k:int=0; k<lineNum; k++)
 				{					
-					if(this.allowMultipleSelection)
-					{
-
-					}
-					else
-					{
-						this.tagSingeSelectedTrueOrFalse(this.selectedItem);
+					for (var i:int=0; i < len; i++)
+					{						
+						var objColumn:Object=columns[i];
+						if(isFColumn(objColumn)){
+							var cell:Cells = getInitializeCell(objColumn,k+1);
+							
+							if((lineNum-1) == k){
+								this.setLastRowsHeight(k,cell,objColumn);
+							}	
+							
+							objColumn.addElement(cell);
+						}						
 					}
 				}				
 			}
-			
-			private function tagSingeSelectedTrueOrFalse(selectedItem:Object):void
+			/**
+			 * 设置最后一行的行高
+			 */
+			private function setLastRowsHeight(index:int, cell:Cells, objColumn:Object):void
 			{
-				var dgcolumn:DGColumn=getColumn();	
-				var saveSelectedItem:Array = dgcolumn.saveSelectedItem;
-				var selectItemsData:Array = dgcolumn.selectItemsData;
-				
-				var index:int = this.getArrayIndexById(selectedItem,selectItemsData);
-				if(index >= 0)
+				var lineHeight:Number=this.height - (index * rowHeight + titleRowHeight);
+				cell.height=lineHeight;
+				if (objColumn is BoxColumn)
 				{
-					var obj:Object = saveSelectedItem[index];
-					if(obj.selected)
+					cell.cellsVisible=false;
+				}
+				else if (objColumn is SequenceColumn)
+				{
+					cell.cellsVisible=false;
+				}
+			}
+
+
+			/**
+			 * 初始化列数
+			 *
+			 * <p>调用父级org.hu.fextjs.ui.datagrid.FDataGrid.createChildren()后执行该方法</p>
+			 * 
+			 * <p>
+			 * 		1、该方法将属性<code>columns</code>中的元素取出，添加至显示列表中</br>
+			 * 		2、columns中元素可以是架构SDK类型[FColumn、FBoxColumn、FSequenceColumn]，也可以是Flex SDK类型
+			 * </p>
+			 * 
+			 * @see
+			 */
+			protected function initializationHeaderColumns():void
+			{
+				var len:int=_columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var objColumn:Object=_columns[i];
+					if (isFColumn(objColumn))
 					{
-						obj.selected = false;
+						var cells:Cells=this.createCells(objColumn.headerText);
+						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.ROLL_OVER, headerColumnsRollHandler, false, 0, true);
+						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);
+						this.setHeaderStyle(cells);
+
+						if (objColumn.width == 0)
+						{
+							cells.percentWidth=100;
+							objColumn.percentWidth=100;
+						}
+						else
+						{
+							cells.width=objColumn.width;
+						}
+
+						cells.height=titleRowHeight;
+
+						if (i == (len - 1))
+						{
+							objColumn.borderSides="";
+						}
+
+						objColumn.addElement(cells);
+						objColumn.id=i.toString();
+						this.addElement(objColumn as IVisualElement);
 					}
 					else
 					{
-						obj.selected = true;
-					}					
+						this.addElement(objColumn as IVisualElement);
+					}
+				}
+			}
+
+			protected function headerColumnsRollHandler(event:MouseEvent):void
+			{
+				this.changeHeaderCellsColor(event.currentTarget as Cells, event.type);
+			}
+
+			protected function headerColumnsClickHandler(event:MouseEvent):void
+			{
+				//do
+			}
+
+			/**
+			 * 设置列表头样式
+			 */
+			private function setHeaderStyle(cells:Cells):void
+			{
+				cells.borderColor=getBorderColor();
+				cells.borderSides="";
+				cells.backgroupColor=this.getHeaderColor();
+			}
+
+			public function set dataProvider(value:Object):void
+			{
+				this._dataProvider=value;
+
+				this.displayDataToCell();
+			}
+
+			/**
+			 * 创建并显示数据
+			 */
+			protected function displayDataToCell():void
+			{
+				if (_dataProvider is ArrayCollection)
+				{
+					var ac:ArrayCollection=_dataProvider as ArrayCollection;
+					var len:int=ac.length;
+					for (var i:int=0; i < len; i++)
+					{
+						this.dataToColumns(ac.getItemAt(i), i);
+					}
+				}
+			}
+
+			/**
+			 * 根据行数据创建行单元格数据
+			 *
+			 * item:当前行数据
+			 * rowIndex:当前行号
+			 */
+			protected function dataToColumns(item:Object, rowIndex:int):void
+			{
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var objColumn:Object=_columns[i];
+					if (objColumn is Column)
+					{
+						var column:Column=this.columns[i] as Column;
+						if (column)
+						{
+							var cells:Cells=getFCells(column, item, rowIndex+1, column.dataField);
+							var fun:Function=column.rendererFunction;
+							if (fun != null)
+							{
+								var bc:IVisualElement=fun.call(null, item, column);
+								if (bc.height == 0)
+								{
+									bc.height=cells.height - 2;
+									bc.top=1.5;
+								}
+								if (bc.width == 0)
+								{
+									bc.percentWidth=100;
+								}
+								cells.addElement(bc);
+							}
+							cells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+							cells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+							cells.addEventListener(MouseEvent.CLICK, cellsClickHandler, false, 0, true);
+							//column.addElement(cells);
+						}
+					}
+
+					if (objColumn is BoxColumn)
+					{
+						var boxColumn:BoxColumn=this.columns[i] as BoxColumn;
+						if (boxColumn)
+						{
+							var boxCells:Cells=this.getBoxCells(boxColumn, rowIndex+1);
+							boxCells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+							boxCells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+							boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE, boxColumnChangeHandler, false, 0, true);
+							//boxColumn.addElement(boxCells);
+						}
+					}
+					
+					if(objColumn is SequenceColumn)
+					{
+						var cell:Cells = objColumn.getElementAt(rowIndex+1) as Cells;
+						cell.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
+						cell.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
+					}
+				}
+			}
+
+			protected function boxColumnChangeHandler(event:GridEvent):void
+			{
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var boxColumn:BoxColumn=this.columns[i] as BoxColumn;
+					if (boxColumn)
+					{
+						var cells:Cells=boxColumn.getElementAt(int(event.selectRowsIndex[0])) as Cells;
+						if (cells.selected)
+						{
+							if (boxColumn.radio)
+							{
+								this.changeBoxSelected(false, boxColumn);
+								this.restoreLineColor();
+								this.changesInIndex(event.selectRowsIndex[0], "newvalue");
+								this.changeBoxSelected(true, boxColumn);
+								this.changeCellsColor(cells, MouseEvent.CLICK);
+							}
+							else
+							{
+								this.changesInIndex(event.selectRowsIndex[0], "push");
+								this.eventMark=event.type;
+								this.changeCellsColor(cells, MouseEvent.CLICK);
+							}
+
+							this.selectItems=this.getSelectionValue();
+							this.dispatchItemClick();
+						}
+						else
+						{
+							this.changesInIndex(event.selectRowsIndex[0], "remove");
+							this.restoreTheLineColor(event.selectRowsIndex[0]);
+						}
+
+						break;
+					}
+				}
+			}
+
+			/**
+			 * 创建统一样式单元格
+			 */
+			public function getFCells(column:Column, item:Object, rowIndex:int, dataField:String):Cells
+			{
+				var text:String;
+				var labelFun:Function=column.labelFunction;
+				if (labelFun == null)
+				{
+					text=item[dataField];
+				}
+				else
+				{
+					text=labelFun.call(null, item, column);
+				}
+
+				var cells:Cells=column.getElementAt(rowIndex) as Cells;
+				cells.data=item;
+				cells.text = text;
+				
+				return cells;
+			}
+			
+			public function getInitializeCell(objColumn:Object,rowIndex:int, value:String = ""):Cells
+			{
+				var cells:Cells = this.createCells(value);
+				cells.backgroupColor=this.getRowColors(rowIndex);
+				cells.percentWidth=100;
+				cells.id=rowIndex.toString();
+				cells.height=this.rowHeight;
+				
+				if (objColumn is Column)
+				{
+					cells.type = Constant.LABEL;
+				}
+
+				if(objColumn is BoxColumn)
+				{						
+					cells.type = Constant.CHECKBOX;
+				}
+					
+				if(objColumn is SequenceColumn)
+				{
+					cells.text = (rowIndex).toString();
+					cells.type = Constant.LABEL;
+					
+					cells.labelHorizontalCenter = 0;
+						
+					//this.getTextAlign(objColumn.textAlign.toString());
+				}
+				
+				return cells;
+			}
+
+			public function getBoxCells(column:BoxColumn, rowIndex:int):Cells
+			{
+				var cells:Cells=column.getElementAt(rowIndex) as Cells;				
+//				cells.boxVisible = true;
+
+				return cells;
+			}
+
+
+			/**
+			 * 1、取得当前行值
+			 * 2、设置当前行选择中颜色
+			 */
+			protected function cellsClickHandler(event:MouseEvent):void
+			{
+				var cells:Cells=event.currentTarget as Cells;
+				var rowIndex:int=int(cells.id);
+				if (cells.selectionColorMark)
+				{
+					this.restoreTheLineColor(rowIndex);
+					this.changeBoxSelectedByRowIndex(false, rowIndex);
+					this.changesInIndex(rowIndex, "remove");
+				}
+				else
+				{
+					this.eventMark=event.type;
+					var boxColumn:BoxColumn=this.getBoxColumn();					
+					if(boxColumn)
+					{
+						if (!boxColumn.radio && boxColumn.rowMultiSelection)
+						{
+							this.changesInIndex(rowIndex, "push");
+							this.changeBoxSelectedByRowIndex(true, rowIndex);
+						}
+						else
+						{
+							this.changeBoxSelected(false);
+							this.restoreLineColor();
+							this.changesInIndex(rowIndex, "newvalue");
+							this.changeBoxSelected(true);
+						}
+					}
+					else
+					{
+						this.restoreLineColor();
+						this.changesInIndex(rowIndex, "newvalue");
+					}
+					this.changeCellsColor(cells, event.type);
+					this.selectItems=this.getSelectionValue();
+					this.dispatchItemClick();
+				}
+			}
+
+			public function dispatchItemClick():void
+			{
+				var e:GridEvent=new GridEvent(GridEvent.ITEM_CLICK);
+				e.selectItems=this.selectItems;
+				e.selectRowsIndex=historySelectRowsIndex;
+
+				this.dispatchEvent(e);
+			}
+
+			/**
+			 * 1、鼠标移入，移出单元格时，更新背景颜色
+			 * 2、同时更新当前行的颜色
+			 */
+			protected function cellsRollHandler(event:MouseEvent):void
+			{
+				switch (event.type)
+				{
+					case MouseEvent.ROLL_OVER:
+						if (eventMark == MouseEvent.CLICK)
+						{
+							this.eventMark=event.type;
+						}
+						else
+						{
+							eventMark="";
+						}
+						break;
+
+					case MouseEvent.ROLL_OUT:
+						if (eventMark == MouseEvent.CLICK)
+						{
+							eventMark="";
+							return;
+						}
+						break;
+
+					default:
+						break;
+				}
+
+				this.changeCellsColor(event.currentTarget as Cells, event.type);
+			}
+
+			/**
+			 * 根据行索引取得单元格值
+			 */
+			public function getColumnValueByRowIndex(rowIndex:Array, column:Column, target:Array=null):Array
+			{
+				var array:Array=[];
+
+				var len:int=rowIndex.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var cells:Cells=column.getElementAt(rowIndex[i]) as Cells;
+					if (target && target[i])
+					{
+						var obj:Object=target[i];
+						obj[column.dataField]=cells.text;
+					}
+					else
+					{
+						array.push(column.dataField, cells.text);
+					}
+				}
+
+				return target == null ? array : target;
+			}
+
+			/**
+			 * 取得所有组件自定义值
+			 */
+			public function getSelectionValue():Array
+			{
+				var array:Array=[];
+				var len:int=historySelectRowsIndex.length;
+				var lenColumns:int=columns.length;
+				for (var j:int=0; j < len; j++)
+				{
+					var obj:Object=new Object();
+					for (var i:int=0; i < lenColumns; i++)
+					{
+						var column:Column=columns[i] as Column;
+						if (column)
+						{
+							var cells:Cells=column.getElementAt(historySelectRowsIndex[j]) as Cells;
+							obj[column.dataField]=cells.text;
+						}
+					}
+					array.push(obj);
+				}
+
+				return array;
+			}
+
+			/**
+			 * 改变标题呢行背景颜色
+			 */
+			public function changeHeaderCellsColor(cells:Cells, eventtype:String):void
+			{
+				var _rollOverColor:uint=this.getRollOverColor();
+				var _headerColor:uint=this.getHeaderColor();
+
+				if (MouseEvent.ROLL_OVER == eventtype)
+				{
+					cells.backgroupColor=_rollOverColor;
+					cells.invalidateDisplayList();
+				}
+				else if (MouseEvent.ROLL_OUT == eventtype)
+				{
+					cells.backgroupColor=_headerColor;
+					cells.invalidateDisplayList();
+				}
+			}
+
+			/**
+			 * 更改单元格背景颜色
+			 */
+			public function changeCellsColor(cells:Cells, eventtype:String):void
+			{
+				var _selectionColor:uint=this.getSelectionColor();
+				var _rollOverColor:uint=this.getRollOverColor();
+
+				var len:int=columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var sibingColumn:Object=columns[i];
+					if (sibingColumn is Column || sibingColumn is BoxColumn || sibingColumn is SequenceColumn)
+					{
+						var rowIndex:int=int(cells.id);
+						var siblingCell:Cells=sibingColumn.getElementAt(rowIndex) as Cells;
+						if (MouseEvent.ROLL_OUT == eventtype)
+						{
+							if (cells.selectionColorMark)
+							{
+								siblingCell.backgroupColor=_selectionColor;
+							}
+							else
+							{
+								siblingCell.backgroupColor=this.getRowColors(rowIndex);
+							}
+							siblingCell.invalidateDisplayList();
+						}
+						else if (MouseEvent.ROLL_OVER == eventtype)
+						{
+							siblingCell.backgroupColor=_rollOverColor;
+							siblingCell.invalidateDisplayList();
+						}
+						else if (MouseEvent.CLICK == eventtype)
+						{
+							siblingCell.backgroupColor=_selectionColor;
+							siblingCell.selectionColorMark=true;
+							siblingCell.invalidateDisplayList();
+						}
+					}
+				}
+			}
+
+			/**
+			 * 还原选择中行颜色
+			 */
+			private function restoreLineColor():void
+			{
+				for (var j:int=0; j < historySelectRowsIndex.length; j++)
+				{
+					var rowIndex:int=historySelectRowsIndex[j];
+					this.restoreTheLineColor(rowIndex);
+				}
+			}
+
+			private function restoreTheLineColor(rowIndex:int):void
+			{
+				var len:int=columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var objColumn:Object=columns[i];
+					if (isFColumn(objColumn))
+					{
+						var designateCell:Cells=objColumn.getElementAt(rowIndex) as Cells;
+						designateCell.backgroupColor=getRowColors(rowIndex);
+						designateCell.selectionColorMark=false;
+						designateCell.invalidateDisplayList();
+					}
 				}
 			}
 			
-			private function getArrayIndexById(selectedItem:Object, arr:Array):int
+			private function isFColumn(objColumn:Object):Boolean
 			{
-				for(var i:int=0; i<arr.length; i++)
+				if (objColumn is Column || objColumn is BoxColumn || objColumn is SequenceColumn)
 				{
-					if(selectedItem.id == arr[i].id)
+					return true;
+				}
+				return false;
+			}
+
+			private function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
+			{
+				boxColumn=boxColumn || this.getBoxColumn();
+				var len:int=historySelectRowsIndex.length;
+				for (var j:int=0; j < len; j++)
+				{
+					var rowIndex:int=historySelectRowsIndex[j];
+					this.changeBoxSelectedByRowIndex(state, rowIndex, boxColumn);
+				}
+			}
+
+			private function changeBoxSelectedByRowIndex(state:Boolean, rowIndex:int, boxColumn:BoxColumn=null):void
+			{
+				boxColumn=boxColumn || this.getBoxColumn();
+				var cells:Cells=boxColumn.getElementAt(rowIndex) as Cells;
+				if (cells.selected != state)
+				{
+					(cells.getElementAt(0) as CheckBox).selected=state;
+						//cells.selected = state;
+				}
+			}
+
+			private function changesInIndex(rowIndex:int, type:String="push", rowIndexArr:Array=null):void
+			{
+				if (type == "remove")
+				{
+					var len:int=this.historySelectRowsIndex.length;
+					for (var i:int=0; i < len; i++)
 					{
-						return i;	
+						var oldRowIndex:int=int(this.historySelectRowsIndex[i]);
+						if (oldRowIndex == rowIndex)
+						{
+							this.historySelectRowsIndex.splice(i, 1);
+							break;
+						}
+					}
+					return;
+				}
+				if (type == "push")
+				{
+					this.historySelectRowsIndex.push(rowIndex);
+					return;
+				}
+				if (type == "newvalue")
+				{
+					if (rowIndexArr)
+					{
+						this.historySelectRowsIndex=rowIndexArr;
+					}
+					else
+					{
+						this.historySelectRowsIndex=[rowIndex];
+					}
+					return;
+				}
+			}
+
+			private function getBoxColumn():BoxColumn
+			{
+				var boxColumn:BoxColumn;
+				var lenColumns:int=columns.length;
+				for (var i:int=0; i < lenColumns; i++)
+				{
+					boxColumn=columns[i] as BoxColumn;
+					if (boxColumn)
+					{
+						break;
+					}
+				}
+				return boxColumn;
+			}
+
+			private function getTextAlign(value:String = null):Object
+			{
+				var _textAlign:String= value == null ? getStyle("textAlign") : value ;
+				if (_textAlign == "start" || _textAlign == "center")
+				{
+					return "0";
+				}
+				else
+				{
+					_textAlign;
+				}
+
+				return _textAlign;
+			}
+
+			private function getSelectionColor():uint
+			{
+				var _selectionColor:uint=getStyle("selectionColor");
+				_selectionColor=_selectionColor == 0 ? selectionColor : _selectionColor;
+				return _selectionColor;
+			}
+
+			private function getRollOverColor():uint
+			{
+				var _rollOverColor:uint=getStyle("rollOverColor");
+				_rollOverColor=_rollOverColor == 0 ? rollOverColor : _rollOverColor;
+				return _rollOverColor;
+			}
+
+			private function getHeaderColor():uint
+			{
+				var _headerColor:uint=getStyle("headerColor");
+				_headerColor=_headerColor == 0 ? headerColor : _headerColor;
+				return _headerColor;
+			}
+
+			private function getBorderColor():uint
+			{
+				var _borderColor:uint=this.getStyle("borderColor");
+				_borderColor == 0 ? borderColor : _borderColor;
+				return _borderColor;
+			}
+
+			/**
+			 * 根据列表行索引取得该行所有行单元格
+			 */
+			private function getRowCellsByRowIndex(rowsIndex:int):Array
+			{
+				var rowCells:Array=[];
+				var len:int=columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var column:Column=columns[i] as Column;
+					if (column)
+					{
+						rowCells.push(column.getElementAt(rowsIndex));
+					}
+				}
+				return rowCells;
+			}
+
+			/**
+			 * 根据列表行索引取行颜色值
+			 */
+			public function getRowColors(rowIndex:int):uint
+			{
+				var _alternatingItemColors:Array=this.getStyle("alternatingItemColors");
+				_alternatingItemColors=_alternatingItemColors.length == 0 ? alternatingItemColors : _alternatingItemColors;
+
+				if (rowIndex >= 0 && rowIndex <= 9)
+				{
+					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+				}
+				else
+				{
+					var rowIndexStr:String=rowIndex.toString();
+					rowIndex=int(rowIndexStr.substr(rowIndexStr.length - 1));
+					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+				}
+			}
+
+			/**
+			 * 根据行索引得到奇、偶数颜色值
+			 */
+			private function getItemColorsByIndex(_alternatingItemColors:Array, index:int):uint
+			{
+				if (index == 0 || index == 2 || index == 4 || index == 6 || index == 8)
+				{
+					return _alternatingItemColors[0] as uint;
+				}
+				else
+				{
+					return _alternatingItemColors[1] as uint;
+				}
+			}
+
+			/**
+			 * 创建单元
+			 */
+			public function createCells(text:String):Cells
+			{
+				var column:Cells=new Cells();
+				column.text=text;
+
+				var textAlign:String=this.getTextAlign().toString();
+				if (textAlign == "left")
+				{
+					column.labelHorizontalCenter="undefined";
+					column.labelLeft=2;
+				}
+
+				if (textAlign == "right")
+				{
+					column.labelHorizontalCenter="undefined";
+					column.labelRight=2;
+				}
+
+				return column;
+			}
+
+			protected function changeLabelMaxWidthHandler(event:Event):void
+			{
+				var cell:Cells=event.currentTarget as Cells;
+				cell._l.maxWidth=this.singleColumnWidth;
+			}
+
+			public function set columns(value:Array):void
+			{
+				_columns=value;
+			}
+
+			public function get dataProvider():Object
+			{
+				return _dataProvider;
+			}
+
+			public function get columns():Array
+			{
+				return _columns;
+			}
+
+			public function get titleRowHeight():int
+			{
+				return _titleRowHeight;
+			}
+
+			public function set titleRowHeight(value:int):void
+			{
+				_titleRowHeight=value;
+			}
+
+			public function get rowHeight():int
+			{
+				return _rowHeight;
+			}
+
+			public function set rowHeight(value:int):void
+			{
+				_rowHeight=value;
+			}
+			
+			private function setColumnsWidth():void
+			{
+				var singleColumnWidth:Number=getSingleColumnWidth();
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var obj:Object=columns[i];
+					if (obj.width == obj.measuredWidth)
+					{
+						obj.width=singleColumnWidth;
+					}
+				}
+			}
+			
+			private function getSingleColumnWidth():Number
+			{
+				var manuallyDefineColumnWidth:Number=0;
+				var count:int=0;
+				
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var obj:Object=columns[i];
+					if (obj.width == 0)
+					{
+						manuallyDefineColumnWidth+=Number(obj.width);
+						count++;
 					}
 				}
 				
-				return -1;
+				return (this.width - manuallyDefineColumnWidth) / (len - count);
 			}
-			
-			/**************************************************************************************/
-			/**override*/
-			/**************************************************************************************/
-			
-			/**
-			 * 清除缓存CheckBox状态与用户选择内存值
-			 * @author HUBO hubo.0508@gmail.com
-			 */
-			public function set dataProviderAndClearCache(value:Object):void
-			{
-				this.clearValueCache();
-				super.dataProvider = value;
-			}
-			
-			/**************************************************************************************/
-			/**public*/
-			/**************************************************************************************/
-			
-			/**
-			 * 清空列表值
-			 * @author HUBO hubo.0508@gmail.com
-			 */
-			public function clearValueCache():void
-			{
-				var dgcolumn:DGColumn=getColumn();
-				if(dgcolumn)
-				{
-					dgcolumn.selectItemsData.length = 0;
-					this.clearCacheValueFromArray(dgcolumn.saveSelectedItem,"selected");
-				}
-			}
-
-			/**
-			 * 取得当前DataGrid中选择了的项值
-			 * @author HUBO hubo.0508@gmail.com
-			 */
-			public function selectedItemValue():Array
-			{
-				var dgcolumn:DGColumn=getColumn();
-				return dgcolumn.selectItemsData;
-			}
-			
-//			public function set selectedItems(ids:Array):void
-//			{
-//				
-//			}
-			
-			
-			/**************************************************************************************/
-			/**private*/
-			/**************************************************************************************/
-
-			/**
-			 * 取得添加了复选框的列
-			 * @author HUBO hubo.0508@gmail.com
-			 */
-			private function getColumn():DGColumn
-			{
-				var columnsArr:Array=this.columns;
-				for (var c:int=0; c < columnsArr.length; c++)
-				{
-					if (columnsArr[c] is DGColumn)
-					{
-						var column:DGColumn=columnsArr[c];
-						return column;
-					}
-				}
-				return null;
-			}
-			
-			/**
-			 * 清除内存值
-			 * @author HUBO hubo.0508@gmail.com
-			 */
-			private function clearCacheValueFromArray(items:Array, type:String = ""):void
-			{			
-				for (var i:Number=0; i < items.length; i++)
-				{
-					if(type == "selected")
-					{
-						items[i].selected = false;
-						items.splice(i, 1);
-					}	
-				}
-			}
-			
-			/**************************************************************************************/
-			/**get and set*/
-			/**************************************************************************************/
-
-			/**级联点击项*/
-			public function get cascadeItemClick():Boolean
-			{
-				return _cascadeItemClick;
-			}
-
-			/**
-			 * @private
-			 */
-			public function set cascadeItemClick(value:Boolean):void
-			{
-				_cascadeItemClick = value;
-				
-				this.addEventListener(ListEvent.ITEM_CLICK,itemClickHandler);
-			}
-
-
 		]]>
 	</fx:Script>
-</mx:DataGrid>
+
+</components:HContainer>
