@@ -126,14 +126,16 @@
 			/**
 			 * 初始化列数
 			 *
-			 * <p>调用父级org.hu.fextjs.ui.datagrid.FDataGrid.createChildren()后执行该方法</p>
+			 * <p>调用父级org.hu.fextjs.ui.datagrid.DataGrid.createChildren()后执行该方法</p>
 			 * 
 			 * <p>
 			 * 		1、该方法将属性<code>columns</code>中的元素取出，添加至显示列表中</br>
-			 * 		2、columns中元素可以是架构SDK类型[FColumn、FBoxColumn、FSequenceColumn]，也可以是Flex SDK类型
+			 * 		2、columns中元素可以是架构SDK类型[Column、BoxColumn、SequenceColumn]，也可以是Flex SDK类型
 			 * </p>
 			 * 
-			 * @see
+			 * @see org.hu.fextjs.ui.datagrid.Column
+			 * @see org.hu.fextjs.ui.datagrid.BoxColumn
+			 * @see org.hu.fextjs.ui.datagrid.SequenceColumn
 			 */
 			protected function initializationHeaderColumns():void
 			{
