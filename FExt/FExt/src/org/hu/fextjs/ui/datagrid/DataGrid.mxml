@@ -65,7 +65,10 @@
 			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 			//				</ns:HContainer>			
 			//			</ns:VContainer>
-
+			
+			/**
+			 * 初始化列数 与 初始化填充行数
+			 */
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -74,51 +77,45 @@
 				
 				//根据FDataGrid总体高度计算出初始化行数
 				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
-				this.initializationRows(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
-			}
-
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w, h);				
+				this.fillBackgroundRows(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
 			}
 			
 			/**
-			 * 初始化行
+			 * 初始化填充内容行数
+			 *
+			 * @param rowNum:int 内容行数
 			 */
-			private function initializationRows(lineNum:int):void
+			protected function fillBackgroundRows(rowNum:int):void
 			{
 				var len:int=this.columns.length;
-				for(var k:int=0; k<lineNum; k++)
-				{					
+				for (var k:int=0; k < rowNum; k++)
+				{
 					for (var i:int=0; i < len; i++)
-					{						
+					{
 						var objColumn:Object=columns[i];
-						if(isFColumn(objColumn)){
-							var cell:Cells = getInitializeCell(objColumn,k+1);
-							
-							if((lineNum-1) == k){
-								this.setLastRowsHeight(k,cell,objColumn);
-							}	
-							
+						if (isFColumn(objColumn))
+						{
+							var cell:Cells=getInitializeCell(objColumn, k + 1);
+							if ((rowNum - 1) == k)
+							{
+								this.setLastRowsHeight(k, cell, objColumn);
+							}
 							objColumn.addElement(cell);
-						}						
+						}
 					}
-				}				
+				}
 			}
+
 			/**
-			 * 设置最后一行的行高
+			 * 设值最后一行行高
 			 */
 			private function setLastRowsHeight(index:int, cell:Cells, objColumn:Object):void
 			{
 				var lineHeight:Number=this.height - (index * rowHeight + titleRowHeight);
 				cell.height=lineHeight;
-				if (objColumn is BoxColumn)
+				if (objColumn is BoxColumn || objColumn is SequenceColumn)
 				{
-					cell.cellsVisible=false;
-				}
-				else if (objColumn is SequenceColumn)
-				{
-					cell.cellsVisible=false;
+					cell.cellsVisible = false;
 				}
 			}
 
