@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   xmlns:mx="library://ns.adobe.com/flex/mx"  preloader="org.hu.fextjs.core.preloader.Preloader"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  preloader="org.hu.flexeasy.core.preloader.Preloader"
 			   xmlns:components="org.hu.fextjs.components.*" 
 			   creationComplete="creationCompleteHandler(event)"
 			   minWidth="955"
 			   minHeight="600"
 			   xmlns:FExt="library://FExt.HU"
-			   xmlns:local="*" xmlns:datagrid="org.hu.fextjs.ui.datagrid.*">
+			   xmlns:local="*" xmlns:datagrid="org.hu.fextjs.ui.datagrid.*" viewSourceURL="srcview/index.html" xmlns:components1="org.hu.flexeasy.components.*" xmlns:datagrid1="org.hu.flexeasy.ui.datagrid.*" xmlns:ui="org.hu.flexeasy.ui.*">
 	
 	<fx:Style>
 		@namespace FExt "library://FExt.HU";
@@ -37,8 +37,8 @@
 			import mx.events.FlexEvent;
 			import mx.events.ListEvent;
 			
-			import org.hu.fextjs.event.GridEvent;
-			import org.hu.fextjs.ui.datagrid.FCellsRenderer;
+			import org.hu.flexeasy.event.GridEvent;
+			import org.hu.flexeasy.ui.datagrid.CellsRenderer;
 			
 			import spark.components.BorderContainer;
 
@@ -61,7 +61,7 @@
 				
 				for(var i:int=0; i<acc.length; i++)
 				{
-					var cells:FCells = fdg.getFCells(fdgcolumn,acc[i],i,"nametitle");
+					var cells:Cells = fdg.getFCells(fdgcolumn,acc[i],i,"nametitle");
 					fdgcolumn.addElement(cells);
 				}
 			}
@@ -85,7 +85,7 @@
 				this.chooseIndex.text = indexStr;
 			}
 			
-			protected function labelFunction(data:Object,column:FColumn):String
+			protected function labelFunction(data:Object,column:Column):String
 			{
 				if(data["name2"] == "12"){
 					return "rendererFunction";
@@ -94,9 +94,9 @@
 			}
 			
 			
-			protected function rendererFunction(data:Object,column:FColumn):IVisualElement
+			protected function rendererFunction(data:Object,column:Column):IVisualElement
 			{
-				var bo:FCellsRenderer = new FCellsRenderer();
+				var bo:CellsRenderer = new CellsRenderer();
 				bo.setStyle("backgroundColor",getColor(data["gaojin"]));
 				
 				var labe:mx.controls.Label = new mx.controls.Label();
@@ -126,7 +126,7 @@
 		]]>
 	</fx:Script>
 	
-	<FExt:FContainer top="10" left="10" right="10" height="350">
+	<ui:FContainer top="10" left="10" right="10" height="350">
 		<FExt:TitleLabel text="标题标签">
 			<FExt:customComponents>
 				<s:Label id="moreLabelText"  fontFamily="宋体" fontSize="12" buttonMode="true"  fontWeight="bold" verticalCenter="0" right="5" color="#0C387F" useHandCursor="true" text="更多..." />
@@ -138,30 +138,30 @@
 				<s:BasicLayout/>
 			</FExt:layout>			
 			
-			<FExt:FDataGrid id="fdg" width="90%" left="10" top="10" paddingLeft="0" itemClick="fdg_itemClickHandler(event)" titleRowHeight="30">
+			<FExt:DataGrid id="fdg" width="90%" left="10" top="10" paddingLeft="0" itemClick="fdg_itemClickHandler(event)" titleRowHeight="30">
 				<FExt:columns>							
-					<FExt:VContainer gap="0" horizontalAlign="right" bottom="right" >
-						<FExt:FCells width="280" text="性能数据" backgroupColor="#7AB4F4" borderSides="" borderColor="0x696969" height="30"/>
+					<components1:VContainer gap="0" horizontalAlign="right" bottom="right" >
+						<datagrid1:Cells width="280" text="性能数据" backgroupColor="#7AB4F4" borderSides="" borderColor="0x696969" height="30"/>
 						<s:HGroup gap="0">
-							<FExt:VContainer gap="0" width="100" borderSides="right">
-								<FExt:FCells width="100%" height="132" text="C网" borderSides="bottom"/>
-								<FExt:FCells width="100%" height="88" text="业务平台" borderSides="bottom"/>
-								<FExt:FCells width="100%" text="软交换" borderSides=""/>
-							</FExt:VContainer>						
-							<FExt:FColumn id="fdgcolumn" width="180"  />
+							<components1:VContainer gap="0" width="100" borderSides="right">
+								<datagrid1:Cells width="100%" height="132" text="C网" borderSides="bottom"/>
+								<datagrid1:Cells width="100%" height="88" text="业务平台" borderSides="bottom"/>
+								<datagrid1:Cells width="100%" text="软交换" borderSides=""/>
+							</components1:VContainer>						
+							<datagrid1:Column id="fdgcolumn" width="180"  />
 						</s:HGroup>
-					</FExt:VContainer>
-					<FExt:FBoxColumn headerText="选择" width="40" radio="false" rowMultiSelection="true"/>
-					<FExt:FColumn dataField="name" headerText="接收量(M)"  rendererFunction="rendererFunction"/>
-					<FExt:FColumn dataField="name2" headerText="发送量(M)" labelFunction="labelFunction"/>
-					<FExt:FColumn dataField="name3" headerText="接收流量(Kbps) "/>
-					<FExt:FColumn dataField="name4" headerText="发送流量(Kbps)"/>
-					<FExt:FColumn dataField="name4" headerText="日平均在线用户数"/>							
+					</components1:VContainer>
+					<datagrid1:BoxColumn headerText="选择" width="40" radio="false" rowMultiSelection="true"/>
+					<datagrid1:Column dataField="name" headerText="接收量(M)"  rendererFunction="rendererFunction"/>
+					<datagrid1:Column dataField="name2" headerText="发送量(M)" labelFunction="labelFunction"/>
+					<datagrid1:Column dataField="name3" headerText="接收流量(Kbps) "/>
+					<datagrid1:Column dataField="name4" headerText="发送流量(Kbps)"/>
+					<datagrid1:Column dataField="name4" headerText="日平均在线用户数"/>							
 				</FExt:columns>	
-			</FExt:FDataGrid>			
+			</FExt:DataGrid>			
 			
 		</FExt:FContent>
-	</FExt:FContainer>
+	</ui:FContainer>
 	<s:TextArea x="56" y="397" width="147" borderVisible="false" id="chooseValue"/>
 	<s:TextArea x="226" y="398" width="147" borderVisible="false" id="chooseIndex"/>
 	<s:Label x="226" y="377" text="DataGrid选中行索引"/>

@@ -5,7 +5,7 @@
 			   minWidth="955"
 			   creationComplete="creationCompleteHandler(event)"
 			   minHeight="600"
-			   xmlns:ns="library://FExt.HU">
+			   xmlns:ns="library://FExt.HU" xmlns:chart="org.hu.flexeasy.ui.chart.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -56,6 +56,6 @@
 		]]>
 	</fx:Script>
 	
-	<ns:LineChartTime id="lct" left="100" top="100" field="[price,time,weeks]" height="500" width="550" yCalibrationValue="[100,200,300,350]" unit="$"/>
+	<chart:LineChartTime id="lct" left="100" top="100" field="[price,time,weeks]" height="500" width="550" yCalibrationValue="[100,200,300,350]" unit="$"/>
 	
 </s:Application>
