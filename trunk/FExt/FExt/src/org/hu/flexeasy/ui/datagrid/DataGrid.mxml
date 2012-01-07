@@ -893,7 +893,7 @@
 			}
 
 			/**
-			 * 根据索引值取得行单元格对象
+			 * 根据索引值取得行单元格对象数组
 			 * 
 			 * @param rowsIndex:int 行索引值
 			 * 
@@ -934,13 +934,13 @@
 
 				if (rowIndex >= 0 && rowIndex <= 9)
 				{
-					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+					return getItemColors(_alternatingItemColors, rowIndex);
 				}
 				else
 				{
 					var rowIndexStr:String=rowIndex.toString();
 					rowIndex=int(rowIndexStr.substr(rowIndexStr.length - 1));
-					return getItemColorsByIndex(_alternatingItemColors, rowIndex);
+					return getItemColors(_alternatingItemColors, rowIndex);
 				}
 			}
 
@@ -948,13 +948,13 @@
 			 * 根据索引值得到奇、偶数颜色值
 			 * 
 			 * @param itemColors:Array 奇、偶数颜色值
-			 * @param index:int 奇数或偶数【0、1、2、3、4、5、6、7、8、9】
+			 * @param digital:int 奇数或偶数【0、1、2、3、4、5、6、7、8、9】
 			 * 
 			 * @return 颜色值
 			 */
-			public function getItemColorsByIndex(itemColors:Array, index:int):uint
+			public function getItemColors(itemColors:Array, digital:int):uint
 			{
-				if (index == 0 || index == 2 || index == 4 || index == 6 || index == 8)
+				if (digital == 0 || digital == 2 || digital == 4 || digital == 6 || digital == 8)
 				{
 					return itemColors[0] as uint;
 				}
