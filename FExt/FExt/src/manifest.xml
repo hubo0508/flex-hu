@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <componentPackage>
 
-	 <component id="Container" class="org.hu.fextjs.components.Container" />
-	 <component id="FContainer" class="org.hu.fextjs.ui.FContainer" />
-	 <component id="FContent" class="org.hu.fextjs.ui.FContent" />
+	 <component id="Container" class="org.hu.flexeasy.components.Container" />
+	 <component id="FContainer" class="org.hu.flexeasy.ui.FContainer" />
+	 <component id="FContent" class="org.hu.flexeasy.ui.FContent" />
 	 
-	 <component id="TitleLabel" class="org.hu.fextjs.ui.TitleLabel" />
-	 <component id="MenuBar" class="org.hu.fextjs.ui.MenuBar" />
+	 <component id="TitleLabel" class="org.hu.flexeasy.ui.TitleLabel" />
+	 <component id="MenuBar" class="org.hu.flexeasy.ui.MenuBar" />
 	 
-	  <component id="VContainer" class="org.hu.fextjs.components.VContainer" />
-	  <component id="HContainer" class="org.hu.fextjs.components.HContainer" />
+	  <component id="VContainer" class="org.hu.flexeasy.components.VContainer" />
+	  <component id="HContainer" class="org.hu.flexeasy.components.HContainer" />
 	 
-	 <component id="Cells" class="org.hu.fextjs.ui.datagrid.Cells" />
-	 <component id="DataGrid" class="org.hu.fextjs.ui.datagrid.DataGrid" />
-	 <component id="BoxColumn" class="org.hu.fextjs.ui.datagrid.BoxColumn" />
-	 <component id="Column" class="org.hu.fextjs.ui.datagrid.Column" />
-	 <component id="CellsRenderer" class="org.hu.fextjs.ui.datagrid.CellsRenderer" />
-	 <component id="SequenceColumn" class="org.hu.fextjs.ui.datagrid.SequenceColumn" />
+	 <component id="Cells" class="org.hu.flexeasy.ui.datagrid.Cells" />
+	 <component id="DataGrid" class="org.hu.flexeasy.ui.datagrid.DataGrid" />
+	 <component id="BoxColumn" class="org.hu.flexeasy.ui.datagrid.BoxColumn" />
+	 <component id="Column" class="org.hu.flexeasy.ui.datagrid.Column" />
+	 <component id="CellsRenderer" class="org.hu.flexeasy.ui.datagrid.CellsRenderer" />
+	 <component id="SequenceColumn" class="org.hu.flexeasy.ui.datagrid.SequenceColumn" />
 	 
-	 <component id="LineChartTime" class="org.hu.fextjs.ui.chart.LineChartTime" />
+	 <component id="LineChartTime" class="org.hu.flexeasy.ui.chart.LineChartTime" />
 	 
 </componentPackage> 
