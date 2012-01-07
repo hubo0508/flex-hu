@@ -294,8 +294,8 @@
 			}
 			
 			/**
-			 *【 BoxColumn】列状态更改时，根据selectIndex更改业务逻辑
-			 * 
+			 *【 BoxColumn】列状态更改时【true or false】调用
+			 * 			 
 			 * @see org.hu.flexeasy.event.GridEvent
 			 */
 			protected function boxColumnChangeHandler(event:GridEvent):void
@@ -532,12 +532,13 @@
 						if (column)
 						{
 							var cells:Cells=column.getElementAt(historySelectRowsIndex[j]) as Cells;
-							
-							obj[column.dataField]=cells.text;
-							array.push(obj);
+							array.push(cells.data);
+							break;
+//							obj[column.dataField]=cells.text;
+//							array.push(obj);
 						}
 					}
-					array.push(obj);
+					//array.push(obj);
 				}
 
 				return array;
