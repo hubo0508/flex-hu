@@ -632,30 +632,34 @@
 			}
 			
 			/**
+			 * 将缓存中的选中记录，根据state更改其BoxColumn状态
 			 * 
+			 * @param state:Boolean 目标状态[true||false]
+			 * @param boxColumn:BoxColumn(default=null) 要更改状态的目标列
+			 * 
+			 * @see org.hu.fextjs.ui.datagrid.BoxColumn
 			 */
-			private function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
+			public function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
 			{
 				boxColumn = boxColumn || this.getBoxColumn();
 				var len:int=historySelectRowsIndex.length;
 				for (var j:int=0; j < len; j++)
 				{
 					var rowIndex:int=historySelectRowsIndex[j];
-					this.changeBoxSelectedByRowIndex(state, rowIndex, boxColumn);
+					this.changeBoxSelectedByIndex(state, rowIndex, boxColumn);
 				}
 			}
 
-			private function changeBoxSelectedByRowIndex(state:Boolean, rowIndex:int, boxColumn:BoxColumn=null):void
+			public function changeBoxSelectedByIndex(state:Boolean, rowIndex:int, boxColumn:BoxColumn=null):void
 			{
 				boxColumn=boxColumn || this.getBoxColumn();
 				var cells:Cells=boxColumn.getElementAt(rowIndex) as Cells;
 				if (cells.selected != state)
 				{
 					(cells.getElementAt(0) as CheckBox).selected=state;
-						//cells.selected = state;
 				}
 			}
-
+			
 			private function changesInIndex(rowIndex:int, type:String="push", rowIndexArr:Array=null):void
 			{
 				if (type == "remove")
@@ -690,8 +694,15 @@
 					return;
 				}
 			}
-
-			private function getBoxColumn():BoxColumn
+			
+			/**
+			 * 取得已经定义列BoxColumn
+			 * 
+			 * @return  org.hu.fextjs.ui.datagrid.BoxColumn
+			 * 
+			 * @see org.hu.fextjs.ui.datagrid.BoxColumn
+			 */
+			public function getBoxColumn():BoxColumn
 			{
 				var boxColumn:BoxColumn;
 				var lenColumns:int=columns.length;
