@@ -43,7 +43,13 @@
 			private var _columns:Array;
 			private var _dataProvider:ArrayCollection;
 			public var eventMark:String; //click mark
-			public var historySelectRowsIndex:Array=[];
+			
+			/**
+			 * 选中行索引
+			 */
+			public var indexOfSelectedRow:Array=[];
+			
+			
 			public var selectItems:Array;
 			private var _titleRowHeight:int=30;
 			private var _rowHeight:int=22;
@@ -254,7 +260,7 @@
 					if (objColumn is Column)
 					{
 						var column:Column=objColumn as Column;
-						var cells:Cells=getFCells(column, item, rowIndex+1, column.dataField);
+						var cells:Cells=getHaveDefinedCellsAndSetProperty(column, item, rowIndex+1, column.dataField);
 						var fun:Function=column.rendererFunction;
 						if (fun != null)
 						{
@@ -322,7 +328,7 @@
 							this.changeCellsColor(cells, MouseEvent.CLICK);
 						}
 
-						this.selectItems=this.getSelectionValue();
+						this.selectItems=this.getSelectedValue();
 						this.dispatchItemClick();
 					}
 					else
@@ -334,9 +340,20 @@
 			}
 
 			/**
-			 * 创建统一样式单元格
+			 * 获得已定义的单元格与设置基属性
+			 * 
+			 * <p>
+			 * 		如目标列中定义了【labelFunction】,则单元格文本值由【labelFunction】取得
+			 * </p>
+			 * 
+			 * @param column:Column 目标列
+			 * @param item:Object 行数据源
+			 * @param rowIndex:int 行索引值
+			 * @param dataField:String 
+			 * 
+			 * @return 获得已定义的单元格
 			 */
-			public function getFCells(column:Column, item:Object, rowIndex:int, dataField:String):Cells
+			protected function getHaveDefinedCellsAndSetProperty(column:Column, item:Object, rowIndex:int, dataField:String):Cells
 			{
 				var text:String;
 				var labelFun:Function=column.labelFunction;
@@ -356,6 +373,15 @@
 				return cells;
 			}
 			
+			/**
+			 * 得到初始化单元格
+			 * 
+			 * @param objColumn:Object
+			 * @param rowIndex:int
+			 * @param value:String(default="")
+			 * 
+			 * @return
+			 */
 			public function getInitializeCell(objColumn:Object,rowIndex:int, value:String = ""):Cells
 			{
 				var cells:Cells = this.createCells(value);
@@ -442,7 +468,7 @@
 						this.changesInIndex(rowIndex, "newvalue");
 					}
 					this.changeCellsColor(cells, event.type);
-					this.selectItems=this.getSelectionValue();
+					this.selectItems=this.getSelectedValue();
 					this.dispatchItemClick();
 				}
 			}
@@ -451,14 +477,17 @@
 			{
 				var e:GridEvent=new GridEvent(GridEvent.ITEM_CLICK);
 				e.selectItems=this.selectItems;
-				e.selectRowsIndex=historySelectRowsIndex;
+				e.selectRowsIndex=indexOfSelectedRow;
 
 				this.dispatchEvent(e);
 			}
 
 			/**
-			 * 1、鼠标移入，移出单元格时，更新背景颜色
-			 * 2、同时更新当前行的颜色
+			 * 鼠标移入、移出单元格时，更新背景颜色
+			 * 
+			 * <p>
+			 * 		鼠标移入事件类型【MouseEvent.ROLL_OVER、MouseEvent.ROLL_OUT】
+			 * </p>
 			 */
 			protected function cellsRollHandler(event:MouseEvent):void
 			{
@@ -491,54 +520,50 @@
 			}
 
 			/**
-			 * 根据行索引取得单元格值
+			 * 根据行索引值取得该行值
+			 * 
+			 * @param rowsIndex:int 某行索引值
+			 * 
+			 * @return 指定索引行值
 			 */
-			public function getColumnValueByRowIndex(rowIndex:Array, column:Column, target:Array=null):Array
+			public function getSingleRowsValue(rowsIndex:int):Object
 			{
-				var array:Array=[];
-
-				var len:int=rowIndex.length;
-				for (var i:int=0; i < len; i++)
+				var len:int = this.columns.length;
+				for(var i:int=0; i<len; i++)
 				{
-					var cells:Cells=column.getElementAt(rowIndex[i]) as Cells;
-					if (target && target[i])
+					var column:Column = this.columns[i] as Column;
+					if(column)
 					{
-						var obj:Object=target[i];
-						obj[column.dataField]=cells.text;
-					}
-					else
-					{
-						array.push(column.dataField, cells.text);
+						var cell:Cells = column.getElementAt(rowsIndex) as Cells;
+						return cell.data;
 					}
 				}
-
-				return target == null ? array : target;
+				
+				return null;
 			}
 
 			/**
-			 * 取得所有组件自定义值
+			 * 取得选中的值
+			 * 
+			 * @return 选择值
 			 */
-			public function getSelectionValue():Array
+			public function getSelectedValue():Array
 			{
 				var array:Array=[];
-				var len:int=historySelectRowsIndex.length;
+				var len:int=indexOfSelectedRow.length;
 				var lenColumns:int=columns.length;
 				for (var j:int=0; j < len; j++)
 				{
-					var obj:Object=new Object();
 					for (var i:int=0; i < lenColumns; i++)
 					{
 						var column:Column=columns[i] as Column;
 						if (column)
 						{
-							var cells:Cells=column.getElementAt(historySelectRowsIndex[j]) as Cells;
+							var cells:Cells=column.getElementAt(indexOfSelectedRow[j]) as Cells;
 							array.push(cells.data);
 							break;
-//							obj[column.dataField]=cells.text;
-//							array.push(obj);
 						}
 					}
-					//array.push(obj);
 				}
 
 				return array;
@@ -548,7 +573,7 @@
 			 * 改变标题行背景颜色
 			 * 
 			 * @param cells:Cells 目标单元格
-			 * @param eventtype:String 事件类型 
+			 * @param eventtype:String 事件类型 【MouseEvent.ROLL_OVER、MouseEvent.ROLL_OUT】
 			 */
 			public function changeHeaderCellsColor(cells:Cells, eventtype:String):void
 			{
@@ -628,13 +653,13 @@
 			/**
 			 * 将缓存中记录的状态行的颜色值还原到最原始状态(值)
 			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.historySelectRowsIndex:Array
+			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.indexOfSelectedRow:Array
 			 */
 			public function restoreOriginaColorValueAllRows():void
 			{
-				for (var j:int=0; j < historySelectRowsIndex.length; j++)
+				for (var j:int=0; j < indexOfSelectedRow.length; j++)
 				{
-					this.restoreOriginaColorValueRows(historySelectRowsIndex[j]);
+					this.restoreOriginaColorValueRows(indexOfSelectedRow[j]);
 				}
 			}
 
@@ -698,10 +723,10 @@
 			public function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
 			{
 				boxColumn = boxColumn || this.getBoxColumn();
-				var len:int=historySelectRowsIndex.length;
+				var len:int=indexOfSelectedRow.length;
 				for (var j:int=0; j < len; j++)
 				{
-					var rowIndex:int=historySelectRowsIndex[j];
+					var rowIndex:int=indexOfSelectedRow[j];
 					this.changeBoxSelectedByIndex(state, rowIndex, boxColumn);
 				}
 			}
@@ -727,13 +752,13 @@
 			{
 				if (type == "remove")
 				{
-					var len:int=this.historySelectRowsIndex.length;
+					var len:int=this.indexOfSelectedRow.length;
 					for (var i:int=0; i < len; i++)
 					{
-						var oldRowIndex:int=int(this.historySelectRowsIndex[i]);
+						var oldRowIndex:int=int(this.indexOfSelectedRow[i]);
 						if (oldRowIndex == rowIndex)
 						{
-							this.historySelectRowsIndex.splice(i, 1);
+							this.indexOfSelectedRow.splice(i, 1);
 							break;
 						}
 					}
@@ -741,18 +766,18 @@
 				}
 				if (type == "push")
 				{
-					this.historySelectRowsIndex.push(rowIndex);
+					this.indexOfSelectedRow.push(rowIndex);
 					return;
 				}
 				if (type == "newvalue")
 				{
 					if (values)
 					{
-						this.historySelectRowsIndex=values;
+						this.indexOfSelectedRow=values;
 					}
 					else
 					{
-						this.historySelectRowsIndex=[rowIndex];
+						this.indexOfSelectedRow=[rowIndex];
 					}
 					return;
 				}
