@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+@作者：HUBO
+@创建时间：2011-12-28
+@邮件：hubo.0508@gmail.com
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]public var time:String;
+			[Bindable]public var price:String;
+			
+		]]>
+	</fx:Script>
+	
+	<s:Path data="M 91.581 34.929 C 91.581 36.57 89.559 37.899 87.065 37.899 L 52.561 37.899 L 45.999 44.2 L 37.646 37.899 L 5.016 37.899 C 2.522 37.899 0.5 36.57 0.5 34.929 L 0.5 3.473 C 0.5 1.831 2.522 0.5 5.016 0.5 L 87.065 0.5 C 89.559 0.5 91.581 1.831 91.581 3.473 L 91.581 34.929 Z" winding="nonZero" x="0.5" y="0.5">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#3FA9F5" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+		<s:filters>
+			<s:GlowFilter alpha="0.75" color="#1E0FEA" quality="2"/>
+		</s:filters>
+	</s:Path>
+	<s:Label text="{time}" fontFamily="微软雅黑" horizontalCenter="0" top="8"/>
+	<s:Label text="{price}" color="#FF931E" fontFamily="微软雅黑" horizontalCenter="0" top="24"/>
+</s:Group>
