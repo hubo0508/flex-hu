@@ -125,7 +125,7 @@
 			 * @param cell:Cells 目标单元格
 			 * @param objColumn:Object 目标列
 			 */
-			private function setLastRowsHeight(totalRows:int, cell:Cells, objColumn:Object):void
+			protected function setLastRowsHeight(totalRows:int, cell:Cells, objColumn:Object):void
 			{
 				var lineHeight:Number=this.height - (totalRows * rowHeight + titleRowHeight);
 				cell.height=lineHeight;
@@ -340,7 +340,7 @@
 			}
 
 			/**
-			 * 获得已定义的单元格与设置基属性
+			 * 获得已定义的背景单元格与设置基属性
 			 * 
 			 * <p>
 			 * 		如目标列中定义了【labelFunction】,则单元格文本值由【labelFunction】取得
@@ -804,7 +804,12 @@
 				}
 				return boxColumn;
 			}
-
+			
+			/**
+			 * 取得文本对齐格式
+			 * 
+			 * @param value:String(default=null) 文本对齐格式【left、right、center】
+			 */
 			private function getTextAlign(value:String = null):Object
 			{
 				var _textAlign:String= value == null ? getStyle("textAlign") : value ;
