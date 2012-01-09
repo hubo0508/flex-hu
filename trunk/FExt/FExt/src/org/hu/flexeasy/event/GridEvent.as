@@ -1,13 +1,9 @@
 package org.hu.flexeasy.event
 {
 	import flash.events.Event;
-	
-	
+		
 	/**
-	 * @作者：HUBO
-	 * @创建时间：2011-12-12
-	 * @邮件：hubo.0508@gmail.com
-	 * @全路径： org.hu.fextjs.event.GridEvent.as
+	 * <p><b>HUBO 2011-12-12  /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.Constant.as</b></p>
 	 */
 	public class GridEvent extends Event
 	{
