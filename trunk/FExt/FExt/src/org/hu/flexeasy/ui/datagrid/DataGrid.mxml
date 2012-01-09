@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	 @作者：HUBO
-	 @创建时间：2011-12-5
-	 @邮件：hubo.0508@gmail.com
+	 <p>auth：HUBO</p>
+	 <p>create-time：2011-12-5</p>
+	 <p>mail：hubo.0508ⓐgmail.com</p>
 -->
 <components1:HContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-					   xmlns:s="library://ns.adobe.com/flex/spark"
-					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:components="org.hu.flexeasy.components.*"
-					   gap="1"
-					   clipAndEnableScrolling="false"
-					   paddingLeft="1"
-					   paddingBottom="0"
-					   paddingRight="0"
-					   horizontalCenter="0" xmlns:components1="org.hu.flexeasy.components.*">
+						xmlns:s="library://ns.adobe.com/flex/spark"
+						xmlns:mx="library://ns.adobe.com/flex/mx"
+						xmlns:components="org.hu.flexeasy.components.*"
+						gap="1"
+						clipAndEnableScrolling="false"
+						paddingLeft="1"
+						paddingBottom="0"
+						paddingRight="0"
+						horizontalCenter="0"
+						xmlns:components1="org.hu.flexeasy.components.*">
 
 	<fx:Metadata>
 		[Style(name="headerColor", type="uint", format="Color", inherit="yes", theme="spark")]
@@ -32,24 +33,24 @@
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.utils.ObjectUtil;
-			
+
 			import org.hu.flexeasy.event.GridEvent;
 			import org.hu.flexeasy.util.Constant;
 			import org.hu.flexeasy.util.UtilFunctions;
-			
+
 			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
 
 			private var _columns:Array;
 			private var _dataProvider:ArrayCollection;
 			public var eventMark:String; //click mark
-			
+
 			/**
 			 * 选中行索引
 			 */
 			public var indexOfSelectedRow:Array=[];
-			
-			
+
+
 			public var selectItems:Array;
 			private var _titleRowHeight:int=30;
 			private var _rowHeight:int=22;
@@ -63,7 +64,7 @@
 			private var headerColor:uint=0xA8A8A8;
 
 			/*default style end*/
-			
+
 			//			<ns:VContainer width="100%" height="60" gap="0">
 			//				<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 			//				<ns:HContainer width="100%" height="30" gap="0">
@@ -71,7 +72,7 @@
 			//					<ns:VContainer backgroupColor="#919191" width="100%" height="30"/>
 			//				</ns:HContainer>			
 			//			</ns:VContainer>
-			
+
 			/**
 			 * 初始化列数 与 初始化填充行数
 			 */
@@ -80,22 +81,20 @@
 				super.createChildren();
 
 				this.initializationHeaderColumns();
-				
+
 				//根据FDataGrid总体高度计算出初始化行数
-				var lineHeight:Number = (this.height-titleRowHeight)/rowHeight;
+				var lineHeight:Number=(this.height - titleRowHeight) / rowHeight;
 				this.fillBackgroundRows(int(lineHeight) == lineHeight ? lineHeight : Math.floor(lineHeight) + 1);
 			}
-			
+
 			/**
 			 * 初始化填充内容行数
-			 * 
+			 *
 			 * <p>
 			 * 		请注意：该方法只对架构SDK定义列起作用 【Column、BoxColumn、SequenceColumn】
 			 * </p>
 			 *
 			 * @param rowNum:int 内容行数
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.isSystemColumn(objColumn:Object):Boolean{}
 			 */
 			protected function fillBackgroundRows(rowNum:int):void
 			{
@@ -120,7 +119,7 @@
 
 			/**
 			 * 设值最后一行行高
-			 * 
+			 *
 			 * @param totalRows:int 总行数
 			 * @param cell:Cells 目标单元格
 			 * @param objColumn:Object 目标列
@@ -131,7 +130,7 @@
 				cell.height=lineHeight;
 				if (objColumn is BoxColumn || objColumn is SequenceColumn)
 				{
-					cell.cellsVisible = false;
+					cell.cellsVisible=false;
 				}
 			}
 
@@ -140,14 +139,12 @@
 			 * 初始化列数
 			 *
 			 * <p>调用父级org.hu.flexeasy.ui.datagrid.DataGrid.createChildren()后执行该方法</p>
-			 * 
+			 *
 			 * <p>
 			 * 		1、该方法将属性columns中的元素取出，添加至显示列表中</br>
 			 * 		2、columns中元素可以是架构SDK类型[Column、BoxColumn、SequenceColumn]，也可以是Flex SDK类型</br>
 			 * 		3、columns中元素不是架构SDK类型，则不作任何逻辑处理，将对象以最原始的形态添加到显示列表中
 			 * </p>
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.isSystemColumn(objColumn:Object):Boolean{}
 			 */
 			protected function initializationHeaderColumns():void
 			{
@@ -163,7 +160,7 @@
 						cells.backgroupColor=this.getHeaderColor();
 						cells.addEventListener(MouseEvent.ROLL_OUT, headerColumnsRollHandler, false, 0, true);
 						cells.addEventListener(MouseEvent.ROLL_OVER, headerColumnsRollHandler, false, 0, true);
-						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);						
+						cells.addEventListener(MouseEvent.CLICK, headerColumnsClickHandler, false, 0, true);
 
 						if (objColumn.width == 0)
 						{
@@ -192,7 +189,7 @@
 					}
 				}
 			}
-			
+
 			/**
 			 * 鼠标移入、移出标题行单元格
 			 */
@@ -200,7 +197,7 @@
 			{
 				this.changeHeaderCellsColor(event.currentTarget as Cells, event.type);
 			}
-			
+
 			/**
 			 * 鼠标点击标题行单元格
 			 */
@@ -208,10 +205,10 @@
 			{
 				//do
 			}
-			
+
 			/**
 			 * 设置显示数据源
-			 * 
+			 *
 			 * @param value:ArrayCollection 显示数据源
 			 */
 			public function set dataProvider(value:ArrayCollection):void
@@ -235,7 +232,7 @@
 
 			/**
 			 * 将数据源添加到所有单元格中
-			 * 
+			 *
 			 * <p>
 			 * 		列对象中定义有：
 			 * 			<ul>
@@ -247,9 +244,7 @@
 			 *
 			 * @param item:Object 当前行数据源
 			 * @param rowIndex:int 当前行索引值(数据源要显示的行索引值)
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.Column.rendererFunction(value:Function){}
-			 * @see org.hu.flexeasy.ui.datagrid.Column.labelFunction(value:Function){}
+			 *
 			 */
 			public function displayDataToCell(item:Object, rowIndex:int):void
 			{
@@ -260,7 +255,7 @@
 					if (objColumn is Column)
 					{
 						var column:Column=objColumn as Column;
-						var cells:Cells=getHaveDefinedCellsAndSetProperty(column, item, rowIndex+1, column.dataField);
+						var cells:Cells=getHaveDefinedCellsAndSetProperty(column, item, rowIndex + 1, column.dataField);
 						var fun:Function=column.rendererFunction;
 						if (fun != null)
 						{
@@ -284,29 +279,29 @@
 					if (objColumn is BoxColumn)
 					{
 						var boxColumn:BoxColumn=objColumn as BoxColumn;
-						var boxCells:Cells=this.getBoxCells(rowIndex+1,boxColumn);
+						var boxCells:Cells=this.getBoxCells(rowIndex + 1, boxColumn);
 						boxCells.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 						boxCells.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 						boxCells.addEventListener(GridEvent.BOX_COLUMN_CHANGE, boxColumnChangeHandler, false, 0, true);
 					}
-					
-					if(objColumn is SequenceColumn)
+
+					if (objColumn is SequenceColumn)
 					{
-						var cell:Cells = objColumn.getElementAt(rowIndex+1) as Cells;
+						var cell:Cells=objColumn.getElementAt(rowIndex + 1) as Cells;
 						cell.addEventListener(MouseEvent.ROLL_OUT, cellsRollHandler, false, 0, true);
 						cell.addEventListener(MouseEvent.ROLL_OVER, cellsRollHandler, false, 0, true);
 					}
 				}
 			}
-			
+
 			/**
 			 *【 BoxColumn】列状态更改时【true or false】调用
-			 * 			 
+			 *
 			 * @see org.hu.flexeasy.event.GridEvent
 			 */
 			protected function boxColumnChangeHandler(event:GridEvent):void
 			{
-				var selectIndex:int = int(event.selectRowsIndex[0]);
+				var selectIndex:int=int(event.selectRowsIndex[0]);
 				var boxColumn:BoxColumn=getBoxColumn();
 				if (boxColumn)
 				{
@@ -341,16 +336,16 @@
 
 			/**
 			 * 获得已定义的背景单元格与设置基属性
-			 * 
+			 *
 			 * <p>
 			 * 		如目标列中定义了【labelFunction】,则单元格文本值由【labelFunction】取得
 			 * </p>
-			 * 
+			 *
 			 * @param column:Column 目标列
 			 * @param item:Object 行数据源
 			 * @param rowIndex:int 行索引值
-			 * @param dataField:String 
-			 * 
+			 * @param dataField:String
+			 *
 			 * @return 获得已定义的单元格
 			 */
 			protected function getHaveDefinedCellsAndSetProperty(column:Column, item:Object, rowIndex:int, dataField:String):Cells
@@ -368,63 +363,63 @@
 
 				var cells:Cells=column.getElementAt(rowIndex) as Cells;
 				cells.data=item;
-				cells.text = text;
-				
+				cells.text=text;
+
 				return cells;
 			}
-			
+
 			/**
 			 * 得到初始化单元格
-			 * 
+			 *
 			 * @param objColumn:Object
 			 * @param rowIndex:int
 			 * @param value:String(default="")
-			 * 
+			 *
 			 * @return
 			 */
-			public function getInitializeCell(objColumn:Object,rowIndex:int, value:String = ""):Cells
+			public function getInitializeCell(objColumn:Object, rowIndex:int, value:String=""):Cells
 			{
-				var cells:Cells = this.createCells(value);
+				var cells:Cells=this.createCells(value);
 				cells.backgroupColor=this.getRowColors(rowIndex);
 				cells.percentWidth=100;
 				cells.id=rowIndex.toString();
 				cells.height=this.rowHeight;
-				
+
 				if (objColumn is Column)
 				{
-					cells.type = Constant.LABEL;
+					cells.type=Constant.LABEL;
 				}
 
-				if(objColumn is BoxColumn)
-				{						
-					cells.type = Constant.CHECKBOX;
-				}
-					
-				if(objColumn is SequenceColumn)
+				if (objColumn is BoxColumn)
 				{
-					cells.text = (rowIndex).toString();
-					cells.type = Constant.LABEL;
-					
-					cells.labelHorizontalCenter = 0;
-						
-					//this.getTextAlign(objColumn.textAlign.toString());
+					cells.type=Constant.CHECKBOX;
 				}
-				
+
+				if (objColumn is SequenceColumn)
+				{
+					cells.text=(rowIndex).toString();
+					cells.type=Constant.LABEL;
+
+					cells.labelHorizontalCenter=0;
+
+						//this.getTextAlign(objColumn.textAlign.toString());
+				}
+
 				return cells;
 			}
 
 			/**
 			 * 根据索引值取得复选框列单元格对象
-			 * 
+			 *
 			 * @param rowIndex:int 索引值
 			 * @param column:BoxColumn(default=null) 复选框单元格对象
-			 * 
+			 *
 			 * @return 指定复选框单元格对象
 			 */
-			public function getBoxCells(rowIndex:int,column:BoxColumn = null):Cells
+			public function getBoxCells(rowIndex:int, column:BoxColumn=null):Cells
 			{
-				column = column || this.getBoxColumn();
-				var cells:Cells=column.getElementAt(rowIndex) as Cells;				
+				column=column || this.getBoxColumn();
+				var cells:Cells=column.getElementAt(rowIndex) as Cells;
 				return cells;
 			}
 
@@ -446,8 +441,8 @@
 				else
 				{
 					this.eventMark=event.type;
-					var boxColumn:BoxColumn=this.getBoxColumn();					
-					if(boxColumn)
+					var boxColumn:BoxColumn=this.getBoxColumn();
+					if (boxColumn)
 					{
 						if (!boxColumn.radio && boxColumn.rowMultiSelection)
 						{
@@ -484,7 +479,7 @@
 
 			/**
 			 * 鼠标移入、移出单元格时，更新背景颜色
-			 * 
+			 *
 			 * <p>
 			 * 		鼠标移入事件类型【MouseEvent.ROLL_OVER、MouseEvent.ROLL_OUT】
 			 * </p>
@@ -521,30 +516,30 @@
 
 			/**
 			 * 根据行索引值取得该行值
-			 * 
+			 *
 			 * @param rowsIndex:int 某行索引值
-			 * 
+			 *
 			 * @return 指定索引行值
 			 */
 			public function getSingleRowsValue(rowsIndex:int):Object
 			{
-				var len:int = this.columns.length;
-				for(var i:int=0; i<len; i++)
+				var len:int=this.columns.length;
+				for (var i:int=0; i < len; i++)
 				{
-					var column:Column = this.columns[i] as Column;
-					if(column)
+					var column:Column=this.columns[i] as Column;
+					if (column)
 					{
-						var cell:Cells = column.getElementAt(rowsIndex) as Cells;
+						var cell:Cells=column.getElementAt(rowsIndex) as Cells;
 						return cell.data;
 					}
 				}
-				
+
 				return null;
 			}
 
 			/**
 			 * 取得选中的值
-			 * 
+			 *
 			 * @return 选择值
 			 */
 			public function getSelectedValue():Array
@@ -571,7 +566,7 @@
 
 			/**
 			 * 改变标题行背景颜色
-			 * 
+			 *
 			 * @param cells:Cells 目标单元格
 			 * @param eventtype:String 事件类型 【MouseEvent.ROLL_OVER、MouseEvent.ROLL_OUT】
 			 */
@@ -594,20 +589,18 @@
 
 			/**
 			 * 更改单元格背景颜色
-			 * 
+			 *
 			 * <p>
 			 * 		<ul>
 			 * 			<li>鼠标点击目标单元格时的背景颜色，从已定义样式文件中取得【selectionColor】</li>
 			 * 			<li>鼠标移出目标单元格时的背景颜色，从已定义样式文件中取得【rollOverColor】</li>
 			 * 		</ul>
 			 * </p>
-			 * 
+			 *
 			 * @param cells:Cells 目标单元格
 			 * @param eventtype:String 触发毒更改单元格事件类型【MouseEvent.ROLL_OUT,MouseEvent.ROLL_OVER,MouseEvent.CLICK】
-			 * 
+			 *
 			 * @see org.hu.flexeasy.ui.datagrid.Cells
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.getSelectionColor():uint{}
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.getRollOverColor():uint{}
 			 */
 			public function changeCellsColor(cells:Cells, eventtype:String):void
 			{
@@ -615,13 +608,13 @@
 				var _rollOverColor:uint=this.getRollOverColor();
 
 				var rowIndex:int=int(cells.id);
-				
+
 				var len:int=columns.length;
 				for (var i:int=0; i < len; i++)
 				{
 					var sibingColumn:Object=columns[i];
 					if (isSystemColumn(sibingColumn))
-					{						
+					{
 						var siblingCell:Cells=sibingColumn.getElementAt(rowIndex) as Cells;
 						if (MouseEvent.ROLL_OUT == eventtype)
 						{
@@ -652,8 +645,6 @@
 
 			/**
 			 * 将缓存中记录的状态行的颜色值还原到最原始状态(值)
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.indexOfSelectedRow:Array
 			 */
 			public function restoreOriginaColorValueAllRows():void
 			{
@@ -665,13 +656,13 @@
 
 			/**
 			 * 根据索引值将某行的颜色值还原到最原始状态(值)
-			 * 
+			 *
 			 * <p>
 			 * 		该方法只对构架定义列起作用 【Column、BoxColumn、SequenceColumn】
 			 * </p>
-			 * 
+			 *
 			 * @param rowIndex:int 索引值
-			 * 
+			 *
 			 * @see org.hu.flexeasy.ui.datagrid.Column
 			 * @see org.hu.flexeasy.ui.datagrid.BoxColumn
 			 * @see org.hu.flexeasy.ui.datagrid.SequenceColumn
@@ -691,16 +682,16 @@
 					}
 				}
 			}
-			
+
 			/**
 			 * 判断是否为系统定义值
-			 * 
+			 *
 			 * @param objColumn:Object 目标列对象
-			 * 
+			 *
 			 * @see org.hu.flexeasy.ui.datagrid.Column
 			 * @see org.hu.flexeasy.ui.datagrid.BoxColumn
 			 * @see org.hu.flexeasy.ui.datagrid.SequenceColumn
-			 * 
+			 *
 			 * @return true || false
 			 */
 			private function isSystemColumn(objColumn:Object):Boolean
@@ -711,18 +702,18 @@
 				}
 				return false;
 			}
-			
+
 			/**
 			 * 将缓存中的选中记录，根据state更改其BoxColumn状态
-			 * 
+			 *
 			 * @param state:Boolean 目标状态[true||false]
 			 * @param boxColumn:BoxColumn(default=null) 要更改状态的目标列
-			 * 
+			 *
 			 * @see org.hu.flexeasy.ui.datagrid.BoxColumn
 			 */
 			public function changeBoxSelected(state:Boolean, boxColumn:BoxColumn=null):void
 			{
-				boxColumn = boxColumn || this.getBoxColumn();
+				boxColumn=boxColumn || this.getBoxColumn();
 				var len:int=indexOfSelectedRow.length;
 				for (var j:int=0; j < len; j++)
 				{
@@ -740,10 +731,10 @@
 					(cells.getElementAt(0) as CheckBox).selected=state;
 				}
 			}
-			
+
 			/**
 			 * 改变选择行数据存储缓存
-			 * 
+			 *
 			 * @param rowIndex:int 索引值
 			 * @param type:String(default="push") 类型 【remove、push、newvalue】
 			 * @param values:Array 新值
@@ -782,12 +773,12 @@
 					return;
 				}
 			}
-			
+
 			/**
 			 * 取得已经定义列BoxColumn
-			 * 
+			 *
 			 * @return  org.hu.flexeasy.ui.datagrid.BoxColumn
-			 * 
+			 *
 			 * @see org.hu.flexeasy.ui.datagrid.BoxColumn
 			 */
 			public function getBoxColumn():BoxColumn
@@ -804,15 +795,18 @@
 				}
 				return boxColumn;
 			}
-			
+
 			/**
 			 * 取得文本对齐格式
-			 * 
+			 *
 			 * @param value:String(default=null) 文本对齐格式【left、right、center】
 			 */
-			private function getTextAlign(value:String = null):Object
+			private function getTextAlign(value:String=null):Object
 			{
-				var _textAlign:String= value == null ? getStyle("textAlign") : value ;
+
+				//(value || getStyle("textAlign"))
+				mx.controls.Alert.show(getStyle("textAlign"));
+				var _textAlign:String=value == null ? getStyle("textAlign") : value;
 				if (_textAlign == "start" || _textAlign == "center")
 				{
 					return "0";
@@ -827,14 +821,13 @@
 
 			/**
 			 * 取得定义某单元格选中的颜色值
-			 * 
+			 *
 			 * <p>
 			 * 		某单元格选中的颜色属性【selectionColor】，系统默认值为【0x7FCEFF】，如需重新定义请设定其样式；
 			 * </p>
-			 * 
+			 *
 			 * @return 具体颜色值
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.selectionColor:uint
+			 *
 			 */
 			protected function getSelectionColor():uint
 			{
@@ -845,14 +838,12 @@
 
 			/**
 			 * 取得定义某单元格鼠标移入的颜色值
-			 * 
+			 *
 			 * <p>
 			 * 		某单元格鼠标移入的颜色属性【rollOverColor】，系统默认值为【0xB2E1FF】，如需重新定义请设定其样式；
 			 * </p>
-			 * 
+			 *
 			 * @return 具体颜色值
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.rollOverColor:uint
 			 */
 			protected function getRollOverColor():uint
 			{
@@ -863,14 +854,13 @@
 
 			/**
 			 * 取得定义某标题头单元格的颜色值
-			 * 
+			 *
 			 * <p>
 			 * 		某标题头单元格的颜色属性【rollOverColor】，系统默认值为【0xA8A8A8】，如需重新定义请设定其样式；
 			 * </p>
-			 * 
+			 *
 			 * @return 具体颜色值
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.headerColor:uint
+			 *
 			 */
 			protected function getHeaderColor():uint
 			{
@@ -881,14 +871,13 @@
 
 			/**
 			 * 取得定义某标题头单元格的颜色值
-			 * 
+			 *
 			 * <p>
 			 * 		某标题头单元格的颜色属性【borderColor】，系统默认值为【borderColor】，如需重新定义请设定其样式；
 			 * </p>
-			 * 
+			 *
 			 * @return 具体颜色值
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.borderColor:uint
+			 *
 			 */
 			protected function getBorderColor():uint
 			{
@@ -899,9 +888,9 @@
 
 			/**
 			 * 根据索引值取得行单元格对象数组
-			 * 
+			 *
 			 * @param rowsIndex:int 行索引值
-			 * 
+			 *
 			 * @return 行单元格
 			 */
 			public function getRowCellsByIndex(rowsIndex:int):Array
@@ -921,16 +910,15 @@
 
 			/**
 			 * 根据行索引取得行颜色值
-			 * 
+			 *
 			 * <p>
 			 * 		行颜色属性【alternatingItemColors】，系统默认值为["#FFFFFF", "#F7F7F7"]，如需重新定义请设定其样式；
 			 * </p>
-			 * 
+			 *
 			 * @param rowIndex:int 行索引值
-			 * 
+			 *
 			 * @return 具体颜色值
-			 * 
-			 * @see org.hu.flexeasy.ui.datagrid.DataGrid.alternatingItemColors:Array
+			 *
 			 */
 			protected function getRowColors(rowIndex:int):uint
 			{
@@ -951,10 +939,10 @@
 
 			/**
 			 * 根据索引值得到奇、偶数颜色值
-			 * 
+			 *
 			 * @param itemColors:Array 奇、偶数颜色值
 			 * @param digital:int 奇数或偶数【0、1、2、3、4、5、6、7、8、9】
-			 * 
+			 *
 			 * @return 颜色值
 			 */
 			public function getItemColors(itemColors:Array, digital:int):uint
@@ -1027,7 +1015,7 @@
 			{
 				_rowHeight=value;
 			}
-			
+
 			private function setColumnsWidth():void
 			{
 				var singleColumnWidth:Number=getSingleColumnWidth();
@@ -1041,12 +1029,12 @@
 					}
 				}
 			}
-			
+
 			private function getSingleColumnWidth():Number
 			{
 				var manuallyDefineColumnWidth:Number=0;
 				var count:int=0;
-				
+
 				var len:int=this.columns.length;
 				for (var i:int=0; i < len; i++)
 				{
@@ -1057,7 +1045,7 @@
 						count++;
 					}
 				}
-				
+
 				return (this.width - manuallyDefineColumnWidth) / (len - count);
 			}
 		]]>

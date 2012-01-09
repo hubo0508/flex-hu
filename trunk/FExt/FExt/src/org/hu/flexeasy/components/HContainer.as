@@ -20,6 +20,8 @@ package org.hu.flexeasy.components
 		public var borderColor:uint = 0xB5B8C8;		
 		public var itemColorsVisible:Boolean = false;
 		
+		private var _textAlign:String = "center";
+		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w, h);
@@ -96,6 +98,17 @@ package org.hu.flexeasy.components
 			}
 			return str.replace(/^\s*|\s*$/g, "").split(" ").join(" ").replace(new RegExp("\\s{2,}", "g"), " ");
 		}
+
+		public function get textAlign():String
+		{
+			return _textAlign;
+		}
+
+		public function set textAlign(value:String):void
+		{
+			_textAlign = value;
+		}
+
 		
 	}
 }
