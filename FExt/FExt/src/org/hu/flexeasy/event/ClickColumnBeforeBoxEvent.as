@@ -5,7 +5,7 @@ package org.hu.flexeasy.event
 	/**
 	 * 点击每列前复选框时事件
 	 * 
-	 * @author HUBO hubo.0508@gmail.com
+	 * <p><b>HUBO   /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.Constant.as</b></p>
 	 */
 	public class ClickColumnBeforeBoxEvent extends  Event
 	{
