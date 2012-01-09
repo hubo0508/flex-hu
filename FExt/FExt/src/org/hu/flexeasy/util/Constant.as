@@ -2,10 +2,7 @@ package org.hu.flexeasy.util
 {
 	
 	/**
-	 * @作者：HUBO
-	 * @创建时间：2012-1-5
-	 * @邮件：hubo.0508@gmail.com
-	 * @全路径： org.hu.fextjs.util.Constant.as
+	 * <p><b>HUBO  2012-1-5  /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.Constant.as</b></p>
 	 */
 	public class Constant
 	{
