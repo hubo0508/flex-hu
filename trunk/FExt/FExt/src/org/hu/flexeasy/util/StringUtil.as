@@ -1,15 +1,8 @@
-/**
- * @Project FlexTools
- * @Title StringUtil.as
- * @Package com.hu.util
- * @date 2011-6-8 下午04:08:04
- * @version V1.0 
- */
 package org.hu.flexeasy.util
 {
 
 	/**
-	 * author： HUBO hubo.0508ⓐgmail.com    /  date：Jan 23, 2011 7:08:40 PM
+	 * <p><b>HUBO  Jan 23, 2011 7:08:40 PM  /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.StringUtil.as</b></p>
 	 */
 	public class StringUtil
 	{

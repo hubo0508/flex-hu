@@ -5,12 +5,9 @@ package org.hu.flexeasy.util
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	
+
 	/**
-	 * @作者：HUBO
-	 * @创建时间：2011-12-29
-	 * @邮件：hubo.0508@gmail.com
-	 * @全路径： org.hu.fextjs.util.UtilFunctions.as
+	 * <p><b>HUBO 2012-12-29  /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.UtilFunctions.as</b></p>
 	 */
 	public class UtilFunctions
 	{
