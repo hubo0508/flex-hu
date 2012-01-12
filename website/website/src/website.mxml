@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:view="com.hu.website.view.*"
+			   preloader="com.hu.website.core.preloader.Preloader"
+			   backgroundColor="#000000"
+			   minWidth="960"
+			   height="100%">
+	
+	<fx:Style source="assets/css/Main.css"/>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hu.website.event.MenuEvent;
+			
+			import mx.core.IVisualElement;
+
+			protected function menuClickEventHandler(event:MenuEvent):void
+			{
+				switch(event.value)
+				{
+					case MenuNavigation.HOME : 
+						this.loadContent(new Home());
+						break;
+					
+					case MenuNavigation.WORK_ACHIEVEMENTS :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.SELF_INTRODUCTION : 
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.PROJECT_SUMMARY :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.PROJECTS :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.CONTACT_ME :
+						this.loadContent(null);						
+						break;
+					
+					default :
+						break;
+						
+				}
+			} 
+			
+			public function loadContent(ele:IVisualElement):void				
+			{
+				if(ele == null && (content.getElementAt(1) as Home))
+				{
+					content.removeElementAt(1);
+					
+					return;
+				}
+				
+				if((content.getElementAt(1) as Home) == null)
+				{
+					content.addElementAt(ele,1);	
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Scroller width="100%" height="100%">
+	
+		<s:VGroup top="0"  horizontalAlign="center" id="content">
+			
+			<view:MenuNavigation menuEvent="menuClickEventHandler(event)" />
+			
+			<view:Home/>
+			
+			<view:Copyright/>
+		
+		</s:VGroup>
+		
+	</s:Scroller>
+	
+</s:Application>

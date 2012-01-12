@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-1-12</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+				   borderVisible="false"
+				   backgroundAlpha="0"
+				   width="100%"
+				   height="450">
+	
+	<s:layout> 
+		<s:BasicLayout/>
+	</s:layout>
+
+	<s:Group width="960" height="238" horizontalCenter="0">
+		<mx:Image source="assets/images/home_left.png" left="0" top="0"/>
+		<mx:Image source="assets/images/home_right.png" right="0" top="0"/>
+		<s:Label text="Senior Software Engineer、Team Leader" left="5" fontSize="16" top="0" color="#BABABA"/>
+	</s:Group>
+	
+	<s:BorderContainer borderVisible="false" backgroundColor="#161515" width="100%" height="206"  top="238">		
+		<mx:Image source="assets/images/pageMidbg.png" top="0" horizontalCenter="0"/>
+		<s:Group horizontalCenter="0" top="0">
+			<s:RichText  fontSize="22" kerning="off" lineHeight="170.45%" textAlign="justify" trackingRight="10%" d:userLabel="我能为您做什么？" whiteSpaceCollapse="preserve" x="40" y="18">
+				<s:content><s:p><s:span>我能为您做什么？</s:span></s:p></s:content>
+			</s:RichText>
+			<s:RichText  fontSize="12" kerning="off" lineHeight="312.5%" textAlign="justify" trackingRight="10%" d:userLabel="+ 了解更多" whiteSpaceCollapse="preserve" x="252" y="180">
+				<s:content><s:p><s:span>+ 了解更多</s:span></s:p></s:content>
+			</s:RichText>
+			<s:RichText  fontSize="16" kerning="off" lineHeight="234.4%" textAlign="justify" trackingRight="30%" d:userLabel="我专注于" whiteSpaceCollapse="preserve" x="661" y="18">
+				<s:content><s:p><s:span>我专注于</s:span></s:p></s:content>
+			</s:RichText>
+			<s:RichText  fontSize="16" height="136" kerning="off" lineHeight="187.5%" textAlign="right" trackingRight="10%" d:userLabel="Java Flex\ActionScript HTML\CS" whiteSpaceCollapse="preserve" width="300" x="633" y="58">
+				<s:content><s:p><s:span>Java</s:span></s:p><s:p><s:span>Flex\ActionScript</s:span></s:p><s:p><s:span>HTML\CSS\XML\JavaScript\Ajax</s:span></s:p><s:p><s:span>MySQL\Oracle\SQL Service</s:span></s:p><s:p><s:span>Photoshop\Office</s:span></s:p></s:content>
+			</s:RichText>
+			<mx:Image source="assets/images/arrow_line.png" x="331" y="54"/>
+			<s:RichText  fontSize="16" height="125" kerning="off" lineHeight="187.5%" textAlign="right" trackingRight="10%" d:userLabel="Java 核心开发 Flex  UI开源设计\Flex架构设" whiteSpaceCollapse="preserve" width="261" x="337" y="58">
+				<s:content><s:p><s:span>Java 核心开发</s:span></s:p><s:p><s:span>Flex  UI开源设计\Flex架构设计</s:span></s:p><s:p><s:span>轻量级WEB UI设计与编码</s:span></s:p><s:p><s:span>项目管理</s:span></s:p></s:content>
+			</s:RichText>
+			<s:RichText  fontSize="14" height="104" kerning="off" lineHeight="214.3%" textAlign="justify" trackingRight="10%" d:userLabel="拥有多年的IT行业经验，执着追求于行业本身变化与自身的提升。" whiteSpaceCollapse="preserve" width="307" x="11" y="62">
+				<s:content><s:p><s:span>拥有多年的IT行业经验，执着追求于行业本身变化与自身的提升。专注于Flex、HTML、Java企业级开发，设计出令客户满意的作品，获得一个更好的声誉。</s:span></s:p></s:content>
+			</s:RichText>
+		</s:Group>		
+	</s:BorderContainer>
+	
+</s:BorderContainer>
