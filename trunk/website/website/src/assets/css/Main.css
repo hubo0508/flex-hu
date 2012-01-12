@@ -1,0 +1,29 @@
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace s "library://ns.adobe.com/flex/spark";
+
+/*fontFamily:"Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";*/
+
+mx|Label{
+	color:#7c7c7c;
+	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+}
+
+s|Label{
+	color:#7c7c7c;
+	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+}
+
+s|RichText{
+	color:#919191;
+	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+}
+
+/*
+@font-face
+{
+	fontFamily: "华文细黑";
+	src: url("C:\Windows\Fonts\STXIHEI.TTF");
+	embedAsCFF: true;
+}
+*/
+

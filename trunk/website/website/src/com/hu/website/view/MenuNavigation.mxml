@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-1-12</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.hu.website.components.*"
+				   backgroundAlpha="0"
+				   borderVisible="false"
+				   width="960"
+				   height="210">
+
+	<fx:Script>
+		<![CDATA[
+			import com.hu.website.core.TweenLite;
+			import com.hu.website.event.MenuEvent;
+			
+			public static const HOME:String  ="home";
+			public static const WORK_ACHIEVEMENTS:String  ="Workachievements";
+			public static const SELF_INTRODUCTION:String  ="Self-introduction";
+			public static const PROJECT_SUMMARY:String  ="ProjectSummary";
+			public static const PROJECTS:String  ="Projects";
+			public static const CONTACT_ME:String  ="ContactMe";
+			
+			protected function menuOverHandler(event:MouseEvent):void
+			{
+				var label:com.hu.website.components.Label = event.currentTarget as com.hu.website.components.Label;
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_OVER: 
+						menuBg_Over.left = label.bgLeft;
+						menuBg_Over.width = label.bgWidth;
+						TweenLite.tweenTo(this.menuBg_Over, .5, {alpha:.5});
+						break;
+					
+					case MouseEvent.MOUSE_OUT:
+						TweenLite.tweenTo(this.menuBg_Over, .5, {alpha:0});
+						break;
+					 
+					default:
+						break;
+				}
+			}
+			
+			protected function clickMenuHandler(event:MouseEvent):void
+			{
+				var label:com.hu.website.components.Label = event.currentTarget as com.hu.website.components.Label;
+				TweenLite.tweenTo(this.menuBg, .4, {left: label.bgLeft,width: label.bgWidth});
+				
+				tag.text = label.text;
+				
+				this.clickMenu(label.name);
+			}
+			
+			private function clickMenu(valueType:String):void
+			{
+				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
+				menuEvent.value = valueType;
+				
+				this.dispatchEvent(menuEvent);
+			}
+		]]>
+	</fx:Script>
+
+	<fx:Metadata>
+		[Event(name="menuEvent",type="com.hu.website.event.MenuEvent")]
+	</fx:Metadata>
+	
+	<mx:Image source="assets/images/bodyBg.png" left="0"  top="0"/>	
+	<mx:Image source="assets/images/hubo.png" left="0" top="26"/>	
+	<mx:Label text="高端软件设计与部署专家" letterSpacing="1" fontSize="16"  top="71"/>	
+	<mx:Image source="assets/images/phone.png" top="25" right="120"/> 	
+	<mx:Label text="15828019062" letterSpacing="1" fontSize="16"  top="21" right="0"/>	
+	<mx:Image source="assets/images/search.png" top="63" right="0"/>
+	
+	<s:BorderContainer borderColor="#222222" backgroundColor="#000000" cornerRadius="5" width="100%" height="38" top="120">
+		
+		<s:Rect left="20" top="0" height="100%" width="62" id="menuBg_Over" alpha="0">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xCA3D33"/>
+					<s:GradientEntry color="0x701713"/> 
+				</s:LinearGradient>
+			</s:fill> 
+		</s:Rect>
+		
+		<s:Rect left="20" top="0" height="100%" width="62" id="menuBg" >
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xCA3D33"/>
+					<s:GradientEntry color="0x701713"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>	
+		
+		<components:Label name="{HOME}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="62"  bgLeft="20"    text="首页"  left="35"/>
+		<components:Label name="{WORK_ACHIEVEMENTS}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="116" bgLeft="83"  text="作品及成绩"  left="101"/>
+		<components:Label name="{SELF_INTRODUCTION}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="102" bgLeft="200" text="自我介绍" left="218"/>
+		<components:Label name="{PROJECT_SUMMARY}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="102" bgLeft="303" text="项目概要" left="321"/>
+		<components:Label name="{PROJECTS}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="102" bgLeft="406" text="项目介绍" left="425"/>
+		<components:Label name="{CONTACT_ME}" click="clickMenuHandler(event)" mouseOut="menuOverHandler(event)" mouseOver="menuOverHandler(event)" bgWidth="102" bgLeft="509" text="联系我" left="535"/>				
+	
+	</s:BorderContainer>
+	
+	<mx:Image source="assets/images/home.png" bottom="10" left="0"/>
+	<s:Line xFrom="0" xTo="960" yFrom="0" yTo="0" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x131313" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Label x="19" y="187" text="首页" fontSize="16" color="#b31d13" id="tag"/>
+</s:BorderContainer>
