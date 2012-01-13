@@ -8,6 +8,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:d="http://ns.adobe.com/fxg/2008/dt"
+				   horizontalCenter="0"
 				   borderVisible="false"
 				   backgroundAlpha="0"
 				   width="100%"
@@ -23,7 +24,7 @@
 		<s:Label text="Senior Software Engineer、Team Leader" left="5" fontSize="16" top="0" color="#BABABA"/>
 	</s:Group>
 	
-	<s:BorderContainer borderVisible="false" backgroundColor="#161515" width="100%" height="206"  top="238">		
+	<s:BorderContainer borderVisible="false" backgroundColor="#161515" width="100%" height="206"  top="238" horizontalCenter="0">		
 		<mx:Image source="assets/images/pageMidbg.png" top="0" horizontalCenter="0"/>
 		<s:Group horizontalCenter="0" top="0">
 			<s:RichText  fontSize="22" kerning="off" lineHeight="170.45%" textAlign="justify" trackingRight="10%" d:userLabel="我能为您做什么？" whiteSpaceCollapse="preserve" x="40" y="18">

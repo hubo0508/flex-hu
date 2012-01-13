@@ -16,66 +16,58 @@
 			import com.hu.website.view.Home;
 			
 			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.core.UIComponentGlobals;
 			
 			protected function menuClickEventHandler(event:MenuEvent):void
 			{
-				switch(event.value)
-				{
-					case MenuNavigation.HOME : 
-						this.loadContent(new Home());
-						break;
-					
-					case MenuNavigation.WORK_ACHIEVEMENTS :
-						this.loadContent(null);
-						break;
-					
-					case MenuNavigation.SELF_INTRODUCTION : 
-						this.loadContent(null);
-						break;
-					
-					case MenuNavigation.PROJECT_SUMMARY :
-						this.loadContent(null);
-						break;
-					
-					case MenuNavigation.PROJECTS :
-						this.loadContent(null);
-						break;
-					
-					case MenuNavigation.CONTACT_ME :
-						this.loadContent(null);						
-						break;
-					
-					default :
-						break;
-					
-				}
+				this.loadContent(event.value);
 			} 
 			
-			public function loadContent(ele:IVisualElement):void				
+			public function loadContent(type:String):void				
 			{
-				if(ele == null && (this.getElementAt(1) as Home))
+				var len:int = this.content.numElements;
+				for(var i:int=0; i<len; i++)
+				{					
+					var uicom:UIComponent = this.content.getElementAt(i) as UIComponent;					
+					if(uicom.name== type)
+					{
+						this.changeDisplayState(uicom,true,true);	
+					}
+					else
+					{
+						this.changeDisplayState(uicom,false,false);	
+					}
+				}				
+			}
+			
+			private function changeDisplayState(uicom:UIComponent,visible:Boolean,includeInLayout:Boolean):void
+			{
+				if(uicom.visible != visible)
 				{
-					this.removeElementAt(1);
-					
-					return;
+					uicom.visible = visible;
 				}
 				
-				if((this.getElementAt(1) as Home) == null)
+				if(uicom.includeInLayout != includeInLayout)
 				{
-					this.addElementAt(ele,1);	
+					uicom.includeInLayout = includeInLayout;
+				}
+				
+				if(uicom.name == MenuNavigation.PROJECT_SUMMARY)
+				{
+					(uicom as ProjectSummary).setIFrameVisible(visible);
 				}
 			}
 			
 		]]>
 	</fx:Script>
 	
-	<view:MenuNavigation />
+	<view:MenuNavigation menuEvent="menuClickEventHandler(event)"/>
 	
 	<s:Group id="content" width="100%" top="225" horizontalCenter="0">
-		<view:Home/>
+		<view:Home name="{MenuNavigation.HOME}"  includeInLayout="true" />
+		<view:ProjectSummary  name="{MenuNavigation.PROJECT_SUMMARY}" visible="false" includeInLayout="false"/>
 	</s:Group>
-	
-	<!--<view:ProjectSummary/>-->
 	
 	<view:Copyright top="{content.height+225}"/>
 	

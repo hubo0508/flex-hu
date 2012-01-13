@@ -8,11 +8,23 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:code="http://code.google.com/p/flex-iframe/"
+		 horizontalCenter="0"
 		 borderVisible="false"
 		 backgroundAlpha="0"
 		 width="960"
 		 height="100%" >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			
+			public function setIFrameVisible(value:Boolean):void
+			{
+				this.ifr.visible = value;					
+			}
+		]]>
+	</fx:Script>
 
-	<code:IFrame source="assets/html/ProjectSummary.html" width="100%" height="100%"/>
+	<code:IFrame id="ifr" source="assets/html/ProjectSummary.html" width="100%" height="100%"/>
 	
 </s:BorderContainer>
