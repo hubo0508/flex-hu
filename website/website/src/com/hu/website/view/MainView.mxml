@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-1-13</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:view="com.hu.website.view.*"
+		  width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hu.website.event.MenuEvent;
+			import com.hu.website.view.Home;
+			
+			import mx.core.IVisualElement;
+			
+			protected function menuClickEventHandler(event:MenuEvent):void
+			{
+				switch(event.value)
+				{
+					case MenuNavigation.HOME : 
+						this.loadContent(new Home());
+						break;
+					
+					case MenuNavigation.WORK_ACHIEVEMENTS :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.SELF_INTRODUCTION : 
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.PROJECT_SUMMARY :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.PROJECTS :
+						this.loadContent(null);
+						break;
+					
+					case MenuNavigation.CONTACT_ME :
+						this.loadContent(null);						
+						break;
+					
+					default :
+						break;
+					
+				}
+			} 
+			
+			public function loadContent(ele:IVisualElement):void				
+			{
+				if(ele == null && (this.getElementAt(1) as Home))
+				{
+					this.removeElementAt(1);
+					
+					return;
+				}
+				
+				if((this.getElementAt(1) as Home) == null)
+				{
+					this.addElementAt(ele,1);	
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<view:MenuNavigation />
+	
+	<s:Group id="content" width="100%" top="225" horizontalCenter="0">
+		<view:Home/>
+	</s:Group>
+	
+	<!--<view:ProjectSummary/>-->
+	
+	<view:Copyright top="{content.height+225}"/>
+	
+</s:Group>

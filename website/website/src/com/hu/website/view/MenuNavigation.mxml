@@ -8,6 +8,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:components="com.hu.website.components.*"
+				   horizontalCenter="0" 
 				   backgroundAlpha="0"
 				   borderVisible="false"
 				   width="960"
