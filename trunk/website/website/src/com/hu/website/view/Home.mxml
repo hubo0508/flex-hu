@@ -11,7 +11,7 @@
 				   borderVisible="false"
 				   backgroundAlpha="0"
 				   width="100%"
-				   height="450">
+				   height="100%">
 	
 	<s:layout> 
 		<s:BasicLayout/>
