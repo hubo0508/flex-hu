@@ -18,6 +18,12 @@ s|RichText{
 	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
 }
 
+.htsml{
+	color:#000000;
+	fontFamily:"Arial";
+	fontSize:12;
+}
+
 /*
 @font-face
 {

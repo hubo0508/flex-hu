@@ -51,12 +51,8 @@
 				if(uicom.includeInLayout != includeInLayout)
 				{
 					uicom.includeInLayout = includeInLayout;
-				}
-				
-				if(uicom.name == MenuNavigation.PROJECT_SUMMARY)
-				{
-					(uicom as ProjectSummary).setIFrameVisible(visible);
-				}
+				}				
+			
 			}
 			
 		]]>
