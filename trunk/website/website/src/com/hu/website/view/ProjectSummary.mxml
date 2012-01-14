@@ -15,7 +15,24 @@
 				   width="960"
 				   height="100%">
 
+	
 	<mx:Image source="assets/images/hookAll.png" x="256" y="50"/>
+	
+	<s:Rect height="39" width="959" left="0" top="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x2B2B2B"/>
+			</s:LinearGradient>
+		</s:fill> 
+	</s:Rect>
+	
+	<s:Rect height="100%" width="37" left="0" top="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x2B2B2B"/>
+			</s:LinearGradient>
+		</s:fill> 
+	</s:Rect>
 	
 	<s:Line x="1" xTo="959" y="40">
 		<s:stroke>
@@ -72,6 +89,10 @@
 			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
 		</s:stroke>
 	</s:Line>
+	
+
+	
+	
 	
 	<s:RichText color="#000000" fontSize="13"  columnCount="1"  kerning="off"  text="序列  项目名&#x9;                                                    系统技术&#x9;                                               数据库                    服务器&#x9;                 项目总体概要" whiteSpaceCollapse="preserve" x="4" y="13"/>
 	
