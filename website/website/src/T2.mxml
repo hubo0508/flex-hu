@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955"
+			   minHeight="600"
+			   xmlns:components="com.hu.website.components.*"
+			   xmlns:code="http://code.google.com/p/flex-iframe/">
+	
+
+
+	<components:IFrame source="http://www.adobe.com/devnet/flex/"
+					   width="100%"
+					   visible="true"
+					   height="100%"/>
+
+</s:Application>

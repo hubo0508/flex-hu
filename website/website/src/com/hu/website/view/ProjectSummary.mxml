@@ -5,26 +5,163 @@
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:code="http://code.google.com/p/flex-iframe/"
-		 horizontalCenter="0"
-		 borderVisible="false"
-		 backgroundAlpha="0"
-		 width="960"
-		 height="100%" >
-	
-	<fx:Script>
-		<![CDATA[
-			
-			
-			public function setIFrameVisible(value:Boolean):void
-			{
-				this.ifr.visible = value;					
-			}
-		]]>
-	</fx:Script>
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.hu.website.components.*"
+				   horizontalCenter="0"
+				   borderVisible="false"
+				   backgroundAlpha="1"
+				   backgroundColor="#464646"
+				   width="960"
+				   height="100%">
 
-	<code:IFrame id="ifr" source="assets/html/ProjectSummary.html" width="100%" height="100%"/>
+	<mx:Image source="assets/images/hookAll.png" x="256" y="50"/>
 	
+	<s:Line x="1" xTo="959" y="40">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="91">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="132">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="183">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="254">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="305">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="376">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="427">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="498">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="569">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line x="2" xTo="959" y="609">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#999999" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
+	
+	<s:RichText color="#000000" fontSize="13"  columnCount="1"  kerning="off"  text="序列  项目名&#x9;                                                    系统技术&#x9;                                               数据库                    服务器&#x9;                 项目总体概要" whiteSpaceCollapse="preserve" x="4" y="13"/>
+	
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="680" y="144">
+		<s:content><s:p><s:span>1、建造行业综合办公管理软件</s:span></s:p><s:p><s:span>2、主体</s:span><s:span fontFamily="Arial">UI</s:span><s:span>皮肤由公司统一组件定制</s:span></s:p></s:content>
+	</s:RichText>
+	
+	<s:RichText color="#000000" fontSize="13"   textAlign="justify" trackingRight="1%" whiteSpaceCollapse="preserve" x="15" y="60" >
+		<s:content><s:p><s:span>1     </s:span><s:span fontFamily="华文细黑">数字家庭智能家居接口机</s:span><s:span>	                                                                                        MySql	          Tomcat	            </s:span><s:span fontFamily="华文细黑">采用</s:span><s:span>Http+Json</s:span><s:span fontFamily="华文细黑">进行三方平台交互现</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="1%"  whiteSpaceCollapse="preserve" x="15" y="105">
+		<s:content><s:p><s:span>2      中国天翼空间PC客户端                                                                                                Oracle                 Tomcat                   报表系统采用JS组件Highcharts  </s:span></s:p></s:content>
+	</s:RichText>	
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="16" y="152">
+		<s:content><s:p><s:span>3    建设行业企业管理系统                                                                     MySQL            Tomcat</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="15" y="212" text="4    智能供水综合业务平台                                                                     Oracle           JBoss报表系统采用Flash组件FusionCharts">
+		<s:content><s:p><s:span>4    智能供水综合业务平台                                                                     Oracle           JBoss               报表系统采用Flash组件FusionCharts</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="15" y="273">
+		<s:content><s:p><s:span>5    上海移动网络资源                                                                           Oracle           Tomcat            提取数据，按照某种规则呈现</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="15" y="334">
+		<s:content><s:p><s:span>6    四川移动场景(集客)监控                                                                  Oracle           Tomcat</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="15" y="395">
+		<s:content><s:p><s:span>7    实验室文档管理系统                                                                        MySQL            Tomcat</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="16" y="456">
+		<s:content><s:p><s:span>8    临床中药学查询软件                                                                        MySQL            Tomcat</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="16" y="528">
+		<s:content><s:p><s:span>9    长期毒性试验教学培训软                                                                  MySQL            Tomcat</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="12" y="585">
+		<s:content><s:p><s:span>10  多个HTML静态网站                             HTML静态页面展现</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="50">
+		<s:content><s:p><s:span>SpringMVC</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="277" y="106">
+		<s:content><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="143">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="194">
+		<s:content><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Hibernate</s:span></s:p><s:p><s:span>Flex4 + Blazeds</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="264">
+		<s:content><s:p><s:span>SpringMVC</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="315">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>iBATIS</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="386">
+		<s:content><s:p><s:span>Flex3 + Blazeds</s:span></s:p><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="436">
+		<s:content><s:p><s:span>Flex3 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="508">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Hibernates</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="50">
+		<s:content><s:p><s:span>SpringMVC</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="277" y="106">
+		<s:content><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="143">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="194">
+		<s:content><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Hibernate</s:span></s:p><s:p><s:span>Flex4 + Blazeds</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="264">
+		<s:content><s:p><s:span>SpringMVC</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="315">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>iBATIS</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="386">
+		<s:content><s:p><s:span>Flex3 + Blazeds</s:span></s:p><s:p><s:span>SSH</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" x="278" y="436">
+		<s:content><s:p><s:span>Flex3 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Spring-JDBCTemplate</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#000000" fontSize="13"  textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="278" y="508">
+		<s:content><s:p><s:span>Flex4 + Blazeds</s:span></s:p><s:p><s:span>Spring</s:span></s:p><s:p><s:span>Hibernates</s:span></s:p></s:content>
+	</s:RichText>
+	 
 </s:BorderContainer>
