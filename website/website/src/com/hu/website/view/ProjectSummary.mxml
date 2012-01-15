@@ -73,17 +73,17 @@
 		</s:fill> 
 	</s:Rect>
 	
-	<s:Line x="1" xTo="959" y="40"/>
-	<s:Line x="2" xTo="959" y="91"/>
-	<s:Line x="2" xTo="959" y="132"/>
-	<s:Line x="2" xTo="959" y="183"/>
-	<s:Line x="2" xTo="959" y="254"/>
-	<s:Line x="2" xTo="959" y="305"/>
-	<s:Line x="2" xTo="959" y="376"/>
-	<s:Line x="2" xTo="959" y="427"/>
-	<s:Line x="2" xTo="959" y="498"/>
-	<s:Line x="2" xTo="959" y="569"/>
-	<s:Line x="2" xTo="959" y="609"/>
+	<s:Line x="0" xTo="960" y="40"/>
+	<s:Line x="0" xTo="960" y="91"/>
+	<s:Line x="0" xTo="960" y="132"/>
+	<s:Line x="0" xTo="960" y="183"/>
+	<s:Line x="0" xTo="960" y="254"/>
+	<s:Line x="0" xTo="960" y="305"/>
+	<s:Line x="0" xTo="960" y="376"/>
+	<s:Line x="0" xTo="960" y="427"/>
+	<s:Line x="0" xTo="960" y="498"/>
+	<s:Line x="0" xTo="960" y="569"/>
+	<s:Line x="0" xTo="960" y="609"/>
 	
 	
 	<s:RichText color="#000000" fontSize="13"  columnCount="1"  kerning="off"  text="序列  项目名&#x9;                                                    系统技术&#x9;                                               数据库                    服务器&#x9;                 项目总体概要" whiteSpaceCollapse="preserve" x="4" y="13"/>
