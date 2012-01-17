@@ -34,6 +34,7 @@
 			import spark.components.BorderContainer;
 			import spark.components.HGroup;
 			import spark.components.VGroup;
+			import spark.layouts.VerticalLayout;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -59,35 +60,45 @@
 			}
 			
 			
-			protected function rendererFunction(data:Object,column:Column):IVisualElement
+			protected function rendererFunction(data:Object,column:Column):CellsRenderer
 			{
-				var bo:VGroup = new VGroup();				
+				var vLayout:VerticalLayout = new VerticalLayout();
+				vLayout.paddingTop = 5;
+				vLayout.paddingBottom = 3;
+				vLayout.paddingLeft = 3;
 				
-				//				var arr:Array = data["systemTechnology"] as Array;
-				//				if(arr){
-				//					for(var i:int=0; i<arr.length; i++)
-				//					{
-				//						bo.addElement(createItemColumn(arr[i]));
-				//					}
-				//				}else{
-				bo.addElement(data["systemTechnology"]);
-				//				}
+				//var renderer:CellsRenderer  = new CellsRenderer(0,false,vLayout);
+				var renderer:CellsRenderer  = new CellsRenderer(0,false);
+				renderer.layout = vLayout;
 				
-				return bo;
+				var arr:Array = data["systemTechnology"] as Array;
+				if(arr){
+					for(var i:int=0; i<arr.length; i++)
+					{
+						renderer.addElement(createItemColumn(arr[i]));
+					}
+				}else{
+					//renderer.addElement(data["systemTechnology"]);
+				}
+				
+				return renderer;
 			}
 			
 			private function createItemColumn(text:String):HGroup
 			{
-				var hgroup:HContainer  = new HContainer();
+				var hgroup:HGroup  = new HGroup();
+				//var hgroup:HContainer  = new HContainer();
 				hgroup.verticalAlign = "middle";
+				hgroup.height = 15;
 				hgroup.percentWidth = 100;
 				
 				var img:Image = new Image();
-				img.source = "assets/hook.png";
+				img.source = "assets/images/hook.png";
 				
 				var lab:Label = new Label();
 				lab.text = text;
 				lab.maxWidth = hgroup.width - img.width - 5;
+				lab.styleName = "labelCss";
 				
 				hgroup.addElement(img);
 				hgroup.addElement(lab);
@@ -98,12 +109,12 @@
 		]]>
 	</fx:Script>
 
-	<easy:DataGrid id="fdg"  top="0" left="0" height="283" width="100%" rowHeight="25">
-		<easy:columns>
+	<easy:DataGrid id="fdg"  top="0" left="0" height="273" width="100%">
+		<easy:columns>							
 			<easy:SequenceColumn headerText="序列" textAlign="center" />
 			<easy:BoxColumn headerText="选择" radio="false" rowMultiSelection="false"/>
 			<easy:Column dataField="projectName" headerText="项目名"  />
-			<easy:Column dataField="systemTechnology" headerText="系统技术" /><!--rendererFunction="rendererFunction"-->
+			<easy:Column dataField="systemTechnology" headerText="系统技术" rendererFunction="rendererFunction"/>
 			<easy:Column dataField="database" headerText="数据库"/>
 			<easy:Column dataField="server" headerText="服务器"/>
 			<easy:Column dataField="summaryOverallProject" headerText="项目总体概要"/>	
