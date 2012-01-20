@@ -5,8 +5,8 @@
 			   xmlns:view="com.hu.website.view.*"
 			   preloader="com.hu.website.core.preloader.Preloader"
 			   backgroundColor="#000000"
-			   minWidth="960" minHeight="500"
-			   >
+			   minWidth="960"
+			   minHeight="500">
 	
 	<fx:Style source="assets/css/Main.css"/>
 

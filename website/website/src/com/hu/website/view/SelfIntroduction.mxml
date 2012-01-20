@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-1-20</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->	
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   horizontalCenter="0"
+				   borderVisible="false"
+				   backgroundAlpha="0"
+				   width="960"
+				   height="100%">
+	
+	<s:RichText color="#a6a6a6" fontFamily="Arial" fontSize="12" height="224" kerning="off" lineHeight="175%" tabStops="S0 S50 S100 S150 S200 S250 S300 S350 S400 S450 S500 S550 S600 S650 S700 S750 S800 S850 S900" textAlign="justify" trackingRight="10%" whiteSpaceCollapse="preserve" width="944" x="7" y="164">
+		<s:content><s:p><s:span>	</s:span><s:span fontFamily="宋体" fontSize="13">您有过自己的梦想吗？</s:span></s:p><s:p><s:span fontSize="13">	</s:span><s:span fontFamily="宋体" fontSize="13">您的想法实现了吗？</s:span></s:p><s:p><s:span fontSize="13">	</s:span><s:span fontFamily="宋体" fontSize="13">是的，我也是个有着自己的梦想、想法的人。从自已塌足</s:span><s:span fontSize="13">IT</s:span><s:span fontFamily="宋体" fontSize="13">行业后，是这个行业改变了我，让我拥有以前不敢去想的、不敢去做的，到现在可以大声的说，我可以；从最初的愚笨到现在的自己，中间经历的种种坎坷，有着太多的喜、怒、哀、乐。在以后的道路上不管有着怎样的曲折，都不会怕、不会退缩，勇者就应让自己的一生活得精彩。</s:span></s:p><s:p><s:span fontSize="13">	</s:span><s:span fontFamily="宋体" fontSize="13">天是那么高，海是那么宽；人心比天高，比海更宽；只要自己想要，就昂首挺胸一直走下去；</s:span></s:p><s:p><s:span fontSize="13">	</s:span><s:span fontFamily="宋体" fontSize="13">当每次遇到挫折的时候，都会默默的告诉自己这句话：</s:span><s:span fontSize="13">“</s:span><s:span fontFamily="宋体" fontSize="13">当你感受到痛苦的时候就是在成长的时候</s:span><s:span fontSize="13">”</s:span><s:span fontFamily="宋体" fontSize="13">。所以，我相信自己，突破自己，改变自己，创造自己的奇迹，走不一样的路，不求第一，但求最好、创新。</s:span></s:p><s:p><s:span fontSize="13">	</s:span></s:p><s:p><s:span fontSize="13">	</s:span><s:span fontFamily="宋体" fontSize="13">如您需要找一个合格的、优秀的、敢于挑战的一名开发人员请联系我。</s:span></s:p></s:content>
+	</s:RichText>
+	<s:RichText color="#a6a6a6"  fontSize="18" kerning="off" lineHeight="175%" textAlign="justify" trackingRight="10%"  whiteSpaceCollapse="preserve" x="58" y="21">
+		<s:content><s:p><s:span>姓  名：</s:span><s:span color="#098104">胡波</s:span></s:p><s:p><s:span>性  别：</s:span><s:span color="#098104">男</s:span></s:p><s:p><s:span>现居地：</s:span><s:span color="#098104">四川·成都</s:span></s:p><s:p><s:span>出生日期/毕业时间：</s:span><s:span color="#098104">1988年/2008年</s:span></s:p></s:content>
+	</s:RichText>
+	
+	<mx:Image  source="assets/images/avatar.png" x="827" y="19"/>
+	
+</s:BorderContainer>
