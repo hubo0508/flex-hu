@@ -5,12 +5,13 @@
 			   xmlns:view="com.hu.website.view.*"
 			   preloader="com.hu.website.core.preloader.Preloader"
 			   backgroundColor="#000000"
+			   pageTitle="个人网站 / hubo.0508@gmail.com / 657261109"
 			   minWidth="960"
 			   minHeight="500">
 	
 	<fx:Style source="assets/css/Main.css"/>
 
-	<s:Scroller width="100%" height="100%">
+	<s:Scroller width="100%" height="100%" skinClass="com.hu.website.skin.Scroller_skin">
 		<view:MainView id="mainView"/>	
 	</s:Scroller> 
 </s:Application>
