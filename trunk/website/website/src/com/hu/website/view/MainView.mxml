@@ -63,6 +63,7 @@
 	<s:Group id="content" width="100%" top="225" horizontalCenter="0">
 		<view:Home name="{MenuNavigation.HOME}"  includeInLayout="true" />
 		<view:ProjectSummary  name="{MenuNavigation.PROJECT_SUMMARY}" visible="false" includeInLayout="false"/>
+		<view:SelfIntroduction name="{MenuNavigation.SELF_INTRODUCTION}" visible="false" includeInLayout="false"/>
 	</s:Group>
 	
 	<view:Copyright top="{content.height+225}"/>

@@ -27,7 +27,6 @@
 			import mx.events.FlexEvent;
 			import mx.events.ListEvent;
 			
-			import org.hu.flexeasy.components.HContainer;
 			import org.hu.flexeasy.event.GridEvent;
 			import org.hu.flexeasy.ui.datagrid.CellsRenderer;
 			
