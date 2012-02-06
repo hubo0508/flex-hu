@@ -7,6 +7,8 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   verticalCenter="0"
+				   horizontalCenter="0"
 				   borderVisible="false"
 				   backgroundAlpha="0">
 
@@ -15,6 +17,28 @@
 	-->
 
 	<mx:Image source="assets/image/logo.png"/>
-
-
+	
+	<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4">
+		<s:filters> 
+			<flash.filters:DropShadowFilter xmlns:flash.filters='flash.filters.*' 
+											angle='45' blurX='4' blurY='4' distance='0'
+											alpha='0.4' color='#000000'  knockout='false' quality='1'
+											strength='1' inner='false' hideObject='false'/>
+		</s:filters>
+		<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
+		<s:TextInput borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"/>
+	</s:BorderContainer>
+	
+	<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4" left="223">
+		<s:filters> 
+			<flash.filters:DropShadowFilter xmlns:flash.filters='flash.filters.*' 
+											angle='45' blurX='4' blurY='4' distance='0'
+											alpha='0.4' color='#000000'  knockout='false' quality='1'
+											strength='1' inner='false' hideObject='false'/>
+		</s:filters>
+		<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
+		<s:TextInput borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"/>
+	</s:BorderContainer>
+	
+	
 </s:BorderContainer>
