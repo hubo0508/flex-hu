@@ -7,14 +7,45 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.printingoffice.components.*"
 				   verticalCenter="0"
 				   horizontalCenter="0"
 				   borderVisible="false"
 				   backgroundAlpha="0">
 
-	<!--
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
 
-	-->
+			protected function focusEventHandler(event:FocusEvent):void
+			{
+				var tinput:TInput  = event.currentTarget as  TInput;
+				var parentBC:BorderContainer = tinput.owner as BorderContainer;
+				var bgColor:String = parentBC.getStyle("backgroundColor").toString();
+				
+				switch(event.type)
+				{
+					case FocusEvent.FOCUS_IN:
+						if(bgColor == "15922165")
+						{
+							parentBC.setStyle("backgroundColor",0xFFFFFF);
+						}
+						break;
+					
+					case FocusEvent.FOCUS_OUT :
+						if(bgColor == "16777215")
+						{
+							parentBC.setStyle("backgroundColor",0xF2F3F5);
+						}
+						break;
+					
+					default:
+						break;
+				}				
+			}
+
+		]]>
+	</fx:Script>
 
 	<mx:Image source="assets/image/logo.png"/>
 	
@@ -26,7 +57,8 @@
 											strength='1' inner='false' hideObject='false'/>
 		</s:filters>
 		<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-		<s:TextInput borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"/>
+		<components:TInput fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+						   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 	</s:BorderContainer>
 	
 	<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4" left="223">
@@ -37,7 +69,8 @@
 											strength='1' inner='false' hideObject='false'/>
 		</s:filters>
 		<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
-		<s:TextInput borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"/>
+		<components:TInput  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+							 focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 	</s:BorderContainer>
 	
 	

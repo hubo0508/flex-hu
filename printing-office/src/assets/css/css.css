@@ -1,0 +1,9 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+*{
+	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+}
+
+
