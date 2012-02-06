@@ -18,6 +18,6 @@
 		]]>
 	</fx:Script>
 
-	<login:Login verticalCenter="0" horizontalCenter="0"/>
-	
+	<login:Login/>
+
 </s:BorderContainer>
