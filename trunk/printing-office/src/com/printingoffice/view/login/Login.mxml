@@ -17,6 +17,8 @@
 		<![CDATA[
 			import assets.skin.LoginBtnSkin;
 			
+			import com.printingoffice.util.Icon;
+			
 			import mx.controls.Alert;
 
 			protected function focusEventHandler(event:FocusEvent):void
@@ -78,9 +80,8 @@
 								focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>
 		
-		<s:Button skinClass="assets.skin.LoginBtnSkin" useHandCursor="true" buttonMode="true" label="登  录" height="49" width="105" top="70" left="455" fontSize="20" color="#ABACAD"/>
+		<components:LoadButton label="登  录" fontSize="20" top="70" left="455" height="49" width="105"/>
+		
 	</s:BorderContainer>
-	
-	
 	
 </s:BorderContainer>

@@ -16,6 +16,9 @@ package com.printingoffice.util
 		[Embed('assets/image/warty-final-ubuntu.jpg')]
 		public static var appBg:Class;
 		
+		[Embed(source="assets/swf/loading-1-2.swf")]
+		public static var loading:Class;
+		
 		//public static final 
 	}
 }
