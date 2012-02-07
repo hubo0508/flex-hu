@@ -12,12 +12,14 @@
 				   width="100%"
 				   borderVisible="false"
 				   backgroundAlpha="0">
-
+	
 	<fx:Script>
 		<![CDATA[
 			import assets.skin.LoginBtnSkin;
 			
+			import com.printingoffice.core.TweenLite;
 			import com.printingoffice.util.Icon;
+			import com.printingoffice.util.StringUtil;
 			
 			import mx.controls.Alert;
 
@@ -48,16 +50,57 @@
 				}				
 			}
 
+
+			protected function loadBtn_clickHandler(event:Event):void
+			{
+				var uname:String = usernametext.text;
+				var upassd:String = passwordtext.text;
+
+				if(StringUtil.isEmpty(uname) && )
+				{
+					usermessage.text = "用户名不能为空！";
+					this.showMessage(usermessagebc,115);
+				}
+				else
+				{
+					this.showMessage(usermessagebc,80);				
+				}
+				
+				if(StringUtil.isEmpty(upassd))
+				{
+					usermessage.text = "密码不能为空！";
+					this.showMessage(passwordmessagebc,115);
+				}
+				else
+				{
+					this.showMessage(passwordmessagebc,80);
+				}
+			}
+
+			private function showMessage(bc:BorderContainer,top:Number):void
+			{
+				if(bc.top != top){
+					TweenLite.tweenTo(passwordmessagebc, .5, {top: top});
+				}
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="login",type="com.printingoffice.event.LoginEvent")]
+	</fx:Metadata>
 	
 	<s:BorderContainer height="33" backgroundAlpha="0.4" backgroundColor="#000000" x="0" y="0" borderVisible="false" width="100%">
 		<s:Label text="快印企业办公管理信息综合平台 v1.0" fontSize="17" verticalCenter="0" left="10" color="#AAAAAA"/>
 	</s:BorderContainer>
 
-	<s:BorderContainer borderVisible="false" backgroundAlpha="0" verticalCenter="0"  horizontalCenter="0">
+	<s:BorderContainer borderVisible="false" backgroundAlpha="0" verticalCenter="0"  horizontalCenter="0" height="155">
 		<mx:Image source="assets/image/logo.png"/>
 		
+		<s:BorderContainer id="usermessagebc" cornerRadius="5" width="203" height="35" borderVisible="false" backgroundColor="#FFEF6C" top="80" left="6">
+			<s:Label id="usermessage" fontSize="16" text="用户名不存在！" color="#8F8958" verticalCenter="1" horizontalCenter="0"/>
+		</s:BorderContainer>
 		<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4">
 			<s:filters> 
 				<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
@@ -65,10 +108,13 @@
 									 strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-			<components:TInput fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components:TInput id="usernametext" fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 							   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
+		</s:BorderContainer>		
+	
+		<s:BorderContainer id="passwordmessagebc" cornerRadius="5" width="203" height="35" borderVisible="false" backgroundColor="#FFEF6C" top="80" left="230">
+			<s:Label id="passwordmessage" fontSize="16" text="密码错误！" color="#8F8958" verticalCenter="1" horizontalCenter="0"/>
 		</s:BorderContainer>
-		
 		<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4" left="223">
 			<s:filters>
 				<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
@@ -76,11 +122,11 @@
 												strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
-			<components:TInput  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components:TInput id="passwordtext"  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 								focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>
 		
-		<components:LoadButton label="登  录" fontSize="20" top="70" left="455" height="49" width="105"/>
+		<components:LoadButton id="loadBtn" click="loadBtn_clickHandler(event)" label="登  录" fontSize="20" top="70" left="455" height="49" width="105" />
 		
 	</s:BorderContainer>
 	
