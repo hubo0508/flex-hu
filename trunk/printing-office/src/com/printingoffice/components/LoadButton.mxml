@@ -24,7 +24,7 @@
 			
 			protected function bnt_clickHandler(event:Event):void
 			{
-				this.startUsing();
+				//this.startUsing();
 				
 				this.dispatchEvent(new Event("click"));
 			}
