@@ -8,13 +8,15 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:components="com.printingoffice.components.*"
-				   verticalCenter="0"
-				   horizontalCenter="0"
+				   height="100%"
+				   width="100%"
 				   borderVisible="false"
 				   backgroundAlpha="0">
 
 	<fx:Script>
 		<![CDATA[
+			import assets.skin.LoginBtnSkin;
+			
 			import mx.controls.Alert;
 
 			protected function focusEventHandler(event:FocusEvent):void
@@ -46,32 +48,39 @@
 
 		]]>
 	</fx:Script>
+	
+	<s:BorderContainer height="33" backgroundAlpha="0.4" backgroundColor="#000000" x="0" y="0" borderVisible="false" width="100%">
+		<s:Label text="快印企业办公管理信息综合平台 v1.0" fontSize="17" verticalCenter="0" left="10" color="#AAAAAA"/>
+	</s:BorderContainer>
 
-	<mx:Image source="assets/image/logo.png"/>
-	
-	<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4">
-		<s:filters> 
-			<flash.filters:DropShadowFilter xmlns:flash.filters='flash.filters.*' 
-											angle='45' blurX='4' blurY='4' distance='0'
-											alpha='0.4' color='#000000'  knockout='false' quality='1'
-											strength='1' inner='false' hideObject='false'/>
-		</s:filters>
-		<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-		<components:TInput fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
-						   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
+	<s:BorderContainer borderVisible="false" backgroundAlpha="0" verticalCenter="0"  horizontalCenter="0">
+		<mx:Image source="assets/image/logo.png"/>
+		
+		<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4">
+			<s:filters> 
+				<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+									 alpha='0.4' color='#000000'  knockout='false' quality='1'
+									 strength='1' inner='false' hideObject='false'/>
+			</s:filters>
+			<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
+			<components:TInput fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+							   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
+		</s:BorderContainer>
+		
+		<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4" left="223">
+			<s:filters>
+				<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+												alpha='0.4' color='#000000'  knockout='false' quality='1'
+												strength='1' inner='false' hideObject='false'/>
+			</s:filters>
+			<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
+			<components:TInput  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+								focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
+		</s:BorderContainer>
+		
+		<s:Button skinClass="assets.skin.LoginBtnSkin" useHandCursor="true" buttonMode="true" label="登  录" height="49" width="105" top="70" left="455" fontSize="20" color="#ABACAD"/>
 	</s:BorderContainer>
 	
-	<s:BorderContainer width="216" height="49" borderVisible="false" backgroundColor="#F2F3F5" top="70" cornerRadius="4" left="223">
-		<s:filters> 
-			<flash.filters:DropShadowFilter xmlns:flash.filters='flash.filters.*' 
-											angle='45' blurX='4' blurY='4' distance='0'
-											alpha='0.4' color='#000000'  knockout='false' quality='1'
-											strength='1' inner='false' hideObject='false'/>
-		</s:filters>
-		<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
-		<components:TInput  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
-							 focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
-	</s:BorderContainer>
 	
 	
 </s:BorderContainer>
