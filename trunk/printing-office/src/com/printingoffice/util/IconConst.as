@@ -6,9 +6,9 @@ package com.printingoffice.util
 	 *     <b>HUBO 2012-2-6  /  hubo.0508ⓐgmail.com</br>com.printingoffice.util.Icon.as</b>
 	 * </p>
 	 */
-	public class Icon
+	public class IconConst
 	{
-		public function Icon()
+		public function IconConst()
 		{
 		}
 		
@@ -18,6 +18,9 @@ package com.printingoffice.util
 		
 		[Embed(source="assets/swf/loading-1-2.swf")]
 		public static var loading:Class;
+		
+		[Embed(source="assets/image/nav-bg.jpg")]
+		public static var navbg:Class;
 		
 		//public static final 
 	}

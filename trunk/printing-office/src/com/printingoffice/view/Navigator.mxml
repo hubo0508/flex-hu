@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-7</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  backgroundColor="#F5F5F5"
+					  top="0"
+					  left="0"
+					  width="100%"
+					  height="115">
+
+	<fx:Script>
+		<![CDATA[
+			import com.printingoffice.util.IconConst;
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage source="{IconConst.navbg}" height="58" width="100%" top="0" left="0"/>	
+	<mx:Image source="assets/image/nav-font.png" top="9" left="57"/>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+</s:SkinnableContainer>
