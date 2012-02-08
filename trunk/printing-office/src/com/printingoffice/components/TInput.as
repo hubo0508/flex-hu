@@ -2,7 +2,8 @@ package com.printingoffice.components
 {
 	import flash.events.FocusEvent;
 	
-	import spark.components.TextInput;
+	import mx.controls.TextInput;
+	
 	
 	public class TInput extends TextInput
 	{

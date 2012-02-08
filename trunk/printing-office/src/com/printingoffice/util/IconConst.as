@@ -16,9 +16,11 @@ package com.printingoffice.util
 		[Embed('assets/image/warty-final-ubuntu.jpg')]
 		public static var appBg:Class;
 		
+		[Bindable]
 		[Embed(source="assets/swf/loading-1-2.swf")]
 		public static var loading:Class;
 		
+		[Bindable]
 		[Embed(source="assets/image/nav-bg.jpg")]
 		public static var navbg:Class;
 		

@@ -147,7 +147,7 @@
 									 strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-			<components:TInput id="usernametext" fontSize="16" emptyText="用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components:TInput id="usernametext" imeMode="CHINESE" fontSize="16" emptyText="输入用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 							   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>		
 	
@@ -161,7 +161,7 @@
 												strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
-			<components:TInput id="passwordtext"  fontSize="16" emptyText="密码" borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components:TInput id="passwordtext" displayAsPassword="true"  fontSize="16"  borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 								focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>
 		
