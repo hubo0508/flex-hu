@@ -18,7 +18,8 @@
 			import assets.skin.LoginBtnSkin;
 			
 			import com.printingoffice.core.TweenLite;
-			import com.printingoffice.util.Icon;
+			import com.printingoffice.event.LoginEvent;
+			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.StringUtil;
 			
 			import mx.controls.Alert;
@@ -32,17 +33,17 @@
 				switch(event.type)
 				{
 					case FocusEvent.FOCUS_IN:
-						if(bgColor == "15922165")
-						{
+//						if(bgColor == "15922165")
+//						{
 							parentBC.setStyle("backgroundColor",0xFFFFFF);
-						}
+//						}
 						break;
 					
 					case FocusEvent.FOCUS_OUT :
-						if(bgColor == "16777215")
-						{
+//						if(bgColor == "16777215")
+//						{
 							parentBC.setStyle("backgroundColor",0xF2F3F5);
-						}
+//						}
 						break;
 					
 					default:
@@ -55,32 +56,70 @@
 			{
 				var uname:String = usernametext.text;
 				var upassd:String = passwordtext.text;
-
-				if(StringUtil.isEmpty(uname) && )
+				
+				this.validatorText(uname,upassd);
+				
+				if(StringUtil.isNotEmpty(uname) && StringUtil.isNotEmpty(upassd))
 				{
-					usermessage.text = "用户名不能为空！";
+					var e:LoginEvent  = new LoginEvent(LoginEvent.LOGIN_EVENT);
+					e.username = uname;
+					e.password = upassd;
+					
+					this.loadBtn.startUsing();
+					
+					this.dispatchEvent(e);
+				}
+			}
+			
+			public function validatorText(uname:String,upassd:String):void
+			{
+				if((StringUtil.isEmpty(uname) && StringUtil.isEmpty(upassd)) || StringUtil.isEmpty(uname) || StringUtil.isEmpty(upassd))
+				{
+					if(StringUtil.isEmpty(uname)){
+						usermessage.text = "用户名不能为空！";
+						this.showMessage(usermessagebc,115);
+					}else{
+						this.showMessage(usermessagebc,80);
+					}
+					if(StringUtil.isEmpty(upassd)){
+						passwordmessage.text = "密码不能为空！";
+						this.showMessage(passwordmessagebc,115);
+					}else{
+						this.showMessage(passwordmessagebc,80);
+					}
+				}
+				else
+				{
+					if(StringUtil.isNotEmpty(uname)){
+						this.showMessage(usermessagebc,80);
+					}
+					if(StringUtil.isNotEmpty(upassd)){
+						this.showMessage(passwordmessagebc,80);
+					}
+				}
+			}
+			
+			public function loginError(umessage:String,pmessage:String):void
+			{								
+				this.loadBtn.finishUsing();
+				
+				if(StringUtil.isNotEmpty(umessage))
+				{
+					this.usermessage.text = umessage;
 					this.showMessage(usermessagebc,115);
 				}
-				else
-				{
-					this.showMessage(usermessagebc,80);				
-				}
 				
-				if(StringUtil.isEmpty(upassd))
+				if(StringUtil.isNotEmpty(pmessage))
 				{
-					usermessage.text = "密码不能为空！";
+					this.passwordmessage.text = pmessage;
 					this.showMessage(passwordmessagebc,115);
-				}
-				else
-				{
-					this.showMessage(passwordmessagebc,80);
 				}
 			}
 
 			private function showMessage(bc:BorderContainer,top:Number):void
 			{
 				if(bc.top != top){
-					TweenLite.tweenTo(passwordmessagebc, .5, {top: top});
+					new TweenLite(bc, .5, {top: top});
 				}
 			}
 			

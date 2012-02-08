@@ -13,7 +13,7 @@ package com.printingoffice.event
 		
 		public static const LOGIN_EVENT:String = "login";
 		
-		public var useranem:String;
+		public var username:String;
 		public var password:String;
 		
 		public function LoginEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
