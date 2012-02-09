@@ -6,4 +6,6 @@
 	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
 }
 
-
+mx|DateField{
+	borderColor:#C0C0C0;
+}

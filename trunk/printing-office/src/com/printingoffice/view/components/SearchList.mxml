@@ -11,6 +11,19 @@
 				   borderVisible="false"
 				   width="338"
 				   height="500">
+
+	<fx:Script>
+		<![CDATA[
+			
+			public static const CLOSE_EVENT:String = "closeSearchList";
+			
+			protected function close_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("closeSearchList"));
+			}
+		]]>
+	</fx:Script>
+
 	
 	<s:filters> 
 		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
@@ -18,10 +31,41 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<mx:Image source="assets/image/close-search.png" width="9" height="9" top="8" right="8"/>
+	<mx:Image click="close_clickHandler(event)" useHandCursor="true" buttonMode="true" source="assets/image/close-search.png" width="9" height="9" top="8" right="8"/>
 
-	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>
-	
+	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
 	<components:SkinButton text="未归档内容" x="10"   y="38"/>
+	
+	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
+	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
+	
+	<s:Label text="稿件名称" x="10" fontSize="16" color="#818181" top="140"/>
+	<mx:TextInput top="163" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
+	
+	<s:Label text="联系人" x="10" fontSize="16" color="#818181" top="200"/>
+	<mx:TextInput top="223" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
+	
+	<s:Label text="送货地址" x="10" fontSize="16" color="#818181" top="260"/>
+	<mx:TextInput top="283" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
+	
+	<s:Label text="包含" x="10" fontSize="16" color="#818181" top="320"/>
+	<mx:TextInput top="343" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
+	
+	<s:Label text="日期范围" x="10" fontSize="16" color="#818181" top="380"/>
+	<s:Label text="开始" fontSize="14" color="#818181" top="404" left="10"/>
+	<mx:DateField top="400" fontSize="14" formatString="YYYY-MM-DD" width="128" right="160"/>
+	<s:Label text="小时" fontSize="14" color="#818181" top="404" right="125"/>
+	<mx:TextInput top="400" right="90" borderColor="#C0C0C0" fontSize="14" width="30"/>
+	<s:Label text="分钟" fontSize="14" color="#818181" top="404" right="45"/>
+	<mx:TextInput top="400" right="10" borderColor="#C0C0C0" fontSize="14" width="30"/>
+	
+	<s:Label text="结束" fontSize="14" color="#818181" top="434" left="10"/>
+	<mx:DateField top="430" right="160"  fontSize="14" formatString="YYYY-MM-DD" width="128"/>
+	<s:Label text="小时" fontSize="14" color="#818181" top="434" left="185" width="28"/>
+	<mx:TextInput top="430" right="90" borderColor="#C0C0C0" fontSize="14" width="30"/>
+	<s:Label text="分钟" fontSize="14" color="#818181" top="434" right="45"/>
+	<mx:TextInput top="430" right="10" borderColor="#C0C0C0" fontSize="14" width="30"/>
+	
+	<s:Button skinClass="assets.skin.SearchBtnSkin"  width="72" height="29" left="10" bottom="10"/>
 	
 </s:BorderContainer>
