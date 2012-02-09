@@ -23,4 +23,5 @@
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>
 	
 	<components:SkinButton text="未归档内容" x="10"   y="38"/>
+	
 </s:BorderContainer>
