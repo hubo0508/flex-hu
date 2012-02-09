@@ -19,7 +19,7 @@
 			
 			protected function close_clickHandler(event:MouseEvent):void
 			{
-				this.dispatchEvent(new Event("closeSearchList"));
+				this.dispatchEvent(new Event(CLOSE_EVENT));
 			}
 		]]>
 	</fx:Script>
