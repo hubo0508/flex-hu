@@ -7,6 +7,7 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.printingoffice.components.*"
 				   borderVisible="false"
 				   width="338"
 				   height="500">
@@ -19,8 +20,7 @@
 	
 	<mx:Image source="assets/image/close-search.png" width="9" height="9" top="8" right="8"/>
 
-	<s:Label text="搜索"/>
+	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>
 	
-	
-	
+	<components:SkinButton text="未归档内容未归档内容" x="10"   y="38"/>
 </s:BorderContainer>
