@@ -11,13 +11,15 @@ package  com.printingoffice.components
 	
 	public class TooTip extends SkinnableContainer
 	{
-		public function TooTip()
+		public function TooTip(message:String = "")
 		{
 			super();
+			
+			this.text = message;
 		}
 		
 		private var _text:String;
-		private var _triangleH:int = 10;
+		private var _triangleH:int = 8;
 		private var _triangleW:int = 8;
 		
 		private var label:Label;
@@ -48,7 +50,7 @@ package  com.printingoffice.components
 			if(label)
 			{
 				label.horizontalCenter = 0;
-				label.verticalCenter = 0;
+				label.verticalCenter = -2;
 				label.setStyle("color",0xFFFFFF);
 				label.setStyle("paddingLeft",5);
 				label.setStyle("paddingRight",5);
