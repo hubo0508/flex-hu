@@ -108,21 +108,21 @@
 			{
 				if(searchList == null)
 				{
-					searchList = new SearchList();					
+					searchList = new SearchList();	
+					searchList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					searchList.addEventListener(SearchList.CLOSE_EVENT,mouseDownOutsideHandler,false,0,true);
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
+					searchList.x = point.x;
+					searchList.y = point.y+searchTextBC.height;
 				}
 				
 				dropDown.visible = false;
 				
-				var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
-				searchList.x = point.x;
-				searchList.y = point.y+searchTextBC.height;
-				
-				PopUpManager.addPopUp(searchList, UIUtil.getApplication(this), false);
-				
-				searchList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+				PopUpManager.addPopUp(searchList, UIUtil.getApplication(this), false);				
 			}
 			
-			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			protected function mouseDownOutsideHandler(event:Event):void
 			{
 				dropDown.visible = true;
 				
