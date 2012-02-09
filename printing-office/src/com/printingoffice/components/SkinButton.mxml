@@ -52,9 +52,8 @@
 						bc.filters=filter;
 						
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
-						var point:Point = UIUtil.getUiAbsolutePosition(this);
-						tootip.x = this.x;
-						tootip.y = this.y+this.height+8;	
+						tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
+						tootip.y = this.y+102+this.height+tootip.triangleH;	
 						break;
 					
 					default:
