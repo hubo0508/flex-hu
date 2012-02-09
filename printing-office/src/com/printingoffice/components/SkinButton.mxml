@@ -22,12 +22,17 @@
 			
 			import spark.filters.DropShadowFilter;
 			
+			private var originalColor:Array = [0xF1F1F1,0xECE9E9];
+			private var overColor:Array = [0xF8F8F8,0xF2F2F2];
+			
+			[Bindable]private var originalColor1:uint =0xF5F5F5;				
+			[Bindable]private var originalColor2:uint = 0xECE9E9;
+			
 			private var filter:Array = null;
 			
 			private var tootip:TooTip;
 			
-			[Bindable]
-			private var _text:String;
+			[Bindable]private var _text:String;
 			
 			protected function rollHandler(event:MouseEvent):void
 			{
@@ -45,7 +50,11 @@
 				{
 					case MouseEvent.ROLL_OUT:
 						bc.filters=[];
+						
 						PopUpManager.removePopUp(tootip);
+						
+						originalColor1 = this.originalColor[0];
+						originalColor2 = this.originalColor[1];
 						break;
 
 					case MouseEvent.ROLL_OVER:
@@ -54,6 +63,9 @@
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 						tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
 						tootip.y = this.y+102+this.height+tootip.triangleH;	
+						
+						originalColor1 = this.overColor[0];
+						originalColor2 = this.overColor[1];
 						break;
 					
 					default:
@@ -98,9 +110,9 @@
 	</fx:Script>
 	
 	<s:backgroundFill>		
-		<s:LinearGradient>
-			<s:GradientEntry color="#3F8F8F8"/>
-			<s:GradientEntry color="#F1F1F1"/>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="{originalColor1}"/>
+			<s:GradientEntry color="{originalColor2}"/>
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
