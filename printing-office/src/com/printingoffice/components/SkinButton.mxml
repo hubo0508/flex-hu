@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-9</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   rollOut="rollHandler(event)"
+				   rollOver="rollHandler(event)"
+				   height="29"				   
+				   borderVisible="false"
+				   minWidth="10"
+				   cornerRadius="2">
+
+	<fx:Script>
+		<![CDATA[
+			import com.printingoffice.util.UIUtil;
+			
+			import mx.managers.PopUpManager;
+			
+			import spark.filters.DropShadowFilter;
+			
+			private var filter:Array = null;
+			
+			private var tootip:TooTip;
+			
+			[Bindable]
+			private var _text:String;
+			
+			protected function rollHandler(event:MouseEvent):void
+			{
+				if(filter == null)
+				{
+					filter = [this.createDropShadowFilter()];
+				}		
+				if(tootip == null)
+				{
+					tootip = new TooTip(text);
+				}
+				
+				var bc:BorderContainer=event.currentTarget as BorderContainer;
+				switch (event.type)
+				{
+					case MouseEvent.ROLL_OUT:
+						bc.filters=[];
+						PopUpManager.removePopUp(tootip);
+						break;
+
+					case MouseEvent.ROLL_OVER:
+						bc.filters=filter;
+						
+						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+						var point:Point = UIUtil.getUiAbsolutePosition(this);
+						tootip.x = this.x;
+						tootip.y = this.y+this.height+8;	
+						break;
+					
+					default:
+						break;
+				}
+				
+			}
+			
+			/**
+			 * 创建投影效果
+			 */
+			private function createDropShadowFilter():spark.filters.DropShadowFilter				
+			{		
+				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
+				dsf.angle = 45;
+				dsf.blurX = 4;
+				dsf.blurY = 4;
+				dsf.distance = 0;
+				dsf.alpha = 0.4;
+				dsf.color = 0x00000;
+				dsf.knockout = false;
+				dsf.quality = 1;
+				dsf.strength = 1;
+				dsf.inner = false;
+				dsf.hideObject = false;
+				
+				return dsf;
+			}
+
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+
+			
+		]]>
+	</fx:Script>
+	
+	<s:backgroundFill>		
+		<s:LinearGradient>
+			<s:GradientEntry color="#3F8F8F8"/>
+			<s:GradientEntry color="#F1F1F1"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+	
+	<mx:Image source="assets/image/search-drop-down.png" verticalCenter="0" right="10" height="11" width="7"/>
+	
+	<s:Label left="10" text="{_text}" verticalCenter="0" right="25" fontSize="14" color="#303030"/>
+	
+</s:BorderContainer>
