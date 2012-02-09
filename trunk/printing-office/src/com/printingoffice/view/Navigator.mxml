@@ -18,6 +18,9 @@
 		<![CDATA[
 			import com.printingoffice.components.TooTip;
 			import com.printingoffice.util.IconConst;
+			import com.printingoffice.util.UIUtil;
+			
+			import mx.managers.PopUpManager;
 			
 			private var tootip:TooTip;
 			
@@ -53,6 +56,8 @@
 								img.name = "drop-down-over";
 								img.source = null;
 								img.source = "assets/image/drop-down-over.png";
+
+								this.showTootip(true,img);
 							}
 							break;
 						
@@ -61,6 +66,8 @@
 								img.name = "drop-down";
 								img.source = null;
 								img.source = "assets/image/drop-down.png";
+								
+								this.showTootip(false,img);
 							}
 							break;
 						
@@ -68,6 +75,29 @@
 							break;
 					}
 				}
+			private function showTootip(value:Boolean,img:Image):void
+			{
+				if (value)
+				{
+					if (this.tootip == null)
+					{
+						tootip=new TooTip("显示搜索选项");
+					}
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					tootip.x = point.x -30;
+					tootip.y = point.y+30;
+
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					if (this.tootip)
+					{
+						PopUpManager.removePopUp(tootip);
+					}
+				}
+			}
 		]]>
 	</fx:Script>
 	
