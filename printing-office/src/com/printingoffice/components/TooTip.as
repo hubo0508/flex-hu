@@ -66,17 +66,17 @@ package  com.printingoffice.components
 
 			this.graphics.moveTo(0, 0);
 			
-			//三角形
 			var _x:Number  = w*0.5 - triangleW*0.5;			
 			this.graphics.lineTo(_x, 0);
 			this.graphics.lineTo(_x+triangleW*0.5, -triangleH);
 			this.graphics.lineTo(_x+triangleW, 0);
 			this.graphics.lineTo(_x+triangleW, 0);
 			
-			this.graphics.lineTo(w, 0);//top			
-			this.graphics.lineTo(w, h);//right
-			this.graphics.lineTo(0, h);//bottom
-			this.graphics.lineTo(0, 0);//left
+			//top>right>bottom>left
+			this.graphics.lineTo(w, 0);		
+			this.graphics.lineTo(w, h);
+			this.graphics.lineTo(0, h);
+			this.graphics.lineTo(0, 0);
 			
 			graphics.endFill();
 		}
