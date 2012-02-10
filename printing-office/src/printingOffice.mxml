@@ -14,7 +14,7 @@
 		<![CDATA[
 			import com.printingoffice.event.LoginEvent;
 			import com.printingoffice.util.IconConst;
-			import com.printingoffice.view.Navigator;
+			import com.printingoffice.view.TopNavigator;
 			import com.printingoffice.view.login.Login;
 
 			import mx.controls.Alert;
@@ -54,7 +54,7 @@
 					this.removeElement(login);
 					this.removeElement(bgImg);
 
-					this.addElement(new Navigator());
+					this.addElement(new TopNavigator());
 				}
 				else
 				{
