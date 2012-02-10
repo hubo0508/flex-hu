@@ -9,6 +9,11 @@ package  com.printingoffice.components
 	import spark.components.Label;
 	import spark.components.SkinnableContainer;
 	
+	/**
+	 * <p>
+	 *     <b>HUBO 2012-2-9  /  hubo.0508ⓐgmail.com</br>com.printingoffice.components.SkinnableContainer.as</b>
+	 * </p>
+	 */
 	public class TooTip extends SkinnableContainer
 	{
 		public function TooTip(message:String = "")
