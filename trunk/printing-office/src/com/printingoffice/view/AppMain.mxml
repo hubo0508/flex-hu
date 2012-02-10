@@ -11,9 +11,26 @@
 				   xmlns:view="com.printingoffice.view.*"
 				   backgroundColor="0xFFFFFF"
 				   width="100%"
-				   height="100%">    
+				   height="100%">  
 	
-	<view:TopNavigator/> 
-	<view:LeftNavigator/>
+	<fx:Script>
+		<![CDATA[
+			import com.printingoffice.view.reception.ReceptionMain;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				content.addElement(new ReceptionMain());
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<view:TopNavigator id="topnav"/> 
+	
+	<view:LeftNavigator id="ment"/>
+	
+	<view:RightContent id="content"/>
 	
 </s:SkinnableContainer>
