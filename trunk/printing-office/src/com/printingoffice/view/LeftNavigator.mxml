@@ -15,11 +15,50 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.util.IconConst;
+			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.view.components.ChooseMenuThemes;
+			
+			import mx.events.DynamicEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			private var chooseMenuThemes:ChooseMenuThemes;
+
+			protected function menuThemes_clickHandler(event:MouseEvent):void
+			{
+				if(chooseMenuThemes == null)
+				{
+					chooseMenuThemes = new ChooseMenuThemes();
+					chooseMenuThemes.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					chooseMenuThemes.addEventListener(ChooseMenuThemes.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
+					chooseMenuThemes.x = point.x;
+					chooseMenuThemes.y = point.y + menuThemes.height;
+				}
+
+				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
+			}
+			
+			protected function chooseTypeClickHandler(event:DynamicEvent):void
+			{
+				var selectItem:Object = event.data;
+				menuValue.text = selectItem.type;
+				
+				PopUpManager.removePopUp(chooseMenuThemes);
+			}
+			
+			protected function mouseDownOutsideHandler(event:Event):void
+			{
+				PopUpManager.removePopUp(chooseMenuThemes);
+			}
+
 		]]>
 	</fx:Script>
 	
-	<s:HGroup left="26" top="20" verticalAlign="middle" useHandCursor="true" buttonMode="true">
-		<s:Label text="功能菜单"  color="#FF2222" fontSize="18"/>
+	<s:HGroup id="menuThemes" click="menuThemes_clickHandler(event)" left="26" top="20" 
+			  verticalAlign="middle" useHandCursor="true" buttonMode="true">
+		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
 		<components:Triangle/>
 	</s:HGroup>
 	
