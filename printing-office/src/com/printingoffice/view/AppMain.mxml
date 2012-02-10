@@ -11,8 +11,8 @@
 				   xmlns:view="com.printingoffice.view.*"
 				   backgroundColor="0xFFFFFF"
 				   width="100%"
-				   height="100%">
-
-	<view:TopNavigator/>
-
+				   height="100%">    
+	<view:LeftNavigator/> sadf
+	<!--<view:TopNavigator/>  -->
+	
 </s:BorderContainer>
