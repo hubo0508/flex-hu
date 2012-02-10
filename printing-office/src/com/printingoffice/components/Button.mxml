@@ -34,6 +34,14 @@
 			
 			[Bindable]private var _text:String;
 			
+			override protected function measure():void
+			{
+				super.measure();
+				
+				minHeight = 29;
+				minWidth = 35;
+			}
+			
 			protected function rollHandler(event:MouseEvent):void
 			{
 				if(filter == null)
@@ -42,7 +50,8 @@
 				}		
 				if(tootip == null)
 				{
-					tootip = new TooTip(text == (null || "") ? this.name : text);
+					var tootipvalue:String = text == null || "" ? this.name : text;
+					tootip = new TooTip(tootipvalue);
 				}
 				
 				var bc:BorderContainer=event.currentTarget as BorderContainer;
