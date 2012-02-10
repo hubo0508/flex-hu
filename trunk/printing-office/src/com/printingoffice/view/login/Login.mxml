@@ -131,7 +131,7 @@
 	</fx:Metadata>
 	
 	<s:BorderContainer height="33" backgroundAlpha="0.4" backgroundColor="#000000" x="0" y="0" borderVisible="false" width="100%">
-		<s:Label text="快印企业办公管理信息综合平台 v1.0" fontSize="17" verticalCenter="0" left="10" color="#AAAAAA"/>
+		<mx:Image source="assets/image/font-version.png" verticalCenter="0" left="10"/>
 	</s:BorderContainer>
 
 	<s:BorderContainer borderVisible="false" backgroundAlpha="0" verticalCenter="0"  horizontalCenter="0" height="155">
@@ -147,7 +147,7 @@
 									 strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-			<components:TInput id="usernametext" imeMode="CHINESE" fontSize="16" emptyText="输入用户" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components:TInput id="usernametext" imeMode="CHINESE" fontSize="16" emptyText="" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 							   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>		
 	
