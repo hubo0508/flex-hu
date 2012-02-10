@@ -9,3 +9,7 @@
 mx|DateField{
 	borderColor:#C0C0C0;
 }
+
+s|Scroller{
+	skinClass : ClassReference("assets.skin.Scroller_skin");
+}
