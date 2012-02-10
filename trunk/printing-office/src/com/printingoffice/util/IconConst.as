@@ -24,6 +24,10 @@ package com.printingoffice.util
 		[Embed(source="assets/image/nav-bg.jpg")]
 		public static var navbg:Class;
 		
+		[Bindable]
+		[Embed(source="assets/image/line.jpg")]
+		public static var line:Class;
+		
 		//public static final 
 	}
 }

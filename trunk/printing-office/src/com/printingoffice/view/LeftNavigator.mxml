@@ -9,12 +9,21 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
 					  xmlns:components="com.printingoffice.components.*"
 					  top="115"
-					  left="0" backgroundColor="#B74444"
+					  left="0" 
 					  width="220"
 					  height="100%">
+	<fx:Script>
+		<![CDATA[
+			import com.printingoffice.util.IconConst;
+		]]>
+	</fx:Script>
 	
-	<s:Label text="功能菜单" left="26" top="20" color="#FF2222"/>
-
-	<components:Triangle top="10" left="20"/>
+	<s:HGroup left="26" top="20" verticalAlign="middle" useHandCursor="true" buttonMode="true">
+		<s:Label text="功能菜单"  color="#FF2222" fontSize="18"/>
+		<components:Triangle/>
+	</s:HGroup>
+	
+	<s:BitmapImage source="{IconConst.line}" width="100%" height="3" top="55"/>
+	
 
 </s:SkinnableContainer>
