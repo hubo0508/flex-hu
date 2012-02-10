@@ -113,8 +113,10 @@
 					searchList.addEventListener(SearchList.CLOSE_EVENT,mouseDownOutsideHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
+					point.y += searchTextBC.height;
 					searchList.x = point.x;
-					searchList.y = point.y+searchTextBC.height;
+					searchList.y = point.y;
+					searchList.currentPoint = point;
 				}
 				
 				dropDown.visible = false;

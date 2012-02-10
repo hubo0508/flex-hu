@@ -74,9 +74,6 @@
 				
 			}
 			
-			/**
-			 * 创建投影效果
-			 */
 			private function createDropShadowFilter():spark.filters.DropShadowFilter				
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
@@ -104,7 +101,6 @@
 			{
 				_text = value;
 			}
-
 			
 		]]>
 	</fx:Script>

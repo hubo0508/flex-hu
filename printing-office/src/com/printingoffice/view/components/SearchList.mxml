@@ -8,19 +8,64 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:components="com.printingoffice.components.*"
+				   removed="destroy(event)"
 				   borderVisible="false"
 				   width="338"
 				   height="500">
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.util.UIUtil;
+			
+			import mx.events.DynamicEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
 			
 			public static const CLOSE_EVENT:String = "closeSearchList";
+			
+			private var chooseSearchType:ChooseSearchType;
+			
+			public var currentPoint:Point;
+			
+			protected function destroy(event:Event):void
+			{
+//				currentPoint = null;
+//				chooseSearchType.removeEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler);
+//				chooseSearchType = null;				
+			}
 			
 			protected function close_clickHandler(event:MouseEvent):void
 			{
 				this.dispatchEvent(new Event(CLOSE_EVENT));
 			}
+
+			protected function searchTypeBtn_clickHandler(event:MouseEvent):void
+			{
+				if(chooseSearchType == null)
+				{
+					chooseSearchType = new ChooseSearchType();
+					chooseSearchType.x = this.currentPoint.x + searchTypeBtn.x;
+					chooseSearchType.y = this.currentPoint.y + searchTypeBtn.y;
+					chooseSearchType.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					chooseSearchType.addEventListener(ChooseSearchType.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
+				}
+
+				PopUpManager.addPopUp(chooseSearchType, UIUtil.getApplication(this), false);	
+			}
+			
+			protected function chooseTypeClickHandler(event:DynamicEvent):void
+			{
+				var selectItem:Object = event.data;
+				searchTypeBtn.text = selectItem.type;
+				
+				PopUpManager.removePopUp(chooseSearchType);
+			}
+			
+			protected function mouseDownOutsideHandler(event:Event):void
+			{				
+				PopUpManager.removePopUp(chooseSearchType);
+			}
+
 		]]>
 	</fx:Script>
 
@@ -34,7 +79,7 @@
 	<mx:Image click="close_clickHandler(event)" useHandCursor="true" buttonMode="true" source="assets/image/close-search.png" width="9" height="9" top="8" right="8"/>
 
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
-	<components:SkinButton text="未归档内容" x="10"   y="38"/>
+	<components:SkinButton id="searchTypeBtn" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
 	
 	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
 	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
