@@ -8,8 +8,8 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   borderVisible="false"
-				   width="300"
-				   height="200">
+				   width="192"
+				   height="185">
 
 	<fx:Script>
 		<![CDATA[
@@ -35,7 +35,7 @@
 	
 	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
 		<s:itemRenderer>
-			<fx:Component> 
+			<fx:Component>
 				<s:ItemRenderer> 
 					<s:Label id="nameLabel" color="#444444" fontSize="15" text="{data.type}" left="15" top="7" bottom="7"/>
 				</s:ItemRenderer>
@@ -43,10 +43,12 @@
 		</s:itemRenderer>
 		<s:dataProvider>
 			<s:ArrayList>
-				<fx:Object type="所有稿件"/>
-				<fx:Object type="未归档稿件" />
-				<fx:Object type="已归档稿件"/>
-				<fx:Object type="紧急稿件" />
+				<fx:Object type="个人资料"/>
+				<fx:Object type="客户管理"/>
+				<fx:Object type="原材料管理" />
+				<fx:Object type="人员管理"/>
+				<fx:Object type="财务管理" />
+				<fx:Object type="员工考勤" />
 			</s:ArrayList>
 		</s:dataProvider>
 	</s:List>
