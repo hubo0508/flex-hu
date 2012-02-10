@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	 <p><b>auth：</b>HUBO</p>
-	 <p><b>create-time：</b>2012-2-9</p>
-	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-2-9</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
@@ -13,7 +13,7 @@
 				   borderVisible="false"
 				   minWidth="10"
 				   cornerRadius="2">
-
+	
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.util.UIUtil;
@@ -42,7 +42,7 @@
 				}		
 				if(tootip == null)
 				{
-					tootip = new TooTip(text);
+					tootip = new TooTip(text == (null || "") ? this.name : text);
 				}
 				
 				var bc:BorderContainer=event.currentTarget as BorderContainer;
@@ -56,7 +56,7 @@
 						originalColor1 = this.originalColor[0];
 						originalColor2 = this.originalColor[1];
 						break;
-
+					
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
 						
@@ -91,15 +91,18 @@
 				
 				return dsf;
 			}
-
+			
+			[Bindable(event="text")]
 			public function get text():String
 			{
 				return _text;
 			}
-
+			
 			public function set text(value:String):void
 			{
 				_text = value;
+				
+				this.dispatchEvent(new Event("text"));
 			}
 			
 		]]>
@@ -111,9 +114,5 @@
 			<s:GradientEntry color="{originalColor2}"/>
 		</s:LinearGradient>
 	</s:backgroundFill>
-	
-	<mx:Image source="assets/image/search-drop-down.png" verticalCenter="0" right="10" height="11" width="7"/>
-	
-	<s:Label left="10" text="{_text}" verticalCenter="0" right="25" fontSize="14" color="#303030"/>
 	
 </s:BorderContainer>

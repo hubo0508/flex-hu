@@ -11,7 +11,7 @@
 				   removed="destroy(event)"
 				   borderVisible="false"
 				   width="338"
-				   height="500">
+				   height="500" xmlns:components1="com.printingoffice.view.components.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -79,7 +79,7 @@
 	<mx:Image click="close_clickHandler(event)" useHandCursor="true" buttonMode="true" source="assets/image/close-search.png" width="9" height="9" top="8" right="8"/>
 
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
-	<components:SkinButton id="searchTypeBtn" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
+	<components1:SearchListButton id="searchTypeBtn" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
 	
 	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
 	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>

@@ -11,7 +11,9 @@
 					  top="115"
 					  left="220" 
 					  width="100%"
-					  height="100%">
+					  height="100%" xmlns:components1="com.printingoffice.view.components.*">
+	
+	<components1:SearchListButton  top="15"  name="选择"/>
 
 	<components:Line/>
 	
