@@ -3,13 +3,30 @@
 @namespace mx "library://ns.adobe.com/flex/mx";
 
 *{
-	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+	fontFamily: Arial, "_sans";
+	advancedAntiAliasing:true;
 }
 
 mx|DateField{
-	borderColor:#C0C0C0;
+	borderColor:#C0C0C0; 
 }
 
 s|Scroller{
 	skinClass : ClassReference("assets.skin.Scroller_skin");
 }
+
+/*
+
+@font-face {
+	src: url("assets/font/STXIHEI.TTF");
+	fontFamily: "MyFontFamily";
+	embedAsCFF: false;
+	advancedAntiAliasing:true;
+}*/
+
+/*
+@font-face {
+	src: local("Arial");
+	advancedAntiAliasing:true;
+}
+*/
