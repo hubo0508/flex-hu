@@ -14,11 +14,12 @@
 		<![CDATA[
 			import com.printingoffice.event.LoginEvent;
 			import com.printingoffice.util.IconConst;
+			import com.printingoffice.view.AppMain;
 			import com.printingoffice.view.TopNavigator;
 			import com.printingoffice.view.login.Login;
-
+			
 			import mx.controls.Alert;
-
+			
 			import spark.primitives.BitmapImage;
 
 			private var login:Login;
@@ -54,7 +55,7 @@
 					this.removeElement(login);
 					this.removeElement(bgImg);
 
-					this.addElement(new TopNavigator());
+					this.addElement(new AppMain());
 				}
 				else
 				{

@@ -33,7 +33,7 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" width="100%" height="100%">
+	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
 		<s:itemRenderer>
 			<fx:Component>
 				<s:ItemRenderer> 
