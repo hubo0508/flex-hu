@@ -5,6 +5,8 @@ package com.printingoffice.util
 	
 	import mx.core.UIComponent;
 	
+	import spark.components.Application;
+	
 	/**
 	 * <p>
 	 *     <b>HUBO 2012-2-9  /  hubo.0508ⓐgmail.com</br>com.printingoffice.util.UIUtil.as</b>
@@ -30,7 +32,7 @@ package com.printingoffice.util
 			do
 			{
 				var parent:DisplayObject=temp.parent;
-				if(parent == null)
+				if(parent == null || parent is Application)
 				{
 					break;	
 				}
@@ -38,7 +40,7 @@ package com.printingoffice.util
 				point.y+=parent.y;
 				temp=parent;
 				
-			} while (parent !== ui.parentApplication)
+			} while (true)
 			
 			return point;
 		}

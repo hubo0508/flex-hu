@@ -14,6 +14,7 @@
 					  height="100%">
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.components.TooTip;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
 			import com.printingoffice.view.components.ChooseMenuThemes;
@@ -22,7 +23,11 @@
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.components.Group;
+			
 			private var chooseMenuThemes:ChooseMenuThemes;
+			
+			private var tootip:TooTip;
 
 			protected function menuThemes_clickHandler(event:MouseEvent):void
 			{
@@ -34,7 +39,7 @@
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					chooseMenuThemes.x = point.x;
-					chooseMenuThemes.y = point.y + menuThemes.height;
+					chooseMenuThemes.y = point.y + menuThemes.height + 2;
 				}
 
 				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
@@ -53,11 +58,52 @@
 				PopUpManager.removePopUp(chooseMenuThemes);
 			}
 
+			protected function menuThemes_rollHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OVER:							
+						this.showTootip(true);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						this.showTootip(false);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showTootip(value:Boolean):void
+			{
+				if (value)
+				{
+					if (tootip == null)
+					{
+						tootip = new TooTip("切换模块");
+					} 
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
+					tootip.x = point.x + menuThemes.width*0.5 - (tootip.width*0.5 == 0 ? 59 : tootip.width*0.5);
+					tootip.y = point.y + menuThemes.height+10;
+					
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					if (tootip)
+					{
+						PopUpManager.removePopUp(tootip);
+					}
+				}
+			}
+
 		]]>
 	</fx:Script>
 	
-	<s:HGroup id="menuThemes" click="menuThemes_clickHandler(event)" left="26" top="20" 
-			  verticalAlign="middle" useHandCursor="true" buttonMode="true">
+	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
+			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
 		<components:Triangle/>
 	</s:HGroup>
