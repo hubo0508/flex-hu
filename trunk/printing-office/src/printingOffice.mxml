@@ -9,6 +9,10 @@
 					   height="100%">
 
 	<fx:Style source="assets/css/css.css"/>
+	
+	<fx:Metadata>
+
+	</fx:Metadata>
 
 	<fx:Script>
 		<![CDATA[
