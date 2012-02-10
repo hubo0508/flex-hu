@@ -23,7 +23,7 @@
 			import spark.filters.DropShadowFilter;
 			
 			private var originalColor:Array = [0xF1F1F1,0xECE9E9];
-			private var overColor:Array = [0xF8F8F8,0xF2F2F2];
+			private var overColor:Array = [0xFFFFFF,0xF2F3F5];
 			
 			[Bindable]private var originalColor1:uint =0xF5F5F5;				
 			[Bindable]private var originalColor2:uint = 0xECE9E9;
@@ -33,6 +33,8 @@
 			private var tootip:TooTip;
 			
 			[Bindable]private var _text:String;
+			
+			private var _popMask:Boolean = true;
 			
 			override protected function measure():void
 			{
@@ -70,8 +72,18 @@
 						bc.filters=filter;
 						
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
-						tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
-						tootip.y = this.y+102+this.height+tootip.triangleH;	
+						if(popMask)
+						{
+							tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
+							tootip.y = this.y+102+this.height+tootip.triangleH;	
+						}
+						else
+						{
+							var point:Point = UIUtil.getUiAbsolutePosition(this);
+							tootip.x = point.x + this.width*0.5 - tootip.width*0.5;
+							tootip.y = point.y+this.height+tootip.triangleH;	
+						}
+						
 						
 						originalColor1 = this.overColor[0];
 						originalColor2 = this.overColor[1];
@@ -90,7 +102,7 @@
 				dsf.blurX = 4;
 				dsf.blurY = 4;
 				dsf.distance = 0;
-				dsf.alpha = 0.4;
+				dsf.alpha = 0.3;
 				dsf.color = 0x00000;
 				dsf.knockout = false;
 				dsf.quality = 1;
@@ -113,6 +125,17 @@
 				
 				this.dispatchEvent(new Event("text"));
 			}
+
+			public function get popMask():Boolean
+			{
+				return _popMask;
+			}
+
+			public function set popMask(value:Boolean):void
+			{
+				_popMask = value;
+			}
+
 			
 		]]>
 	</fx:Script>
