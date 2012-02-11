@@ -36,29 +36,8 @@
 		<graphic:MoveTo  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 	
-	<s:BorderContainer borderVisible="false" borderColor="#E5E5E5" top="19" right="180" height="22">
-		<s:layout>
-			<s:HorizontalLayout verticalAlign="middle"/>
-		</s:layout>
-		<s:Label text="第" fontSize="13"/>
-		<s:Label text="1-50" fontWeight="bold" paddingTop="2"/>
-		<s:Label text="封，共" fontSize="13"/>
-		<s:Label text="478" fontWeight="bold" paddingTop="2"/>
-		<s:Label text="封" fontSize="13"/>
-	</s:BorderContainer>
-
-	<Button   triangleOver="true" name="上一页"  width="40" minHeight="29" top="16" right="129">
-		<graphic:Next  horizontalCenter="0" verticalCenter="0"/>
-	</Button>
-	<Button   triangleOver="true" name="下一页"  width="40" minHeight="29" top="16" right="90">
-		<graphic:Previous  horizontalCenter="0" verticalCenter="0"/>
-	</Button>
+	<viewcom:PageDetail top="19" right="0"/>
 	
-	<Button  triangleOver="true" minHeight="29" name="选择" width="68" top="16" right="10"> 
-		<s:CheckBox skinClass="assets.skin.ChooseButtonCheckSkin" verticalCenter="0" horizontalCenter="-7"/>		
-		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
-	</Button>
-
 	<Line/>
 
 </s:SkinnableContainer>
