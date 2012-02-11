@@ -9,13 +9,15 @@
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   rollOut="rollHandler(event)"
 				   rollOver="rollHandler(event)"
-				   height="29"				   
+				   height="29"
 				   borderVisible="false"
 				   minWidth="10"
 				   cornerRadius="2">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.components.graphic.Triangle;
+			import com.printingoffice.components.graphic.VectorFig;
 			import com.printingoffice.util.UIUtil;
 			
 			import mx.managers.PopUpManager;
@@ -34,7 +36,9 @@
 			
 			[Bindable]private var _text:String;
 			
-			private var _popMask:Boolean = true;
+			private var _isPopMask:Boolean = true;
+			
+			private var _triangleOver:Boolean = false;
 			
 			override protected function measure():void
 			{
@@ -65,14 +69,14 @@
 						PopUpManager.removePopUp(tootip);
 						
 						originalColor1 = this.originalColor[0];
-						originalColor2 = this.originalColor[1];
+						originalColor2 = this.originalColor[1];					
 						break;
 					
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
 						
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
-						if(popMask)
+						if(isPopMask)
 						{
 							tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
 							tootip.y = this.y+102+this.height+tootip.triangleH;	
@@ -93,8 +97,25 @@
 						break;
 				}
 				
+				this.changeTriangleBgColor(event.type);
+				
 			}
 			
+			private function changeTriangleBgColor(type:String):void
+			{
+				if(triangleOver == false)return;
+				
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					if(this.getElementAt(i) is VectorFig)
+					{
+						var triangle:VectorFig = this.getElementAt(i) as VectorFig;
+						triangle.changeBgColor(type);
+					}
+				}		
+			}
+	
 			private function createDropShadowFilter():spark.filters.DropShadowFilter				
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
@@ -126,14 +147,24 @@
 				this.dispatchEvent(new Event("text"));
 			}
 
-			public function get popMask():Boolean
+			public function get isPopMask():Boolean
 			{
-				return _popMask;
+				return _isPopMask;
 			}
 
-			public function set popMask(value:Boolean):void
+			public function set isPopMask(value:Boolean):void
 			{
-				_popMask = value;
+				_isPopMask = value;
+			}
+
+			public function get triangleOver():Boolean
+			{
+				return _triangleOver;
+			}
+
+			public function set triangleOver(value:Boolean):void
+			{
+				_triangleOver = value;
 			}
 
 			

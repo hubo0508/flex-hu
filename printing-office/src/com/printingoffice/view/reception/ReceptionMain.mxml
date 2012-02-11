@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 	 <p><b>auth：</b>HUBO</p>
 	 <p><b>create-time：</b>2012-2-10</p>
@@ -12,15 +12,15 @@
 					  top="115"
 					  left="220"
 					  width="100%"
-					  height="100%">
-	
-	<Button  popMask="false" minHeight="29" name="选择" width="68" top="16"> 
+					  height="100%" xmlns:graphic="com.printingoffice.components.graphic.*">
+
+	<Button isPopMask="false" triangleOver="true"  minHeight="29" name="选择" width="68" top="16" borderVisible="true" borderColor="#D9D9D9"> 
 		<s:CheckBox skinClass="assets.skin.ChooseButtonCheckSkin" verticalCenter="0" horizontalCenter="-7"/>		
-		<Triangle originalColor="#A0A0A0" overColor="#585858" horizontalCenter="7" verticalCenter="0"/>
+		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
 	</Button>
 	
-	<Button popMask="false"  name="刷新"  width="68" minHeight="29" left="80" top="16">
-		<mx:Image source="assets/image/refresh.png" horizontalCenter="0" verticalCenter="0"/>
+	<Button isPopMask="false"  triangleOver="true" name="刷新"  width="68" minHeight="29" left="80" top="16" borderVisible="true" borderColor="#D9D9D9">
+		<graphic:Refresh  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 
 	<Line/>
