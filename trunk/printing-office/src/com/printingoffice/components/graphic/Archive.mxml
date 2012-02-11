@@ -11,26 +11,20 @@
 		   rollOut="rollHandler(event)">
 
 	<!--
-		 图标父类
+		 归档图标
 	-->
 
 	<fx:Script>
 		<![CDATA[
-			import mx.graphics.SolidColor;
-
 			public var rollMask:Boolean=false;
 
 			[Bindable]
-			public var originalColor:uint=0xFF0000;
+			public var originalColor:uint=0xA0A0A0;
 
 			[Bindable]
-			public var overColor:uint=0x000000;
+			public var overColor:uint=0x585858;
 
-			[Bindable]
-			public var path:String;
-
-			[Bindable]
-			private var sc:SolidColor;
+			private var sc:SolidColor=new SolidColor();
 
 			protected function rollHandler(event:MouseEvent):void
 			{
@@ -56,22 +50,10 @@
 						break;
 				}
 			}
-
-			override protected function createChildren():void
-			{
-				super.createChildren();
-
-				if (!sc)
-				{
-					sc=new SolidColor();
-					sc.color=originalColor;
-				}
-			}
 		]]>
 	</fx:Script>
 
-	<s:Path data="{path}"
-			winding="nonZero"
-			fill="{this.sc}"/>
+	<s:Path fill="{sc}" data="M 1.316 10.288 L 1.316 1.263 L 2.983 1.263 L 2.983 5.725 L 8.951 5.725 L 8.951 1.263 L 9.481 1.263 L 10.724 2.424 L 10.724 4.292 L 12.041 4.292 L 12.041 1.891 L 10.016 0 L 0 0 L 0 11.553 L 7.455 11.553 L 6.247 10.288 L 1.316 10.288 Z M 6.316 1.263 L 7.633 1.263 L 7.633 4.461 L 6.316 4.461 L 6.316 1.263 Z" winding="nonZero" x="0.779" y="0.502">
+	<s:Path fill="{sc}" data="M 5.555 3.318 L 5.555 0 L 2.688 0 L 2.688 3.318 L 0 3.318 L 4.121 7.627 L 8.242 3.318 L 5.555 3.318 Z" winding="nonZero" x="7.325" y="5.904">
 
 </s:Graphic>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-11</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Graphic xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   rollOver="rollHandler(event)"
+		   rollOut="rollHandler(event)">
+
+	<!--
+		 回收图标
+	-->
+
+	<fx:Script>
+		<![CDATA[
+			public var rollMask:Boolean=false;
+
+			[Bindable]
+			public var originalColor:uint=0xA0A0A0;
+			
+			[Bindable]
+			public var overColor:uint=0x585858;
+
+			private var sc:SolidColor=new SolidColor();
+
+			protected function rollHandler(event:MouseEvent):void
+			{
+				if (!rollMask)
+					return;
+
+				this.changeBgColor(event.type);
+			}
+
+			public function changeBgColor(type:String):void
+			{
+				switch (type)
+				{
+					case MouseEvent.ROLL_OUT:
+						this.sc.color=originalColor;
+						break;
+
+					case MouseEvent.ROLL_OVER:
+						this.sc.color=overColor;
+						break;
+
+					default:
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+
+	<s:Path fill="{sc}" data="M 6 0.688 C 6 0.688 5.284 1.474 4.806 1.474 C 4.328 1.474 1.559 1.474 1.559 1.474 L 1.559 0 L 0 2.932 L 1.559 5.879 L 1.559 4.355 L 3.205 4.355 C 3.205 4.355 4.578 4.725 6 0.688 Z" winding="nonZero" x="8.717" y="8.275" />
+	<s:Path fill="{sc}" data="M 0 1.438 L 2.616 0 L 4.17 2.598 C 4.17 2.598 4.792 3.749 3.687 4.492 C 2.616 5.214 1.639 4.07 1.639 4.07 L 0 1.438 Z" winding="nonZero" x="10.424" y="4.427" />
+	<s:Path fill="{sc}" data="M 2.493 6.263 C 2.493 6.263 2.174 5.34 2.375 4.883 C 2.578 4.432 4.001 2.21 4.001 2.21 L 5.341 2.95 L 3.459 0.188 L 0 0 L 1.381 0.764 L 0.561 2.119 C 0.561 2.119 -0.51 3.112 2.493 6.263 Z" winding="nonZero" x="0.844" y="5.727" />
+	<s:Path fill="{sc}" data="M 4.629 0 L 4.625 2.874 L 1.488 2.855 C 1.488 2.855 0.131 2.792 0.008 1.515 C -0.112 0.265 1.416 0.032 1.416 0.032 L 4.629 0 Z" winding="nonZero" x="3.841" y="10.017" />
+	<s:Path fill="{sc}" data="M 0 0.176 C 0 0.176 1.083 0.419 1.308 0.774 C 1.536 1.124 2.926 3.45 2.926 3.45 L 1.584 4.183 L 5.034 4.014 L 6.937 1.26 L 5.549 2.018 L 4.733 0.658 C 4.733 0.658 4.558 -0.398 0 0.176 Z" winding="nonZero" x="6.288" y="0.915" />
+	<s:Path fill="{sc}" data="M 2.608 4.721 L 0 3.278 L 1.59 0.699 C 1.59 0.699 2.326 -0.383 3.555 0.157 C 4.746 0.682 4.189 2.055 4.189 2.055 L 2.608 4.721 Z" winding="nonZero" x="2.979" y="1.394" />
+
+</s:Graphic>
