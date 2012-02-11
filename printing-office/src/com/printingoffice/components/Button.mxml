@@ -36,7 +36,7 @@
 			
 			[Bindable]private var _text:String;
 			
-			private var _isPopMask:Boolean = true;
+			private var _isPopMask:Boolean = false;
 			
 			private var _triangleOver:Boolean = false;
 			
@@ -105,23 +105,28 @@
 			{
 				if(triangleOver == false)return;
 				
-				var num:int = this.numElements;
-				for(var i:int=0; i<num; i++)
+				try
 				{
-					if(this.getElementAt(i) is VectorFig)
+					var num:int = this.numElements;
+					for(var i:int=0; i<num; i++)
 					{
-						var triangle:VectorFig = this.getElementAt(i) as VectorFig;
-						triangle.changeBgColor(type);
-					}
-				}		
+						var obj:Object = this.getElementAt(i);
+						if(obj || obj.name=="VectorFig")
+						{
+							obj.changeBgColor(type);
+						}
+					}		
+				}catch(e:*){
+					trace(e);
+				}
 			}
 	
 			private function createDropShadowFilter():spark.filters.DropShadowFilter				
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
 				dsf.angle = 45;
-				dsf.blurX = 3;
-				dsf.blurY = 3;
+				dsf.blurX = 4;
+				dsf.blurY = 4;
 				dsf.distance = 0;
 				dsf.alpha = 0.4;
 				dsf.color = 0x00000;
