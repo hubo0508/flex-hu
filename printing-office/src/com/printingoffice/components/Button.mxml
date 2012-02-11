@@ -120,10 +120,10 @@
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
 				dsf.angle = 45;
-				dsf.blurX = 4;
-				dsf.blurY = 4;
+				dsf.blurX = 3;
+				dsf.blurY = 3;
 				dsf.distance = 0;
-				dsf.alpha = 0.3;
+				dsf.alpha = 0.4;
 				dsf.color = 0x00000;
 				dsf.knockout = false;
 				dsf.quality = 1;
