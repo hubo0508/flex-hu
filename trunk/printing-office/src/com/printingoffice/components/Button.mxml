@@ -13,7 +13,7 @@
 				   borderVisible="true"
 				   borderColor="#D9D9D9"
 				   minWidth="10"
-				   cornerRadius="2">
+				   cornerRadius="1">
 	
 	<fx:Script>
 		<![CDATA[
@@ -28,7 +28,7 @@
 			import spark.filters.DropShadowFilter;
 			
 			private var originalColor:Array = [0xF1F1F1,0xECE9E9];
-			private var overColor:Array = [0xFFFFFF,0xF2F3F5];
+			private var overColor:Array = [0xF5F5F5,0xEAE9E9];
 			
 			[Bindable]private var originalColor1:uint =0xF5F5F5;				
 			[Bindable]private var originalColor2:uint = 0xECE9E9;
@@ -115,30 +115,30 @@
 			{
 				if(triangleOver == false)return;
 				
-				try
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
 				{
-					var num:int = this.numElements;
-					for(var i:int=0; i<num; i++)
+					var obj:Object = this.getElementAt(i);
+					if(obj is VectorFig || obj.name=="VectorFig")
 					{
-						var obj:Object = this.getElementAt(i);
-						if(obj || obj.name=="VectorFig")
+						try
 						{
 							obj.changeBgColor(type);
+						}catch(e:*){
+							trace(e);
 						}
-					}		
-				}catch(e:*){
-					trace(e);
-				}
+					}
+				}						
 			}
 	
 			private function createDropShadowFilter():spark.filters.DropShadowFilter				
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
 				dsf.angle = 45;
-				dsf.blurX = 3;
-				dsf.blurY = 3;
-				dsf.distance = 2;
-				dsf.alpha = 0.4;
+				dsf.blurX = 4;
+				dsf.blurY = 4;
+				dsf.distance = 0;
+				dsf.alpha = 0.3;
 				dsf.color = 0x00000;
 				dsf.knockout = false;
 				dsf.quality = 1;
