@@ -28,12 +28,12 @@
 		<graphic:Archive  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 	
-	<Button   triangleOver="true" name="移至"  width="68" minHeight="29" left="227" top="16" borderVisible="true" borderColor="#D9D9D9" cornerRadius="0">
-		<graphic:MoveTo  horizontalCenter="0" verticalCenter="0"/>
+	<Button   triangleOver="true" name="删除"  width="68" minHeight="29" left="294" top="16" borderVisible="true" borderColor="#D9D9D9">
+		<graphic:Recover  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 	
-	<Button   triangleOver="true" name="删除"  width="68" minHeight="29" left="227" top="16" borderVisible="true" borderColor="#D9D9D9" cornerRadius="0">
-		<graphic:Recover  horizontalCenter="0" verticalCenter="0"/>
+	<Button   triangleOver="true" name="移至"  width="68" minHeight="29" left="227" top="16" borderVisible="true" borderColor="#D9D9D9" cornerRadius="0">
+		<graphic:MoveTo  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 
 	<Line/>
