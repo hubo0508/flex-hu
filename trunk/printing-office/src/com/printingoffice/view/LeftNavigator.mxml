@@ -11,7 +11,7 @@
 					  top="115"
 					  left="0" 
 					  width="220"
-					  height="100%">
+					  height="100%" xmlns:graphic="com.printingoffice.components.graphic.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -86,7 +86,7 @@
 					} 
 					
 					var tootipwidth:Number = tootip.width;
-					tootipwidth = tootipwidth == 0 ? 58*0.5 : tootipwidth * 0.5
+					tootipwidth = tootipwidth == 0 ? 64*0.5 : tootipwidth * 0.5
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					tootip.x = (point.x + menuThemes.width*0.5) - tootipwidth;
@@ -109,7 +109,7 @@
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
-		<components:Triangle/>
+		<graphic:Triangle/>
 	</s:HGroup>
 	
 	<components:Line/>

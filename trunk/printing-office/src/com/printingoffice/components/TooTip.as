@@ -57,8 +57,8 @@ package  com.printingoffice.components
 				label.horizontalCenter = 0;
 				label.verticalCenter = -1;
 				label.setStyle("color",0xFFFFFF);
-				label.setStyle("paddingLeft",5);
-				label.setStyle("paddingRight",5);
+				label.setStyle("paddingLeft",8);
+				label.setStyle("paddingRight",8);
 			}
 		}
 		
