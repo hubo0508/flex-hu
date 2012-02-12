@@ -8,10 +8,11 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:components="com.printingoffice.components.*"
+				   xmlns:components1="com.printingoffice.view.components.*"
 				   removed="destroy(event)"
 				   borderVisible="false"
 				   width="338"
-				   height="500" xmlns:components1="com.printingoffice.view.components.*">
+				   height="500">
 
 	<fx:Script>
 		<![CDATA[
