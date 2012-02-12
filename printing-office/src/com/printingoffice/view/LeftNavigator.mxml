@@ -40,6 +40,8 @@
 				var commonlyUsedAcc:ArrayCollection = new ArrayCollection();
 				commonlyUsedAcc.addItem({text:"收件箱",types:"1"});
 				commonlyUsedAcc.addItem({text:"待发件",types:"2"});
+				commonlyUsedAcc.addItem({text:"待发件",types:"3"});
+				commonlyUsedAcc.addItem({text:"待发件",types:"4"});
 				
 				commonlyUsedMenu.initMenuButton(commonlyUsedAcc);
 			}
