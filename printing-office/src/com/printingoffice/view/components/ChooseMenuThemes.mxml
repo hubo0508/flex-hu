@@ -8,7 +8,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   borderVisible="false"
-				   width="192"
+				   width="160"
 				   height="275">
 
 	<fx:Script>
