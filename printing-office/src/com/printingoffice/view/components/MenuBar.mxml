@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-12</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  xmlns:components="com.printingoffice.view.components.*"
+					  minHeight="50">
+
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.components.Label;
+
+			private var _dataField:String = "text"
+				
+			private var menuHeight:int = 29;
+
+			private var redColor:uint = 0xDD4B39;
+			
+			private var defaultColor:uint = 0x222222;
+			
+			public function initMenuButton(data:ArrayCollection):void
+			{
+				if (data == null || data.length == 0)
+					return;
+
+				var len:int=data.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var menuText:MenuText  = this.createMenuText(i,data.getItemAt(i));
+					menuText.x = 0;
+					menuText.y = i * menuHeight;
+					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.CLICK,menuRollHandler,false,0,true);
+
+					this.addElement(menuText);
+				}
+			}
+			
+			protected function menuRollHandler(event:MouseEvent):void
+			{
+				var menuText:MenuText = event.currentTarget as MenuText;
+				var currentID:String = menuText.id.toString();
+				
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						
+//						var num:int = this.numElements;
+//						for(var i:int=0; i<num; i++)
+//						{
+//							var currentMenuBtn:MenuButton = this.getElementAt(i) as  MenuButton;
+//							if(currentID != currentMenuBtn.id.toString() && currentMenuBtn.getBgLVisible())
+//							{
+//								currentMenuBtn
+//							}
+//						}
+						
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						if(bgRight.visible != false)
+						{
+							bgRight.visible = false;
+						}
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						bgRight.x = menuText.x;
+						bgRight.y = menuText.y;
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
+
+			private function createMenuText(index:int,data:Object):MenuText
+			{
+				var menuText:MenuText = new MenuText();
+				menuText.data = data;
+				menuText.text = data[dataField];
+				menuText.id = index.toString();
+				
+				return menuText;
+			}
+
+			public function get dataField():String
+			{
+				return _dataField;
+			}
+
+			public function set dataField(value:String):void
+			{
+				_dataField=value;
+			}
+		]]>
+	</fx:Script>
+
+	<s:Rect  id="bgRight" x="0" y="0" height="29" width="210" visible="false">
+		<s:fill>
+			<s:SolidColor color="#EEEEEE"/>
+		</s:fill>
+	</s:Rect>	
+	
+	<s:Rect id="bgLeft" visible="true" height="29" width="4" x="0" y="0">
+		<s:fill>
+			<s:SolidColor color="#DD4B39"/>
+		</s:fill>
+	</s:Rect>
+
+
+</s:SkinnableContainer>

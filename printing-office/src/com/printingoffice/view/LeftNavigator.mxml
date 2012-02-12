@@ -9,6 +9,8 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
 					  xmlns:components="com.printingoffice.components.*"
 					  xmlns:graphic="com.printingoffice.components.graphic.*"
+					  xmlns:components1="com.printingoffice.view.components.*"
+					  creationComplete="creationCompleteHandler(event)"
 					  top="115"
 					  left="0"
 					  width="220"
@@ -21,7 +23,9 @@
 			import com.printingoffice.util.UIUtil;
 			import com.printingoffice.view.components.ChooseMenuThemes;
 			
+			import mx.collections.ArrayCollection;
 			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
@@ -30,6 +34,15 @@
 			private var chooseMenuThemes:ChooseMenuThemes;
 			
 			private var tootip:TooTip;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var commonlyUsedAcc:ArrayCollection = new ArrayCollection();
+				commonlyUsedAcc.addItem({text:"收件箱",types:"1"});
+				commonlyUsedAcc.addItem({text:"待发件",types:"2"});
+				
+				commonlyUsedMenu.initMenuButton(commonlyUsedAcc);
+			}
 
 			protected function menuThemes_clickHandler(event:MouseEvent):void
 			{
@@ -104,6 +117,8 @@
 				}
 			}
 
+
+	
 		]]>
 	</fx:Script>
 	
@@ -114,5 +129,8 @@
 	</s:HGroup>
 	
 	<components:Line/>
+	
+	<!--自定义常用功能-->
+	<components1:MenuBar id="commonlyUsedMenu" top="80"/>
 	
 </s:SkinnableContainer>
