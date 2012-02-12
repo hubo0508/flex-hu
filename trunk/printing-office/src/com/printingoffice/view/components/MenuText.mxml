@@ -4,13 +4,15 @@
 	 <p><b>create-time：</b>2012-2-12</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-					  xmlns:s="library://ns.adobe.com/flex/spark"
-					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  useHandCursor="true"
-					  buttonMode="true"
-					  width="100%"
-					  height="29">
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderVisible="false"
+				   backgroundAlpha="0"
+				   useHandCursor="true"
+				   buttonMode="true"
+				   width="100%"
+				   height="29">
 
 	<fx:Script>
 		<![CDATA[
@@ -24,6 +26,6 @@
 		]]>
 	</fx:Script>	
 	
-	<s:Label id="lab" text="{text}" color="{textColor}" verticalCenter="0" left="33" fontSize="12"/>
+	<s:Label id="lab" text="{text}" color="{textColor}" verticalCenter="0" left="33" fontSize="13"/>
 	
-</s:SkinnableContainer>
+</s:BorderContainer>

@@ -38,7 +38,7 @@
 					menuText.x = 0;
 					menuText.y = i * menuHeight;
 					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
-					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.ROLL_OVER,menuRollHandler,false,0,true);
 					menuText.addEventListener(MouseEvent.CLICK,menuRollHandler,false,0,true);
 
 					this.addElement(menuText);
@@ -67,13 +67,11 @@
 						break;
 					
 					case MouseEvent.ROLL_OUT :
-						if(bgRight.visible != false)
-						{
-							bgRight.visible = false;
-						}
+						this.setBgrightVisible(false);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						this.setBgrightVisible(true);
 						bgRight.x = menuText.x;
 						bgRight.y = menuText.y;
 						break;
@@ -83,6 +81,13 @@
 				}
 			}
 			
+			private function setBgrightVisible(value:Boolean):void
+			{
+				if(bgRight.visible != value)
+				{
+					bgRight.visible = value;
+				}
+			}
 
 			private function createMenuText(index:int,data:Object):MenuText
 			{
