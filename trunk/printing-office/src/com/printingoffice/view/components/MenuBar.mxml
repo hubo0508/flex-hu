@@ -54,15 +54,14 @@
 				{
 					case MouseEvent.CLICK :
 						
-//						var num:int = this.numElements;
-//						for(var i:int=0; i<num; i++)
-//						{
-//							var currentMenuBtn:MenuButton = this.getElementAt(i) as  MenuButton;
-//							if(currentID != currentMenuBtn.id.toString() && currentMenuBtn.getBgLVisible())
-//							{
-//								currentMenuBtn
-//							}
-//						}
+						var originalX:Number = menuText.x;
+						var originalY:Number = menuText.y;
+						
+						menuText.textColor = redColor;
+						menuText.name = "red";
+						changebgLeftPoint(menuText.x,menuText.y);
+						
+						restoredToOriginalState(currentID);
 						
 						break;
 					
@@ -78,6 +77,33 @@
 					
 					default :
 						break;
+				}
+			}
+			
+			private function restoredToOriginalState(currentID:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
+					if(currBtn && currentID != currBtn.id.toString() && currBtn.name == "red")
+					{
+						currBtn.textColor = defaultColor;
+						currBtn.name = "";
+						break;
+					}
+				}
+			}
+			
+			private function changebgLeftPoint(x:Number,y:Number):void
+			{
+				if(this.bgLeft.x != x)
+				{
+					this.bgLeft.x = x;
+				}
+				if(this.bgLeft.y != y)
+				{
+					this.bgLeft.y = y;
 				}
 			}
 			

@@ -17,7 +17,7 @@
 	<fx:Script>
 		<![CDATA[
 			
-			[Bindable]public var textColor:uint = 0xDD4B39;
+			[Bindable]public var textColor:uint = 0x222222;
 			
 			[Bindable]public var text:String;
 			
