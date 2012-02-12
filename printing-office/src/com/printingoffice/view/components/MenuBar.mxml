@@ -12,6 +12,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.core.TweenLite;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -71,8 +72,7 @@
 					
 					case MouseEvent.ROLL_OVER :
 						this.setBgrightVisible(true);
-						bgRight.x = menuText.x;
-						bgRight.y = menuText.y;
+						new TweenLite(bgRight, .3, {x: menuText.x, y: menuText.y});
 						break;
 					
 					default :
@@ -99,14 +99,13 @@
 			{
 				if(this.bgLeft.x != x)
 				{
-					this.bgLeft.x = x;
+					new TweenLite(bgLeft, .5, {x: x});
 				}
 				if(this.bgLeft.y != y)
 				{
-					this.bgLeft.y = y;
+					new TweenLite(bgLeft, .5, {y: y});
 				}
 			}
-			
 			private function setBgrightVisible(value:Boolean):void
 			{
 				if(bgRight.visible != value)
