@@ -8,12 +8,19 @@
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
 					  xmlns:graphic="com.printingoffice.components.graphic.*"
-					  xmlns="com.printingoffice.components.*"
-					  height="29">
+					  xmlns="com.printingoffice.components.*" 
+					  height="29"
+					  minWidth="10">
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.util.UIUtil;
+			
 			import mx.controls.Alert;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			private var pagingState:PagingState;
 
 			protected function pageDetailRollHandler(event:MouseEvent):void
 			{
@@ -22,10 +29,27 @@
 				{
 					case MouseEvent.ROLL_OUT :
 						this.changeBorder(false,bc);
+						
+						this.mouseDownOutsideHandler();
+						
 						break;
-					
+
 					case MouseEvent.ROLL_OVER :
 						this.changeBorder(true,bc);
+
+						if(pagingState == null)
+						{
+							pagingState = new PagingState();	
+							pagingState.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+							pagingState.addEventListener(PagingState.CLICK_EVENT,mouseDownOutsideHandler,false,0,true);
+						}
+
+						var point:Point = UIUtil.getUiAbsolutePosition(bc);
+						pagingState.x = point.x;
+						pagingState.y = point.y + bc.height;
+
+						PopUpManager.addPopUp(pagingState, UIUtil.getApplication(this), false);				
+						
 						break;
 					
 					default:
@@ -33,18 +57,20 @@
 				}
 			}
 			
+			protected function mouseDownOutsideHandler(event:Event = null):void
+			{
+				PopUpManager.removePopUp(pagingState);
+			}
+			
 			private function changeBorder(value:Boolean, bc:BorderContainer):void
 			{
-				//var borderColor:uint = bc.getStyle("borderColor");
-				//Alert.show(borderColor+"");
-//				if(borderVisible != "15066597")//
-//				{
-//					bc.setStyle("borderColor",0xFFFFFF);
-//				}
-				
-				var flag:uint = bc.getStyle("borderVisible");
-				if(value != flag){
-					bc.setStyle("borderVisible",value);
+				if (value)
+				{
+					bc.setStyle("borderColor", 0xE5E5E5);
+				}
+				else
+				{
+					bc.setStyle("borderColor", 0xFFFFFF);
 				}
 			}
 
@@ -52,7 +78,7 @@
 	</fx:Script>
 
 	
-	<s:BorderContainer useHandCursor="true" buttonMode="true" right="180" borderVisible="false" borderColor="#E5E5E5" height="22" verticalCenter="-1"
+	<s:BorderContainer useHandCursor="true" buttonMode="true" right="180" borderVisible="true" borderColor="#FFFFFF" height="22" verticalCenter="-1"
 					    rollOut="pageDetailRollHandler(event)" rollOver="pageDetailRollHandler(event)">
 		
 		<s:layout>
@@ -73,7 +99,7 @@
 		<graphic:Previous  horizontalCenter="0" verticalCenter="0"/>
 	</Button>
 	
-	<Button  triangleOver="true" minHeight="29" name="选择" width="68" right="10" verticalCenter="0"> 
+	<Button  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0"> 
 		<graphic:Gear verticalCenter="0" horizontalCenter="-7"/>		
 		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
 	</Button>

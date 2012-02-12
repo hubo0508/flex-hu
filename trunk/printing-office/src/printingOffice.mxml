@@ -17,9 +17,9 @@
 			import com.printingoffice.view.AppMain;
 			import com.printingoffice.view.TopNavigator;
 			import com.printingoffice.view.login.Login;
-			
+
 			import mx.controls.Alert;
-			
+
 			import spark.primitives.BitmapImage;
 
 			private var login:Login;
@@ -50,16 +50,23 @@
 
 			protected function loginHandler(event:LoginEvent):void
 			{
-				if (event.username == "admin" && event.password == "123")
+				try
 				{
-					this.removeElement(login);
-					this.removeElement(bgImg);
+					if (event.username == "admin" && event.password == "123")
+					{
+						this.removeElement(login);
+						this.removeElement(bgImg);
 
-					this.addElement(new AppMain());
+						this.addElement(new AppMain());
+					}
+					else
+					{
+						this.login.loginError(null, "密码错误！");
+					}
 				}
-				else
+				catch (e:*)
 				{
-					this.login.loginError(null, "密码错误！");
+					trace(e);
 				}
 			}
 		]]>
