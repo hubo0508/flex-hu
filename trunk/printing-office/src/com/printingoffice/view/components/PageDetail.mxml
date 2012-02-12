@@ -21,6 +21,8 @@
 			import mx.managers.PopUpManager;
 			
 			private var pagingState:PagingState;
+			
+			private var pagingtimer:Timer;
 
 			protected function pageDetailRollHandler(event:MouseEvent):void
 			{
@@ -30,7 +32,16 @@
 					case MouseEvent.ROLL_OUT :
 						this.changeBorder(false,bc);
 						
-						this.mouseDownOutsideHandler();
+						if(pagingtimer == null)
+						{
+							pagingtimer=new Timer(100,1);
+						}
+						pagingtimer.addEventListener(TimerEvent.TIMER_COMPLETE, function timerComplete(event:Event):void
+						{
+							mouseDownOutsideHandler();							
+							this.timerStop();							
+						},false,0,true);								
+						pagingtimer.start();	
 						
 						break;
 
@@ -42,6 +53,8 @@
 							pagingState = new PagingState();	
 							pagingState.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 							pagingState.addEventListener(PagingState.CLICK_EVENT,mouseDownOutsideHandler,false,0,true);
+							pagingState.addEventListener(MouseEvent.ROLL_OVER,padingStateRollHandler,false,0,true);
+							pagingState.addEventListener(MouseEvent.ROLL_OUT,padingStateRollHandler,false,0,true);
 						}
 
 						var point:Point = UIUtil.getUiAbsolutePosition(bc);
@@ -54,6 +67,35 @@
 					
 					default:
 						break;
+				}
+			}
+			
+			protected function padingStateRollHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OVER :
+						this.timerStop();
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						this.mouseDownOutsideHandler();
+						break;
+					
+					default:
+						break;
+				}				
+			}
+			
+			private function timerStop():void
+			{
+				if(pagingtimer.running)
+				{
+					pagingtimer.stop();
+				}
+				if(pagingtimer)
+				{
+					pagingtimer = null;
 				}
 			}
 			
