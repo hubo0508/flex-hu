@@ -8,7 +8,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   borderVisible="false"
-				   width="104"
+				   width="112"
 				   height="112">
 
 	<fx:Script>
@@ -33,10 +33,10 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" top="5" height="60" width="100%" x="0">
+	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" top="5" height="60" right="0" left="0">
 		<s:itemRenderer>
 			<fx:Component> 
-				<s:ItemRenderer> 
+				<s:ItemRenderer > 
 					<s:Label id="nameLabel" color="#444444" fontSize="15" text="{data.type}" left="15" top="7" bottom="7"/>
 				</s:ItemRenderer>
 			</fx:Component>
