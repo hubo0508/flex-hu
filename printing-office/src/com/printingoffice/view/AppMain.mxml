@@ -8,7 +8,8 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:login="com.printingoffice.view.login.*"
-				   xmlns:view="com.printingoffice.view.*"
+				   xmlns:view="com.printingoffice.view.*" 
+				   creationComplete="creationCompleteHandler(event)"
 				   backgroundColor="0xFFFFFF"
 				   width="100%"
 				   height="100%">  
@@ -17,6 +18,9 @@
 		<![CDATA[
 			import com.printingoffice.view.reception.ReceptionMain;
 			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -24,6 +28,18 @@
 				content.addElement(new ReceptionMain());
 			}
 			
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var commonlyUsedAcc:ArrayCollection = new ArrayCollection();
+				commonlyUsedAcc.addItem({text:"所有稿件",types:"1"});
+				commonlyUsedAcc.addItem({text:"印刷中稿件",types:"2"});
+				commonlyUsedAcc.addItem({text:"等待印刷稿件",types:"3"});
+				commonlyUsedAcc.addItem({text:"待发稿件",types:"4"});
+				
+				ment.initCommonlyUsedMenu(commonlyUsedAcc);
+			}
+
 		]]>
 	</fx:Script>
 	

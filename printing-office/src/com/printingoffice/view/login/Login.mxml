@@ -88,8 +88,10 @@
 					
 					this.loadBtn.startUsing();
 					
+					focusManager.hideFocus();
+					
 					this.dispatchEvent(e);
-				}
+				}				
 			}
 			
 			public function validatorText(uname:String,upassd:String):void
