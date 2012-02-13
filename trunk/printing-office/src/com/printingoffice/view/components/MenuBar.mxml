@@ -13,6 +13,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.core.TweenLite;
+			import com.printingoffice.event.MenuEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -64,6 +65,8 @@
 						
 						restoredToOriginalState(currentID);
 						
+						this.dispatch(menuText.data["url"],menuText.data);
+						
 						break;
 					
 					case MouseEvent.ROLL_OUT :
@@ -80,6 +83,15 @@
 					default :
 						break;
 				}
+			}
+			
+			public function dispatch(url:String, data:Object = null):void
+			{
+				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT,true);
+				menuEvent.url = url;
+				menuEvent.data = data;
+				
+				this.dispatchEvent(menuEvent);
 			}
 			
 			private function restoredToOriginalState(currentID:String):void
@@ -149,6 +161,5 @@
 			<s:SolidColor color="#DD4B39"/>
 		</s:fill>
 	</s:Rect>
-
 
 </s:SkinnableContainer>

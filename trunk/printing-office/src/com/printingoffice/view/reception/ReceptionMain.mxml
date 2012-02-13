@@ -16,7 +16,7 @@
 					  height="100%" >
 
 	<Button  triangleOver="true" minHeight="29" name="选择" width="68" top="16" > 
-		<s:CheckBox skinClass="assets.skin.ChooseButtonCheckSkin" verticalCenter="0" horizontalCenter="-7"/>		
+		<s:CheckBox  verticalCenter="0" horizontalCenter="-7"/>		
 		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
 	</Button>
 	

@@ -16,9 +16,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.view.reception.ReceptionMain;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			
 			override protected function createChildren():void
@@ -32,12 +34,21 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				var commonlyUsedAcc:ArrayCollection = new ArrayCollection();
-				commonlyUsedAcc.addItem({text:"所有稿件",types:"1"});
-				commonlyUsedAcc.addItem({text:"印刷中稿件",types:"2"});
-				commonlyUsedAcc.addItem({text:"等待印刷稿件",types:"3"});
-				commonlyUsedAcc.addItem({text:"待发稿件",types:"4"});
+				commonlyUsedAcc.addItem({text:"所有稿件",url:"1"});
+				commonlyUsedAcc.addItem({text:"印刷中稿件",url:"2"});
+				commonlyUsedAcc.addItem({text:"等待印刷稿件",url:"3"});
+				commonlyUsedAcc.addItem({text:"待发稿件",url:"4"});
 				
-				ment.initCommonlyUsedMenu(commonlyUsedAcc);
+				menu.initCommonlyUsedMenu(commonlyUsedAcc);
+				menu.initQuickEntranceBtn(["接收稿件","url"]);
+			}
+
+			/**
+			 * 点击菜单具体每个项时触发
+			 */
+			protected function menuEventHandler(event:MenuEvent):void
+			{
+				Alert.show(event.url);
 			}
 
 		]]>
@@ -45,7 +56,7 @@
 	
 	<view:TopNavigator id="topnav"/> 
 	
-	<view:LeftNavigator id="ment"/>
+	<view:LeftNavigator id="menu" menuEvent="menuEventHandler(event)"/>
 	
 	<view:RightContent id="content"/>
 	
