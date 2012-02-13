@@ -13,10 +13,12 @@
 	</s:states>
 	<s:Path data="M6 0 0 10 12 10Z">
 		<s:fill>
-			<s:SolidColor color="#FFFFFF" color.down="#dddddd" />
+			<s:SolidColor color="#CCCCCC" color.down="#dddddd" />
 		</s:fill>
+		<!--
 		<s:filters>
 			<s:DropShadowFilter alpha="0.8" color="#000000" quality="2" distance="0"/>
 		</s:filters>
+		-->
 	</s:Path>
 </s:Skin>

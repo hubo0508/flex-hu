@@ -13,12 +13,14 @@
 	</s:states>
 	<s:Rect id="bg" left="2" width="8" minHeight="24" height="100%">
 		<s:fill>
-			<s:SolidColor color="#FFFFFF" color.down="#dddddd" />
+			<s:SolidColor color="#CCCCCC" color.down="#dddddd" />
 		</s:fill>
+		<!--
 		<s:filters>
 			<s:DropShadowFilter alpha="0.8" color="#000000" quality="2" distance="0"/>
-		</s:filters>
+		</s:filters>-->
 	</s:Rect>
+	<!--
 	<s:VGroup left="4" width="8" gap="3" verticalCenter="0">
 		<s:Ellipse width="4" height="4">
 			<s:fill>
@@ -39,4 +41,5 @@
 			<s:DropShadowFilter alpha="1" color="#000000" blurX="2" blurY="2" quality="2" distance="0" inner="true"/>
 		</s:filters>
 	</s:VGroup>
+	-->
 </s:Skin>
