@@ -7,7 +7,8 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   xmlns:components="com.printingoffice.components.*"
+				   xmlns:components="com.printingoffice.components.*" 
+				   initialize="initializeHandler(event)"
 				   height="100%"
 				   width="100%"
 				   borderVisible="false"
@@ -23,6 +24,20 @@
 			import com.printingoffice.util.StringUtil;
 			
 			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				addEventListener(KeyboardEvent.KEY_DOWN, onEnterHandler,false,0,true);
+			}
+
+			protected function onEnterHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.ENTER)
+				{ 
+					this.loadBtn_clickHandler();
+				}
+			}
 
 			protected function focusEventHandler(event:FocusEvent):void
 			{
@@ -52,7 +67,7 @@
 			}
 
 
-			protected function loadBtn_clickHandler(event:Event):void
+			protected function loadBtn_clickHandler(event:Event = null):void
 			{
 				var uname:String = usernametext.text;
 				var upassd:String = passwordtext.text;
@@ -123,6 +138,7 @@
 				}
 			}
 			
+
 		]]>
 	</fx:Script>
 	
