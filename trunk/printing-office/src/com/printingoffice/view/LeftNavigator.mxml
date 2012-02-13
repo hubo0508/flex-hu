@@ -88,8 +88,8 @@
 			
 			protected function chooseTypeClickHandler(event:DynamicEvent):void
 			{
-				var selectItem:Object = event.data;
-				menuValue.text = selectItem.type;
+//				var selectItem:Object = event.data;
+//				menuValue.text = selectItem.type;
 				
 				PopUpManager.removePopUp(chooseMenuThemes);
 			}
@@ -220,7 +220,7 @@
 	<!--模块菜单的切换-->
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
-		<s:Label id="menuValue" text="前台接件"  color="#FF2222" fontSize="18"/>
+		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
 		<graphic:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
 	</s:HGroup>
 	
