@@ -8,7 +8,8 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:components="com.printingoffice.components.*" 
-				   initialize="initializeHandler(event)"
+				   initialize="initializeHandler(event)" 
+				   creationComplete="creationCompleteHandler(event)"
 				   height="100%"
 				   width="100%"
 				   borderVisible="false"
@@ -29,6 +30,11 @@
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				addEventListener(KeyboardEvent.KEY_DOWN, onEnterHandler,false,0,true);
+			}
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				focusManager.setFocus(usernametext); 
 			}
 
 			protected function onEnterHandler(event:KeyboardEvent):void
@@ -137,7 +143,7 @@
 					new TweenLite(bc, .5, {top: top});
 				}
 			}
-			
+
 
 		]]>
 	</fx:Script>
