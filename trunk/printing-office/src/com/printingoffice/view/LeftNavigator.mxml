@@ -45,6 +45,11 @@
 			 */
 			private var tootip:TooTip;
 			
+			/**
+			 * 菜单数据源
+			 */
+			private var _menuData:ArrayCollection;
+			
 			///////常量/////////
 			public static const QUICK_ENTRANCE:String = "quickEntrance";
 			
@@ -69,18 +74,8 @@
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					chooseMenuThemes.x = point.x;
 					chooseMenuThemes.y = point.y + menuThemes.height + 2;
-					
-					var data:ArrayCollection = new ArrayCollection();
-					data.addItem({text:"稿件印前"});
-					data.addItem({text:"稿件印后"});
-					data.addItem({text:"CAD出图"});
-					data.addItem({text:"客户管理"});
-					data.addItem({text:"原材料管理"});
-					data.addItem({text:"人员管理"});
-					data.addItem({text:"财务管理"});
-					data.addItem({text:"员工考勤"});
 	
-					chooseMenuThemes.initMenuItem(data);
+					chooseMenuThemes.initMenuItem(menuData);
 				}
 
 				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
@@ -209,6 +204,17 @@
 				
 				this.dispatchEvent(menuEvent);
 			}
+
+			public function get menuData():ArrayCollection
+			{
+				return _menuData;
+			}
+
+			public function set menuData(value:ArrayCollection):void
+			{
+				_menuData = value;
+			}
+
 			
 		]]>
 	</fx:Script>
