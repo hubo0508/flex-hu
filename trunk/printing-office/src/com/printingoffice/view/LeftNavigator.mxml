@@ -9,7 +9,7 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
 					  xmlns:components="com.printingoffice.components.*"
 					  xmlns:graphic="com.printingoffice.components.graphic.*"
-					  xmlns:components1="com.printingoffice.view.components.*"
+					  xmlns:comview="com.printingoffice.view.components.*"
 					  creationComplete="creationCompleteHandler(event)"
 					  top="115"
 					  left="0"
@@ -18,6 +18,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import assets.skin.ClickBtnSkin;
+			
 			import com.printingoffice.components.TooTip;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
@@ -29,23 +31,29 @@
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.components.Button;
 			import spark.components.Group;
 			
+			/**
+			 * 模块菜单切换列表窗体
+			 */
 			private var chooseMenuThemes:ChooseMenuThemes;
 			
+			/**
+			 * 提示消息容器
+			 */
 			private var tootip:TooTip;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				var commonlyUsedAcc:ArrayCollection = new ArrayCollection();
-				commonlyUsedAcc.addItem({text:"收件箱",types:"1"});
-				commonlyUsedAcc.addItem({text:"待发件",types:"2"});
-				commonlyUsedAcc.addItem({text:"待发件",types:"3"});
-				commonlyUsedAcc.addItem({text:"待发件",types:"4"});
-				
-				commonlyUsedMenu.initMenuButton(commonlyUsedAcc);
+			
 			}
 
+			/**
+			 * <p>点击当前菜单(菜单文字)外部容器，显示模块菜单切换列表窗体</p>
+			 * 
+			 * 注：创建与使用模[块切换窗体]缓存侧略，[模块切换窗体]只在第一次初始时创建，当第二调用或显示[模块切换窗体]时，不再初始化，直接使用缓存。
+			 */
 			protected function menuThemes_clickHandler(event:MouseEvent):void
 			{
 				if(chooseMenuThemes == null)
@@ -92,6 +100,9 @@
 				}
 			}
 			
+			/**
+			 * 
+			 */
 			private function showTootip(value:Boolean):void
 			{
 				if (value)
@@ -119,11 +130,39 @@
 				}
 			}
 
-
+			/**
+			 * 初始化用户常用菜单
+			 */
+			public function initCommonlyUsedMenu(data:ArrayCollection):void
+			{
+				commonlyUsedMenu.initMenuButton(data);
+			}
+			
+			/**
+			 * 初妈化用户快捷功能菜单入口
+			 */
+			public function initQuickEntranceBtn(text:String):void
+			{
+				var btn:spark.components.Button = new spark.components.Button();
+				btn.left = 33;
+				btn.height = 29;
+				btn.width = 115;
+				btn.label = text;
+				btn.setStyle("color",0xFFFFFF);
+				btn.setStyle("fontSize",15);
+				btn.setStyle("skinClass",Class(ClickBtnSkin));
+				
+				if(quickEntrance.numElements > 0)
+				{
+					quickEntrance.removeAllElements();
+				}
+				quickEntrance.addElement(btn);
+			}
 	
 		]]>
 	</fx:Script>
 	
+	<!--模块菜单的切换-->
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="前台接件"  color="#FF2222" fontSize="18"/>
@@ -132,7 +171,19 @@
 	
 	<components:Line/>
 	
-	<!--自定义常用功能-->
-	<components1:MenuBar id="commonlyUsedMenu" top="80"/>
+	<!--根据每个不同角色，从数据库查询资源，创建角色菜单-->
+	<s:SkinnableContainer  top="80" width="100%" height="100%">
+		
+		<s:layout>
+			<s:VerticalLayout/>
+		</s:layout>
+		
+		<!--常用功能快捷入口-->
+		<s:SkinnableContainer id="quickEntrance" width="100%" />			
+		
+		<!--自定义常用功能-->
+		<comview:MenuBar id="commonlyUsedMenu"/>
+		
+	</s:SkinnableContainer>
 	
 </s:SkinnableContainer>

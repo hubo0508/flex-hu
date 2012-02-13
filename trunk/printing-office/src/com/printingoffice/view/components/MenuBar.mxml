@@ -72,7 +72,9 @@
 					
 					case MouseEvent.ROLL_OVER :
 						this.setBgrightVisible(true);
-						new TweenLite(bgRight, .3, {x: menuText.x, y: menuText.y});
+						//new TweenLite(bgRight, .3, {x: menuText.x, y: menuText.y});
+						bgRight.x = menuText.x;
+						bgRight.y = menuText.y
 						break;
 					
 					default :
