@@ -15,6 +15,10 @@ s|Scroller{
 	skinClass : ClassReference("assets.skin.Scroller_skin");
 }
 
+s|CheckBox{
+	skinClass : ClassReference("assets.skin.ChooseButtonCheckSkin");
+}
+
 /*
 
 @font-face {

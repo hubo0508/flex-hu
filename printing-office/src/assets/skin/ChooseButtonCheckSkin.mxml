@@ -86,7 +86,7 @@
     </s:states>
     
     <s:Group verticalCenter="0" width="13" height="13">
-        <!-- drop shadow -->
+        <!-- drop shadow
         <s:Rect left="-1" top="-1" right="-1" bottom="-1">
             <s:stroke>
                 <s:LinearGradientStroke rotation="90" weight="1">
@@ -100,7 +100,7 @@
                                    alpha.downStates="0.57" />
                 </s:LinearGradientStroke>
             </s:stroke>
-        </s:Rect>
+        </s:Rect> -->
         
         <!-- fill -->
         <s:Rect left="1" top="1" right="1" bottom="1">
@@ -163,10 +163,10 @@
                 <s:LinearGradientStroke rotation="90" weight="1">
                     <s:GradientEntry color="0x636363" 
                                    alpha="0.5625"
-                                   alpha.downStates="0.6375" />
+                                   alpha.downStates="0.6375" color.selectedStates="0x2E79F5"/>
                     <s:GradientEntry color="0x636363" 
                                    alpha="0.75"
-                                   alpha.downStates="0.85" />
+                                   alpha.downStates="0.85" color.selectedStates="0x2E79F5"/>
                 </s:LinearGradientStroke>
             </s:stroke>
         </s:Rect>

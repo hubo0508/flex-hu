@@ -33,11 +33,11 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:List id="list" click="list_clickHandler(event)" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
+	<s:List id="list" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
 		<s:itemRenderer>
 			<fx:Component>
 				<s:ItemRenderer> 
-					<s:Label id="nameLabel" color="#444444" fontSize="15" text="{data.type}" left="15" top="7" bottom="7"/>
+					<s:CheckBox color="#444444" fontSize="15" label="{data.type}" left="15" top="7" bottom="7" />
 				</s:ItemRenderer>
 			</fx:Component>
 		</s:itemRenderer>

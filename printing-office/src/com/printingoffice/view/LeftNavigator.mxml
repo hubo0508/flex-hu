@@ -21,6 +21,7 @@
 			import assets.skin.ClickBtnSkin;
 			
 			import com.printingoffice.components.TooTip;
+			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
 			import com.printingoffice.view.components.ChooseMenuThemes;
@@ -44,6 +45,9 @@
 			 */
 			private var tootip:TooTip;
 			
+			///////常量/////////
+			public static const QUICK_ENTRANCE:String = "quickEntrance";
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 			
@@ -52,7 +56,7 @@
 			/**
 			 * <p>点击当前菜单(菜单文字)外部容器，显示模块菜单切换列表窗体</p>
 			 * 
-			 * 注：创建与使用模[块切换窗体]缓存侧略，[模块切换窗体]只在第一次初始时创建，当第二调用或显示[模块切换窗体]时，不再初始化，直接使用缓存。
+			 * 注：创建与使用[模块切换窗体]缓存侧略，[模块切换窗体]只在第一次初始时创建，当第二调用或显示[模块切换窗体]时，不再初始化，直接使用缓存。
 			 */
 			protected function menuThemes_clickHandler(event:MouseEvent):void
 			{
@@ -83,6 +87,9 @@
 				PopUpManager.removePopUp(chooseMenuThemes);
 			}
 
+			/**
+			 * <p>鼠标移过当前菜单(菜单文字)容器上时，显示提示窗体</p>
+			 */
 			protected function menuThemes_rollHandler(event:MouseEvent):void
 			{
 				switch(event.type)
@@ -101,7 +108,11 @@
 			}
 			
 			/**
+			 * <p>鼠标移过当前菜单(菜单文字)容器上时，显示提示窗体</p>
 			 * 
+			 * 注：</br>
+			 * 1、创建与使用[提提示窗体]缓存侧略，[提示窗体]只在第一次初始时创建，当第二调用或显示[提示窗体]时，不再初始化，直接使用缓存。</br>
+			 * 2、当第一次创建[提提示窗体]时，宽度暂时不能确定，宽度定死为64，容后再解决此问题。
 			 */
 			private function showTootip(value:Boolean):void
 			{
@@ -141,16 +152,20 @@
 			/**
 			 * 初妈化用户快捷功能菜单入口
 			 */
-			public function initQuickEntranceBtn(text:String):void
+			public function initQuickEntranceBtn(data:Array):void
 			{
 				var btn:spark.components.Button = new spark.components.Button();
 				btn.left = 33;
 				btn.height = 29;
 				btn.width = 115;
-				btn.label = text;
+				btn.label = data[0];
 				btn.setStyle("color",0xFFFFFF);
 				btn.setStyle("fontSize",15);
 				btn.setStyle("skinClass",Class(ClickBtnSkin));
+				btn.name = data[1];
+				btn.useHandCursor = true;
+				btn.buttonMode = true;
+				btn.addEventListener(MouseEvent.CLICK,quickEntranceMenuHanler,false,0,true);
 				
 				if(quickEntrance.numElements > 0)
 				{
@@ -159,8 +174,36 @@
 				quickEntrance.addElement(btn);
 			}
 	
+			/**
+			 * 点击常用功能快捷入口触发
+			 */
+			protected function quickEntranceMenuHanler(event:MouseEvent):void
+			{
+				var btn:spark.components.Button = event.currentTarget as spark.components.Button;
+				this.dispatch(btn.name);
+			}
+			
+			/**
+			 * 派发菜单事件
+			 * 
+			 * @param url:String 路径
+			 * @param data:Object 传递值
+			 */
+			public function dispatch(url:String, data:Object = null):void
+			{
+				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);
+				menuEvent.url = url;
+				menuEvent.data = data;
+				
+				this.dispatchEvent(menuEvent);
+			}
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="menuEvent",type="com.printingoffice.event.MenuEvent")]
+	</fx:Metadata>
 	
 	<!--模块菜单的切换-->
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
@@ -183,6 +226,11 @@
 		
 		<!--自定义常用功能-->
 		<comview:MenuBar id="commonlyUsedMenu"/>
+		
+		<s:SkinnableContainer width="100%">
+			<components:Line top="0" left="28" right="20"/>
+			<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
+		</s:SkinnableContainer>
 		
 	</s:SkinnableContainer>
 	
