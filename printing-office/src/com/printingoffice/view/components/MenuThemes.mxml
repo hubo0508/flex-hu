@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-9</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderVisible="false"
+				   width="160"
+				   height="275">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.DynamicEvent;
+			
+			import spark.components.CheckBox;
+			import spark.components.Label;
+			
+			public static const CLICK_EVENT:String  = "clickEvent";
+			
+			private var _dataField:String = "text";
+			
+			private var defaultSingleMenuHeight:int = 35;
+			
+			public function initMenuItem(data:ArrayCollection):void
+			{
+				if(data == null || data.length<=0)return;	
+				
+				var len:int = data.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var item:Object = data.getItemAt(i);					
+					var singleMenu:BorderContainer = createSingleModule(item);
+					singleMenu.addEventListener(MouseEvent.CLICK,singleMenuMouseHandler,false,0,true);					
+					singleMenu.addEventListener(MouseEvent.ROLL_OUT,singleMenuMouseHandler,false,0,true);
+					singleMenu.addEventListener(MouseEvent.ROLL_OVER,singleMenuMouseHandler,false,0,true);
+					singleMenu.x = 0;
+					singleMenu.y = i * defaultSingleMenuHeight;
+					
+					this.addElement(singleMenu);
+				}
+			}
+			
+			protected function singleMenuMouseHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						changeBgVisible(false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						var singleMenu:BorderContainer = event.currentTarget as BorderContainer;
+						changeBgVisible(true);
+						bg.x = singleMenu.x;
+						bg.y = singleMenu.y;
+						break;
+					
+					case MouseEvent.CLICK :
+						var sm:BorderContainer = event.currentTarget as BorderContainer;
+						var checkbox:CheckBox = sm.getElementAt(0) as CheckBox;
+						if(checkbox)
+						{
+							checkbox.selected = !checkbox.selected;
+						}						
+						break;
+										
+					default:
+						break;
+				}
+			}
+			
+			private function changeBgVisible(value:Boolean):void
+			{
+				if(bg.visible != value)
+				{
+					this.bg.visible = value;
+				}
+			}
+			
+			private function createSingleModule(item:Object):BorderContainer
+			{
+				var bc:BorderContainer = new BorderContainer();
+				bc.setStyle("borderVisible",false);
+				bc.setStyle("backgroundAlpha",0);
+				bc.width = 160;
+				bc.height = 35;
+				bc.useHandCursor = true;
+				bc.buttonMode = true;
+				
+				var box:CheckBox = new CheckBox();
+				box.label = item[dataField];
+				box.verticalCenter = -4;
+				box.left = 10;
+
+				bc.addElement(box);
+				
+				return bc;
+			}
+			
+			protected function list_clickHandler(event:MouseEvent):void
+			{
+//				var dye:DynamicEvent = new DynamicEvent(CLICK_EVENT);
+//				dye.data = list.selectedItem;
+//				
+//				this.dispatchEvent(dye);
+			}			
+
+			public function get dataField():String
+			{
+				return _dataField;
+			}
+
+			public function set dataField(value:String):void
+			{
+				_dataField = value;
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:filters> 
+		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+							 alpha='0.4' color='#000000'  knockout='false' quality='1'
+							 strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:Rect  id="bg" x="0" y="0" height="29" width="160" visible="false">
+		<s:fill>
+			<s:SolidColor color="#EEEEEE"/>
+		</s:fill>
+	</s:Rect>	
+	
+	<!--
+	<s:List id="list" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer> 
+					<s:CheckBox color="#444444" fontSize="15" label="{data.type}" left="15" top="7" bottom="7" />
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+		<s:dataProvider>
+			<s:ArrayList>
+				<fx:Object type="前台接件"/>
+				<fx:Object type="稿件印前"/>
+				<fx:Object type="稿件印后"/>
+				<fx:Object type="CAD出图"/>
+				<fx:Object type="客户管理"/>
+				<fx:Object type="原材料管理" />
+				<fx:Object type="人员管理"/>
+				<fx:Object type="财务管理" />
+				<fx:Object type="员工考勤" />
+			</s:ArrayList>
+		</s:dataProvider>
+	</s:List>-->
+</s:BorderContainer>

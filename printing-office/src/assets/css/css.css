@@ -16,7 +16,7 @@ s|Scroller{
 }
 
 s|CheckBox{
-	skinClass : ClassReference("assets.skin.ChooseButtonCheckSkin");
+	skinClass : ClassReference("assets.skin.CheckBoxSkin");
 }
 
 /*

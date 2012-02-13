@@ -24,7 +24,7 @@
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
-			import com.printingoffice.view.components.ChooseMenuThemes;
+			import com.printingoffice.view.components.MenuThemes;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.DynamicEvent;
@@ -38,7 +38,7 @@
 			/**
 			 * 模块菜单切换列表窗体
 			 */
-			private var chooseMenuThemes:ChooseMenuThemes;
+			private var chooseMenuThemes:MenuThemes;
 			
 			/**
 			 * 提示消息容器
@@ -62,13 +62,25 @@
 			{
 				if(chooseMenuThemes == null)
 				{
-					chooseMenuThemes = new ChooseMenuThemes();
+					chooseMenuThemes = new MenuThemes();
 					chooseMenuThemes.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-					chooseMenuThemes.addEventListener(ChooseMenuThemes.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
+					chooseMenuThemes.addEventListener(MenuThemes.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					chooseMenuThemes.x = point.x;
 					chooseMenuThemes.y = point.y + menuThemes.height + 2;
+					
+					var data:ArrayCollection = new ArrayCollection();
+					data.addItem({text:"稿件印前"});
+					data.addItem({text:"稿件印后"});
+					data.addItem({text:"CAD出图"});
+					data.addItem({text:"客户管理"});
+					data.addItem({text:"原材料管理"});
+					data.addItem({text:"人员管理"});
+					data.addItem({text:"财务管理"});
+					data.addItem({text:"员工考勤"});
+	
+					chooseMenuThemes.initMenuItem(data);
 				}
 
 				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
