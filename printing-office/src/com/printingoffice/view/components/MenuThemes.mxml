@@ -18,6 +18,7 @@
 			
 			import spark.components.CheckBox;
 			import spark.components.Label;
+			import spark.skins.spark.BorderContainerSkin;
 			
 			public static const CLICK_EVENT:String  = "clickEvent";
 			
@@ -60,12 +61,15 @@
 						break;
 					
 					case MouseEvent.CLICK :
-						var sm:BorderContainer = event.currentTarget as BorderContainer;
-						var checkbox:CheckBox = sm.getElementAt(0) as CheckBox;
-						if(checkbox)
+						if(event.target is BorderContainerSkin)
 						{
-							checkbox.selected = !checkbox.selected;
-						}						
+							var sm:BorderContainer = event.currentTarget as BorderContainer;
+							var checkbox:CheckBox = sm.getElementAt(0) as CheckBox;
+							if(checkbox)
+							{
+								checkbox.selected = !checkbox.selected;
+							}	
+						}											
 						break;
 										
 					default:
@@ -95,6 +99,7 @@
 				box.label = item[dataField];
 				box.verticalCenter = -4;
 				box.left = 10;
+				box.selected = Boolean(item["selected"]);
 
 				bc.addElement(box);
 				
