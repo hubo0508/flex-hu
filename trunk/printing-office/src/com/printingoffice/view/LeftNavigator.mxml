@@ -76,6 +76,13 @@
 			 */
 			protected function menuThemes_clickHandler(event:MouseEvent):void
 			{
+				this.initMenu();
+				
+				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
+			}
+			
+			public function initMenu():void
+			{
 				if(chooseMenuThemes == null)
 				{
 					chooseMenuThemes = new MenuThemes();
@@ -85,11 +92,11 @@
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					chooseMenuThemes.x = point.x;
 					chooseMenuThemes.y = point.y + menuThemes.height + 2;
-	
-					chooseMenuThemes.initMenuItem(menuData);
+					
+					chooseMenuThemes.initMenuItem(menuData);					
 				}
-
-				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
+				
+				initChildrenMenu();
 			}
 			
 //			protected function chooseTypeClickHandler(event:DynamicEvent):void
@@ -102,13 +109,17 @@
 			
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
+				initChildrenMenu();
+				PopUpManager.removePopUp(chooseMenuThemes);
+			}
+			
+			public function initChildrenMenu():void
+			{
 				var notSelected:Array = chooseMenuThemes.getNotSelected();
 				var selected:Array = chooseMenuThemes.getSelected();
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
-				
-				PopUpManager.removePopUp(chooseMenuThemes);
 			}
 			
 			/**
@@ -141,7 +152,7 @@
 			{
 				var menuBar:MenuBar = new MenuBar();
 				menuBar.initMenuButton(data);
-				menuBar.top = 30;
+				menuBar.top = 27;
 			
 				return menuBar;
 			}
