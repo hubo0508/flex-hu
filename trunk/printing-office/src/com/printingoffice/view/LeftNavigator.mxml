@@ -82,6 +82,13 @@
 				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
 			}
 			
+			/**
+			 * <p>初始化[模块切换窗体]</p>
+			 * 
+			 * 注：</br>
+			 * 1、只有当[模块切换窗体]没有创建时，调用该函数才会起作用。</br>
+			 * 2、使用缓存策略。</br>
+			 */
 			public function initMenu():void
 			{
 				if(chooseMenuThemes == null)
@@ -98,13 +105,29 @@
 					initChildrenMenu();
 				}
 			}
-
+			
+			/**
+			 * <p>点击[模块切换窗体]外部任何位置，调用该函数。</p>
+			 * 
+			 * 功能说明：</br>
+			 * 1、从顶级窗口容器中删除[模块切换窗体]，此时删除不是物理删除，在全局中仍然可以调用，下次弹出时，只需要调用缓存。
+			 * 内部菜单资源只在第一次初始化加载，如要从新加载菜单资源需要重新登录。</br>
+			 * 2、创建当前选中的菜单资源子菜单。</br>
+			 * 3、删除未选中的子菜单资源。</br>
+			 */
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
 				initChildrenMenu();
 				PopUpManager.removePopUp(chooseMenuThemes);
 			}
 			
+			/**
+			 * <p>创建或删除子菜单</p>
+			 * 
+			 * 功能说明：</br>
+			 * 1、判断上次显示子菜单资源与此次选择中的菜单资源相对比，将此次未选择中的菜单子资源菜单从当前容器中删除。</br>
+			 * 2、判断此次新增的子菜单资源是否已在菜单资源容器中，如不存在则创建子菜单资源，反之不用处理任何业务逻辑。</br>
+			 */
 			public function initChildrenMenu():void
 			{
 				var notSelected:Array = chooseMenuThemes.getNotSelected();
@@ -117,7 +140,7 @@
 			/**
 			 * <p>创建与显示菜单子项(二级菜单)</p>
 			 * 
-			 * 创建前判断当前菜单子项是否已创建，如已创建则本次无需创建，只需根据索引位置更新显示索引
+			 * 创建前判断当前菜单子项是否已创建，如已创建则本次无需创建。反之创建并添加至菜单容器中。
 			 */
 			protected function addSelectedMenu(selected:Array):void
 			{
@@ -140,7 +163,10 @@
 				}				
 			}
 			
-			private function createChildrenMenu(data:ArrayCollection,top:Number):MenuBar
+			/**
+			 * 创建子级菜单
+			 */
+			protected  function createChildrenMenu(data:ArrayCollection,top:Number):MenuBar
 			{
 				var menuBar:MenuBar = new MenuBar();
 				menuBar.initMenuButton(data);
@@ -149,6 +175,9 @@
 				return menuBar;
 			}
 			
+			/**
+			 * 取得在[模块切换窗体]中未选中的菜单资源，在当前菜单资源容器中查找并删除
+			 */
 			protected function removeNotSelectedMenu(notSelected:Array):void
 			{
 				var len:int = notSelected.length;				
@@ -158,11 +187,7 @@
 					removeChildrenMenuByIndex(currMenuId);
 				}	
 			}
-
-//			<s:Group top="8" width="100%" left="0">
-//				<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
-//				<mx:Image source="assets/image/close-search.png" verticalCenter="0" right="20" useHandCursor="true" buttonMode="true"/>
-//			</s:Group>
+			
 			private function createSkinMenuContainer(index:int,moduleName:String):SkinnableContainer
 			{
 				var skinCon:SkinnableContainer = new SkinnableContainer();
