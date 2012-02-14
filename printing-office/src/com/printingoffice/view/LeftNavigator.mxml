@@ -159,8 +159,8 @@
 						detailedMenu.addElement(createChildrenMenu(childrenItem,detailedMenu.getElementAt(1).height));
 						
 						menuSource.addElement(detailedMenu);				
-					}					
-				}				
+					}
+				}		
 			}
 			
 			/**
