@@ -27,6 +27,7 @@
 			import com.printingoffice.view.components.MenuThemes;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Image;
 			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
@@ -141,18 +142,18 @@
 						var childrenItem:ArrayCollection = item["childrenMenu"] as ArrayCollection;
 						
 						var detailedMenu:SkinnableContainer = this.createSkinMenuContainer(selected[i],moduleName);
-						detailedMenu.addElement(createChildrenMenu(childrenItem));
+						detailedMenu.addElement(createChildrenMenu(childrenItem,detailedMenu.getElementAt(1).height));
 						
 						menuSource.addElement(detailedMenu);				
 					}					
 				}				
 			}
 			
-			private function createChildrenMenu(data:ArrayCollection):MenuBar
+			private function createChildrenMenu(data:ArrayCollection,top:Number):MenuBar
 			{
 				var menuBar:MenuBar = new MenuBar();
 				menuBar.initMenuButton(data);
-				menuBar.top = 27;
+				menuBar.top = top;
 			
 				return menuBar;
 			}
@@ -176,6 +177,10 @@
 				}	
 			}
 
+//			<s:Group top="8" width="100%" left="0">
+//				<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
+//				<mx:Image source="assets/image/close-search.png" verticalCenter="0" right="20" useHandCursor="true" buttonMode="true"/>
+//			</s:Group>
 			private function createSkinMenuContainer(index:int,moduleName:String):SkinnableContainer
 			{
 				var skinCon:SkinnableContainer = new SkinnableContainer();
@@ -189,19 +194,63 @@
 				line.right = 20;
 				line.percentWidth = 100;
 				
+				var group:Group = new Group();
+				group.percentWidth = 100;
+				group.top = 0;
+				group.left = 0;
+				group.height = 30;
+				group.addEventListener(MouseEvent.ROLL_OUT,rollMenuGroupHandler,false,0,true);
+				group.addEventListener(MouseEvent.ROLL_OVER,rollMenuGroupHandler,false,0,true);
+				
 				var label:Label = new Label();
 				label.text = moduleName;
 				label.setStyle("color",redColor);
 				label.left = 33;
-				label.top = 8;
+				label.verticalCenter = 0;
 				//label.setStyle("fontWeight","bold");
 				label.setStyle("fontSize",12);
 				
+				var image:Image = new Image();
+				image.verticalCenter = 0;
+				image.right = 20;
+				image.useHandCursor = true;
+				image.buttonMode = true;
+				image.source = "assets/image/close-search.png";
+				image.visible = false;
+				image.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
+				
+				group.addElement(label);
+				group.addElement(image);
+				
 				skinCon.addElement(line);
-				skinCon.addElement(label);
+				skinCon.addElement(group);
 				
 				return skinCon;
 			}
+			
+			protected function menuVisibleHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			protected function rollMenuGroupHandler(event:MouseEvent):void
+			{
+				var group:Group = event.currentTarget as Group;
+				var img:Image = group.getElementAt(1) as Image;
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						img.visible = false;
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						img.visible  = true;
+						break;
+					
+					default:
+						break;
+				}
+			}	
 			
 			/**
 			 * 根据一级菜单名称查找是否已在菜单容器里
@@ -392,10 +441,13 @@
 		<!--
 		<s:SkinnableContainer width="100%">
 			<components:Line top="0" left="28" right="20"/>
-			<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
+			<s:Group top="8" width="100%" left="0">
+				<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
+				<mx:Image source="assets/image/close-search.png" verticalCenter="0" right="20" useHandCursor="true" buttonMode="true"/>
+			</s:Group>
 		</s:SkinnableContainer>
 		-->
-		
+				
 	</s:SkinnableContainer>
 	
 </s:SkinnableContainer>
