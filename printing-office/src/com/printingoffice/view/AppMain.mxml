@@ -43,9 +43,9 @@
 				menu.initQuickEntranceBtn(["接收稿件","url"]);
 				
 				var childrenMenu:ArrayCollection = new ArrayCollection();
-				childrenMenu.addItem({text:"测试1",url:""});
-				childrenMenu.addItem({text:"测试2",url:""});
-				childrenMenu.addItem({text:"测试3",url:""});
+				childrenMenu.addItem({text:"测试1",url:"11"});
+				childrenMenu.addItem({text:"测试2",url:"22"});
+				childrenMenu.addItem({text:"测试3",url:"33"});
 				
 				//子项数据提供有两种选择，其一分开查询，其二一次性查询
 				var menuData:ArrayCollection = new ArrayCollection();
@@ -67,7 +67,7 @@
 			 */
 			protected function menuEventHandler(event:MenuEvent):void
 			{
-				//Alert.show(event.url);
+				Alert.show(event.url + event.types);
 			}
 
 		]]>
