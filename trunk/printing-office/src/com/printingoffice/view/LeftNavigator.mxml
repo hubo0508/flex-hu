@@ -125,21 +125,34 @@
 					
 					var moduleName:String = item[dataField];
 					
-					if(isMenuAlreadyExists(moduleName) == false){
+					if(isMenuAlreadyExists(moduleName) == false)
+					{
+						var childrenItem:ArrayCollection = item["childrenMenu"] as ArrayCollection;
+						
 						var detailedMenu:SkinnableContainer = this.createSkinMenuContainer(selected[i],moduleName);
+						detailedMenu.addElement(createChildrenMenu(childrenItem));
 						
 						menuSource.addElement(detailedMenu);				
 					}					
 				}				
 			}
 			
+			private function createChildrenMenu(data:ArrayCollection):MenuBar
+			{
+				var menuBar:MenuBar = new MenuBar();
+				menuBar.initMenuButton(data);
+				menuBar.top = 30;
+			
+				return menuBar;
+			}
+			
 			protected function removeNotSelectedMenu(notSelected:Array):void
 			{
-				var len:int = notSelected.length;
-				var num:int = menuSource.numElements;
+				var len:int = notSelected.length;				
 				for(var i:int=0; i<len; i++)
 				{
 					var currMenuId:String = notSelected[i].toString();
+					var num:int = menuSource.numElements;
 					for(var k:int=0; k<num; k++)
 					{
 						var ele:IVisualElement = menuSource.getElementAt(k);
@@ -152,28 +165,26 @@
 				}	
 			}
 
-			//			<s:SkinnableContainer width="100%">
-			//				<components:Line top="0" left="28" right="20"/>
-			//				<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
-			//			</s:SkinnableContainer>
 			private function createSkinMenuContainer(index:int,moduleName:String):SkinnableContainer
 			{
 				var skinCon:SkinnableContainer = new SkinnableContainer();
 				skinCon.name = DETAILED_MENU;
 				skinCon.id = index.toString();
+				skinCon.percentWidth = 100;
 				
 				var line:Line = new Line();
 				line.top=0;
 				line.left = 28;
 				line.right = 20;
+				line.percentWidth = 100;
 				
 				var label:Label = new Label();
 				label.text = moduleName;
 				label.setStyle("color",redColor);
 				label.left = 33;
 				label.top = 8;
-				label.setStyle("fontWeight","bold");
-				label.setStyle("fontSize",14);
+				//label.setStyle("fontWeight","bold");
+				label.setStyle("fontSize",12);
 				
 				skinCon.addElement(line);
 				skinCon.addElement(label);
