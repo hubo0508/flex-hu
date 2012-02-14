@@ -27,6 +27,7 @@
 			import com.printingoffice.view.components.MenuThemes;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
 			import mx.controls.Image;
 			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
@@ -176,11 +177,14 @@
 				return menuBar;
 			}
 			
+			/**
+			 * 点击所有子菜单捕获事件
+			 */
 			protected function childrenMenuClickHandler(event:MenuEvent):void
 			{
+				//Alert.show(event.url + event.types);
 				
-				
-				//this.dispatch(event.url,event.data,event.types);
+				this.dispatch(event.url,event.data,event.types);				
 			}
 			
 			/**
@@ -443,7 +447,6 @@
 				_dataField = value;
 			}
 
-			
 		]]>
 	</fx:Script>
 	
@@ -471,7 +474,7 @@
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
-		<comview:MenuBar id="commonlyUsedMenu"/>
+		<comview:MenuBar menuEvent="childrenMenuClickHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--
 		<s:SkinnableContainer width="100%">
