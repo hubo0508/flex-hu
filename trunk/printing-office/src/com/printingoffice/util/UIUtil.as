@@ -17,6 +17,35 @@ package com.printingoffice.util
 		public function UIUtil()
 		{
 		}
+		
+		public static function getID(obj:Object):String
+		{
+			var id:String = "";
+			
+			try
+			{
+				id = obj.id.toString();	
+			}catch(e:*){
+				trace("  :: UIUtil ::  "+e);
+			}
+			
+			return id;
+		}
+
+		
+		public static function getName(obj:Object):String
+		{
+			var name:String = "";
+			
+			try
+			{
+				name = obj.name.toString();	
+			}catch(e:*){
+				trace("  :: UIUtil ::  "+e);
+			}
+			
+			return name;
+		}
 
 		public static function getApplication(currentUI:UIComponent):DisplayObject
 		{
