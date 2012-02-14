@@ -87,7 +87,7 @@
 			
 			public function dispatch(url:String, data:Object = null):void
 			{
-				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT,true);
+				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);
 				menuEvent.url = url;
 				menuEvent.data = data;
 				

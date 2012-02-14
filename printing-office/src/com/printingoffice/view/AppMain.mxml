@@ -67,7 +67,7 @@
 			 */
 			protected function menuEventHandler(event:MenuEvent):void
 			{
-				Alert.show(event.url + event.types);
+				//Alert.show(event.url + event.types);
 			}
 
 		]]>
