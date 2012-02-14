@@ -59,6 +59,7 @@
 				menuData.addItem({text:"员工考勤",selected:false,childrenMenu:childrenMenu});
 				
 				menu.menuData = menuData;
+				menu.initMenu();
 			}
 
 			/**
