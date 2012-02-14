@@ -111,6 +111,9 @@
 			
 			private function changebgLeftPoint(x:Number,y:Number):void
 			{
+				if(this.bgLeft.visible == false){
+					this.bgLeft.visible = true;
+				}				
 				if(this.bgLeft.x != x)
 				{
 					new TweenLite(bgLeft, .5, {x: x});
@@ -149,6 +152,10 @@
 			}
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="menuEvent",type="com.printingoffice.event.MenuEvent")]
+	</fx:Metadata>
 
 	<s:Rect  id="bgRight" x="0" y="0" height="29" width="180" visible="false">
 		<s:fill>
@@ -156,7 +163,7 @@
 		</s:fill>
 	</s:Rect>	
 	
-	<s:Rect id="bgLeft" visible="true" height="29" width="4" x="0" y="0">
+	<s:Rect id="bgLeft" visible="false" height="29" width="4" x="0" y="0">
 		<s:fill>
 			<s:SolidColor color="#DD4B39"/>
 		</s:fill>

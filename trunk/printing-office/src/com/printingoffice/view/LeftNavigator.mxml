@@ -169,10 +169,18 @@
 			protected  function createChildrenMenu(data:ArrayCollection,top:Number):MenuBar
 			{
 				var menuBar:MenuBar = new MenuBar();
+				menuBar.addEventListener(MenuEvent.MENU_EVENT,childrenMenuClickHandler,false,0,true);
 				menuBar.initMenuButton(data);
 				menuBar.top = top;
 			
 				return menuBar;
+			}
+			
+			protected function childrenMenuClickHandler(event:MenuEvent):void
+			{
+				
+				
+				//this.dispatch(event.url,event.data,event.types);
 			}
 			
 			/**
@@ -396,7 +404,7 @@
 			protected function quickEntranceMenuHanler(event:MouseEvent):void
 			{
 				var btn:spark.components.Button = event.currentTarget as spark.components.Button;
-				this.dispatch(btn.name);
+				this.dispatch(null,null,btn.name);
 			}
 			
 			/**
@@ -405,11 +413,12 @@
 			 * @param url:String 路径
 			 * @param data:Object 传递值
 			 */
-			public function dispatch(url:String, data:Object = null):void
+			public function dispatch(url:String, data:Object = null, types:String = null):void
 			{
 				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);
 				menuEvent.url = url;
 				menuEvent.data = data;
+				menuEvent.types = types;
 				
 				this.dispatchEvent(menuEvent);
 			}
