@@ -13,7 +13,7 @@ package com.printingoffice.event
 				
 		public static const MENU_EVENT:String = "menuEvent";
 		
-		//public var types:String;
+		public var types:String;
 		
 		public var url:String;
 		

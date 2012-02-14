@@ -88,26 +88,17 @@
 				{
 					chooseMenuThemes = new MenuThemes();
 					chooseMenuThemes.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-					//chooseMenuThemes.addEventListener(MenuThemes.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
 					chooseMenuThemes.x = point.x;
 					chooseMenuThemes.y = point.y + menuThemes.height + 2;
 					
-					chooseMenuThemes.initMenuItem(menuData);					
+					chooseMenuThemes.initMenuItem(menuData);	
+					
+					initChildrenMenu();
 				}
-				
-				initChildrenMenu();
 			}
-			
-//			protected function chooseTypeClickHandler(event:DynamicEvent):void
-//			{
-////				var selectItem:Object = event.data;
-////				menuValue.text = selectItem.type;
-//				
-//				PopUpManager.removePopUp(chooseMenuThemes);
-//			}
-			
+
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
 				initChildrenMenu();
@@ -164,16 +155,7 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var currMenuId:String = notSelected[i].toString();
-					var num:int = menuSource.numElements;
-					for(var k:int=0; k<num; k++)
-					{
-						var ele:IVisualElement = menuSource.getElementAt(k);
-						if(UIUtil.getName(ele) == DETAILED_MENU && UIUtil.getID(ele) == currMenuId)
-						{
-							menuSource.removeElement(ele);
-							break;
-						}
-					}
+					removeChildrenMenuByIndex(currMenuId);
 				}	
 			}
 
@@ -218,6 +200,7 @@
 				image.source = "assets/image/close-search.png";
 				image.visible = false;
 				image.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
+				image.id = index.toString();
 				
 				group.addElement(label);
 				group.addElement(image);
@@ -230,7 +213,24 @@
 			
 			protected function menuVisibleHandler(event:MouseEvent):void
 			{
+				var img:Image = event.currentTarget as Image;
+				chooseMenuThemes.setSelectedIsFalse(img.id);
 				
+				removeChildrenMenuByIndex(img.id);
+			}
+			
+			public function removeChildrenMenuByIndex(index:String):void
+			{
+				var num:int = menuSource.numElements;
+				for(var k:int=0; k<num; k++)
+				{
+					var ele:IVisualElement = menuSource.getElementAt(k);
+					if(UIUtil.getName(ele) == DETAILED_MENU && UIUtil.getID(ele) == index)
+					{
+						menuSource.removeElement(ele);
+						break;
+					}
+				}
 			}
 			
 			protected function rollMenuGroupHandler(event:MouseEvent):void
@@ -251,7 +251,7 @@
 						break;
 				}
 			}	
-			
+				
 			/**
 			 * 根据一级菜单名称查找是否已在菜单容器里
 			 */
@@ -265,12 +265,13 @@
 					var ele:Object  = menuSource.getElementAt(i);					
 					if(UIUtil.getName(ele) == DETAILED_MENU)
 					{
-						var label:Label = ele.getElementAt(1) as Label;
+						var group:Group  = ele.getElementAt(1) as Group;	
+						var label:Label = group.getElementAt(0) as Label;
 						if(label && label.text == value)
 						{
 							returnValue = true;
 							break;
-						}					
+						}
 					}
 				}
 				

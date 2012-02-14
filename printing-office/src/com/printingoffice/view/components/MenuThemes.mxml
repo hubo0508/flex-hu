@@ -110,6 +110,26 @@
 				return bc;
 			}
 			
+			public function setSelectedIsFalse(id:String):void
+			{
+				if(id == null || id == "")return;
+				
+				var num:int = this.numElements;
+				for(var k:int=0; k<num; k++)
+				{
+					var bc:BorderContainer = this.getElementAt(k) as BorderContainer;
+					if(bc && bc.id.toString() == id)
+					{
+						var checkbox:CheckBox = bc.getElementAt(0) as CheckBox;
+						if(checkbox && checkbox.selected)
+						{
+							checkbox.selected = false;
+							break;
+						}
+					}
+				}
+			}
+			
 			public function getSelected():Array
 			{
 				var selectedItem:Array = [];
@@ -160,20 +180,14 @@
 				return notSelected;
 			}
 			
+			
+			
 			private function getLastMenuIndex():int
 			{
 				var cont:BorderContainer = this.getElementAt(this.numElements-1) as BorderContainer;
 				return int(cont.id);
 			}
 			
-			protected function list_clickHandler(event:MouseEvent):void
-			{
-//				var dye:DynamicEvent = new DynamicEvent(CLICK_EVENT);
-//				dye.data = list.selectedItem;
-//				
-//				this.dispatchEvent(dye);
-			}			
-
 			public function get dataField():String
 			{
 				return _dataField;
