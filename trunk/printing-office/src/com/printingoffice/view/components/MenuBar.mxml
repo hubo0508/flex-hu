@@ -47,10 +47,18 @@
 				}
 			}
 			
+			public function clearBgLeftState():void
+			{				
+				if(this.bgLeft.visible)
+				{
+					this.bgLeft.visible = false;
+				}
+			}
+			
 			protected function menuRollHandler(event:MouseEvent):void
 			{
 				var menuText:MenuText = event.currentTarget as MenuText;
-				var currentID:String = menuText.id.toString();
+				var lastClickID:String = menuText.id.toString();
 				
 				switch(event.type)
 				{
@@ -63,7 +71,7 @@
 						menuText.name = "red";
 						changebgLeftPoint(menuText.x,menuText.y);
 						
-						restoredToOriginalState(currentID);
+						clearLastClickColor(lastClickID);
 						
 						this.dispatch(menuText.data["url"],menuText.data);
 						
@@ -85,7 +93,7 @@
 				}
 			}
 			
-			public function dispatch(url:String, data:Object = null):void
+			protected function dispatch(url:String, data:Object = null):void
 			{
 				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);
 				menuEvent.url = url;
@@ -94,13 +102,28 @@
 				this.dispatchEvent(menuEvent);
 			}
 			
-			private function restoredToOriginalState(currentID:String):void
+			public function clearCurrentClickColor():void
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
 					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
-					if(currBtn && currentID != currBtn.id.toString() && currBtn.name == "red")
+					if(currBtn && currBtn.name == "red")
+					{
+						currBtn.textColor = defaultColor;
+						currBtn.name = "";
+						break;
+					}
+				}
+			}
+			
+			public function clearLastClickColor(lastClickID:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
+					if(currBtn && lastClickID != currBtn.id.toString() && currBtn.name == "red")
 					{
 						currBtn.textColor = defaultColor;
 						currBtn.name = "";
@@ -123,6 +146,7 @@
 					new TweenLite(bgLeft, .5, {y: y});
 				}
 			}
+			
 			private function setBgrightVisible(value:Boolean):void
 			{
 				if(bgRight.visible != value)

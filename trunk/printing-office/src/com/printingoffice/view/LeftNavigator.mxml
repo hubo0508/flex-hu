@@ -35,6 +35,7 @@
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.components.BorderContainer;
 			import spark.components.Button;
 			import spark.components.Group;
 			import spark.components.supportClasses.SkinnableComponent;
@@ -182,9 +183,37 @@
 			 */
 			protected function childrenMenuClickHandler(event:MenuEvent):void
 			{
-				//Alert.show(event.url + event.types);
+				var menubar:MenuBar = event.currentTarget as MenuBar;
+//				if(menubar && UIUtil.getID(menubar) == "commonlyUsedMenu")
+//				{
+//					clearChildrenSelectedState();
+//				}
+//				else
+//				{
+					trace(UIUtil.getID(menubar));
+					trace(UIUtil.getID(menubar.parent));
+					trace(UIUtil.getID(menubar.owner));
+					trace(UIUtil.getID(menubar.document));
+					trace(UIUtil.getID(menubar.parentDocument));
+					//clearChildrenSelectedState();
+//				}
 				
 				this.dispatch(event.url,event.data,event.types);				
+			}
+			
+			protected function clearChildrenSelectedState(currentClickID:String = null):void
+			{				
+				var num:int = menuSource.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var bc:SkinnableContainer = menuSource.getElementAt(i) as SkinnableContainer;	
+					if(bc && UIUtil.getName(bc) == DETAILED_MENU)
+					{
+						var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
+						menubar.clearBgLeftState();
+						menubar.clearCurrentClickColor();
+					}
+				}
 			}
 			
 			/**
