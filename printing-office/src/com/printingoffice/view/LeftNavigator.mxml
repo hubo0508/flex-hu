@@ -492,6 +492,7 @@
 		<graphic:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
 	</s:HGroup>
 	
+	<!--分隔线-->
 	<components:Line/>
 	
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单-->
@@ -506,17 +507,7 @@
 		
 		<!--自定义常用功能-->
 		<comview:MenuBar menuEvent="childrenMenuClickHandler(event)" id="commonlyUsedMenu"/>
-		
-		<!--
-		<s:SkinnableContainer width="100%">
-			<components:Line top="0" left="28" right="20"/>
-			<s:Group top="8" width="100%" left="0">
-				<s:Label text="CAD出图" color="0xDD4B39" left="33" top="8" fontWeight="bold" fontSize="14"/>
-				<mx:Image source="assets/image/close-search.png" verticalCenter="0" right="20" useHandCursor="true" buttonMode="true"/>
-			</s:Group>
-		</s:SkinnableContainer>
-		-->
-				
+					
 	</s:SkinnableContainer>
 	
 </s:SkinnableContainer>
