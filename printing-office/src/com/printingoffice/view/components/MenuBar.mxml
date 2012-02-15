@@ -49,7 +49,7 @@
 					menuText.addEventListener(MouseEvent.ROLL_OVER,menuRollHandler,false,0,true);
 					menuText.addEventListener(MouseEvent.CLICK,menuRollHandler,false,0,true);
 					
-					if(removeimg)
+					if(removeimg && i>0)
 					{
 						var image:Image = new Image();
 						image.verticalCenter = 0;
