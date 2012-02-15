@@ -158,7 +158,7 @@
 						var childrenItem:ArrayCollection = item["childrenMenu"] as ArrayCollection;
 						
 						var detailedMenu:SkinnableContainer = this.createSkinMenuContainer(selected[i],moduleName);
-						detailedMenu.addElement(createChildrenMenu(childrenItem,detailedMenu.getElementAt(1).height));
+						detailedMenu.addElement(createChildrenMenu(selected[i],childrenItem,detailedMenu.getElementAt(1).height));
 						
 						menuSource.addElement(detailedMenu);				
 					}
@@ -168,12 +168,13 @@
 			/**
 			 * 创建子级菜单
 			 */
-			protected  function createChildrenMenu(data:ArrayCollection,top:Number):MenuBar
+			protected  function createChildrenMenu(index:int,data:ArrayCollection,top:Number):MenuBar
 			{
 				var menuBar:MenuBar = new MenuBar();
 				menuBar.addEventListener(MenuEvent.MENU_EVENT,childrenMenuClickHandler,false,0,true);
 				menuBar.initMenuButton(data);
 				menuBar.top = top;
+				menuBar.id = index.toString();
 			
 				return menuBar;
 			}
@@ -184,19 +185,17 @@
 			protected function childrenMenuClickHandler(event:MenuEvent):void
 			{
 				var menubar:MenuBar = event.currentTarget as MenuBar;
-//				if(menubar && UIUtil.getID(menubar) == "commonlyUsedMenu")
-//				{
-//					clearChildrenSelectedState();
-//				}
-//				else
-//				{
-					trace(UIUtil.getID(menubar));
-					trace(UIUtil.getID(menubar.parent));
-					trace(UIUtil.getID(menubar.owner));
-					trace(UIUtil.getID(menubar.document));
-					trace(UIUtil.getID(menubar.parentDocument));
-					//clearChildrenSelectedState();
-//				}
+				if(menubar && UIUtil.getID(menubar) == "commonlyUsedMenu")
+				{
+					clearChildrenSelectedState();
+				}
+				else
+				{
+					commonlyUsedMenu.clearBgLeftState();
+					commonlyUsedMenu.clearCurrentClickColor();
+					
+					clearChildrenSelectedState(menubar.id);				
+				}
 				
 				this.dispatch(event.url,event.data,event.types);				
 			}
@@ -209,9 +208,12 @@
 					var bc:SkinnableContainer = menuSource.getElementAt(i) as SkinnableContainer;	
 					if(bc && UIUtil.getName(bc) == DETAILED_MENU)
 					{
-						var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
-						menubar.clearBgLeftState();
-						menubar.clearCurrentClickColor();
+						if((currentClickID && bc.id != currentClickID) || !currentClickID)
+						{
+							var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
+							menubar.clearBgLeftState();
+							menubar.clearCurrentClickColor();
+						}						
 					}
 				}
 			}
