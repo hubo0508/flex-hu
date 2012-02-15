@@ -24,6 +24,7 @@
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.view.components.MenuText;
 			import com.printingoffice.view.components.MenuThemes;
 			
 			import mx.collections.ArrayCollection;
@@ -190,6 +191,7 @@
 				{
 					var index:String  = String(event.data);
 					removeSingleChildren(index,commonlyUsedMenu);	
+					
 					return;
 				}
 				
@@ -205,6 +207,66 @@
 					
 					clearChildrenSelectedState(menubar.id);				
 				}				
+			}
+			
+			
+			public function updateMenuLayoutPosition(menuBar:MenuBar):void
+			{
+				if(menuBar == null ) return;
+				
+				var menuTextHeight:Number = getMenuTextHeight(menuBar);
+				
+				var num:int = menuBar.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var firstMenuPro:Array = getMenuTextY(menuBar,i);
+					i = int(firstMenuPro["i"]);
+					var nextMenuPro:Array = getMenuTextY(menuBar,i);
+					i = int(nextMenuPro["i"]);
+					
+					var firstMenuY:Number = Number(firstMenuPro["y"]);
+					var nextMenuY:Number = Number(nextMenuPro["y"]);
+					if(( nextMenuY - firstMenuY ) != menuTextHeight)
+					{
+						//menuTextHeight
+					}
+				}
+			}
+			
+			private function getMenuTextHeight(menu:MenuBar):Number
+			{
+				var num:int = menu.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var menuText:MenuText = menu.getElementAt(i) as MenuText;
+					if(menuText)
+					{
+						return menuText.height;
+						break;
+					}
+				}
+				
+				return 0;
+			}
+			
+			private function getMenuTextY(menuBar:MenuBar, i:int):Array
+			{
+				var returnvalue:Array = [];
+				
+				while(true)
+				{
+					var menuText:MenuText = menuBar.getElementAt(i) as MenuText;
+					if(menuText)
+					{
+						returnvalue["y"] = menuText.y;
+						break;
+					}
+					
+					i++;
+				}
+				
+				returnvalue["i"] = i;
+				return returnvalue;
 			}
 			
 			/**
