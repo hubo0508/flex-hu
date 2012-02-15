@@ -514,8 +514,6 @@
 	<!--分隔线-->
 	<components:Line/>
 	
-
-	
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单-->
 	<s:SkinnableContainer id="menuSource"  top="80" width="100%" height="100%">
 		
