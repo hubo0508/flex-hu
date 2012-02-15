@@ -191,6 +191,7 @@
 				{
 					var index:String  = String(event.data);
 					removeSingleChildren(index,commonlyUsedMenu);	
+					updateMenuLayoutPosition(commonlyUsedMenu);
 					
 					return;
 				}
@@ -228,7 +229,8 @@
 					var nextMenuY:Number = Number(nextMenuPro["y"]);
 					if(( nextMenuY - firstMenuY ) != menuTextHeight)
 					{
-						//menuTextHeight
+						var menuText:MenuText = menuBar.getElementAt(i) as MenuText;
+						menuText.move(0, (firstMenuY + menuTextHeight));
 					}
 				}
 			}
@@ -258,6 +260,7 @@
 					var menuText:MenuText = menuBar.getElementAt(i) as MenuText;
 					if(menuText)
 					{
+						i++;
 						returnvalue["y"] = menuText.y;
 						break;
 					}
@@ -288,6 +291,7 @@
 					if(currentID == index)
 					{
 						menuBar.removeElementAt(i);
+						break;
 					}
 				}
 			}
