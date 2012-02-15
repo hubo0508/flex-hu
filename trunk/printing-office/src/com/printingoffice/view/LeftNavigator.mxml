@@ -184,6 +184,15 @@
 			 */
 			protected function childrenMenuClickHandler(event:MenuEvent):void
 			{
+				this.dispatch(event.url,event.data,event.types);			
+				
+				if(event.types == MenuBar.REMOVE)
+				{
+					var index:String  = String(event.data);
+					removeSingleChildren(index,commonlyUsedMenu);	
+					return;
+				}
+				
 				var menubar:MenuBar = event.currentTarget as MenuBar;
 				if(menubar && UIUtil.getID(menubar) == "commonlyUsedMenu")
 				{
@@ -195,9 +204,30 @@
 					commonlyUsedMenu.clearCurrentClickColor();
 					
 					clearChildrenSelectedState(menubar.id);				
-				}
+				}				
+			}
+			
+			/**
+			 *<p>在指定菜单资源容器中删除某个二级菜单</p>
+			 * 
+			 * 注：【索引标识请参见】com.printingoffice.view.components.MenuBar.initMenuButton(data:ArrayCollection):void</br></br>
+			 * 
+			 * @param index:String 二级菜单索引标识
+			 * @param menuBar:MenuBar 菜单容器 
+			 */
+			public function removeSingleChildren(index:String, menuBar:MenuBar):void
+			{
+				if(menuBar == null || index == null || index == "") return;
 				
-				this.dispatch(event.url,event.data,event.types);				
+				var num:int = menuBar.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var currentID:String = UIUtil.getID(menuBar.getElementAt(i));
+					if(currentID == index)
+					{
+						menuBar.removeElementAt(i);
+					}
+				}
 			}
 			
 			protected function clearChildrenSelectedState(currentClickID:String = null):void
@@ -525,7 +555,7 @@
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
-		<comview:MenuBar menuEvent="childrenMenuClickHandler(event)" id="commonlyUsedMenu"/>
+		<comview:MenuBar removeimg="true" menuEvent="childrenMenuClickHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--菜单容器-->
 		<s:Scroller id="menuGroupScroller" height="100%" width="180">

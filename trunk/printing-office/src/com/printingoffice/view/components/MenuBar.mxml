@@ -14,8 +14,10 @@
 		<![CDATA[
 			import com.printingoffice.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
+			import com.printingoffice.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Image;
 			import mx.events.FlexEvent;
 			
 			import spark.components.Label;
@@ -27,6 +29,10 @@
 			private var redColor:uint = 0xDD4B39;
 			
 			private var defaultColor:uint = 0x222222;
+			
+			private var _removeimg:Boolean = false;
+			
+			public static const REMOVE:String = "remove";
 			
 			public function initMenuButton(data:ArrayCollection):void
 			{
@@ -42,9 +48,31 @@
 					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
 					menuText.addEventListener(MouseEvent.ROLL_OVER,menuRollHandler,false,0,true);
 					menuText.addEventListener(MouseEvent.CLICK,menuRollHandler,false,0,true);
+					
+					if(removeimg)
+					{
+						var image:Image = new Image();
+						image.verticalCenter = 0;
+						image.right = 2;
+						image.useHandCursor = true;
+						image.buttonMode = true;
+						image.source = "assets/image/close-search.png";
+						image.visible = false;
+						image.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
+						image.id =i.toString();
+						image.name = REMOVE;
+						
+						menuText.addElement(image);
+					}
 
 					this.addElement(menuText);
 				}
+			}
+			
+			protected function removeImgHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				this.dispatch(null,img.id,REMOVE);
 			}
 			
 			public function clearBgLeftState():void
@@ -79,13 +107,16 @@
 					
 					case MouseEvent.ROLL_OUT :
 						this.setBgrightVisible(false);
+						
+						showOrhideCloseButton(false,menuText);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						this.setBgrightVisible(true);
-						//new TweenLite(bgRight, .3, {x: menuText.x, y: menuText.y});
 						bgRight.x = menuText.x;
 						bgRight.y = menuText.y
+						
+						showOrhideCloseButton(true,menuText);
 						break;
 					
 					default :
@@ -93,11 +124,25 @@
 				}
 			}
 			
-			protected function dispatch(url:String, data:Object = null):void
+			private function showOrhideCloseButton(value:Boolean,menuText:MenuText):void
+			{
+				var num:int = menuText.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var obj:Object = menuText.getElementAt(i);
+					if(UIUtil.getName(obj) == REMOVE)
+					{
+						(obj as Image).visible  = value;
+					}
+				}
+			}
+			
+			protected function dispatch(url:String, data:Object = null, types:String = null):void
 			{
 				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);
 				menuEvent.url = url;
 				menuEvent.data = data;
+				menuEvent.types = types;
 				
 				this.dispatchEvent(menuEvent);
 			}
@@ -174,6 +219,18 @@
 			{
 				_dataField=value;
 			}
+
+			public function get removeimg():Boolean
+			{
+				return _removeimg;
+			}
+
+			public function set removeimg(value:Boolean):void
+			{
+				_removeimg = value;
+			}
+
+
 		]]>
 	</fx:Script>
 	
