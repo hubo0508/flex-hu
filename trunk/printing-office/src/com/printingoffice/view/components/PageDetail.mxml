@@ -39,7 +39,7 @@
 						pagingtimer.addEventListener(TimerEvent.TIMER_COMPLETE, function timerComplete(event:Event):void
 						{
 							mouseDownOutsideHandler();							
-							this.timerStop();							
+							timerStop();							
 						},false,0,true);								
 						pagingtimer.start();	
 						

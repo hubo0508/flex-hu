@@ -2,44 +2,80 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx">
+	
 	<fx:Metadata>
 		[HostComponent("spark.components.Button")]
 	</fx:Metadata>
+	
 	<s:states>
 		<s:State name="up" />
 		<s:State name="over" />
 		<s:State name="down" />
 		<s:State name="disabled" />
 	</s:states>
-	<s:Rect id="bg" left="2" width="8" minHeight="24" height="100%">
+	
+	<s:Rect id="bg" top="0" bottom="0" left="0" width="8" minHeight="24" height="100%">
 		<s:fill>
-			<s:SolidColor color="#CCCCCC" color.down="#dddddd" />
+			<s:SolidColor color="0xCDCDCD" color.down="#7A7A7A" color.over="0x959595"/>
 		</s:fill>
-		<!--
-		<s:filters>
-			<s:DropShadowFilter alpha="0.8" color="#000000" quality="2" distance="0"/>
-		</s:filters>-->
 	</s:Rect>
-	<!--
-	<s:VGroup left="4" width="8" gap="3" verticalCenter="0">
-		<s:Ellipse width="4" height="4">
-			<s:fill>
-				<s:SolidColor color="#a6dcf5"/>
-			</s:fill>
-		</s:Ellipse>
-		<s:Ellipse width="4" height="4">
-			<s:fill>
-				<s:SolidColor color="#a6dcf5"/>
-			</s:fill>
-		</s:Ellipse>
-		<s:Ellipse width="4" height="4">
-			<s:fill>
-				<s:SolidColor color="#a6dcf5"/>
-			</s:fill>
-		</s:Ellipse>
-		<s:filters>
-			<s:DropShadowFilter alpha="1" color="#000000" blurX="2" blurY="2" quality="2" distance="0" inner="true"/>
-		</s:filters>
-	</s:VGroup>
-	-->
+	
+	<!--right-->
+	<s:Line  width="0" height="100%" right="0" top="0" bottom="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xCDCDCD" color.over="0x898989" color.down="0x6D6D6D" weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--left-->
+	<s:Line  width="0" height="100%" left="0" top="0" bottom="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xB8B8B8"  color.over="0x646464" color.down="0x505050" weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line  width="0" height="100%" left="1" top="0" bottom="0" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x696969" weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line  width="0" height="100%" left="2" top="0" bottom="0" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x757575" weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--top-->
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" left="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xB8B8B8" color.over="0x646464" color.down="0x505050" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" left="1" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x696969"  weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" left="2" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x757575" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--bottom-->
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0"  bottom="0" left="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xB8B8B8" color.over="0x646464" color.down="0x505050" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0"  bottom="1" left="1" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x696969" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0"  bottom="2" left="2" visible.down="true" visible="false"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0x757575" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+
 </s:Skin>
