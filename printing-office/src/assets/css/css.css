@@ -13,6 +13,8 @@ mx|DateField{
 
 s|Scroller{
 	skinClass : ClassReference("assets.skin.Scroller_skin");
+	upArrowSkin: ClassReference(null); 
+	downArrowSkin: ClassReference(null);
 }
 
 s|CheckBox{
