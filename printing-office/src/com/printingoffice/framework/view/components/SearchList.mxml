@@ -76,7 +76,7 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
+	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin" click="mouseDownOutsideHandler(event)"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
 	<components:SearchListButton id="searchTypeBtn" isPopMask="true" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
