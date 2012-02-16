@@ -33,9 +33,12 @@
 			
 			private var defaultColor:uint = 0x222222;
 			
-			private var _removeimg:Boolean = false;
+			/**
+			 * 是否创建关闭按钮
+			 */
+			private var _closeButton:Boolean = false;
 			
-			public static const REMOVE:String = "removeMenu";
+			public static const REMOVE_MENU:String = "removeMenu";
 			
 			private var CURR_MENU:String = "currentClickMenu";
 			
@@ -73,12 +76,12 @@
 					menuText.addEventListener(MouseEvent.ROLL_OVER,menuTextEventHandler,false,0,true);
 					menuText.addEventListener(MouseEvent.CLICK,menuTextEventHandler,false,0,true);
 					
-					if(removeimg && i>0)
+					if(closeButton && i>0)
 					{
 						var closeButton:CloseButton = new CloseButton();
 						closeButton.id = i.toString();
 						closeButton.verticalCenter = 0;
-						closeButton.name = REMOVE;
+						closeButton.name = REMOVE_MENU;
 						closeButton.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
 						
 						menuText.addElement(closeButton);
@@ -92,7 +95,7 @@
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
 				
-				var dye:DynamicEvent =new DynamicEvent(REMOVE);
+				var dye:DynamicEvent =new DynamicEvent(REMOVE_MENU);
 				dye.data = btn.id;
 				
 				this.dispatchEvent(dye);				
@@ -151,7 +154,13 @@
 				}
 			}
 			
-			private function showOrHideCloseButton(value:Boolean,menuText:MenuText):void
+			/**
+			 * 显示或隐藏关闭按钮
+			 * 
+			 * @param value:Boolean true || false
+			 * @param menuText:MenuText 菜单文本容器
+			 */
+			public function showOrHideCloseButton(value:Boolean,menuText:MenuText):void
 			{
 				if(menuText.name == CURR_MENU && value)return;
 				
@@ -159,7 +168,7 @@
 				for(var i:int=0; i<num; i++)
 				{
 					var obj:Object = menuText.getElementAt(i);
-					if(UIUtil.getName(obj) == REMOVE)
+					if(UIUtil.getName(obj) == REMOVE_MENU)
 					{
 						obj.visible  = value;
 					}
@@ -252,15 +261,22 @@
 				_dataField=value;
 			}
 
-			public function get removeimg():Boolean
+			/**
+			 * 是否创建关闭按钮
+			 */
+			public function get closeButton():Boolean
 			{
-				return _removeimg;
+				return _closeButton;
 			}
 
-			public function set removeimg(value:Boolean):void
+			/**
+			 * @private
+			 */
+			public function set closeButton(value:Boolean):void
 			{
-				_removeimg = value;
+				_closeButton = value;
 			}
+
 
 		]]>
 	</fx:Script>
