@@ -12,7 +12,7 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.event.MenuEvent;
+			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.util.UIUtil;
@@ -316,7 +316,7 @@
 	</fx:Script>
 	
 	<fx:Metadata>
-		[Event(name="menuEvent",type="com.printingoffice.event.MenuEvent")]
+		[Event(name="menuEvent",type="com.printingoffice.framework.event.MenuEvent")]
 		[Event(name="removeMenu",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
 
