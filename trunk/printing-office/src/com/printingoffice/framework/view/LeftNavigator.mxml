@@ -635,13 +635,13 @@
 				if (menuGroup.verticalScrollPosition > 0)
 				{
 					setGroupVisible(true,scrollerMaskTop);
+					
+					scrollerMaskTop.y = menuSource.top + menuGroupScroller.y;
 				}
 				else
 				{
 					setGroupVisible(false,scrollerMaskTop);
 				}
-				
-				scrollerMaskTop.y = menuSource.top + menuGroupScroller.y;
 			}
 			
 			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
