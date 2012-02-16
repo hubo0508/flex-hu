@@ -19,7 +19,7 @@
 			import com.printingoffice.components.TooTip;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
-			import com.printingoffice.view.components.SearchList;
+			import com.printingoffice.framework.view.components.SearchList;
 			
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;

@@ -9,13 +9,13 @@
 					   height="100%">
 
 	<fx:Style source="assets/css/css.css"/>
-
+admin
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.event.LoginEvent;
+			import com.printingoffice.framework.event.LoginEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.view.AppMain;
-			import com.printingoffice.view.TopNavigator;
+			import com.printingoffice.framework.view.TopNavigator;
 			import com.printingoffice.view.login.Login;
 
 			import mx.controls.Alert;

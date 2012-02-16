@@ -14,7 +14,7 @@
 					  top="115"
 					  left="0"
 					  width="200"
-					  height="100%">
+					  height="100%" xmlns:components1="com.printingoffice.framework.view.components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -22,12 +22,12 @@
 			
 			import com.printingoffice.components.CloseButton;
 			import com.printingoffice.components.TooTip;
-			import com.printingoffice.core.TweenLite;
+			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.UIUtil;
-			import com.printingoffice.view.components.MenuText;
-			import com.printingoffice.view.components.MenuThemes;
+			import com.printingoffice.framework.view.components.MenuText;
+			import com.printingoffice.framework.view.components.MenuThemes;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -620,7 +620,7 @@
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
-		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
+		<components1:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--菜单容器-->
 		<s:Scroller id="menuGroupScroller" height="100%" width="180">
