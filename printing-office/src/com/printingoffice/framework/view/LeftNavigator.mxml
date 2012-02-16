@@ -658,7 +658,7 @@
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--当出现滚动条时，显示该容器-->
-		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="3" width="100%" visible="false" >
+		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="13" width="100%" visible="false" >
 			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" alpha=".7" left="28" right="27">
 				<s:stroke>
 					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".7"/>
@@ -674,6 +674,7 @@
 					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".3"/>
 				</s:stroke>
 			</s:Line>
+			<s:Button label="xxxxxxxxxxxx"/>
 		</s:Group>
 		
 		<!--菜单容器-->		

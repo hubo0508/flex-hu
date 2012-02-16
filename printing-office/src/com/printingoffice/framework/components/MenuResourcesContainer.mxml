@@ -40,17 +40,17 @@
 				if (menuGroup.verticalScrollPosition > 0)
 				{
 					setGroupVisible(true,scrollerMaskTop);
-					
-					var scroller:Scroller = this.getScroller();
-					if(scroller)
-					{
-						scrollerMaskTop.y = scroller.y+100;
-					}
 				}
-				else
-				{
-					setGroupVisible(false,scrollerMaskTop);
-				}
+//				else
+//				{
+//					setGroupVisible(false,scrollerMaskTop);
+//				}
+				
+				var scroller:Scroller = this.getScroller();
+//				if(scroller)
+//				{
+					scrollerMaskTop.y = 100;
+//				}
 			}
 
 			
