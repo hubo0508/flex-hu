@@ -620,7 +620,7 @@
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
-		<comview:MenuBar removeimg="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
+		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--菜单容器-->
 		<s:Scroller id="menuGroupScroller" height="100%" width="180">
