@@ -1,4 +1,4 @@
-﻿package com.printingoffice.core
+﻿package com.printingoffice.framework.core
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;

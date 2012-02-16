@@ -12,7 +12,7 @@
 				   removed="destroy(event)"
 				   borderVisible="false"
 				   width="338"
-				   height="500">
+				   height="500" xmlns:components2="com.printingoffice.framework.view.components.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -80,7 +80,7 @@
 	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
-	<components1:SearchListButton id="searchTypeBtn" isPopMask="true" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
+	<components2:SearchListButton id="searchTypeBtn" isPopMask="true" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
 	
 	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
 	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>

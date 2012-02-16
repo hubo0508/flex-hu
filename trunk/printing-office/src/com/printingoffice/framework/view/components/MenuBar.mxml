@@ -13,7 +13,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.components.CloseButton;
-			import com.printingoffice.core.TweenLite;
+			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.UIUtil;
 			

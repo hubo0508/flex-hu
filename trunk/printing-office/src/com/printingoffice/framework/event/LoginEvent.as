@@ -1,4 +1,4 @@
-package com.printingoffice.event
+package com.printingoffice.framework.event
 {
 	import flash.events.Event;
 	

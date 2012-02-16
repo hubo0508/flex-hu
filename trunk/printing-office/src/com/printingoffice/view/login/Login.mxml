@@ -19,8 +19,8 @@
 		<![CDATA[
 			import assets.skin.LoginBtnSkin;
 			
-			import com.printingoffice.core.TweenLite;
-			import com.printingoffice.event.LoginEvent;
+			import com.printingoffice.framework.core.TweenLite;
+			import com.printingoffice.framework.event.LoginEvent;
 			import com.printingoffice.util.IconConst;
 			import com.printingoffice.util.StringUtil;
 			
@@ -151,7 +151,7 @@
 	</fx:Script>
 	
 	<fx:Metadata>
-		[Event(name="login",type="com.printingoffice.event.LoginEvent")]
+		[Event(name="login",type="com.printingoffice.framework.event.LoginEvent")]
 	</fx:Metadata>
 	
 	<s:BorderContainer height="33" backgroundAlpha="0.4" backgroundColor="#000000" x="0" y="0" borderVisible="false" width="100%">
