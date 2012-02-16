@@ -12,6 +12,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.components.CloseButton;
 			import com.printingoffice.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.UIUtil;
@@ -72,18 +73,12 @@
 					
 					if(removeimg && i>0)
 					{
-						var image:Image = new Image();
-						image.verticalCenter = 0;
-						image.right = 2;
-						image.useHandCursor = true;
-						image.buttonMode = true;
-						image.source = "assets/image/close-search.png";
-						image.visible = false;
-						image.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
-						image.id =i.toString();
-						image.name = REMOVE;
+						var closeButton:CloseButton = new CloseButton();
+						closeButton.id = i.toString();
+						closeButton.name = REMOVE;
+						closeButton.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
 						
-						menuText.addElement(image);
+						menuText.addElement(closeButton);
 					}
 
 					this.addElement(menuText);
@@ -92,10 +87,10 @@
 			
 			protected function removeImgHandler(event:MouseEvent):void
 			{
-				var img:Image = event.currentTarget as Image;
+				var btn:CloseButton = event.currentTarget as CloseButton;
 				
 				var dye:DynamicEvent =new DynamicEvent(REMOVE);
-				dye.data = img.id;
+				dye.data = btn.id;
 				
 				this.dispatchEvent(dye);				
 			}
@@ -159,7 +154,7 @@
 					var obj:Object = menuText.getElementAt(i);
 					if(UIUtil.getName(obj) == REMOVE)
 					{
-						(obj as Image).visible  = value;
+						obj.visible  = value;
 					}
 				}
 			}
