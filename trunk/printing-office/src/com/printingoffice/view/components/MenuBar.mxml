@@ -37,6 +37,8 @@
 			
 			public static const REMOVE:String = "removeMenu";
 			
+			private var CURR_MENU:String = "currentClickMenu";
+			
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{				
 				super.updateDisplayList(w,h);
@@ -118,10 +120,12 @@
 						var originalY:Number = menuText.y;
 						
 						menuText.textColor = redColor;
-						menuText.name = "red";
+						menuText.name = CURR_MENU;
 						changebgLeftPoint(menuText.x,menuText.y);
 						
 						clearLastClickColor(lastClickID);
+						
+						showOrHideCloseButton(false,menuText);
 						
 						this.dispatch(menuText.data["url"],menuText.data);
 						
@@ -148,6 +152,8 @@
 			
 			private function showOrHideCloseButton(value:Boolean,menuText:MenuText):void
 			{
+				if(menuText.name == CURR_MENU && value)return;
+				
 				var num:int = menuText.numElements;
 				for(var i:int=0; i<num; i++)
 				{
@@ -175,7 +181,7 @@
 				for(var i:int=0; i<num; i++)
 				{
 					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
-					if(currBtn && currBtn.name == "red")
+					if(currBtn && currBtn.name == CURR_MENU)
 					{
 						currBtn.textColor = defaultColor;
 						currBtn.name = "";
@@ -190,7 +196,7 @@
 				for(var i:int=0; i<num; i++)
 				{
 					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
-					if(currBtn && lastClickID != currBtn.id.toString() && currBtn.name == "red")
+					if(currBtn && lastClickID != currBtn.id.toString() && currBtn.name == CURR_MENU)
 					{
 						currBtn.textColor = defaultColor;
 						currBtn.name = "";
