@@ -146,6 +146,17 @@
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
+				
+//				trace(menuGroupScroller.viewport.horizontalScrollPosition);
+//				trace(menuGroupScroller.viewport.verticalScrollPosition);
+//				trace(menuGroupScroller.viewport.contentHeight);
+				//trace(menuGroupScroller.getStyle("verticalScrollPosition"));
+				//trace("maxVerticalScrollPosition = " + menuGroup.v);
+				
+				//var arrawBottomEnabled:Boolean = menuGroup.verticalScrollPosition > 0;
+//				if(arrawBottomBtn.visible != arrawBottomEnabled){
+//					arrawBottomBtn.visible = arrawBottomEnabled;
+//				}
 			}
 			
 			/**
@@ -626,7 +637,7 @@
 	<fx:Metadata>
 		[Event(name="menuEvent",type="com.printingoffice.framework.event.MenuEvent")]
 	</fx:Metadata>
-	
+
 	<!--模块菜单的切换-->
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
@@ -647,29 +658,28 @@
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--当出现滚动条时，显示该容器-->
-		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" width="100%" height="3" top="60" left="60" visible="false">
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0">
+		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="3" width="100%" visible="false" >
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" alpha=".7" left="28" right="27">
 				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".7"/>
 				</s:stroke>
 			</s:Line>
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" alpha=".5">
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" alpha=".5" left="28" right="27">
 				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".5"/>
 				</s:stroke>
 			</s:Line>
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" alpha=".3">
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" alpha=".3" left="28" right="27">
 				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".3"/>
 				</s:stroke>
 			</s:Line>
 		</s:Group>
 		
-		<!--菜单容器-->
-		<s:Scroller id="menuGroupScroller" name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" height="100%" width="180">
-			<s:VGroup id="menuGroup" width="180" height="100%" 
-					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
-		</s:Scroller>
+		<!--菜单容器-->		
+		<s:VGroup id="menuGroup" name="{MenuResourcesContainer.MENU_GROUP}" width="180" height="100%"  
+					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />		
+		<s:Scroller name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" viewport="{menuGroup}" height="100%" width="180"/>
 		
 	</components:MenuResourcesContainer>
 	
