@@ -361,9 +361,6 @@
 
 				var closeButton:CloseButton = new CloseButton();
 				closeButton.verticalCenter = 0;
-				closeButton.right = 20;
-				closeButton.useHandCursor = true;
-				closeButton.buttonMode = true;
 				closeButton.id = index.toString();
 				closeButton.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
 				
