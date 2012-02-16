@@ -77,6 +77,7 @@
 					{
 						var closeButton:CloseButton = new CloseButton();
 						closeButton.id = i.toString();
+						closeButton.verticalCenter = 0;
 						closeButton.name = REMOVE;
 						closeButton.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
 						
@@ -97,7 +98,7 @@
 				this.dispatchEvent(dye);				
 			}
 			
-			public function clearBgLeftState():void
+			public function bgLeftHidden():void
 			{				
 				if(this.bgLeft.visible)
 				{
@@ -132,13 +133,13 @@
 						break;
 					
 					case MouseEvent.ROLL_OUT :
-						this.setBgrightVisible(false);
+						this.bgRightVisible(false);
 						
 						showOrHideCloseButton(false,menuText);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						this.setBgrightVisible(true);
+						this.bgRightVisible(true);
 						bgRight.x = menuText.x;
 						bgRight.y = menuText.y
 						
@@ -175,7 +176,10 @@
 				this.dispatchEvent(menuEvent);
 			}
 			
-			public function clearCurrentClickColor():void
+			/**
+			 * 将当前菜单容器中选中的文本还原到初始化颜色
+			 */
+			public function restituteSelectedTextColor():void
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
@@ -220,7 +224,7 @@
 				}
 			}
 			
-			private function setBgrightVisible(value:Boolean):void
+			private function bgRightVisible(value:Boolean):void
 			{
 				if(bgRight.visible != value)
 				{
