@@ -8,7 +8,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   borderVisible="false"
-				   backgroundAlpha="0"
+				   backgroundAlpha="0" 
 				   useHandCursor="true"
 				   buttonMode="true"
 				   width="100%"

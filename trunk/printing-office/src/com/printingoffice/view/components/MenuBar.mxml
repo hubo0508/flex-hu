@@ -18,6 +18,8 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Image;
+			import mx.core.FlexLoader;
+			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			
 			import spark.components.Label;
@@ -32,7 +34,26 @@
 			
 			private var _removeimg:Boolean = false;
 			
-			public static const REMOVE:String = "remove";
+			public static const REMOVE:String = "removeMenu";
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{				
+				super.updateDisplayList(w,h);
+				
+				var measuringHeight:Number = 0;
+				
+				var num:int = this.numElements;
+				for(var i:int= 0; i<num; i++)
+				{
+					var menuText:MenuText = this.getElementAt(i) as MenuText;
+					if(menuText)
+					{
+						measuringHeight += menuText.height;
+					}
+				}
+				
+				new TweenLite(this,0.3,{height:measuringHeight});
+			}
 			
 			public function initMenuButton(data:ArrayCollection):void
 			{
@@ -45,9 +66,9 @@
 					var menuText:MenuText  = this.createMenuText(i,data.getItemAt(i));
 					menuText.x = 0;
 					menuText.y = i * menuHeight;
-					menuText.addEventListener(MouseEvent.ROLL_OUT,menuRollHandler,false,0,true);
-					menuText.addEventListener(MouseEvent.ROLL_OVER,menuRollHandler,false,0,true);
-					menuText.addEventListener(MouseEvent.CLICK,menuRollHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.ROLL_OUT,menuTextEventHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.ROLL_OVER,menuTextEventHandler,false,0,true);
+					menuText.addEventListener(MouseEvent.CLICK,menuTextEventHandler,false,0,true);
 					
 					if(removeimg && i>0)
 					{
@@ -72,7 +93,11 @@
 			protected function removeImgHandler(event:MouseEvent):void
 			{
 				var img:Image = event.currentTarget as Image;
-				this.dispatch(null,img.id,REMOVE);
+				
+				var dye:DynamicEvent =new DynamicEvent(REMOVE);
+				dye.data = img.id;
+				
+				this.dispatchEvent(dye);				
 			}
 			
 			public function clearBgLeftState():void
@@ -83,7 +108,7 @@
 				}
 			}
 			
-			protected function menuRollHandler(event:MouseEvent):void
+			protected function menuTextEventHandler(event:MouseEvent):void
 			{
 				var menuText:MenuText = event.currentTarget as MenuText;
 				var lastClickID:String = menuText.id.toString();
@@ -91,6 +116,8 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
+						
+						if(event.target is FlexLoader)break;
 						
 						var originalX:Number = menuText.x;
 						var originalY:Number = menuText.y;
@@ -108,7 +135,7 @@
 					case MouseEvent.ROLL_OUT :
 						this.setBgrightVisible(false);
 						
-						showOrhideCloseButton(false,menuText);
+						showOrHideCloseButton(false,menuText);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
@@ -116,7 +143,7 @@
 						bgRight.x = menuText.x;
 						bgRight.y = menuText.y
 						
-						showOrhideCloseButton(true,menuText);
+						showOrHideCloseButton(true,menuText);
 						break;
 					
 					default :
@@ -124,7 +151,7 @@
 				}
 			}
 			
-			private function showOrhideCloseButton(value:Boolean,menuText:MenuText):void
+			private function showOrHideCloseButton(value:Boolean,menuText:MenuText):void
 			{
 				var num:int = menuText.numElements;
 				for(var i:int=0; i<num; i++)
@@ -230,12 +257,12 @@
 				_removeimg = value;
 			}
 
-
 		]]>
 	</fx:Script>
 	
 	<fx:Metadata>
 		[Event(name="menuEvent",type="com.printingoffice.event.MenuEvent")]
+		[Event(name="removeMenu",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
 
 	<s:Rect  id="bgRight" x="0" y="0" height="29" width="180" visible="false">
