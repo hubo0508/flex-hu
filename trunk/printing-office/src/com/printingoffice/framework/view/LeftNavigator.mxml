@@ -630,6 +630,27 @@
 				}
 			}
 
+			protected function menuSource_updateDisplayListHandler(event:Event):void
+			{
+				if (menuGroup.verticalScrollPosition > 0)
+				{
+					setGroupVisible(true,scrollerMaskTop);
+				}
+				else
+				{
+					setGroupVisible(false,scrollerMaskTop);
+				}
+				
+				scrollerMaskTop.y = menuSource.top + menuGroupScroller.y;
+			}
+			
+			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
+			{
+				if(scroller.visible != value)
+				{
+					scroller.visible = value;
+				}
+			}
 
 		]]>
 	</fx:Script>
@@ -647,41 +668,40 @@
 	
 	<!--分隔线-->
 	<components:Line/>
-	
+		
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
-	<components:MenuResourcesContainer  id="menuSource"  top="80" width="100%" height="100%">
+	<components:MenuResourcesContainer updateDisplayList="menuSource_updateDisplayListHandler(event)"  id="menuSource"  top="80" width="100%" height="100%">
 		
 		<!--常用功能快捷入口-->
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
-		
-		<!--当出现滚动条时，显示该容器-->
-		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="13" width="100%" visible="false" >
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" alpha=".7" left="28" right="27">
-				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".7"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" alpha=".5" left="28" right="27">
-				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".5"/>
-				</s:stroke>
-			</s:Line>
-			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" alpha=".3" left="28" right="27">
-				<s:stroke>
-					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".3"/>
-				</s:stroke>
-			</s:Line>
-			<s:Button label="xxxxxxxxxxxx"/>
-		</s:Group>
-		
+
 		<!--菜单容器-->		
 		<s:VGroup id="menuGroup" name="{MenuResourcesContainer.MENU_GROUP}" width="180" height="100%"  
 					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />		
-		<s:Scroller name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" viewport="{menuGroup}" height="100%" width="180"/>
+		<s:Scroller id="menuGroupScroller" name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" viewport="{menuGroup}" height="100%" width="180"/>
 		
 	</components:MenuResourcesContainer>
+	
+	<!--当出现滚动条时，显示该容器-->
+	<s:Group id="scrollerMaskTop" name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="13" width="100%" visible="false" >
+		<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" alpha=".7" left="28" right="27">
+			<s:stroke>
+				<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".7"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" alpha=".5" left="28" right="27">
+			<s:stroke>
+				<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".5"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" alpha=".3" left="28" right="27">
+			<s:stroke>
+				<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".3"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
 	
 </s:SkinnableContainer>
