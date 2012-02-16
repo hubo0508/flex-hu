@@ -20,10 +20,10 @@
 		<![CDATA[
 			import assets.skin.ClickBtnSkin;
 			
-			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.core.TweenLite;
+			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.view.components.MenuText;
 			import com.printingoffice.framework.view.components.MenuThemes;
 			import com.printingoffice.util.IconConst;
@@ -337,7 +337,7 @@
 				skinCon.id = index.toString();
 				skinCon.percentWidth = 100;
 				
-				var line:Line = new Line();
+				var line:com.printingoffice.framework.components.Line = new com.printingoffice.framework.components.Line();
 				line.top=0;
 				line.left = 28;
 				line.right = 20;
@@ -638,11 +638,7 @@
 	<components:Line/>
 	
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
-	<s:SkinnableContainer id="menuSource"  top="80" width="100%" height="100%">
-		
-		<s:layout>
-			<s:VerticalLayout/>
-		</s:layout>
+	<components:MenuResourcesContainer  id="menuSource"  top="80" width="100%" height="100%">
 		
 		<!--常用功能快捷入口-->
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
@@ -650,12 +646,31 @@
 		<!--自定义常用功能-->
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
+		<!--当出现滚动条时，显示该容器-->
+		<s:Group name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" width="100%" height="3" top="60" left="60" visible="false">
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0">
+				<s:stroke>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="1" alpha=".5">
+				<s:stroke>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="2" alpha=".3">
+				<s:stroke>
+					<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square"/>
+				</s:stroke>
+			</s:Line>
+		</s:Group>
+		
 		<!--菜单容器-->
-		<s:Scroller id="menuGroupScroller" height="100%" width="180">
+		<s:Scroller id="menuGroupScroller" name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" height="100%" width="180">
 			<s:VGroup id="menuGroup" width="180" height="100%" 
 					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
 		</s:Scroller>
 		
-	</s:SkinnableContainer>
+	</components:MenuResourcesContainer>
 	
 </s:SkinnableContainer>
