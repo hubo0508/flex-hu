@@ -679,14 +679,14 @@
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 
 		<!--菜单容器-->		
-		<s:VGroup id="menuGroup" name="{MenuResourcesContainer.MENU_GROUP}" width="180" height="100%"  
+		<s:VGroup id="menuGroup"  width="180" height="100%"  
 					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />		
-		<s:Scroller id="menuGroupScroller" name="{MenuResourcesContainer.MENU_GROUP_SCROLLER}" viewport="{menuGroup}" height="100%" width="180"/>
+		<s:Scroller id="menuGroupScroller"  viewport="{menuGroup}" height="100%" width="180"/>
 		
 	</components:MenuResourcesContainer>
 	
 	<!--当出现滚动条时，显示该容器-->
-	<s:Group id="scrollerMaskTop" name="{MenuResourcesContainer.SCROLLER_MASK_TOP}" height="13" width="100%" visible="false" >
+	<s:Group id="scrollerMaskTop" height="13" width="100%" visible="false" >
 		<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" alpha=".7" left="28" right="27">
 			<s:stroke>
 				<s:SolidColorStroke color="0xE5E5E5" weight="1" caps="square" alpha=".7"/>
