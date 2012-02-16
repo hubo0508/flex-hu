@@ -12,9 +12,9 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.core.TweenLite;
-			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
@@ -40,7 +40,14 @@
 			
 			public static const REMOVE_MENU:String = "removeMenu";
 			
-			private var CURR_MENU:String = "currentClickMenu";
+			/**
+			 * <p>菜单项标识</p>
+			 * 
+			 * 注：</br>
+			 * 1、菜单项标识可从MenuText.name属性取得。</br>
+			 * 2、默认菜单项标识为空字符串，选中后将此菜单项，name属性将赋值为MenuBar.REMOVE_MENU。</br>
+			 */
+			public static const CURR_MENU:String = "currentMenu";
 			
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{				
@@ -82,7 +89,7 @@
 						closeButton.id = i.toString();
 						closeButton.verticalCenter = 0;
 						closeButton.name = REMOVE_MENU;
-						closeButton.addEventListener(MouseEvent.CLICK,removeImgHandler,false,0,true);
+						closeButton.addEventListener(MouseEvent.CLICK,clickCloseButtonHandler,false,0,true);
 						
 						menuText.addElement(closeButton);
 					}
@@ -91,7 +98,31 @@
 				}
 			}
 			
-			protected function removeImgHandler(event:MouseEvent):void
+			/**
+			 * <p>取得当前菜单容器中菜单项的标识</p>
+			 * 
+			 * 注：如当前容器中未有选择中的菜单项，则返回null。有选中菜单项返回常量MenuBar.CURR_MENU </br>
+			 * 
+			 * </br>
+			 * 
+			 * @return 当前菜单容器中有选中的菜单项，则返回常量MenuBar.CURR_MENU，反之返回null。
+			 */
+			public function getSelectedMark():String
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var menuText:MenuText = this.getElementAt(i) as MenuText;
+					if(menuText && menuText.name == CURR_MENU)
+					{
+						return CURR_MENU;
+					}
+				}
+				
+				return null;
+			}
+			
+			protected function clickCloseButtonHandler(event:MouseEvent):void
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
 				
@@ -175,6 +206,9 @@
 				}
 			}
 			
+			/**
+			 * 派发事件
+			 */
 			protected function dispatch(url:String, data:Object = null, types:String = null):void
 			{
 				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENU_EVENT);

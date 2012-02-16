@@ -20,14 +20,14 @@
 		<![CDATA[
 			import assets.skin.ClickBtnSkin;
 			
+			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.core.TweenLite;
-			import com.printingoffice.event.MenuEvent;
-			import com.printingoffice.util.IconConst;
-			import com.printingoffice.util.UIUtil;
 			import com.printingoffice.framework.view.components.MenuText;
 			import com.printingoffice.framework.view.components.MenuThemes;
+			import com.printingoffice.util.IconConst;
+			import com.printingoffice.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -166,7 +166,7 @@
 					{
 						var childrenItem:ArrayCollection = item["childrenMenu"] as ArrayCollection;
 						
-						var detailedMenu:SkinnableContainer = this.createSkinMenuContainer(selected[i],moduleName);
+						var detailedMenu:SkinnableContainer = this.createChildrenMenuContainer(selected[i],moduleName);
 						detailedMenu.addElement(createChildrenMenu(selected[i],childrenItem,detailedMenu.getElementAt(1).height));
 						
 						menuGroup.addElement(detailedMenu);				
@@ -330,7 +330,7 @@
 				}	
 			}
 			
-			private function createSkinMenuContainer(index:int,moduleName:String):SkinnableContainer
+			private function createChildrenMenuContainer(index:int,moduleName:String):SkinnableContainer
 			{
 				var skinCon:SkinnableContainer = new SkinnableContainer();
 				skinCon.name = DETAILED_MENU;
@@ -348,8 +348,8 @@
 				group.top = 0;
 				group.left = 0;
 				group.height = 30;
-				group.addEventListener(MouseEvent.ROLL_OUT,childrenMenuGroupHandler,false,0,true);
-				group.addEventListener(MouseEvent.ROLL_OVER,childrenMenuGroupHandler,false,0,true);
+				group.addEventListener(MouseEvent.ROLL_OUT,submenuTitleEventHandler,false,0,true);
+				group.addEventListener(MouseEvent.ROLL_OVER,submenuTitleEventHandler,false,0,true);
 				
 				var label:Label = new Label();
 				label.text = moduleName;
@@ -363,7 +363,7 @@
 				closeButton.verticalCenter = 0;
 				closeButton.right = 8;
 				closeButton.id = index.toString();
-				closeButton.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
+				closeButton.addEventListener(MouseEvent.CLICK,clickCloseButtonHandler,false,0,true);
 				
 				group.addElement(label);
 				group.addElement(closeButton);
@@ -374,7 +374,7 @@
 				return skinCon;
 			}
 			
-			protected function menuVisibleHandler(event:MouseEvent):void
+			protected function clickCloseButtonHandler(event:MouseEvent):void
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
 				chooseMenuThemes.setSelectedIsFalse(btn.id);
@@ -396,24 +396,51 @@
 				}
 			}
 			
-			protected function childrenMenuGroupHandler(event:MouseEvent):void
+			protected function submenuTitleEventHandler(event:MouseEvent):void
 			{
 				var group:Group = event.currentTarget as Group;
 				var btn:CloseButton = group.getElementAt(1) as CloseButton;
+				
+				var submenu:SkinnableContainer = group.parentDocument.parent as SkinnableContainer
+				if(submenu)
+				{
+					var menuBar:MenuBar = submenu.getElementAt(2) as MenuBar;
+					if(menuBar.getSelectedMark() == MenuBar.CURR_MENU && event.type == MouseEvent.ROLL_OVER)
+					{
+						return;
+					}
+				}
+				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						btn.visible = false;
+						settingCloseButtonIsVisible(false,btn);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						btn.visible  = true;
+						settingCloseButtonIsVisible(true,btn);
 						break;
 					
 					default:
 						break;
 				}
 			}	
+			
+			/**
+			 * 设置关闭按钮是否可见
+			 * 
+			 * @param value:Boolean true || false
+			 * @param btn:CloseButton 关闭按钮
+			 */
+			private function settingCloseButtonIsVisible(value:Boolean, btn:CloseButton):void
+			{
+				if(btn == null)return;
+				
+				if(btn.visible != value)
+				{
+					btn.visible = value;	
+				}
+			}
 				
 			/**
 			 * 根据一级菜单名称查找是否已在菜单容器里
