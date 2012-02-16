@@ -11,7 +11,6 @@
 		  width="15"
 		  height="15"
 		  visible="false"
-		  verticalCenter="0"
 		  right="5">
 
 </s:Button>
