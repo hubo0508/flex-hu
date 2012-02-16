@@ -4,13 +4,16 @@
 	 <p><b>create-time：</b>2012-2-10</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<components1:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
+<components:Button xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   xmlns:components="com.printingoffice.components.*" xmlns:components1="com.printingoffice.framework.components.*">
+				   xmlns:components="com.printingoffice.framework.components.*"
+				   xmlns:graphic="com.printingoffice.framework.components.graphic.*">
 	
-	<mx:Image source="assets/image/search-drop-down.png" verticalCenter="0" right="10" height="11" width="7"/>
+	
+	<graphic:Triangle  rotation="180" verticalCenter="-5" right="10"/>
+	<graphic:Triangle  rotation="0" verticalCenter="5" right="10"/>
 	
 	<s:Label left="10" text="{text}" verticalCenter="0" right="25" fontSize="14" color="#303030"/>
 	
-</components1:Button>
+</components:Button>
