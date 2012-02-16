@@ -7,14 +7,14 @@
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  xmlns:components="com.printingoffice.components.*"
-					  xmlns:graphic="com.printingoffice.components.graphic.*"
-					  xmlns:comview="com.printingoffice.view.components.*"
+					  xmlns:comview="com.printingoffice.framework.view.components.*"
+					  xmlns:components="com.printingoffice.framework.components.*"
+					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  creationComplete="creationCompleteHandler(event)"
 					  top="115"
 					  left="0"
 					  width="200"
-					  height="100%" xmlns:components1="com.printingoffice.framework.view.components.*" xmlns:components2="com.printingoffice.framework.components.*" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
+					  height="100%">
 	
 	<fx:Script>
 		<![CDATA[
@@ -603,11 +603,11 @@
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
-		<graphic1:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
+		<graphic:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
 	</s:HGroup>
 	
 	<!--分隔线-->
-	<components2:Line/>
+	<components:Line/>
 	
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
 	<s:SkinnableContainer id="menuSource"  top="80" width="100%" height="100%">
@@ -620,7 +620,7 @@
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
 		
 		<!--自定义常用功能-->
-		<components1:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
+		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 		
 		<!--菜单容器-->
 		<s:Scroller id="menuGroupScroller" height="100%" width="180">
