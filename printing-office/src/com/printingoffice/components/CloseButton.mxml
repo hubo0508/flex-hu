@@ -8,6 +8,8 @@
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"
+		  useHandCursor = "true"
+		  buttonMode = "true"
 		  width="15"
 		  height="15"
 		  visible="false"
