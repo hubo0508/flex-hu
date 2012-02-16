@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-16</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			import com.printingoffice.util.UIUtil;
+			
+			import mx.core.IVisualElement;
+			
+			import spark.components.Group;
+			
+			public static const SCROLLER_MASK_TOP:String = "scrollerMaskTop";
+			
+			public static const SCROLLER_MASK_BOTTOM:String = "scrollerMaskBottom";
+			
+			public static const MENU_GROUP_SCROLLER:String = "menuGroupScroller";
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+				
+			}
+			
+			private function getScrollerMask(type:String):Group
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var obj:IVisualElement = this.getElementAt(i);
+					if(type == UIUtil.getName(obj))
+					{
+						return obj as Group;
+					}
+				}
+				
+				return null;
+			}
+		]]>
+	</fx:Script>
+	
+</s:SkinnableContainer>
