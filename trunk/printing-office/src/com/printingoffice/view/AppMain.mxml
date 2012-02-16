@@ -15,7 +15,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.event.MenuEvent;
+			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.view.reception.ReceptionMain;
 			
 			import mx.collections.ArrayCollection;
