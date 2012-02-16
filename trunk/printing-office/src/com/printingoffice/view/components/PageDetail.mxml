@@ -10,7 +10,7 @@
 					  xmlns:graphic="com.printingoffice.components.graphic.*"
 					  xmlns="com.printingoffice.components.*" 
 					  height="29"
-					  minWidth="10">
+					  minWidth="10" xmlns:components="com.printingoffice.framework.components.*" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -134,16 +134,16 @@
 		<s:Label text="封" fontSize="13"/>
 	</s:BorderContainer>
 
-	<Button   triangleOver="true" name="上一页"  width="40" minHeight="29" right="129" verticalCenter="0">
-		<graphic:Next  horizontalCenter="0" verticalCenter="0"/>
-	</Button>
-	<Button   triangleOver="true" name="下一页"  width="40" minHeight="29" right="90" verticalCenter="0">
-		<graphic:Previous  horizontalCenter="0" verticalCenter="0"/>
-	</Button>
+	<components:Button   triangleOver="true" name="上一页"  width="40" minHeight="29" right="129" verticalCenter="0">
+		<graphic1:Next  horizontalCenter="0" verticalCenter="0"/>
+	</components:Button>
+	<components:Button   triangleOver="true" name="下一页"  width="40" minHeight="29" right="90" verticalCenter="0">
+		<graphic1:Previous  horizontalCenter="0" verticalCenter="0"/>
+	</components:Button>
 	
-	<Button  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0"> 
-		<graphic:Gear verticalCenter="0" horizontalCenter="-7"/>		
-		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
-	</Button>
+	<components:Button  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0"> 
+		<graphic1:Gear verticalCenter="0" horizontalCenter="-7"/>		
+		<graphic1:Triangle  horizontalCenter="7" verticalCenter="0"/>
+	</components:Button>
 	
 </s:SkinnableContainer>

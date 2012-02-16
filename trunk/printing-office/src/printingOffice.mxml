@@ -9,7 +9,7 @@
 					   height="100%">
 
 	<fx:Style source="assets/css/css.css"/>
-admin
+
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.event.LoginEvent;

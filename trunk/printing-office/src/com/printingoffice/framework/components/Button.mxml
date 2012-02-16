@@ -17,8 +17,8 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.components.graphic.Triangle;
-			import com.printingoffice.components.graphic.VectorFig;
+			import com.printingoffice.framework.components.graphic.Triangle;
+			import com.printingoffice.framework.components.graphic.VectorFig;
 			import com.printingoffice.util.StringUtil;
 			import com.printingoffice.util.UIUtil;
 			
