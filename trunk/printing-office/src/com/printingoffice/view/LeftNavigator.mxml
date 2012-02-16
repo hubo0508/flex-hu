@@ -20,6 +20,7 @@
 		<![CDATA[
 			import assets.skin.ClickBtnSkin;
 			
+			import com.printingoffice.components.CloseButton;
 			import com.printingoffice.components.TooTip;
 			import com.printingoffice.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
@@ -59,8 +60,14 @@
 			
 			private var _dataField:String = "text";
 			
+			/**
+			 * 红色
+			 */
 			private var redColor:uint = 0xDD4B39;
 			
+			/**
+			 * 默认颜色
+			 */
 			private var defaultColor:uint = 0x222222;
 			
 			///////常量/////////
@@ -212,8 +219,8 @@
 				}
 				else
 				{
-					commonlyUsedMenu.clearBgLeftState();
-					commonlyUsedMenu.clearCurrentClickColor();
+					commonlyUsedMenu.bgLeftHidden();
+					commonlyUsedMenu.restituteSelectedTextColor();
 					
 					clearChildrenSelectedState(menubar.id);				
 				}				
@@ -303,8 +310,8 @@
 						if((currentClickID && bc.id != currentClickID) || !currentClickID)
 						{
 							var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
-							menubar.clearBgLeftState();
-							menubar.clearCurrentClickColor();
+							menubar.bgLeftHidden();
+							menubar.restituteSelectedTextColor();
 						}
 					}
 				}
@@ -341,8 +348,8 @@
 				group.top = 0;
 				group.left = 0;
 				group.height = 30;
-				group.addEventListener(MouseEvent.ROLL_OUT,rollMenuGroupHandler,false,0,true);
-				group.addEventListener(MouseEvent.ROLL_OVER,rollMenuGroupHandler,false,0,true);
+				group.addEventListener(MouseEvent.ROLL_OUT,childrenMenuGroupHandler,false,0,true);
+				group.addEventListener(MouseEvent.ROLL_OVER,childrenMenuGroupHandler,false,0,true);
 				
 				var label:Label = new Label();
 				label.text = moduleName;
@@ -351,19 +358,17 @@
 				label.verticalCenter = 0;
 				//label.setStyle("fontWeight","bold");
 				label.setStyle("fontSize",12);
-				
-				var image:Image = new Image();
-				image.verticalCenter = 0;
-				image.right = 20;
-				image.useHandCursor = true;
-				image.buttonMode = true;
-				image.source = "assets/image/close-search.png";
-				image.visible = false;
-				image.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
-				image.id = index.toString();
+
+				var closeButton:CloseButton = new CloseButton();
+				closeButton.verticalCenter = 0;
+				closeButton.right = 20;
+				closeButton.useHandCursor = true;
+				closeButton.buttonMode = true;
+				closeButton.id = index.toString();
+				closeButton.addEventListener(MouseEvent.CLICK,menuVisibleHandler,false,0,true);
 				
 				group.addElement(label);
-				group.addElement(image);
+				group.addElement(closeButton);
 				
 				skinCon.addElement(line);
 				skinCon.addElement(group);
@@ -373,10 +378,10 @@
 			
 			protected function menuVisibleHandler(event:MouseEvent):void
 			{
-				var img:Image = event.currentTarget as Image;
-				chooseMenuThemes.setSelectedIsFalse(img.id);
+				var btn:CloseButton = event.currentTarget as CloseButton;
+				chooseMenuThemes.setSelectedIsFalse(btn.id);
 				
-				removeChildrenMenuByIndex(img.id);
+				removeChildrenMenuByIndex(btn.id);
 			}
 			
 			public function removeChildrenMenuByIndex(index:String):void
@@ -393,18 +398,18 @@
 				}
 			}
 			
-			protected function rollMenuGroupHandler(event:MouseEvent):void
+			protected function childrenMenuGroupHandler(event:MouseEvent):void
 			{
 				var group:Group = event.currentTarget as Group;
-				var img:Image = group.getElementAt(1) as Image;
+				var btn:CloseButton = group.getElementAt(1) as CloseButton;
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						img.visible = false;
+						btn.visible = false;
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						img.visible  = true;
+						btn.visible  = true;
 						break;
 					
 					default:
@@ -622,13 +627,10 @@
 		
 		<!--菜单容器-->
 		<s:Scroller id="menuGroupScroller" height="100%" width="180">
-			<s:Group id="menuGroup" rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" width="180" height="100%">
-				<s:layout>
-					<s:VerticalLayout/>
-				</s:layout>
-			</s:Group>
+			<s:VGroup id="menuGroup" width="180" height="100%" 
+					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
 		</s:Scroller>
-					
+		
 	</s:SkinnableContainer>
 	
 </s:SkinnableContainer>
