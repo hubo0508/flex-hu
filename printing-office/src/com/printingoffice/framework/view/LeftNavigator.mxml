@@ -14,14 +14,14 @@
 					  top="115"
 					  left="0"
 					  width="200"
-					  height="100%" xmlns:components1="com.printingoffice.framework.view.components.*">
+					  height="100%" xmlns:components1="com.printingoffice.framework.view.components.*" xmlns:components2="com.printingoffice.framework.components.*" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
 	
 	<fx:Script>
 		<![CDATA[
 			import assets.skin.ClickBtnSkin;
 			
-			import com.printingoffice.components.CloseButton;
-			import com.printingoffice.components.TooTip;
+			import com.printingoffice.framework.components.CloseButton;
+			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.event.MenuEvent;
 			import com.printingoffice.util.IconConst;
@@ -603,11 +603,11 @@
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
 			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
-		<graphic:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
+		<graphic1:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
 	</s:HGroup>
 	
 	<!--分隔线-->
-	<components:Line/>
+	<components2:Line/>
 	
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
 	<s:SkinnableContainer id="menuSource"  top="80" width="100%" height="100%">

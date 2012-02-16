@@ -13,7 +13,7 @@
 				   height="100%"
 				   width="100%"
 				   borderVisible="false"
-				   backgroundAlpha="0">
+				   backgroundAlpha="0" xmlns:components1="com.printingoffice.framework.components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -171,7 +171,7 @@
 									 strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/user-btn.png" verticalCenter="0" left="8"/>		
-			<components:TInput id="usernametext" imeMode="CHINESE" fontSize="16" emptyText="" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components1:TInput id="usernametext" imeMode="CHINESE" fontSize="16" emptyText="" borderVisible="false" verticalCenter="0" left="35" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 							   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>		
 	
@@ -185,11 +185,11 @@
 												strength='1' inner='false' hideObject='false'/>
 			</s:filters>
 			<mx:Image source="assets/image/password-btn.png" verticalCenter="0" left="8"/>
-			<components:TInput    id="passwordtext" displayAsPassword="true"  fontSize="16"  borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
+			<components1:TInput    id="passwordtext" displayAsPassword="true"  fontSize="16"  borderVisible="false" verticalCenter="0" left="38" right="8" focusAlpha="0" contentBackgroundAlpha="0"
 								focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
 		</s:BorderContainer>
 		
-		<components:LoadButton id="loadBtn" click="loadBtn_clickHandler(event)" label="登  录" fontSize="20" top="70" left="455" height="49" width="105" />
+		<components1:LoadButton id="loadBtn" click="loadBtn_clickHandler(event)" label="登  录" fontSize="20" top="70" left="455" height="49" width="105" />
 		
 	</s:BorderContainer>
 	
