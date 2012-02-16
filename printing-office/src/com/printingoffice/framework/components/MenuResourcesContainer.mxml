@@ -9,8 +9,12 @@
 					  xmlns:mx="library://ns.adobe.com/flex/mx">
 
 	<s:layout>
-		<s:VerticalLayout gap="2"/>
+		<s:VerticalLayout/>
 	</s:layout>
+	
+	<fx:Metadata>
+		[Event(name="updateDisplayList",type="flash.events.Event")]
+	</fx:Metadata>
 
 	<fx:Script>
 		<![CDATA[
@@ -30,26 +34,30 @@
 			public static const MENU_GROUP_SCROLLER:String="menuGroupScroller";
 
 			public static const MENU_GROUP:String="menuGroup";
+			
+			public static const UPDATE_DISPLAY_LIST:String = "updateDisplayList";
 
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
 				super.updateDisplayList(w, h);
+				
+				this.dispatchEvent(new Event(UPDATE_DISPLAY_LIST));
 
-				var scrollerMaskTop:UIComponent=this.getGroup(SCROLLER_MASK_TOP);
-				var menuGroup:VGroup=this.getGroup(MENU_GROUP) as VGroup;
-				if (menuGroup.verticalScrollPosition > 0)
-				{
-					setGroupVisible(true,scrollerMaskTop);
-				}
+//				var scrollerMaskTop:UIComponent=this.getGroup(SCROLLER_MASK_TOP);
+//				var menuGroup:VGroup=this.getGroup(MENU_GROUP) as VGroup;
+//				if (menuGroup.verticalScrollPosition > 0)
+//				{
+//					setGroupVisible(true,scrollerMaskTop);
+//				}
 //				else
 //				{
 //					setGroupVisible(false,scrollerMaskTop);
 //				}
 				
-				var scroller:Scroller = this.getScroller();
+//				var scroller:Scroller = this.getScroller();
 //				if(scroller)
 //				{
-					scrollerMaskTop.y = 100;
+//					scrollerMaskTop.y = 100;
 //				}
 			}
 
