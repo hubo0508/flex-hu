@@ -208,7 +208,9 @@
 				var nextIndex:int =  getNextElementIndexByID((index+1).toString() , commonlyUsedMenu);
 				if(nextIndex  <= commonlyUsedMenu.numElements && nextIndex >= 0)
 				{					
-					updateMenuLayoutPosition(nextIndex,commonlyUsedMenu);					
+					updateMenuLayoutPosition(nextIndex,commonlyUsedMenu);		
+					
+					scrollerlPositionChange();
 				}
 				else
 				{
@@ -632,6 +634,19 @@
 
 			protected function menuSource_updateDisplayListHandler(event:Event):void
 			{
+				scrollerlPositionChange();
+			}
+			
+			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
+			{
+				if(scroller.visible != value)
+				{
+					scroller.visible = value;
+				}
+			}
+			
+			private function scrollerlPositionChange():void
+			{
 				if (menuGroup.verticalScrollPosition > 0)
 				{
 					setGroupVisible(true,scrollerMaskTop);
@@ -643,13 +658,15 @@
 					setGroupVisible(false,scrollerMaskTop);
 				}
 			}
-			
-			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
+
+			protected function menuGroupScroller_mouseUpHandler(event:MouseEvent):void
 			{
-				if(scroller.visible != value)
-				{
-					scroller.visible = value;
-				}
+				scrollerlPositionChange();
+			}
+
+			protected function menuGroup_scrollPositionChangeHandler(event:Event):void
+			{
+				scrollerlPositionChange();
 			}
 
 		]]>
@@ -678,10 +695,10 @@
 		<!--自定义常用功能-->
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 
-		<!--菜单容器-->		
-		<s:VGroup id="menuGroup"  width="180" height="100%"  
-					  rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />		
-		<s:Scroller id="menuGroupScroller"  viewport="{menuGroup}" height="100%" width="180"/>
+		<!--菜单容器-->	
+		<comview:SubmenuVGroup id="menuGroup"   width="180" height="100%" scrollPositionChange="menuGroup_scrollPositionChangeHandler(event)"
+							   rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
+		<s:Scroller id="menuGroupScroller" viewport="{menuGroup}" height="100%" width="180"/>
 		
 	</components:MenuResourcesContainer>
 	
