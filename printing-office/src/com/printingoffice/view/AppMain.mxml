@@ -57,7 +57,7 @@
 				menuData.addItem({text:"财务管理",selected:false,childrenMenu:childrenMenu});
 				menuData.addItem({text:"员工考勤",selected:false,childrenMenu:childrenMenu});
 				
-				menu.menuData = menuData;
+				menu.moduleMenuDataProvider = menuData;
 				menu.initModuleMenu();
 			}
 

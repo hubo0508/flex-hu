@@ -6,11 +6,21 @@ package com.printingoffice.framework.util
 	 *     <b>HUBO 2012-2-6  /  hubo.0508ⓐgmail.com</br>com.printingoffice.util.Icon.as</b>
 	 * </p>
 	 */
-	public class IconConst
+	public class Const
 	{
-		public function IconConst()
+		public function Const()
 		{
 		}
+
+		/**
+		 * 红色
+		 */
+		public static const RED_COLOR:uint = 0xDD4B39;
+		
+		/**
+		 * 默认颜色
+		 */
+		public static const DEFAULT_COLOR:uint = 0x222222;
 		
 		[Bindable]
 		[Embed('assets/image/warty-final-ubuntu.jpg')]
@@ -23,11 +33,6 @@ package com.printingoffice.framework.util
 		[Bindable]
 		[Embed(source="assets/image/nav-bg.jpg")]
 		public static var navbg:Class;
-		
-//		[Bindable]
-//		[Embed(source="assets/image/line.jpg")]
-//		public static var line:Class;
-		
-		//public static final 
+
 	}
 }

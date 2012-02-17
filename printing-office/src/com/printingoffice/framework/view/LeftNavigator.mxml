@@ -24,7 +24,7 @@
 			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.framework.event.MenuEvent;
-			import com.printingoffice.framework.util.IconConst;
+			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.MenuText;
 			import com.printingoffice.framework.view.components.ModuleMenu;
@@ -52,23 +52,16 @@
 			 * 提示消息容器
 			 */
 			private var tootip:TooTip;
+	
+			/**
+			 * 模块菜单数据源
+			 */
+			private var _moduleMenuDataProvider:ArrayCollection;
 			
 			/**
-			 * 菜单数据源
+			 * 数据提供程序项目中作为标签显示的字段名称
 			 */
-			private var _menuData:ArrayCollection;
-			
-			private var _dataField:String = "text";
-			
-			/**
-			 * 红色
-			 */
-			private var redColor:uint = 0xDD4B39;
-			
-			/**
-			 * 默认颜色
-			 */
-			private var defaultColor:uint = 0x222222;
+			private var _labelField:String = "text";
 			
 			///////常量/////////
 			
@@ -116,7 +109,7 @@
 					moduleMenu.x = point.x;
 					moduleMenu.y = point.y + menuThemes.height + 2;
 					
-					moduleMenu.initModuleMenu(menuData);	
+					moduleMenu.initModuleMenu(moduleMenuDataProvider);	
 					
 					initChildrenMenu();
 				}
@@ -167,9 +160,9 @@
 				var len:int = selected.length;
 				for(var i:int=0; i<len; i++)
 				{
-					var item:Object = menuData.getItemAt(int(selected[i]));
+					var item:Object = moduleMenuDataProvider.getItemAt(int(selected[i]));
 					
-					var moduleName:String = item[dataField];
+					var moduleName:String = item[labelField];
 					
 					if(isMenuAlreadyExists(moduleName) == false)
 					{
@@ -368,7 +361,7 @@
 				
 				var label:Label = new Label();
 				label.text = moduleName;
-				label.setStyle("color",redColor);
+				label.setStyle("color",Const.RED_COLOR);
 				label.left = 33;
 				label.verticalCenter = 0;
 				//label.setStyle("fontWeight","bold");
@@ -595,26 +588,6 @@
 				this.dispatchEvent(menuEvent);
 			}
 
-			public function get menuData():ArrayCollection
-			{
-				return _menuData;
-			}
-
-			public function set menuData(value:ArrayCollection):void
-			{
-				_menuData = value;
-			}
-
-			public function get dataField():String
-			{
-				return _dataField;
-			}
-
-			public function set dataField(value:String):void
-			{
-				_dataField = value;
-			}
-			
 			/**
 			 * 当SubmenuContainer容器高度发生改变，其内部的verticalScrollPosition属性值会变化，调用本函数
 			 * 
@@ -646,6 +619,39 @@
 					UIUtil.setContainerVisible(false,scrollerMaskTop);
 				}
 			}
+
+			/**
+			 * 数据提供程序项目中作为标签显示的字段名称
+			 */
+			public function get labelField():String
+			{
+				return _labelField;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set labelField(value:String):void
+			{
+				_labelField = value;
+			}
+
+			/**
+			 * 模块菜单数据源
+			 */
+			public function get moduleMenuDataProvider():ArrayCollection
+			{
+				return _moduleMenuDataProvider;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set moduleMenuDataProvider(value:ArrayCollection):void
+			{
+				_moduleMenuDataProvider = value;
+			}
+
 			
 		]]>
 	</fx:Script>
