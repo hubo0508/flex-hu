@@ -234,6 +234,16 @@
 				}				
 			}
 			
+			/**
+			 * <p>更新菜单布局x,y坐标</p>
+			 * 
+			 * 注：当MenuBar中删除任何一个菜单项时，当前被删除的菜单项位置为空白，需要手动将其后所有菜单项移动一个元素。
+			 * 
+			 * @param index:int 在MenuBar组件中元素的索引位置
+			 * @param menuBar:MenuBar 菜单容器
+			 * 
+			 * @see com.printingoffice.framework.view.components.MenuBar
+			 */
 			public function updateMenuLayoutPosition(index:int,menuBar:MenuBar):void
 			{
 				if(menuBar == null ) return;
