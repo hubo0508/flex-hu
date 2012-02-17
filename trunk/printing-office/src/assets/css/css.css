@@ -1,6 +1,25 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
+@namespace easy "library://flexeasy";
+
+easy|DataGrid{
+	headerColor:#7AB4F4;/*标题头颜色*/
+	borderVisible:true;/*是否显示边框,默认为true*/
+	alternatingItemColors: #FFFFFF, #F7F7F7;
+	rollOverColor: #B2E1FF;/**鼠标移过颜色*/
+	selectionColor: #99cc66;/**行选中颜色*/
+	verticalGridLines:true;/**显示垂直线，默认为true*/
+	horizontalGridLines:false;/**默认,false，*/
+	gridLinesColor:#B5B8C8;/**线条颜色*/
+	textAlign:"left";/**文本对齐方式，默认为center*/
+	/*labelStyle:labelCss*/
+} 
+
+.labelCss{
+	color:#919191;
+	fontFamily:"华文细黑,Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun";
+}
 
 *{
 	fontFamily: Arial, "_sans";
