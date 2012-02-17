@@ -27,7 +27,7 @@
 			import com.printingoffice.framework.util.IconConst;
 			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.MenuText;
-			import com.printingoffice.framework.view.components.MenuThemes;
+			import com.printingoffice.framework.view.components.ModuleMenu;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -46,7 +46,7 @@
 			/**
 			 * 模块菜单切换列表窗体
 			 */
-			private var chooseMenuThemes:MenuThemes;
+			private var moduleMenu:ModuleMenu;
 			
 			/**
 			 * 提示消息容器
@@ -86,13 +86,13 @@
 			 * 
 			 * 注：创建与使用[模块切换窗体]缓存侧略，[模块切换窗体]只在第一次初始时创建，当第二调用或显示[模块切换窗体]时，不再初始化，直接使用缓存。
 			 * 
-			 * @see com.printingoffice.framework.view.LeftNavigator.initMenu()
+			 * @see com.printingoffice.framework.view.LeftNavigator.initModuleMenu()
 			 */
 			protected function titleMenuClickHandler(event:MouseEvent):void
 			{
-				this.initMenu();
+				this.initModuleMenu();
 				
-				PopUpManager.addPopUp(chooseMenuThemes, UIUtil.getApplication(this), false);				
+				PopUpManager.addPopUp(moduleMenu, UIUtil.getApplication(this), false);				
 			}
 			
 			/**
@@ -105,18 +105,18 @@
 			 * 
 			 * @see com.printingoffice.framework.view.LeftNavigator.initChildrenMenu()
 			 */
-			public function initMenu():void
+			public function initModuleMenu():void
 			{
-				if(chooseMenuThemes == null)
+				if(moduleMenu == null)
 				{
-					chooseMenuThemes = new MenuThemes();
-					chooseMenuThemes.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					moduleMenu = new ModuleMenu();
+					moduleMenu.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
-					chooseMenuThemes.x = point.x;
-					chooseMenuThemes.y = point.y + menuThemes.height + 2;
+					moduleMenu.x = point.x;
+					moduleMenu.y = point.y + menuThemes.height + 2;
 					
-					chooseMenuThemes.initMenuItem(menuData);	
+					moduleMenu.initModuleMenu(menuData);	
 					
 					initChildrenMenu();
 				}
@@ -136,7 +136,7 @@
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
 				initChildrenMenu();
-				PopUpManager.removePopUp(chooseMenuThemes);
+				PopUpManager.removePopUp(moduleMenu);
 			}
 			
 			/**
@@ -149,8 +149,8 @@
 			 */
 			public function initChildrenMenu():void
 			{
-				var notSelected:Array = chooseMenuThemes.getNotSelected();
-				var selected:Array = chooseMenuThemes.getSelected();
+				var notSelected:Array = moduleMenu.getNotSelected();
+				var selected:Array = moduleMenu.getSelected();
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
@@ -184,11 +184,11 @@
 			}
 			
 			/**
-			 * 创建子菜单（二级菜单）容器，并初始化菜单项
+			 * <p>创建子菜单（二级菜单）容器，并初始化菜单项</P>
 			 * 
-			 * @param index:int
-			 * @param data:ArrayCollection
-			 * @param top:Number
+			 * @param index:int 初始化一级菜单时的索引值
+			 * @param data:ArrayCollection 数据源
+			 * @param top:Number 从组件的上边缘到锚点目标的上边缘的垂直距离（以像素为单位）。 
 			 */
 			protected  function createChildrenMenu(index:int,data:ArrayCollection,top:Number):MenuBar
 			{
@@ -392,7 +392,7 @@
 			protected function clickCloseButtonHandler(event:MouseEvent):void
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
-				chooseMenuThemes.setSelectedIsFalse(btn.id);
+				moduleMenu.setSelectedIsFalse(btn.id);
 				
 				removeChildrenMenuByIndex(btn.id);
 			}

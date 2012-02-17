@@ -28,7 +28,7 @@
 			
 			private var selectedIndex:Array = [];
 			
-			public function initMenuItem(data:ArrayCollection):void
+			public function initModuleMenu(data:ArrayCollection):void
 			{
 				if(data == null || data.length<=0)return;	
 				
