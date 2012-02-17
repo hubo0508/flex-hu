@@ -14,7 +14,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.framework.util.IconConst;
+			import com.printingoffice.framework.util.Const;
 
 			private var _label:String;
 			private var _fontSize:Number;
@@ -111,6 +111,6 @@
 	<s:Button id="btn" click="bnt_clickHandler(event)" enabled="true" skinClass="assets.skin.LoginBtnSkin" useHandCursor="true" 
 			  buttonMode="true" label="{this.label}"  height="100%" width="100%"  fontSize="{this.fontSize}" color="#ABACAD"/>
 	
-	<mx:Image id="loadImg" visible="false" source="{com.printingoffice.framework.util.IconConst.loading}" verticalCenter="0" horizontalCenter="18" height="70%" width="70%"/>
+	<mx:Image id="loadImg" visible="false" source="{com.printingoffice.framework.util.Const.loading}" verticalCenter="0" horizontalCenter="18" height="70%" width="70%"/>
 
 </s:SkinnableContainer>

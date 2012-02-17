@@ -17,7 +17,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.components.TooTip;
-			import com.printingoffice.framework.util.IconConst;
+			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.SearchList;
 			
@@ -134,7 +134,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:BitmapImage source="{IconConst.navbg}" height="58" width="100%" top="0" left="0"/>	
+	<s:BitmapImage source="{Const.navbg}" height="58" width="100%" top="0" left="0"/>	
 	<mx:Image source="assets/image/nav-font.png" top="9" left="57"/>
 	<!--<s:Label text="快印企业办公管理信息综合平台" fontSize="14" color="#FFFFFF" top="38" left="180"/>-->
 	
