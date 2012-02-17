@@ -15,7 +15,7 @@
 			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.core.TweenLite;
-			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Image;

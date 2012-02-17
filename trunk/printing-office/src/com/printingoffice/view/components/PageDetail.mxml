@@ -14,7 +14,7 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexMouseEvent;

@@ -17,8 +17,8 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.components.TooTip;
-			import com.printingoffice.util.IconConst;
-			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.framework.util.IconConst;
+			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.SearchList;
 			
 			import mx.events.FlexMouseEvent;

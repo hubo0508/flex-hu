@@ -8,6 +8,10 @@ package com.printingoffice.framework.view.components
 
 	/**
 	 * <p>
+	 * 	 子菜单(二级菜单)容器
+	 * </p>
+	 * 
+	 * <p>
 	 *     <b>HUBO 2012-2-17  /  hubo.0508ⓐgmail.com</br>com.printingoffice.framework.view.components.SubmenuVGroup.as</b>
 	 * </p>
 	 */
