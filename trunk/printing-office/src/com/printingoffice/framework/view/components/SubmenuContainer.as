@@ -11,9 +11,9 @@ package com.printingoffice.framework.view.components
 	 *     <b>HUBO 2012-2-17  /  hubo.0508ⓐgmail.com</br>com.printingoffice.framework.view.components.SubmenuVGroup.as</b>
 	 * </p>
 	 */
-	public class SubmenuVGroup extends VGroup
+	public class SubmenuContainer extends VGroup
 	{
-		public function SubmenuVGroup()
+		public function SubmenuContainer()
 		{
 			super();
 		}
