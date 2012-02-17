@@ -13,7 +13,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.event.LoginEvent;
-			import com.printingoffice.util.IconConst;
+			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.view.AppMain;
 			import com.printingoffice.framework.view.TopNavigator;
 			import com.printingoffice.view.login.Login;
@@ -32,7 +32,7 @@
 				if (!bgImg)
 				{
 					bgImg=new BitmapImage();
-					bgImg.source=IconConst.appBg;
+					bgImg.source=Const.appBg;
 					bgImg.percentHeight=100;
 					bgImg.percentWidth=100;
 
