@@ -184,7 +184,11 @@
 			}
 			
 			/**
-			 * 创建子级菜单
+			 * 创建子菜单（二级菜单）容器，并初始化菜单项
+			 * 
+			 * @param index:int
+			 * @param data:ArrayCollection
+			 * @param top:Number
 			 */
 			protected  function createChildrenMenu(index:int,data:ArrayCollection,top:Number):MenuBar
 			{
