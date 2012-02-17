@@ -631,42 +631,43 @@
 						break;
 				}
 			}
-
-			protected function menuSource_updateDisplayListHandler(event:Event):void
+			
+			/**
+			 * 当SubmenuContainer容器高度发生改变，其内部的verticalScrollPosition属性值会变化，调用本函数
+			 * 
+			 * @see com.printingoffice.framework.view.LeftNavigator.scrollerlPositionChange()
+             * @see com.printingoffice.framework.view.components.SubmenuContainer
+			 */
+			protected function menuGroup_scrollPositionChangeHandler(event:Event):void
 			{
 				scrollerlPositionChange();
 			}
 			
-			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
-			{
-				if(scroller.visible != value)
-				{
-					scroller.visible = value;
-				}
-			}
-			
-			private function scrollerlPositionChange():void
+			/**
+			 * <p>当SubmenuContainer容器中出现滚动条，其属性verticalScrollPosition值发生改变时，调用</p>
+			 * 
+			 * 当属性值verticalScrollPosition改变时，判断是否大于0(>0)，如>0则显示提示容器。
+			 */
+			public function scrollerlPositionChange():void
 			{
 				if (menuGroup.verticalScrollPosition > 0)
 				{
-					setGroupVisible(true,scrollerMaskTop);
+					setContainerVisible(true,scrollerMaskTop);
 					
 					scrollerMaskTop.y = menuSource.top + menuGroupScroller.y;
 				}
 				else
 				{
-					setGroupVisible(false,scrollerMaskTop);
+					setContainerVisible(false,scrollerMaskTop);
 				}
 			}
-
-			protected function menuGroupScroller_mouseUpHandler(event:MouseEvent):void
+			
+			private function setContainerVisible(value:Boolean,scroller:IVisualElement):void
 			{
-				scrollerlPositionChange();
-			}
-
-			protected function menuGroup_scrollPositionChangeHandler(event:Event):void
-			{
-				scrollerlPositionChange();
+				if(scroller.visible != value)
+				{
+					scroller.visible = value;
+				}
 			}
 
 		]]>
@@ -687,7 +688,7 @@
 	<components:Line/>
 		
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
-	<components:MenuResourcesContainer updateDisplayList="menuSource_updateDisplayListHandler(event)"  id="menuSource"  top="80" width="100%" height="100%">
+	<components:MenuResourcesContainer  id="menuSource"  top="80" width="100%" height="100%">
 		
 		<!--常用功能快捷入口-->
 		<s:SkinnableContainer id="quickEntrance" width="100%" />			
@@ -696,7 +697,7 @@
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 
 		<!--菜单容器-->	
-		<comview:SubmenuVGroup id="menuGroup"   width="180" height="100%" scrollPositionChange="menuGroup_scrollPositionChangeHandler(event)"
+		<comview:SubmenuContainer id="menuGroup"   width="180" height="100%" scrollPositionChange="menuGroup_scrollPositionChangeHandler(event)"
 							   rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
 		<s:Scroller id="menuGroupScroller" viewport="{menuGroup}" height="100%" width="180"/>
 		
