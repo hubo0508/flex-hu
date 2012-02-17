@@ -24,10 +24,10 @@
 			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.core.TweenLite;
 			import com.printingoffice.framework.event.MenuEvent;
+			import com.printingoffice.framework.util.IconConst;
+			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.MenuText;
 			import com.printingoffice.framework.view.components.MenuThemes;
-			import com.printingoffice.util.IconConst;
-			import com.printingoffice.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -612,25 +612,6 @@
 			{
 				_dataField = value;
 			}
-
-			protected function menuGroupRollHandler(event:MouseEvent):void
-			{
-				if(event.relatedObject is Button)return;
-				
-				switch(event.type)
-				{
-					case MouseEvent.ROLL_OUT :
-						//menuGroupScroller.setStyle("verticalScrollPolicy","off");
-						break;
-					
-					case MouseEvent.ROLL_OVER :
-						//menuGroupScroller.setStyle("verticalScrollPolicy","on");
-						break;
-					
-					default :
-						break;
-				}
-			}
 			
 			/**
 			 * 当SubmenuContainer容器高度发生改变，其内部的verticalScrollPosition属性值会变化，调用本函数
@@ -647,29 +628,23 @@
 			 * <p>当SubmenuContainer容器中出现滚动条，其属性verticalScrollPosition值发生改变时，调用</p>
 			 * 
 			 * 当属性值verticalScrollPosition改变时，判断是否大于0(>0)，如>0则显示提示容器。
+			 * 
+			 * @see com.printingoffice.framework.view.components.SubmenuContainer
 			 */
 			public function scrollerlPositionChange():void
 			{
 				if (menuGroup.verticalScrollPosition > 0)
 				{
-					setContainerVisible(true,scrollerMaskTop);
+					UIUtil.setContainerVisible(true,scrollerMaskTop);
 					
 					scrollerMaskTop.y = menuSource.top + menuGroupScroller.y;
 				}
 				else
 				{
-					setContainerVisible(false,scrollerMaskTop);
+					UIUtil.setContainerVisible(false,scrollerMaskTop);
 				}
 			}
 			
-			private function setContainerVisible(value:Boolean,scroller:IVisualElement):void
-			{
-				if(scroller.visible != value)
-				{
-					scroller.visible = value;
-				}
-			}
-
 		]]>
 	</fx:Script>
 	
@@ -697,8 +672,7 @@
 		<comview:MenuBar closeButton="true" menuEvent="childrenMenuClickHandler(event)" removeMenu="commonlyUsedMenu_removeMenuHandler(event)" id="commonlyUsedMenu"/>
 
 		<!--菜单容器-->	
-		<comview:SubmenuContainer id="menuGroup"   width="180" height="100%" scrollPositionChange="menuGroup_scrollPositionChangeHandler(event)"
-							   rollOut="menuGroupRollHandler(event)" rollOver="menuGroupRollHandler(event)" />
+		<comview:SubmenuContainer id="menuGroup"   width="180" height="100%" scrollPositionChange="menuGroup_scrollPositionChangeHandler(event)" />
 		<s:Scroller id="menuGroupScroller" viewport="{menuGroup}" height="100%" width="180"/>
 		
 	</components:MenuResourcesContainer>

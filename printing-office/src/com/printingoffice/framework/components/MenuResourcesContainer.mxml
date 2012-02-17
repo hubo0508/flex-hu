@@ -18,7 +18,7 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;

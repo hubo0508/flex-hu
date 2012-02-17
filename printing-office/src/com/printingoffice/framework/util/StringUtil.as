@@ -1,4 +1,4 @@
-package com.printingoffice.util
+package com.printingoffice.framework.util
 {
 
 	/**

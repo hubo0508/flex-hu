@@ -1,8 +1,9 @@
-package com.printingoffice.util
+package com.printingoffice.framework.util
 {
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	
+	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	
 	import spark.components.Application;
@@ -72,6 +73,14 @@ package com.printingoffice.util
 			} while (true)
 			
 			return point;
+		}
+		
+		public static function setContainerVisible(value:Boolean,scroller:IVisualElement):void
+		{
+			if(scroller.visible != value)
+			{
+				scroller.visible = value;
+			}
 		}
 	}
 }

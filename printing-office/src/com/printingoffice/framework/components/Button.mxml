@@ -19,8 +19,8 @@
 		<![CDATA[
 			import com.printingoffice.framework.components.graphic.Triangle;
 			import com.printingoffice.framework.components.graphic.VectorFig;
-			import com.printingoffice.util.StringUtil;
-			import com.printingoffice.util.UIUtil;
+			import com.printingoffice.framework.util.StringUtil;
+			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.managers.PopUpManager;
 			
