@@ -82,11 +82,13 @@
 			}
 
 			/**
-			 * <p>点击当前菜单(菜单文字)外部容器，显示模块菜单切换列表窗体</p>
+			 * <p>点击当前菜单(菜单文字)外部容器，显示[模块切换窗体]</p>
 			 * 
 			 * 注：创建与使用[模块切换窗体]缓存侧略，[模块切换窗体]只在第一次初始时创建，当第二调用或显示[模块切换窗体]时，不再初始化，直接使用缓存。
+			 * 
+			 * @see com.printingoffice.framework.view.LeftNavigator.initMenu()
 			 */
-			protected function menuThemes_clickHandler(event:MouseEvent):void
+			protected function titleMenuClickHandler(event:MouseEvent):void
 			{
 				this.initMenu();
 				
@@ -99,6 +101,9 @@
 			 * 注：</br>
 			 * 1、只有当[模块切换窗体]没有创建时，调用该函数才会起作用。</br>
 			 * 2、使用缓存策略。</br>
+			 * 3、初始化完一级菜单后，判断是否有选中菜单，有选择菜单则初始化子菜单(二级菜单)。
+			 * 
+			 * @see com.printingoffice.framework.view.LeftNavigator.initChildrenMenu()
 			 */
 			public function initMenu():void
 			{
@@ -125,6 +130,8 @@
 			 * 内部菜单资源只在第一次初始化加载，如要从新加载菜单资源需要重新登录。</br>
 			 * 2、创建当前选中的菜单资源子菜单。</br>
 			 * 3、删除未选中的子菜单资源。</br>
+			 * 
+			 * @see com.printingoffice.framework.view.LeftNavigator.initChildrenMenu()
 			 */
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
@@ -138,6 +145,7 @@
 			 * 功能说明：</br>
 			 * 1、判断上次显示子菜单资源与此次选择中的菜单资源相对比，将此次未选择中的菜单子资源菜单从当前容器中删除。</br>
 			 * 2、判断此次新增的子菜单资源是否已在菜单资源容器中，如不存在则创建子菜单资源，反之不用处理任何业务逻辑。</br>
+			 * 
 			 */
 			public function initChildrenMenu():void
 			{
@@ -146,17 +154,7 @@
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
-				
-//				trace(menuGroupScroller.viewport.horizontalScrollPosition);
-//				trace(menuGroupScroller.viewport.verticalScrollPosition);
-//				trace(menuGroupScroller.viewport.contentHeight);
-				//trace(menuGroupScroller.getStyle("verticalScrollPosition"));
-				//trace("maxVerticalScrollPosition = " + menuGroup.v);
-				
-				//var arrawBottomEnabled:Boolean = menuGroup.verticalScrollPosition > 0;
-//				if(arrawBottomBtn.visible != arrawBottomEnabled){
-//					arrawBottomBtn.visible = arrawBottomEnabled;
-//				}
+
 			}
 			
 			/**
@@ -654,7 +652,7 @@
 
 	<!--模块菜单的切换-->
 	<s:HGroup id="menuThemes"   verticalAlign="middle" useHandCursor="true" buttonMode="true"  y="26" x="20"
-			  click="menuThemes_clickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
+			  click="titleMenuClickHandler(event)" rollOut="menuThemes_rollHandler(event)" rollOver="menuThemes_rollHandler(event)">
 		<s:Label id="menuValue" text="功能菜单"  color="#FF2222" fontSize="18"/>
 		<graphic:Triangle rollMask="true" originalColor="#DD4B39" overColor="#D52F1B"/>
 	</s:HGroup>
