@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-18</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:datagrid="com.printingoffice.framework.components.datagrid.*"
+		  gap="0"
+		  width="100%">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import spark.components.VGroup;
+
+			private var _dataProvider:ArrayCollection;
+
+			private var _displayColumn:Array;
+
+			private var _displayColumnWidth:Array;
+
+			override protected function createChildren():void
+			{
+				super.createChildren();
+
+				this.initColumn();
+			}
+
+			private function initColumn():void
+			{
+				if (displayColumn == null || displayColumn.length == 0)
+					return;
+
+				var len:int=displayColumn.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var vgroup:VGroup=new VGroup();
+					vgroup.name=displayColumn[i];
+					vgroup.gap=0;
+					
+					var columnWidth:int=int(displayColumnWidth[i]);
+					if (columnWidth == 0)
+					{
+						vgroup.percentWidth=100;
+					}
+					else
+					{
+						vgroup.width = columnWidth;
+					}
+
+					this.addElement(vgroup);
+				}
+			}
+			
+			private function displayData():void
+			{
+				if (dataProvider == null || dataProvider.length == 0)
+					return;
+				
+				var len:int = dataProvider.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var item:Object = dataProvider.getItemAt(i);
+					displayDataToCell(item);
+				}
+			}
+			
+			private function displayDataToCell(item:Object):void
+			{
+				var rows:int = getFirstColumnRows();
+				
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:VGroup = this.getElementAt(i) as VGroup;
+					if(column && column.name != "BOX")
+					{
+						var columnName:String = column.name;
+						for(var k:int=0; k<rows; k++)
+						{
+							var cell:Cell = column.getElementAt(k) as Cell;
+							if(cell && cell.labelOrBox == "LABEL")
+							{
+								cell.text = item[columnName];
+							}
+						}
+					}
+				}
+			}
+
+			private function initOrDelCellContainerl():void
+			{
+				if (dataProvider == null || dataProvider.length == 0)
+					return;
+
+				var len:int=dataProvider.length;
+				var firstColumnRows:int=getFirstColumnRows();
+
+				var initMark:Boolean = false;
+				if (firstColumnRows == 0)
+				{
+					createCellContainer();
+					initMark = true;
+				}
+				
+				if(firstColumnRows > len)
+				{
+					removeCellContainer(firstColumnRows - len);
+				}
+				
+				if(!initMark && firstColumnRows < len)
+				{
+					additionalCellContainer(len - firstColumnRows);
+				}
+				
+				clearSelectedOrValue();
+			}
+			
+			private function clearSelectedOrValue():void
+			{
+				var rows:int = getFirstColumnRows();
+				
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:VGroup = this.getElementAt(i) as VGroup;
+					for(var k:int=0; k<rows; k++)
+					{
+						var cell:Cell = column.getElementAt(i) as Cell;
+						cell.clearSelectedOrValue();
+					}
+				}
+			}
+			
+			private function additionalCellContainer(additionalNum:int):void
+			{
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:VGroup=this.getElementAt(i) as VGroup;
+					for(var k:int=0; k<additionalNum; k++)
+					{
+						column.addElement(getCell(column));
+					}
+				}
+			}
+			
+			private function removeCellContainer(removeRows:int):void
+			{
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:VGroup=this.getElementAt(i) as VGroup;
+					for(var k:int=0; k<removeRows; k++)
+					{
+						column.removeElementAt(k);
+					}
+				}
+			}
+
+			private function createCellContainer():void
+			{
+				var len:int=dataProvider.length;
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:VGroup=this.getElementAt(i) as VGroup;
+					for (var k:int=0; k < len; k++)
+					{
+						column.addElement(getCell(column));
+					}
+				}
+			}
+
+			private function getCell(column:VGroup):Cell
+			{
+				var cell:Cell=new Cell();
+				cell.labelOrBox=column.name == "BOX" ? "BOX" : "LABEL";
+				cell.percentWidth=100;
+				
+				return cell;
+			}
+
+			private function getFirstColumnRows():int
+			{
+				var firstColumn:VGroup=this.getElementAt(0) as VGroup;
+
+				return firstColumn.numElements;
+			}
+
+			public function get dataProvider():ArrayCollection
+			{
+				return _dataProvider;
+			}
+
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider=value;
+
+				initOrDelCellContainerl();
+				displayData();
+			}
+
+			public function get displayColumn():Array
+			{
+				return _displayColumn;
+			}
+
+			public function set displayColumn(value:Array):void
+			{
+				_displayColumn=value;
+			}
+
+			public function get displayColumnWidth():Array
+			{
+				return _displayColumnWidth;
+			}
+
+			public function set displayColumnWidth(value:Array):void
+			{
+				_displayColumnWidth=value;
+			}
+		]]>
+	</fx:Script>
+
+</s:HGroup>
