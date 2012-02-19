@@ -268,6 +268,16 @@
 				var box:CheckBox = cell.getElementAt(0) as CheckBox;
 				
 				box.selected = !box.selected;
+				
+				var rowsIndex:int = int(cell.id);
+				if(box.selected)
+				{
+					changeBgColor(int(rowsIndex), SELECTED);
+				}
+				else
+				{
+					changeBgColor(int(rowsIndex), MouseEvent.ROLL_OUT);					
+				}
 			}
 			
 			/**
