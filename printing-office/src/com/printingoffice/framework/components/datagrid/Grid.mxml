@@ -42,7 +42,22 @@
 			private var _cellHeight:int = 42;
 			
 			private var _bgColorField:String = "bgColorStatus";
-
+			
+			private var _selectedItem:Array;
+			
+			/**
+			 * 容器内部使用，存储选择行的索引值
+			 */
+			private var selectedRowsIndex:Array;
+			
+			/**
+			 * <p>继续父组件createChildren()函数</p>
+			 * 
+			 * 1、根据属性displayColumn个数初始化列数。</br>
+			 * 2、初始化当前行状态容器。</br>
+			 * 
+			 * @see com.printingoffice.framework.components.graphic.CurrentLinePrompt
+			 */
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -59,17 +74,10 @@
 				}
 			}
 			
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w,h);
-				
-//				if(currentLinePrompt)
-//				{
-//					currentLinePrompt.move(0,0);
-//				}
-			}
-						
-			private function initColumn():void
+			/**
+			 * <p>根据属性值displayColumn的长度初始列数</p>
+			 */
+			protected function initColumn():void
 			{
 				if (displayColumn == null || displayColumn.length == 0)
 					return;
@@ -96,7 +104,7 @@
 			}
 			
 			/**
-			 * 将数据源添加到每列中
+			 * 将数据源添加到每个单元格中
 			 */
 			protected function dataToColumns():void
 			{
@@ -108,7 +116,18 @@
 				}
 			}
 			
-			private function displayDataToCell(item:Object, rowIndex:int):void
+			/**
+			 * <p>将数据以行【item】的形式添加到指定行【rowIndex】的每个单元格中</p>
+			 * 
+			 * 注：</br>
+			 * 1、单元格背景颜色默认为白色。当行数据源中定义有动态属性【bgColorField】的值时，其值等于0时，填充颜色为动态属性【unfinishedColor】的值，则为白色。</br>
+			 * 2、本容器的背景颜色填充封装过于简单，根据该软件业务来进行的简单判断。如要做成通用，应在取背景颜色值由开发人员自己定义业务规则。</br>
+			 * 3、若要通用，请更改此处代码：if((cell.labelOrBox == Cell.LABEL || cell.labelOrBox == Cell.BOX) && item[bgColorField].toString() == "0")
+			 * 
+			 * @param item:Object 行数据
+			 * @param rowIndex:int 行索引
+			 */
+			protected function displayDataToCell(item:Object, rowIndex:int):void
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
@@ -138,8 +157,11 @@
 					}					
 				}
 			}
-
-			private function initOrDelCellContainerl():void
+		
+			/**
+			 * 
+			 */
+			protected function initOrDelCellContainerl():void
 			{
 				if (dataProvider == null || dataProvider.length == 0)
 					return;
@@ -245,12 +267,12 @@
 				var cell:Cell=new Cell();
 				cell.labelOrBox= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
 				cell.percentWidth=100;
-				cell.addEventListener(MouseEvent.ROLL_OUT,cellRollHandler,false,0,true);
-				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
-				cell.id = rowsIndex.toString();
-				cell.addEventListener(Cell.BOX_CLICK,boxClickHandler,false,0,true);
+				cell.id = rowsIndex.toString();				
 				cell.backgroupColor = defaultColor;
 				cell.constColor = defaultColor;
+				cell.addEventListener(MouseEvent.ROLL_OUT,cellRollHandler,false,0,true);
+				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
+				cell.addEventListener(Cell.BOX_CLICK,boxClickHandler,false,0,true);
 				
 				if(cell.labelOrBox == Cell.BOX)
 				{
@@ -478,6 +500,23 @@
 			{
 				_bgColorField = value;
 			}
+
+			/**
+			 * 存储Grid列表选中数据
+			 */
+			public function get selectedItem():Array
+			{
+				return _selectedItem;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set selectedItem(value:Array):void
+			{
+				_selectedItem = value;
+			}
+
 
 		]]>
 	</fx:Script>
