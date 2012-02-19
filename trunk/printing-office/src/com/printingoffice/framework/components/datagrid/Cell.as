@@ -5,13 +5,16 @@ package com.printingoffice.framework.components.datagrid
 	import com.printingoffice.framework.util.UIUtil;
 	
 	import flash.display.Graphics;
+	import flash.events.MouseEvent;
 	
-	import mx.controls.Label;
+	import mx.events.DynamicEvent;
 	import mx.graphics.SolidColor;
 	import mx.managers.CursorManager;
 	
+	import spark.components.BorderContainer;
 	import spark.components.CheckBox;
 	import spark.components.Group;
+	import spark.components.Label;
 	import spark.primitives.Rect;
 	
 	/**
@@ -29,9 +32,9 @@ package com.printingoffice.framework.components.datagrid
 			this.buttonMode = true;
 		}
 		
-		public var backgroupColor:uint=0xFFFFFF;
+		public var backgroupColor:uint;
 		
-		public var constColor:uint = 0xFFFFFF;
+		public var constColor:uint;
 		
 		public var borderColor:uint=0xE7E5E5;
 		
@@ -39,13 +42,20 @@ package com.printingoffice.framework.components.datagrid
 		
 		private var _labelOrBox:String = "LABEL";
 		
+		private var _data:Object;
+		
 		private var label:Label;
 		
 		private var box:CheckBox;
 		
+		//创建常量组件
 		public static const LABEL:String = "LABEL";
-		
 		public static const BOX:String  = "BOX";
+		
+		/**
+		 * 复选框Click点击
+		 */
+		public static const BOX_CLICK:String = "boxClick";
 		
 		override protected function measure():void
 		{
@@ -64,11 +74,6 @@ package com.printingoffice.framework.components.datagrid
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w, h);
-			
-			if(label)
-			{
-				label.maxWidth = w;
-			}
 
 			var g:Graphics=graphics;
 			g.clear();
@@ -78,11 +83,11 @@ package com.printingoffice.framework.components.datagrid
 			g.endFill();
 			
 			g.lineStyle(1, borderColor);
-			g.moveTo(0, h);
-			g.lineTo(w, h);
+			g.moveTo(0, h-1);
+			g.lineTo(w, h-1);
 			
-			//g.moveTo(w, 0);
-			//g.lineTo(w, h)
+//			g.moveTo(w, 0);
+//			g.lineTo(w, h);
 		}
 		
 		override protected function createChildren():void
@@ -97,6 +102,7 @@ package com.printingoffice.framework.components.datagrid
 				label.verticalCenter = 0;
 				label.useHandCursor = true;
 				label.buttonMode = true;
+				label.maxDisplayedLines = 1;
 				
 				this.addElement(label);
 			}
@@ -107,12 +113,23 @@ package com.printingoffice.framework.components.datagrid
 				box.verticalCenter = 0;
 				box.horizontalCenter = 0;
 				box.setStyle("skinClass",Class(CheckBoxSkin));
-				box.useHandCursor = true;
-				box.buttonMode = true;
-				
+				box.addEventListener(MouseEvent.CLICK,boxClickHandler,false,0,true);
+
 				this.addElement(box);
 			}
 			
+		}
+		
+		protected function boxClickHandler(event:MouseEvent):void
+		{
+			var box:CheckBox = event.currentTarget as CheckBox;
+			var cell:Cell = box.parent as Cell;
+			
+			var dye:DynamicEvent = new DynamicEvent(BOX_CLICK);
+			dye.rowsIndex = cell.id;
+			dye.selected = box.selected;
+			
+			this.dispatchEvent(dye);
 		}
 		
 		public function clearSelectedOrValue():void
@@ -153,6 +170,17 @@ package com.printingoffice.framework.components.datagrid
 				label.text = value;
 			}
 		}
+
+		public function get data():Object
+		{
+			return _data;
+		}
+
+		public function set data(value:Object):void
+		{
+			_data = value;
+		}
+
 
 	}
 }
