@@ -23,6 +23,10 @@ package com.printingoffice.framework.util
 		public static const DEFAULT_COLOR:uint = 0x222222;
 		
 		[Bindable]
+		[Embed('assets/image/hands.png')]
+		public static var hands:Class;
+		
+		[Bindable]
 		[Embed('assets/image/warty-final-ubuntu.jpg')]
 		public static var appBg:Class;
 		

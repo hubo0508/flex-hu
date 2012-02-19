@@ -8,6 +8,7 @@ package com.printingoffice.framework.components.datagrid
 	
 	import mx.controls.Label;
 	import mx.graphics.SolidColor;
+	import mx.managers.CursorManager;
 	
 	import spark.components.CheckBox;
 	import spark.components.Group;
@@ -23,13 +24,16 @@ package com.printingoffice.framework.components.datagrid
 		public function Cell()
 		{
 			super();
+			
+			this.useHandCursor = true;
+			this.buttonMode = true;
 		}
 		
-		public var backgroupColor:uint=0xF3F3F3;
+		public var backgroupColor:uint=0xFFFFFF;
+		
+		public var constColor:uint = 0xFFFFFF;
 		
 		public var borderColor:uint=0xE7E5E5;
-		
-		private var _bgMark:Boolean=false;
 		
 		private var _text:String="";
 		
@@ -38,6 +42,10 @@ package com.printingoffice.framework.components.datagrid
 		private var label:Label;
 		
 		private var box:CheckBox;
+		
+		public static const LABEL:String = "LABEL";
+		
+		public static const BOX:String  = "BOX";
 		
 		override protected function measure():void
 		{
@@ -61,16 +69,13 @@ package com.printingoffice.framework.components.datagrid
 			{
 				label.maxWidth = w;
 			}
-			
+
 			var g:Graphics=graphics;
 			g.clear();
 			
-			if (bgMark)
-			{
-				g.beginFill(backgroupColor);
-				g.drawRect(0, 0, w, h);
-				g.endFill();
-			}
+			g.beginFill(backgroupColor);
+			g.drawRect(0, 0, w, h);
+			g.endFill();
 			
 			g.lineStyle(1, borderColor);
 			g.moveTo(0, h);
@@ -90,6 +95,8 @@ package com.printingoffice.framework.components.datagrid
 				label.left = 4;
 				label.right = 4;
 				label.verticalCenter = 0;
+				label.useHandCursor = true;
+				label.buttonMode = true;
 				
 				this.addElement(label);
 			}
@@ -100,6 +107,8 @@ package com.printingoffice.framework.components.datagrid
 				box.verticalCenter = 0;
 				box.horizontalCenter = 0;
 				box.setStyle("skinClass",Class(CheckBoxSkin));
+				box.useHandCursor = true;
+				box.buttonMode = true;
 				
 				this.addElement(box);
 			}
@@ -118,17 +127,7 @@ package com.printingoffice.framework.components.datagrid
 				box.selected = false;
 			}
 		}
-		
-		public function get bgMark():Boolean
-		{
-			return _bgMark;
-		}
-		
-		public function set bgMark(value:Boolean):void
-		{
-			_bgMark=value;
-		}
-		
+
 		[Inspectable(category="General", enumeration="LABEL,BOX", defaultValue="LABEL")]
 		public function get labelOrBox():String
 		{
