@@ -10,12 +10,11 @@
 					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  xmlns:components="com.printingoffice.framework.components.*"
 					  xmlns:viewcom="com.printingoffice.view.components.*"
-					  xmlns:easy="library://flexeasy"
 					  creationComplete="creationCompleteHandler(event)"
 					  top="115"
 					  left="200"
 					  width="100%"
-					  height="100%">
+					  height="100%" xmlns:datagrid="com.printingoffice.framework.components.datagrid.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -25,19 +24,19 @@
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({nametitle:"C网日均VLR忙时登记用户数(晚忙时20点)",gaojin:"次要告警",name:"次要告警",name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网日均语音话务量",gaojin:"次要告警",name:1099994.14,name2:"12",name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网日均1X数据话务量",gaojin:"主要告警",name:787611.15,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网日均EVDO话务量",gaojin:"主要告警",name:629752.65,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网日均忙时PDSN(1X)在线用户数(晚忙时21点)",gaojin:"次要告警",name:562401.59,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网日均忙时PDSN（EVDO）在线用户数（晚忙时21点）",gaojin:"次要告警",name:328108,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网彩信终端发送MMS条数",gaojin:"紧急告警",name:305000.98,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网彩信应用发送MMS条数",gaojin:"次要告警",name:260469.46,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网短信发送成功总量",gaojin:"紧急告警",name:328108,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"C网短信接收成功总量",gaojin:"次要告警",name:305000.98,name2:232,name3:9043184.44,name4:232});
-				acc.addItem({nametitle:"全局疏通话务量",gaojin:"次要告警",name:260469.46,name2:232,name3:9043184.44,name4:232});
+				acc.addItem({bgColor:0,names:"数字家庭智能家居接口机",systemTechnology:["SpringMVC","Spring-JdbcTemplat"],database:"MySQL",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:0,names:"中国天翼空间PC客户端",systemTechnology:["SSH"],database:"Oracle",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:0,names:"建设行业企业管理系统",systemTechnology:["Flex4+Blazeds","SSH"],database:"MySQL",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"智能供水综合业务平台",systemTechnology:["Spring","Hibernate","Flex4+Blazeds"],database:"Oracle",server:"Jboss",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"上海移动网络资源",systemTechnology:["SpringMVC","Spring-JdbcTemplat"],database:"Oracle",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"四川移动场景(集客)监控",systemTechnology:["Flex4+blazeds","Spring","iBATIS"],database:"Oracle",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"实验室文档管理系统",systemTechnology:["Flex3+blazeds","SSH"],database:"MySQL",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"临床中药学查询软件",systemTechnology:["Flex3+blazeds","Spring","Spring-JdbcTemplate"],database:"MySQL",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"长期毒性试验教学培训软",systemTechnology:["Flex4+blazeds","Spring","Hiberantes"],database:"MySQL",server:"Tomcat",name3:9043184.44});
+				acc.addItem({bgColor:1,names:"多个HTML静态网站",systemTechnology:"HTML静态页面展现",database:"",server:"",name3:9043184.44});
 				
-				this.fdg.dataProvider = acc;	
+				grid.dataProvider = acc;
+				
 			}
 
 		]]>
@@ -67,21 +66,12 @@
 	<viewcom:PageDetail top="19" right="0"/>
 	
 	<components:Line/>
-	
+
 	<!--内容-->
 	<s:Scroller width="100%" height="100%" x="0" top="70">
 		<s:Group id="contentgroup" width="100%" height="100%">		
-			<easy:DataGrid id="fdg" loads="true" top="0" height="320" left="0" right="0">
-				<easy:columns>							
-					<easy:SequenceColumn headerText="序列" textAlign="center"/>
-					<easy:BoxColumn headerText="选择" radio="false" rowMultiSelection="false"/>
-					<easy:Column dataField="name" headerText="项目名"  />
-					<easy:Column dataField="name2" headerText="系统技术"/>
-					<easy:Column dataField="name3" headerText="数据库"/>
-					<easy:Column dataField="name4" headerText="服务器"/>
-					<easy:Column dataField="name4" headerText="项目总"/>		
-				</easy:columns>	
-			</easy:DataGrid>		
+			<datagrid:Grid id="grid" bgColorField="bgColor" displayColumn="['BOX','names','database','server']" displayColumnWidth="[37,200,0,100]" width="100%"/>
+
 		</s:Group>
 	</s:Scroller>
 
