@@ -15,6 +15,7 @@
 		<![CDATA[
 			import com.printingoffice.framework.components.graphic.CurrentLinePrompt;
 			import com.printingoffice.framework.core.TweenLite;
+			import com.printingoffice.framework.util.Const;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -325,6 +326,34 @@
 				var cell:Cell = event.currentTarget as Cell;
 				
 				changeCurrentLinePrompt(int(cell.id),event.type);
+				
+				changeTextColor(int(cell.id),event.type);
+			}
+			
+			public function changeTextColor(rowsIndex:int, type:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:VGroup = this.getElementAt(i) as VGroup;
+					if(column && column.name != Cell.BOX)
+					{
+						var cell:Cell = column.getElementAt(rowsIndex) as Cell;
+						switch(type)
+						{
+							case MouseEvent.ROLL_OUT :
+								cell.textColor = Const.BLACK_COLOR;
+								break;
+							
+							case MouseEvent.ROLL_OVER :
+								cell.textColor = Const.GREEN_COLOR;
+								break;
+							
+							default:
+								break;
+						}
+					}
+				}				
 			}
 			
 			public function changeCurrentLinePrompt(rowsIndex:int, type:String):void

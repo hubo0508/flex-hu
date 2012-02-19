@@ -16,10 +16,61 @@ package com.printingoffice.framework.util
 	 */
 	public class UIUtil
 	{
+		
+		public static const PUSH:String = "push";
+		
+		public static const REMOVE:String = "remove";
+		
+		public static const NEWVALUE:String = "newvalue";
+		
 		public function UIUtil()
 		{
 		}
 
+		
+		/**
+		 * 改变选择行数据存储缓存
+		 *
+		 * @param rowIndex:int 索引值
+		 * @param type:String 类型 【remove、push、newvalue】
+		 * @param values:Array 新值
+		 */
+		private function changeArrayValue(values:Array,rowIndex:int, type:String=PUSH):void
+		{
+//			switch(type)
+//			{
+//				case PUSH :
+//					values.push(rowIndex);
+//					break;
+//				
+//				case REMOVE :
+//					var len:int=this.values.length;
+//					for (var i:int=0; i < len; i++)
+//					{
+//						var oldRowIndex:int=int(this.indexOfSelectedRow[i]);
+//						if (oldRowIndex == rowIndex)
+//						{
+//							this.indexOfSelectedRow.splice(i, 1);
+//							break;
+//						}
+//					}
+//					break;
+//				
+//				case NEWVALUE :
+//					if (values)
+//					{
+//						this.indexOfSelectedRow=values;
+//					}
+//					else
+//					{
+//						this.indexOfSelectedRow=[rowIndex];
+//					}
+//					break;
+//				
+//				default:
+//					break;
+//			}
+		}
 		
 		public static function drawBackgroup(color:uint, g:Graphics, w:Number, h:Number,alpha:Number=1):void
 		{

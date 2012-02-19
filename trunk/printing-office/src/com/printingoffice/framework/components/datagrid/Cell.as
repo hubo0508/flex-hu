@@ -170,6 +170,14 @@ package com.printingoffice.framework.components.datagrid
 				label.text = value;
 			}
 		}
+		
+		public function set textColor(color:uint):void
+		{
+			if(label)
+			{
+				this.label.setStyle("color",color);	
+			}
+		}
 
 		public function get data():Object
 		{

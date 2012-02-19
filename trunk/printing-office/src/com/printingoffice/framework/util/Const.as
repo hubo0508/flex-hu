@@ -22,6 +22,16 @@ package com.printingoffice.framework.util
 		 */
 		public static const DEFAULT_COLOR:uint = 0x222222;
 		
+		/**
+		 * 默认黑色
+		 */
+		public static const BLACK_COLOR:uint = 0x000000;
+		
+		/**
+		 * 绿色
+		 */
+		public static const GREEN_COLOR:uint = 0x46A9EE;
+		
 		[Bindable]
 		[Embed('assets/image/hands.png')]
 		public static var hands:Class;

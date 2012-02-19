@@ -18,7 +18,7 @@
 			
 			override public function set verticalScrollPosition(value:Number):void 
 			{
-				super.verticalScrollPosition = value + delta;	
+				super.verticalScrollPosition = value - delta;	
 			}
 			
 			protected function mouseWheelHandler(event:MouseEvent):void
