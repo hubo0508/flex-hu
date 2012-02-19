@@ -68,7 +68,7 @@
 //					currentLinePrompt.move(0,0);
 //				}
 			}
-			
+						
 			private function initColumn():void
 			{
 				if (displayColumn == null || displayColumn.length == 0)
@@ -478,7 +478,6 @@
 			{
 				_bgColorField = value;
 			}
-
 
 		]]>
 	</fx:Script>
