@@ -18,10 +18,18 @@
 			import spark.components.VGroup;
 
 			private var _dataProvider:ArrayCollection;
-
+			
 			private var _displayColumn:Array;
 
 			private var _displayColumnWidth:Array;
+			
+			private var _selectedColor:uint = 0xF17B7B;
+			
+			private var _defaultColor:uint = 0xFFFFFF;
+			
+			private var _overColor:uint = 0xF3F3F3;
+			
+			private var borderColor:uint=0xE7E5E5;
 
 			override protected function createChildren():void
 			{
@@ -29,7 +37,7 @@
 
 				this.initColumn();
 			}
-
+			
 			private function initColumn():void
 			{
 				if (displayColumn == null || displayColumn.length == 0)
@@ -40,7 +48,7 @@
 				{
 					var vgroup:VGroup=new VGroup();
 					vgroup.name=displayColumn[i];
-					vgroup.gap=0;
+					vgroup.gap=1;
 					
 					var columnWidth:int=int(displayColumnWidth[i]);
 					if (columnWidth == 0)
@@ -56,37 +64,31 @@
 				}
 			}
 			
-			private function displayData():void
+			/**
+			 * 将数据源添加到每列中
+			 */
+			protected function dataToColumns():void
 			{
-				if (dataProvider == null || dataProvider.length == 0)
-					return;
-				
-				var len:int = dataProvider.length;
-				for(var i:int=0; i<len; i++)
+				var len:int=dataProvider.length;
+				for (var i:int=0; i < len; i++)
 				{
 					var item:Object = dataProvider.getItemAt(i);
-					displayDataToCell(item);
+					this.displayDataToCell(item,i);
 				}
 			}
 			
-			private function displayDataToCell(item:Object):void
+			private function displayDataToCell(item:Object, rowIndex:int):void
 			{
-				var rows:int = getFirstColumnRows();
-				
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
 					var column:VGroup = this.getElementAt(i) as VGroup;
-					if(column && column.name != "BOX")
+					if(column && column.name != Cell.BOX)
 					{
-						var columnName:String = column.name;
-						for(var k:int=0; k<rows; k++)
+						var cell:Cell = column.getElementAt(rowIndex) as Cell;
+						if(cell && cell.labelOrBox == Cell.LABEL)
 						{
-							var cell:Cell = column.getElementAt(k) as Cell;
-							if(cell && cell.labelOrBox == "LABEL")
-							{
-								cell.text = item[columnName];
-							}
+							cell.text = item[column.name];
 						}
 					}
 				}
@@ -138,13 +140,15 @@
 			
 			private function additionalCellContainer(additionalNum:int):void
 			{
+				var rows:int = this.getFirstColumnRows();
+				
 				var num:int=this.numElements;
 				for (var i:int=0; i < num; i++)
 				{
 					var column:VGroup=this.getElementAt(i) as VGroup;
 					for(var k:int=0; k<additionalNum; k++)
 					{
-						column.addElement(getCell(column));
+						column.addElement(getCell(column.name, rows+k));
 					}
 				}
 			}
@@ -171,18 +175,52 @@
 					var column:VGroup=this.getElementAt(i) as VGroup;
 					for (var k:int=0; k < len; k++)
 					{
-						column.addElement(getCell(column));
+						column.addElement(getCell(column.name, k));
 					}
 				}
 			}
 
-			private function getCell(column:VGroup):Cell
+			public function getCell(type:String,rowsIndex:int):Cell
 			{
 				var cell:Cell=new Cell();
-				cell.labelOrBox=column.name == "BOX" ? "BOX" : "LABEL";
+				cell.labelOrBox= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
 				cell.percentWidth=100;
+				cell.addEventListener(MouseEvent.ROLL_OUT,cellRollHandler,false,0,true);
+				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
+				cell.id = rowsIndex.toString();
+//				cell.useHandCursor = true;
+//				cell.buttonMode = true; 
 				
 				return cell;
+			}
+			
+			protected function cellRollHandler(event:MouseEvent):void
+			{
+				var cell:Cell = event.currentTarget as Cell;
+				changeBgColor(int(cell.id),event.type);
+			}
+			
+			public function changeBgColor(rowsIndex:int, type:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:VGroup = this.getElementAt(i) as VGroup;
+					var targetCell:Cell = column.getElementAt(rowsIndex) as Cell;
+					if(targetCell)
+					{
+						if(type == MouseEvent.ROLL_OUT)
+						{
+							targetCell.backgroupColor = targetCell.constColor;
+							targetCell.invalidateDisplayList();
+						}
+						if(type == MouseEvent.ROLL_OVER)
+						{
+							targetCell.backgroupColor = overColor;
+							targetCell.invalidateDisplayList();
+						}
+					}
+				}
 			}
 
 			private function getFirstColumnRows():int
@@ -202,28 +240,91 @@
 				_dataProvider=value;
 
 				initOrDelCellContainerl();
-				displayData();
+				dataToColumns();
 			}
 
+			/**
+			 * 鼠标移到单元格上颜色(0xF9F9DD)
+			 */
+			public function get overColor():uint
+			{
+				return _overColor;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set overColor(value:uint):void
+			{
+				_overColor = value;
+			}
+
+			/**
+			 * 单元格默认颜色(0xFFFFFF)
+			 */
+			public function get defaultColor():uint
+			{
+				return _defaultColor;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set defaultColor(value:uint):void
+			{
+				_defaultColor = value;
+			}
+
+			/**
+			 * 单元格选中颜色(0xF17B7B)
+			 */
+			public function get selectedColor():uint
+			{
+				return _selectedColor;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set selectedColor(value:uint):void
+			{
+				_selectedColor = value;
+			}
+
+			/**
+			 * 显示列数字段
+			 */
 			public function get displayColumn():Array
 			{
 				return _displayColumn;
 			}
 
+			/**
+			 * @private
+			 */
 			public function set displayColumn(value:Array):void
 			{
-				_displayColumn=value;
+				_displayColumn = value;
 			}
 
+			/**
+			 * 显示列数字段完度</br>
+			 * 如为0则表示为100% 宽度
+			 */
 			public function get displayColumnWidth():Array
 			{
 				return _displayColumnWidth;
 			}
 
+			/**
+			 * @private
+			 */
 			public function set displayColumnWidth(value:Array):void
 			{
-				_displayColumnWidth=value;
+				_displayColumnWidth = value;
 			}
+
+
 		]]>
 	</fx:Script>
 
