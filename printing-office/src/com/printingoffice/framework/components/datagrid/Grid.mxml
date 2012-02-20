@@ -44,7 +44,7 @@
 			
 			private var currentLinePrompt:CurrentLinePrompt;
 			
-			private var _cellHeight:int = 42;
+			private var _cellHeight:int = 40;
 			
 			private var _bgColorField:String = "bgColorStatus";
 			
@@ -272,6 +272,7 @@
 				var cell:Cell=new Cell();
 				cell.labelOrBox= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
 				cell.percentWidth=100;
+				cell.height = cellHeight;
 				cell.id = rowsIndex.toString();				
 				cell.backgroupColor = defaultColor;
 				cell.constColor = defaultColor;
