@@ -36,7 +36,11 @@
 			//0xF3F3F3
 			private var _unfinishedColor:uint = 0xF3F3F3;
 			
+			private var overColor:uint = 0xE8F6EA;
+			
 			private static const SELECTED:String = "selected";
+			
+			private static const NOT_SELECTED:String = "notSelected";
 			
 			private var currentLinePrompt:CurrentLinePrompt;
 			
@@ -86,21 +90,21 @@
 				var len:int=displayColumn.length;
 				for (var i:int=0; i < len; i++)
 				{
-					var vgroup:VGroup=new VGroup();
-					vgroup.name=displayColumn[i];
-					vgroup.gap=0;
+					var column:Column=new Column();
+					column.name=displayColumn[i];
+					column.gap=0;
 					
 					var columnWidth:int=int(displayColumnWidth[i]);
 					if (columnWidth == 0)
 					{
-						vgroup.percentWidth=100;
+						column.percentWidth=100;
 					}
 					else
 					{
-						vgroup.width = columnWidth;
+						column.width = columnWidth;
 					}
 
-					this.addElement(vgroup);
+					this.addElement(column);
 				}
 			}
 			
@@ -133,7 +137,7 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var column:VGroup = this.getElementAt(i) as VGroup;
+					var column:Column = this.getElementAt(i) as Column;
 					if(column)
 					{
 						var cell:Cell = column.getElementAt(rowIndex) as Cell;
@@ -197,7 +201,7 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var column:VGroup = this.getElementAt(i) as VGroup;
+					var column:Column = this.getElementAt(i) as Column;
 					if(column)
 					{
 						for(var k:int=0; k<rows; k++)
@@ -219,7 +223,7 @@
 				var num:int=this.numElements;
 				for (var i:int=0; i < num; i++)
 				{
-					var column:VGroup=this.getElementAt(i) as VGroup;
+					var column:Column=this.getElementAt(i) as Column;
 					if(column)
 					{
 						for(var k:int=0; k<additionalNum; k++)
@@ -235,7 +239,7 @@
 				var num:int=this.numElements;
 				for (var i:int=0; i < num; i++)
 				{
-					var column:VGroup=this.getElementAt(i) as VGroup;
+					var column:Column=this.getElementAt(i) as Column;
 					if(column)
 					{
 						for(var k:int=0; k<removeRows; k++)
@@ -252,7 +256,7 @@
 				var num:int=this.numElements;
 				for (var i:int=0; i < num; i++)
 				{
-					var column:VGroup=this.getElementAt(i) as VGroup;
+					var column:Column=this.getElementAt(i) as Column;
 					if(column)
 					{
 						for (var k:int=0; k < len; k++)
@@ -292,15 +296,7 @@
 				
 				box.selected = !box.selected;
 				
-				var rowsIndex:int = int(cell.id);
-				if(box.selected)
-				{
-					changeBgColor(int(rowsIndex), SELECTED);
-				}
-				else
-				{
-					changeBgColor(int(rowsIndex), MouseEvent.ROLL_OUT);					
-				}
+				changeBgColor( int(cell.id), box.selected ? SELECTED : NOT_SELECTED) ;
 			}
 			
 			/**
@@ -311,23 +307,19 @@
 				var selected:Boolean = Boolean(dye.selected);
 				var rowsIndex:int = int(dye.rowsIndex);
 				
-				if(selected)
-				{
-					changeBgColor(rowsIndex, SELECTED);
-				}
-				else
-				{
-					changeBgColor(rowsIndex, MouseEvent.ROLL_OUT);					
-				}
+				changeBgColor(rowsIndex, selected ? SELECTED : NOT_SELECTED) ;
 			}
 			
 			protected function cellRollHandler(event:MouseEvent):void
 			{
 				var cell:Cell = event.currentTarget as Cell;
+				var rowsIndex:int = int(cell.id);
 				
-				changeCurrentLinePrompt(int(cell.id),event.type);
+				changeCurrentLinePrompt(rowsIndex,event.type);
 				
-				changeTextColor(int(cell.id),event.type);
+				//changeTextColor(int(cell.id),event.type);
+				
+				changeBgColor(rowsIndex, event.type) ;
 			}
 			
 			public function changeTextColor(rowsIndex:int, type:String):void
@@ -335,7 +327,7 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var column:VGroup = this.getElementAt(i) as VGroup;
+					var column:Column = this.getElementAt(i) as Column;
 					if(column && column.name != Cell.BOX)
 					{
 						var cell:Cell = column.getElementAt(rowsIndex) as Cell;
@@ -383,26 +375,36 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var column:VGroup = this.getElementAt(i) as VGroup;
+					var column:Column = this.getElementAt(i) as Column;
 					if(column)
 					{
 						var targetCell:Cell = column.getElementAt(rowsIndex) as Cell;
 						if(targetCell)
 						{
-							if(type == MouseEvent.ROLL_OUT)
+							if(type == MouseEvent.ROLL_OUT || type == NOT_SELECTED)
 							{
-								targetCell.backgroupColor = targetCell.constColor;
-								targetCell.name = "";
+								if(targetCell.name == SELECTED && type != NOT_SELECTED)
+								{
+									targetCell.backgroupColor = selectedColor;
+								}
+								else
+								{
+									targetCell.backgroupColor = targetCell.constColor;
+									targetCell.name = "";
+								}							
 							}
+							
 							if(type == MouseEvent.ROLL_OVER)
 							{
-								//targetCell.backgroupColor = overColor;
+								targetCell.backgroupColor = overColor;
 							}
+							
 							if(type == SELECTED)
 							{
 								targetCell.backgroupColor = selectedColor;
 								targetCell.name = SELECTED;
 							}
+							
 							targetCell.invalidateDisplayList();
 						}
 					}					
@@ -411,7 +413,7 @@
 
 			private function getFirstColumnRows():int
 			{
-				var firstColumn:VGroup=this.getElementAt(1) as VGroup;
+				var firstColumn:Column=this.getElementAt(1) as Column;
 
 				return firstColumn.numElements;
 			}
