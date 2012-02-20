@@ -10,20 +10,31 @@
 		  xmlns:datagrid="com.printingoffice.framework.components.datagrid.*"
 		  gap="0"
 		  width="100%">
+	
+	<fx:Metadata>
+		[Event(name="gridEvent",type="com.printingoffice.framework.event.GridEvent")]
+		[Event(name="iconRollEvent",type="com.printingoffice.framework.event.GridEvent")]
+	</fx:Metadata>
 
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.components.graphic.CurrentLinePrompt;
 			import com.printingoffice.framework.core.TweenLite;
+			import com.printingoffice.framework.event.GridEvent;
 			import com.printingoffice.framework.util.Const;
+			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.controls.Image;
+			import mx.effects.Glow;
 			import mx.events.DynamicEvent;
 			
 			import spark.components.CheckBox;
 			import spark.components.VGroup;
+			import spark.filters.BevelFilter;
+			import spark.filters.DropShadowFilter;
+			import spark.filters.GlowFilter;
 			import spark.layouts.HorizontalLayout;
 
 			private var _dataProvider:ArrayCollection;
@@ -223,11 +234,88 @@
 					var img:Image = new Image();
 					img.source = singleIconDesc["path"];
 					img.toolTip = singleIconDesc["tootip"];
+					img.name =  singleIconDesc["path"];
 					img.alpha = 0.5;
+					img.addEventListener(MouseEvent.ROLL_OUT,iconImgRollHandler,false,0,true);
+					img.addEventListener(MouseEvent.ROLL_OVER,iconImgRollHandler,false,0,true);
 					
 					cell.addElement(img);
 				}
 			}
+			
+			protected function iconImgRollHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						img.filters = null;
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						img.filters = [getShadowFilter()];
+						break;
+					
+					default:
+						break;
+				}
+				
+				var gridEvent:GridEvent = new GridEvent(GridEvent.ICON_ROLL_EVENT);
+				gridEvent.point = UIUtil.getUiAbsolutePosition(img);
+				
+				this.dispatchEvent(gridEvent);
+			}
+			
+			private function getIconBevelFilter():spark.filters.BevelFilter
+			{
+				var filter:spark.filters.BevelFilter = new spark.filters.BevelFilter();
+				filter.angle = 45;
+				filter.blurX = 10;
+				filter.blurY =10;
+				filter.distance = 4;
+				filter.highlightAlpha = 0.5;
+				filter.highlightColor = 0xffffff;
+				filter.knockout = false;
+				filter.quality = 1;
+				filter.shadowAlpha  = 0.3;
+				filter.shadowColor = 0x000000;
+				filter.strength = 1;
+				filter.type = 'inner';
+				
+				return filter;
+			}
+			
+			private function getIconGlowFilter():spark.filters.GlowFilter
+			{
+				var glowFiter:spark.filters.GlowFilter = new spark.filters.GlowFilter();
+				glowFiter.blurX = 6;
+				glowFiter.blurY = 6;
+				glowFiter.color = 0x0000ff;
+				glowFiter.strength = 1;
+				glowFiter.inner = false;
+				
+				return glowFiter;
+			}
+			
+			private function getShadowFilter():spark.filters.DropShadowFilter
+			{
+				var filter:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
+				filter.angle = 45;
+				filter.blurX = 5;
+				filter.blurY = 5;
+				filter.distance = 3;
+				filter.alpha = 0.4;
+				filter.color = 0x000000;
+				filter.knockout = false;
+				filter.quality = 0;
+				filter.strength = 1;
+				filter.inner = false;
+				filter.hideObject = false;
+				
+				return filter;
+			}
+
 		
 			/**
 			 * 

@@ -20,42 +20,42 @@ package com.printingoffice.framework.util
 			{
 				case NEWS_MESSAGE :
 					iconInfo["path"] = "assets/image/grid/newsMessage.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "最新接收稿件";
 					break;
 				
 				case SEND_IN :
 					iconInfo["path"] = "assets/image/grid/sendIn.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "发送中";
 					break;
 				
 				case OPEN_MENSSGE :
 					iconInfo["path"] = "assets/image/grid/openMessage.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "印刷人员已接收稿件";
 					break;
 				
 				case PRINT:
 					iconInfo["path"] = "assets/image/grid/print.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "稿件打印中";
 					break;
 				
 				case POST_PRODUCTION:
 					iconInfo["path"] = "assets/image/grid/postProduction.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "装定中";
 					break;
 				
 				case HAVE_BEEN_COMPLETED:
 					iconInfo["path"] = "assets/image/grid/haveBeenCompleted.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "已完成";
 					break;
 				
 				case DELIVERY:
 					iconInfo["path"] = "assets/image/grid/delivery.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "待送件";
 					break;
 				
 				case ARCHIVED:
 					iconInfo["path"] = "assets/image/grid/archived.png";
-					iconInfo["tootip"] = "";
+					iconInfo["tootip"] = "已归档";
 					break;
 				
 				default:

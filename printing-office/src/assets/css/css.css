@@ -9,6 +9,10 @@
 	advancedAntiAliasing:true;
 }
 
+mx|ToolTip {
+	fontSize: 14;
+}
+
 mx|DateField{
 	borderColor:#C0C0C0; 
 }
