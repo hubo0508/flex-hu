@@ -144,6 +144,8 @@ package com.printingoffice.framework.components.datagrid
 			{
 				box.selected = false;
 			}
+			
+			this.data = null;
 		}
 
 		[Inspectable(category="General", enumeration="LABEL,BOX", defaultValue="LABEL")]

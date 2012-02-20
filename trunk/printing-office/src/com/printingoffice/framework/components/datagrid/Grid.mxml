@@ -145,41 +145,73 @@
 					if(column)
 					{
 						var cell:Cell = column.getElementAt(rowIndex) as Cell;
-						if(cell)
-						{
-							switch(cell.cellType)
-							{
-								case Cell.LABEL :
-									cell.text = item[column.name];
-									break;
-								
-								case Cell.ICON :
-									var hlayout:HorizontalLayout = new HorizontalLayout();
-									hlayout.verticalAlign = "middle";
-									cell.layout = hlayout;
-									createCellIcon(cell,item[column.name] as Array);
-									break;
-								
-								default:
-									break;
-							}
-
-							try
-							{
-								if((cell.cellType == Cell.LABEL || cell.cellType == Cell.BOX || cell.cellType == Cell.ICON) && item[bgColorField].toString() == "0")
-								{
-									cell.backgroupColor = unfinishedColor;
-									cell.constColor = unfinishedColor;
-								}
-							}catch(e:*){
-								trace(e);
-							}							
-						}
-					}					
+						initCellValue(cell,item,column.name);
+						initCellBgColor(cell,item);
+					}
 				}
 			}
 			
-			private function createCellIcon(cell:Cell, icons:Array):void
+			/**
+			 * <p>初始化单元格背景颜色</p>
+			 * 
+			 * 注：</br>
+			 * 1、只有Cell单元格的类型为  Cell.LABEL || Cell.BOX || Cell.ICON 之一，且所指定的数据源中动态属性【bgColorField】取得的值=="0"时，
+			 * 单元格的背景颜色值为【unfinishedColor】，否则为默认颜色白色。</br>
+			 * 2、函数中的0值代表所有接件未完成的状态。</br>
+			 * 
+			 * @param cell:Cell 目标单元格
+			 * @param item:Object 单行数据源
+			 */
+			public function initCellBgColor(cell:Cell, item:Object):void
+			{
+				try
+				{
+					if((cell.cellType == Cell.LABEL || cell.cellType == Cell.BOX || cell.cellType == Cell.ICON) 
+						&& item[bgColorField].toString() == "0")
+					{
+						cell.backgroupColor = unfinishedColor;
+						cell.constColor = unfinishedColor;
+					}
+				}catch(e:*){
+					trace(e);
+				}		
+			}
+			
+			/**
+			 * <p>初始化单元格值</p>
+			 * 
+			 * 注：对于每个单元格容器中都存储有当前行的数据源，属性值为：com.printingoffice.framework.components.datagrid.Cell.data
+			 * 
+			 * @param cell:Cell 目标单元格
+			 * @param item:Object 单行数据源
+			 * @param field:String 目标单元格以取值key
+			 */
+			protected function initCellValue(cell:Cell, item:Object, field:String):void
+			{
+				if(cell == null) return;
+				
+				cell.data = item;
+				
+				switch(cell.cellType)
+				{
+					case Cell.LABEL :
+						cell.text = item[field];
+						break;
+					
+					case Cell.ICON :
+						var hlayout:HorizontalLayout = new HorizontalLayout();
+						hlayout.verticalAlign = "middle";
+						cell.layout = hlayout;
+						
+						initCellIcon(cell,item[field] as Array);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function initCellIcon(cell:Cell, icons:Array):void
 			{
 				if(icons == null || icons.length == 0)return;
 				
