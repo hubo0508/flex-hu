@@ -355,7 +355,7 @@
 				skinCon.id = index.toString();
 				skinCon.percentWidth = 100;
 				
-				var line:com.printingoffice.framework.components.Line = new com.printingoffice.framework.components.Line();
+				var line:com.printingoffice.framework.components.graphic.Line = new com.printingoffice.framework.components.graphic.Line();
 				line.top=0;
 				line.left = 28;
 				line.right = 20;
@@ -678,7 +678,7 @@
 	</s:HGroup>
 	
 	<!--分隔线-->
-	<components:Line/>
+	<graphic:Line/>
 		
 	<!--根据每个不同角色，从数据库查询资源，创建角色菜单  backgroundColor="#D5D5D5"-->
 	<components:MenuResourcesContainer  id="menuSource"  top="80" width="100%" height="100%">
