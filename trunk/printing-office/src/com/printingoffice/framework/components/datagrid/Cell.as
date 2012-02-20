@@ -40,7 +40,7 @@ package com.printingoffice.framework.components.datagrid
 		
 		private var _text:String="";
 		
-		private var _labelOrBox:String = "LABEL";
+		private var _cellType:String = "LABEL";
 		
 		private var _data:Object;
 		
@@ -51,6 +51,7 @@ package com.printingoffice.framework.components.datagrid
 		//创建常量组件
 		public static const LABEL:String = "LABEL";
 		public static const BOX:String  = "BOX";
+		public static const ICON:String = "ICON";		
 		
 		/**
 		 * 复选框Click点击
@@ -94,7 +95,7 @@ package com.printingoffice.framework.components.datagrid
 		{
 			super.createChildren();
 			
-			if(labelOrBox == "LABEL" && !label) 
+			if(cellType == "LABEL" && !label) 
 			{
 				label = new Label();
 				label.left = 4;
@@ -107,7 +108,7 @@ package com.printingoffice.framework.components.datagrid
 				this.addElement(label);
 			}
 			
-			if(labelOrBox == "BOX" && !box) 
+			if(cellType == "BOX" && !box) 
 			{
 				box = new CheckBox();
 				box.verticalCenter = 0;
@@ -146,14 +147,14 @@ package com.printingoffice.framework.components.datagrid
 		}
 
 		[Inspectable(category="General", enumeration="LABEL,BOX", defaultValue="LABEL")]
-		public function get labelOrBox():String
+		public function get cellType():String
 		{
-			return _labelOrBox;
+			return _cellType;
 		}
 		
-		public function set labelOrBox(value:String):void
+		public function set cellType(value:String):void
 		{
-			_labelOrBox = value;
+			_cellType = value;
 		}
 		
 		public function get text():String

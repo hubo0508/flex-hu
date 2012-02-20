@@ -19,10 +19,12 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.controls.Image;
 			import mx.events.DynamicEvent;
 			
 			import spark.components.CheckBox;
 			import spark.components.VGroup;
+			import spark.layouts.HorizontalLayout;
 
 			private var _dataProvider:ArrayCollection;
 			
@@ -47,6 +49,8 @@
 			private var _cellHeight:int = 40;
 			
 			private var _bgColorField:String = "bgColorStatus";
+			
+			private var _statusField:String = "statusIcon";
 			
 			private var _selectedItem:Array;
 			
@@ -143,14 +147,26 @@
 						var cell:Cell = column.getElementAt(rowIndex) as Cell;
 						if(cell)
 						{
-							if(cell.labelOrBox == Cell.LABEL)
+							switch(cell.cellType)
 							{
-								cell.text = item[column.name];
+								case Cell.LABEL :
+									cell.text = item[column.name];
+									break;
+								
+								case Cell.ICON :
+									var hlayout:HorizontalLayout = new HorizontalLayout();
+									hlayout.verticalAlign = "middle";
+									cell.layout = hlayout;
+									createCellIcon(cell,item[column.name] as Array);
+									break;
+								
+								default:
+									break;
 							}
-							
+
 							try
 							{
-								if((cell.labelOrBox == Cell.LABEL || cell.labelOrBox == Cell.BOX) && item[bgColorField].toString() == "0")
+								if((cell.cellType == Cell.LABEL || cell.cellType == Cell.BOX || cell.cellType == Cell.ICON) && item[bgColorField].toString() == "0")
 								{
 									cell.backgroupColor = unfinishedColor;
 									cell.constColor = unfinishedColor;
@@ -160,6 +176,24 @@
 							}							
 						}
 					}					
+				}
+			}
+			
+			private function createCellIcon(cell:Cell, icons:Array):void
+			{
+				if(icons == null || icons.length == 0)return;
+				
+				var len:int = icons.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var singleIconDesc:Array = Const.getStatePath(icons[i]);
+					
+					var img:Image = new Image();
+					img.source = singleIconDesc["path"];
+					img.toolTip = singleIconDesc["tootip"];
+					img.alpha = 0.5;
+					
+					cell.addElement(img);
 				}
 			}
 		
@@ -270,7 +304,14 @@
 			public function getCell(type:String,rowsIndex:int):Cell
 			{
 				var cell:Cell=new Cell();
-				cell.labelOrBox= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
+				if(type == statusField)
+				{
+					cell.cellType = Cell.ICON;
+				}
+				else
+				{
+					cell.cellType= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
+				}
 				cell.percentWidth=100;
 				cell.height = cellHeight;
 				cell.id = rowsIndex.toString();				
@@ -280,7 +321,7 @@
 				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
 				cell.addEventListener(Cell.BOX_CLICK,boxClickHandler,false,0,true);
 				
-				if(cell.labelOrBox == Cell.BOX)
+				if(cell.cellType == Cell.BOX)
 				{
 					cell.addEventListener(MouseEvent.CLICK,boxCellClickHandler,false,0,true);
 				}
@@ -547,6 +588,22 @@
 			public function set selectedItem(value:Array):void
 			{
 				_selectedItem = value;
+			}
+
+			/**
+			 * 状态图标字段
+			 */
+			public function get statusField():String
+			{
+				return _statusField;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set statusField(value:String):void
+			{
+				_statusField = value;
 			}
 
 

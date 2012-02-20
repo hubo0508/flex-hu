@@ -34,8 +34,8 @@
 	
 	<s:Button label="click-return" click="button2_clickHandler(event)" x="382" y="264"/>
 	
-	<datagrid:Cell>
-		
-	</datagrid:Cell>
+<s:HGroup width="100" height="100">
+	<mx:Image source="assets/image/grid/sendIn.png"/>
+</s:HGroup>
 	
 </s:Application>

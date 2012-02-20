@@ -12,49 +12,57 @@ package com.printingoffice.framework.util
 		{
 		}
 		
-		public static function getStatePath(state:int):String
+		public static function getStatePath(state:int):Array
 		{
-			var path:String  = "";
+			var iconInfo:Array  = [];
 			
 			switch(state)
 			{
 				case NEWS_MESSAGE :
-					path = "assets/image/grid/newsMessage.png";
+					iconInfo["path"] = "assets/image/grid/newsMessage.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case SEND_IN :
-					path = "assets/image/grid/sendIn.png";
+					iconInfo["path"] = "assets/image/grid/sendIn.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case OPEN_MENSSGE :
-					path = "assets/image/grid/openMessage.png";
+					iconInfo["path"] = "assets/image/grid/openMessage.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case PRINT:
-					path = "assets/image/grid/print.png";
+					iconInfo["path"] = "assets/image/grid/print.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case POST_PRODUCTION:
-					path = "assets/image/grid/postProduction.png";
+					iconInfo["path"] = "assets/image/grid/postProduction.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case HAVE_BEEN_COMPLETED:
-					path = "assets/image/grid/haveBeenCompleted.png";
+					iconInfo["path"] = "assets/image/grid/haveBeenCompleted.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case DELIVERY:
-					path = "assets/image/grid/delivery.png";
+					iconInfo["path"] = "assets/image/grid/delivery.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				case ARCHIVED:
-					path = "assets/image/grid/archived.png";
+					iconInfo["path"] = "assets/image/grid/archived.png";
+					iconInfo["tootip"] = "";
 					break;
 				
 				default:
 					break;
 			}
 			
-			return path;
+			return iconInfo;
 		}
 		
 		/**
