@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   minWidth="955"
-			   minHeight="600" xmlns:graphic="com.printingoffice.framework.components.graphic.*">
+			   minHeight="600" xmlns:graphic="com.printingoffice.framework.components.graphic.*" xmlns:datagrid="com.printingoffice.framework.components.datagrid.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -33,5 +33,9 @@
 	<s:Button label="click" click="button1_clickHandler(event)" x="287" y="261"/>
 	
 	<s:Button label="click-return" click="button2_clickHandler(event)" x="382" y="264"/>
+	
+	<datagrid:Cell>
+		
+	</datagrid:Cell>
 	
 </s:Application>
