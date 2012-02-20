@@ -10,7 +10,10 @@
 }
 
 mx|ToolTip {
-	fontSize: 14;
+	fontSize: 13;
+	borderSkin: Embed(source="/assets/skin/ToolTip_borderSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="78", scaleGridBottom="18");
+	color: #ffffff;
 }
 
 mx|DateField{
