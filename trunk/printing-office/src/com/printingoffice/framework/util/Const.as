@@ -12,6 +12,51 @@ package com.printingoffice.framework.util
 		{
 		}
 		
+		public static function getStatePath(state:int):String
+		{
+			var path:String  = "";
+			
+			switch(state)
+			{
+				case NEWS_MESSAGE :
+					path = "assets/image/grid/newsMessage.png";
+					break;
+				
+				case SEND_IN :
+					path = "assets/image/grid/sendIn.png";
+					break;
+				
+				case OPEN_MENSSGE :
+					path = "assets/image/grid/openMessage.png";
+					break;
+				
+				case PRINT:
+					path = "assets/image/grid/print.png";
+					break;
+				
+				case POST_PRODUCTION:
+					path = "assets/image/grid/postProduction.png";
+					break;
+				
+				case HAVE_BEEN_COMPLETED:
+					path = "assets/image/grid/haveBeenCompleted.png";
+					break;
+				
+				case DELIVERY:
+					path = "assets/image/grid/delivery.png";
+					break;
+				
+				case ARCHIVED:
+					path = "assets/image/grid/archived.png";
+					break;
+				
+				default:
+					break;
+			}
+			
+			return path;
+		}
+		
 		/**
 		 * 新接件
 		 */
@@ -51,6 +96,9 @@ package com.printingoffice.framework.util
 		 * 已归档
 		 */
 		public static const ARCHIVED:int = 8;
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 		/**
 		 * 红色
@@ -72,7 +120,6 @@ package com.printingoffice.framework.util
 		 */
 		public static const GREEN_COLOR:uint = 0x46A9EE;
 		
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		[Bindable]
 		[Embed('assets/image/hands.png')]
