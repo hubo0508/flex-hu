@@ -4,6 +4,8 @@ package com.printingoffice.framework.components
 	import com.printingoffice.framework.core.TweenLite;
 	import com.printingoffice.framework.util.Const;
 	
+	import flash.events.Event;
+	
 	import mx.collections.ArrayCollection;
 	import mx.events.DynamicEvent;
 	import mx.events.FlexEvent;
@@ -42,26 +44,30 @@ package com.printingoffice.framework.components
 		
 		private static const LEFT_Y_AXIS_TAG:String = "leftYAxisTag";
 		
-		private var _dataProvider:ArrayCollection;		
+		private var _data:ArrayCollection;		
+		
+		private var isInitChartMark:Boolean = false;
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w,h);
 			
-			againMeasureSize(w,h);
+			
 		}
 		
-		public function initChart():void
-		{
-			if(dataProvider == null || dataProvider.length == 0) return;
+		public function initChart(data:ArrayCollection):void
+		{		
+			if(data == null || data.length == 0) return;
 			
-			var maxNumber:Number = getMaxNumber(dataProvider);
+			this._data = data;
+
+			var maxNumber:Number = getMaxNumber(data);
 			var singlePixel:Number = getSinglePixel(maxNumber);
 			
-			var len:int = dataProvider.length;
+			var len:int = data.length;
 			for(var i:int=0; i<len; i++)
 			{
-				var item:Object = dataProvider.getItemAt(i);	
+				var item:Object = data.getItemAt(i);	
 				var leftTag:Label = createLeftYAxisTag(item,i);					
 				this.addElement(leftTag);
 				
@@ -78,13 +84,14 @@ package com.printingoffice.framework.components
 				var rightTag:Label = createRightYAxisTag(i, value, originalWidth, legend.top);
 				this.addElement(rightTag);
 			}
+		
 		}
 		
 		protected function againMeasureSize(w:Number, h:Number):void
 		{
-			if(dataProvider == null || dataProvider.length == 0)return;
+			if(_data == null || _data.length == 0)return;
 			
-			var maxNumber:Number = getMaxNumber(dataProvider);
+			var maxNumber:Number = getMaxNumber(_data);
 			var singlePixel:Number = getSinglePixel(maxNumber);
 			
 			var num:int = this.numElements;
@@ -95,7 +102,7 @@ package com.printingoffice.framework.components
 				{
 					var legend:Legend = element as Legend;
 					element.width = singlePixel * legend.numbers;
-					//new TweenLite(legend,0.3,{width:singlePixel * legend.numbers});
+					//new TweenLite(legend,0.1,{width:singlePixel * legend.numbers});
 				}
 				
 				if(element is Label && element.name == RIGHT_Y_AXIS_TAG)
@@ -183,22 +190,6 @@ package com.printingoffice.framework.components
 			
 			return tag;
 		}
-		
-		protected function chartConainerUpdateSizeEventHandler(event:DynamicEvent):void
-		{
-			againMeasureSize(event.x, event.y);
-		}
-		
-		public function get dataProvider():ArrayCollection
-		{
-			return _dataProvider;
-		}
-		
-		public function set dataProvider(value:ArrayCollection):void
-		{
-			_dataProvider = value;
-			
-			this.initChart();
-		}
+
 	}
 }
