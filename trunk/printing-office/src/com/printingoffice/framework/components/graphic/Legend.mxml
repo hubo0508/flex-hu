@@ -9,6 +9,14 @@
 		xmlns:mx="library://ns.adobe.com/flex/mx"
 		height="12">
 	
+	<fx:Script>
+		<![CDATA[
+			
+			public var numbers:Number;
+			
+		]]>
+	</fx:Script>
+	
 	<s:fill>
 		<s:LinearGradient rotation="90" scaleX="12.0957" x="34.2725" y="0">
 			<s:GradientEntry color="#62A531" ratio="0.0224719"/>
