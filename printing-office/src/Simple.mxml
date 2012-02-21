@@ -31,6 +31,10 @@
 			private var keyField:String = "type";
 			
 			private var valueField:String = "numbers";
+
+			private static const RIGHT_Y_AXIS_TAG:String = "rightYAxisTag";
+			
+			private static const LEFT_Y_AXIS_TAG:String = "leftYAxisTag";
 	
 			protected function application1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -67,7 +71,7 @@
 					playEffect(legend,originalWidth);
 					
 					var value:String = item[valueField].toString();
-					var rightTag:Label = createRightYAxisTag(value,originalWidth,legend.top);
+					var rightTag:Label = createRightYAxisTag(i, value, originalWidth, legend.top);
 					this.chartConainer.addElement(rightTag);
 				}
 			}
@@ -111,7 +115,8 @@
 			private function createLeftYAxisTag(item:Object, index:int):Label
 			{
 				var lab:Label = new Label();
-				lab.name = keyField;
+				lab.id = index.toString();
+				lab.name = LEFT_Y_AXIS_TAG;
 				lab.text = item[keyField];
 				lab.top = index == 0 ? rowTop : (rowHeight +rowTop) * index + rowTop;
 				lab.left = 5;
@@ -119,9 +124,11 @@
 				return lab;
 			}
 			
-			private function createRightYAxisTag(text:String, legendWidth:Number, top:Object):Label
+			private function createRightYAxisTag(index:int, text:String, legendWidth:Number, top:Object):Label
 			{
 				var tag:Label = new Label();
+				tag.id = index.toString();
+				tag.name = right_Y_AXIS_TAG;
 				tag.top = top+1;
 				tag.text = text;
 				tag.left = chartLeft + legendWidth + 5;
