@@ -26,9 +26,9 @@
 			{
 				var acc:ArrayCollection = new ArrayCollection();
 				acc.addItem({bgColor:0,statusIcon:[1,2],orderNo:'00000001',names:"大西南稿件",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({bgColor:0,statusIcon:[3,4],orderNo:'00000002',names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({bgColor:0,statusIcon:[3,4],orderNo:'00000003',names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({bgColor:0,statusIcon:[3,5],orderNo:'00000004',names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+				acc.addItem({bgColor:0,statusIcon:[4],orderNo:'00000002',names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({bgColor:0,statusIcon:[4],orderNo:'00000003',names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({bgColor:0,statusIcon:[5],orderNo:'00000004',names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
 				acc.addItem({bgColor:0,statusIcon:[6,7],orderNo:'00000005',names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
 				acc.addItem({bgColor:0,statusIcon:[6],orderNo:'00000006',names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
 				acc.addItem({bgColor:0,statusIcon:[6,7],orderNo:'00000007',names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
