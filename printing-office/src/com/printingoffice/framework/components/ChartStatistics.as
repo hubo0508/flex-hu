@@ -5,6 +5,8 @@ package com.printingoffice.framework.components
 	import com.printingoffice.framework.util.Const;
 	
 	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	import mx.collections.ArrayCollection;
 	import mx.events.DynamicEvent;
@@ -45,14 +47,19 @@ package com.printingoffice.framework.components
 		private static const LEFT_Y_AXIS_TAG:String = "leftYAxisTag";
 		
 		private var _data:ArrayCollection;		
+
+		private var timer:Timer;
 		
-		private var isInitChartMark:Boolean = false;
+		private var isStartSizeMark:Boolean = false;
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w,h);
 			
-			
+			if(isStartSizeMark)
+			{
+				againMeasureSize(w,h);
+			}
 		}
 		
 		public function initChart(data:ArrayCollection):void
@@ -85,11 +92,40 @@ package com.printingoffice.framework.components
 				this.addElement(rightTag);
 			}
 		
+			startTimer();
+		}
+		
+		private function startTimer():void
+		{
+			if(timer == null)
+			{
+				timer=new Timer(1000,1);
+			}
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function timerComplete(event:Event):void
+			{
+				isStartSizeMark = true;
+				timerStop();							
+			},false,0,true);								
+			timer.start();	
+		}
+		
+		private function timerStop():void
+		{
+			if(timer.running)
+			{
+				timer.stop();
+			}
+			if(timer)
+			{
+				timer = null;
+			}
 		}
 		
 		protected function againMeasureSize(w:Number, h:Number):void
 		{
 			if(_data == null || _data.length == 0)return;
+			
+			trace("againMeasureSize" + "   " + isStartSizeMark);
 			
 			var maxNumber:Number = getMaxNumber(_data);
 			var singlePixel:Number = getSinglePixel(maxNumber);
