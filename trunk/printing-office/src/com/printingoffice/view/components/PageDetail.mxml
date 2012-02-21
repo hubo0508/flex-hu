@@ -4,13 +4,14 @@
 	 <p><b>create-time：</b>2012-2-11</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  xmlns:graphic="com.printingoffice.components.graphic.*"
+					  xmlns:components="com.printingoffice.framework.components.*" 
+					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  xmlns="com.printingoffice.components.*" 
 					  height="29"
-					  minWidth="10" xmlns:components="com.printingoffice.framework.components.*" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
+					  minWidth="10" >
 
 	<fx:Script>
 		<![CDATA[
@@ -29,8 +30,7 @@
 				var bc:BorderContainer = event.currentTarget as BorderContainer;
 				switch(event.type)
 				{
-					case MouseEvent.ROLL_OUT :
-						this.changeBorder(false,bc);
+					case MouseEvent.ROLL_OUT :						
 						
 						if(pagingtimer == null)
 						{
@@ -101,6 +101,8 @@
 			
 			protected function mouseDownOutsideHandler(event:Event = null):void
 			{
+				this.changeBorder(false,pageBC);
+				
 				PopUpManager.removePopUp(pagingState);
 			}
 			
@@ -120,7 +122,7 @@
 	</fx:Script>
 
 	
-	<s:BorderContainer useHandCursor="true" buttonMode="true" right="180" borderVisible="true" borderColor="#FFFFFF" height="22" verticalCenter="-1"
+	<s:BorderContainer id="pageBC" useHandCursor="true" buttonMode="true" right="180" borderVisible="true" borderColor="#FFFFFF" height="22" verticalCenter="-1"
 					    rollOut="pageDetailRollHandler(event)" rollOver="pageDetailRollHandler(event)">
 		
 		<s:layout>
@@ -135,15 +137,15 @@
 	</s:BorderContainer>
 
 	<components:Button   triangleOver="true" name="上一页"  width="40" minHeight="29" right="129" verticalCenter="0">
-		<graphic1:Next  horizontalCenter="0" verticalCenter="0"/>
+		<graphic:Next  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	<components:Button   triangleOver="true" name="下一页"  width="40" minHeight="29" right="90" verticalCenter="0">
-		<graphic1:Previous  horizontalCenter="0" verticalCenter="0"/>
+		<graphic:Previous  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	
 	<components:Button  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0"> 
-		<graphic1:Gear verticalCenter="0" horizontalCenter="-7"/>		
-		<graphic1:Triangle  horizontalCenter="7" verticalCenter="0"/>
+		<graphic:Gear verticalCenter="0" horizontalCenter="-7"/>		
+		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
 	</components:Button>
 	
-</s:SkinnableContainer>
+</s:Group>
