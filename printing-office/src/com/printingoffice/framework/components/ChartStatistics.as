@@ -28,28 +28,64 @@ package com.printingoffice.framework.components
 			super();
 		}
 		
-		private var rowHeight:int = 11;
+		/**
+		 * 行高度
+		 */
+		private var _rowHeight:int = 11;
 		
-		private var rowTop:int = 10;
+		/**
+		 * 行的上边缘到锚点目标的上边缘的垂直距离（以像素为单位）。 
+		 */
+		private var _rowTop:int = 10;
 		
-		private var chartLeft:int = 50;
+		/**
+		 * 图例的从左边缘到锚点目标的左边缘的水平距离（以像素为单位）。 
+		 */
+		private var _chartLeft:int = 50;
 		
-		private var chartRight:int = 50;
+		/**
+		 * 图例的从右边缘到锚点目标的右边缘的水平距离（以像素为单位）。 
+		 */
+		private var _chartRight:int = 50;
 		
-		private var gap:Number = 5;
+		/**
+		 * 内部组件之间的间隔
+		 */
+		private var _gap:Number = 5;
 		
-		private var keyField:String = "type";
+		/**
+		 * 数据提供程序项目中作为数据提示显示的字段名称。【类型】
+		 */
+		private var _keyField:String = "type";
 		
-		private var valueField:String = "numbers";
+		/**
+		 * 数据提供程序项目中作为数据提示显示的字段名称。【数量】
+		 */
+		private var _valueField:String = "numbers";
 		
+		/**
+		 * Y轴右侧组件标签
+		 */
 		private static const RIGHT_Y_AXIS_TAG:String = "rightYAxisTag";
 		
+		/**
+		 * Y轴左侧组件标签
+		 */
 		private static const LEFT_Y_AXIS_TAG:String = "leftYAxisTag";
 		
+		/**
+		 * 内部使用，私有。
+		 */
 		private var _data:ArrayCollection;		
 
+		/**
+		 * 内部使用，私有。
+		 */
 		private var timer:Timer;
 		
+		/**
+		 * 内部使用，私有。
+		 */
 		private var isStartSizeMark:Boolean = false;
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
@@ -228,6 +264,119 @@ package com.printingoffice.framework.components
 			
 			return tag;
 		}
+
+		/**
+		 * 行高度
+		 */
+		public function get rowHeight():int
+		{
+			return _rowHeight;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set rowHeight(value:int):void
+		{
+			_rowHeight = value;
+		}
+
+		/**
+		 * 行的上边缘到锚点目标的上边缘的垂直距离（以像素为单位）。 
+		 */
+		public function get rowTop():int
+		{
+			return _rowTop;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set rowTop(value:int):void
+		{
+			_rowTop = value;
+		}
+
+		/**
+		 * 图例的从左边缘到锚点目标的左边缘的水平距离（以像素为单位）。 
+		 */
+		public function get chartLeft():int
+		{
+			return _chartLeft;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set chartLeft(value:int):void
+		{
+			_chartLeft = value;
+		}
+
+		/**
+		 * 图例的从右边缘到锚点目标的右边缘的水平距离（以像素为单位）。 
+		 */
+		public function get chartRight():int
+		{
+			return _chartRight;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set chartRight(value:int):void
+		{
+			_chartRight = value;
+		}
+
+		/**
+		 * 内部组件之间的间隔
+		 */
+		public function get gap():Number
+		{
+			return _gap;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set gap(value:Number):void
+		{
+			_gap = value;
+		}
+
+		/**
+		 * 数据提供程序项目中作为数据提示显示的字段名称。【类型】
+		 */
+		public function get keyField():String
+		{
+			return _keyField;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set keyField(value:String):void
+		{
+			_keyField = value;
+		}
+
+		/**
+		 * 数据提供程序项目中作为数据提示显示的字段名称。【数量】
+		 */
+		public function get valueField():String
+		{
+			return _valueField;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set valueField(value:String):void
+		{
+			_valueField = value;
+		}
+
 
 	}
 }
