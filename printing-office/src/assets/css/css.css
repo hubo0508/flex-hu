@@ -19,6 +19,8 @@
 
 .tag{
 	fontFamily: 微软雅黑,黑体,Arial, '_sans';
+	fontSize:13;
+	color:#444444;
 }
 
 mx|ToolTip {
