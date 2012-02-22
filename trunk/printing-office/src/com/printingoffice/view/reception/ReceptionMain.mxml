@@ -5,17 +5,18 @@
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-					  xmlns:s="library://ns.adobe.com/flex/spark"
-					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
-					  xmlns:components="com.printingoffice.framework.components.*"
-					  xmlns:viewcom="com.printingoffice.view.components.*"
-					  xmlns:datagrid="com.printingoffice.framework.components.datagrid.*"
-					  creationComplete="creationCompleteHandler(event)"
-					  top="115"
-					  left="200"
-					  width="100%"
-					  height="100%" xmlns:children="com.printingoffice.view.reception.children.*">
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:graphic="com.printingoffice.framework.components.graphic.*"
+		 xmlns:components="com.printingoffice.framework.components.*"
+		 xmlns:viewcom="com.printingoffice.view.components.*"
+		 xmlns:datagrid="com.printingoffice.framework.components.datagrid.*"
+		 xmlns:children="com.printingoffice.view.reception.children.*"
+		 creationComplete="creationCompleteHandler(event)"
+		 top="115"
+		 left="200"
+		 width="100%"
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
@@ -79,7 +80,7 @@
 	<children:Statistics  height="140"  x="0" top="80"/>
 	
 	<!--内容-->
-	<s:Scroller width="100%" height="100%" x="0" top="230">
+	<s:Scroller width="100%" height="100%" x="0" top="240">
 		<components:Content id="contentgroup" width="100%" height="100%">		
 			<datagrid:Grid id="grid"  
 						   bgColorField="bgColor" statusField="statusIcon" 

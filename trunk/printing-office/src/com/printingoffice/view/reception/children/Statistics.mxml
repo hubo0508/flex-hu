@@ -53,7 +53,7 @@
 	<!--当前值班人员-->
 	<s:Group width="50%" height="100%">
 		<s:HGroup horizontalCenter="0" y="0" verticalAlign="middle">
-			<s:Label styleName="tag" fontSize="14" text="当天人员值班列表" />
+			<s:Label styleName="tag" fontSize="14" text="当天人员值班列表(11月12日 12:00 ～ 11月14日 12:00)" />
 			<graphic:Triangle x="239" y="11" />  
 		</s:HGroup>		
 		<s:Label styleName="tag" text="分店经理：胡云    印前主管：尹勤    印后主管：王阳"  x="14" y="27"/>

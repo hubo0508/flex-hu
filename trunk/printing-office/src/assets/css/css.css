@@ -9,6 +9,14 @@
 	advancedAntiAliasing:true;
 }
 
+/*
+@font-face {
+	src: local("微软雅黑");
+	fontFamily: YH;
+	embedAsCFF: true;
+	advancedAntiAliasing: true; 
+}*/
+
 .tag{
 	fontFamily: 微软雅黑,黑体,Arial, '_sans';
 }
