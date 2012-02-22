@@ -9,6 +9,10 @@
 	advancedAntiAliasing:true;
 }
 
+.tag{
+	fontFamily: 微软雅黑,黑体,Arial, '_sans';
+}
+
 mx|ToolTip {
 	fontSize: 13;
 	borderSkin: Embed(source="/assets/skin/ToolTip_borderSkin.png",

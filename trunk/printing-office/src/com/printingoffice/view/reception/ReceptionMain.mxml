@@ -15,7 +15,7 @@
 					  top="115"
 					  left="200"
 					  width="100%"
-					  height="100%">
+					  height="100%" xmlns:children="com.printingoffice.view.reception.children.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -42,24 +42,8 @@
 				acc.addItem({bgColor:1,statusIcon:[],orderNo:'00000015',names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
 				acc.addItem({bgColor:1,statusIcon:[],orderNo:'00000016',names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
 				
-				grid.dataProvider = acc;		
+				grid.dataProvider = acc;	
 				
-			
-				
-				setTimeout(initChart,1000);
-			}
-
-			private function initChart():void
-			{
-				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({type:'已接件',numbers:120});
-				acc.addItem({type:'等待中',numbers:60});
-				acc.addItem({type:'印刷中',numbers:70});
-				acc.addItem({type:'装订中',numbers:40});
-				acc.addItem({type:'已完成',numbers:20});
-				acc.addItem({type:'待送件',numbers:10});
-				
-				chartStatistics.initChart(acc)
 			}
 		]]>
 	</fx:Script>
@@ -85,24 +69,19 @@
 		<graphic:MoveTo  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 
+	<!--分页信息-->
 	<viewcom:PageDetail top="19" right="0"/>
 	
+	<!--分隔线-->
 	<graphic:Line/>
 
+	<!--统计信息-->
+	<children:Statistics  height="140"  x="0" top="80"/>
+	
 	<!--内容-->
-	<s:Scroller width="100%" height="100%" x="0" top="70">
+	<s:Scroller width="100%" height="100%" x="0" top="230">
 		<components:Content id="contentgroup" width="100%" height="100%">		
-			
-			<s:HGroup width="100%" height="130">
-				
-				<!--图表-->
-				<components:ChartStatistics id="chartStatistics" width="50%" height="100%"/>
-				
-				<!--当前值班人员-->
-			
-			</s:HGroup>
-			
-			<datagrid:Grid id="grid" top="140"  
+			<datagrid:Grid id="grid"  
 						   bgColorField="bgColor" statusField="statusIcon" 
 						   displayColumn="['BOX','statusIcon','names','info','orderNo','times']" 
 						   displayColumnWidth="[37,80,200,0,80,80]" width="100%"/>

@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:components="com.printingoffice.framework.components.*"
-			   creationComplete="application1_creationCompleteHandler(event)">
+			   creationComplete="application1_creationCompleteHandler(event)" xmlns:graphic="com.printingoffice.framework.components.graphic.*">
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -26,17 +26,45 @@
 		]]>
 	</fx:Script>
 	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace components "com.printingoffice.framework.components.*";
+		@namespace graphic "com.printingoffice.framework.components.graphic.*";
+		
+		s|Label{
+			fontFamily: 微软雅黑,黑体,Arial, '_sans';
+		}
+		
+	</fx:Style>
+	
 	<s:BorderContainer top="10" left="10" width="148" height="153" />
 	
-	<s:HGroup width="100%" height="153" x="170" y="10">
+	<s:HGroup width="100%" height="140" x="170" y="10" gap="0">
 		
 		<!--图表-->
-		<components:ChartStatistics id="chartStatistics" width="50%" height="100%"/>
+		<s:Group width="50%" height="100%">
+			<s:HGroup horizontalCenter="0" verticalAlign="middle">
+				<s:Label text="当前数据统计时间段：11月12日 12:00 ～ 11月14日 12:00" horizontalCenter="0"/>
+				<graphic:Triangle x="239" y="11" />
+			</s:HGroup>	
+			<components:ChartStatistics id="chartStatistics" width="100%" height="100%" top="15"/>
+		</s:Group>		
+		
+		<graphic:Line height="100%" width="0"/>
 		
 		<!--当前值班人员-->
-		<s:BorderContainer width="50%" height="100%">
-			
-		</s:BorderContainer>
+		<s:Group width="50%" height="100%">
+			<s:HGroup horizontalCenter="0" y="0" verticalAlign="middle">
+				<s:Label text="当天人员值班列表" />
+				<graphic:Triangle x="239" y="11" />
+			</s:HGroup>		
+			<s:Label styleName="tag" text="分店经理：胡云    印前主管：尹勤    印后主管：王阳"  x="14" y="27"/>
+			<s:Label text="前台：郑海燕、李佳"  x="14" y="49"/>
+			<s:Label text="印前：胡波、朱彬、蔡勇军、廖雨祥"  x="14" y="71"/>
+			<s:Label text="印后：将于、胡志刚、张湘龙"  x="14" y="93"/>
+			<s:Label text="接件：甘云、刘属"  x="14" y="115"/>
+		</s:Group>
 	</s:HGroup>
 	
 </s:Application>

@@ -211,6 +211,7 @@ package com.printingoffice.framework.components
 			lab.text = item[keyField];
 			lab.top = index == 0 ? rowTop : (rowHeight +rowTop) * index + rowTop;
 			lab.left = gap;
+			lab.styleName = "tag";
 			
 			return lab;
 		}
@@ -223,6 +224,7 @@ package com.printingoffice.framework.components
 			tag.top = top+1;
 			tag.text = text;
 			tag.left = chartLeft + legendWidth + gap;
+			tag.styleName = "tag";
 			
 			return tag;
 		}
