@@ -20,6 +20,8 @@
 			{
 				value =  (value - delta) <= 0 ? 0 : (value - delta);
  				super.verticalScrollPosition = value;	
+				
+				trace(super.contentHeight + " ||" +super.verticalScrollPosition);
 			}
 			
 			protected function mouseWheelHandler(event:MouseEvent):void

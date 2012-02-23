@@ -5,6 +5,7 @@ package com.printingoffice.framework.components
 	import com.printingoffice.framework.util.Const;
 	
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
@@ -15,6 +16,8 @@ package com.printingoffice.framework.components
 	
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.filters.DropShadowFilter;
+	import spark.filters.GlowFilter;
 	
 	/**
 	 * <p>
@@ -128,7 +131,10 @@ package com.printingoffice.framework.components
 				this.addElement(rightTag);
 			}
 		
-			startTimer();
+			if(isStartSizeMark == false)
+			{
+				startTimer();	
+			}
 		}
 		
 		private function startTimer():void
@@ -173,8 +179,7 @@ package com.printingoffice.framework.components
 				if(element is Legend)
 				{
 					var legend:Legend = element as Legend;
-					element.width = singlePixel * legend.numbers;
-					//new TweenLite(legend,0.1,{width:singlePixel * legend.numbers});
+					legend.width = singlePixel * legend.numbers;					
 				}
 				
 				if(element is Label && element.name == RIGHT_Y_AXIS_TAG)
@@ -228,6 +233,47 @@ package com.printingoffice.framework.components
 			return maxNum;
 		}
 		
+		private function getShadowFilter():spark.filters.DropShadowFilter
+		{
+			var filter:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
+			filter.angle = 45;
+			filter.blurX = 6;
+			filter.blurY = 6;
+			filter.distance = 0;
+			filter.alpha = 0.4;
+			filter.color = 0x000000;
+			filter.knockout = false;
+			filter.quality = 1;
+			filter.strength = 1;
+			filter.inner = false;
+			filter.hideObject = false;
+			
+			return filter;
+		}
+		
+		protected function legendRollHandler(event:MouseEvent):void
+		{
+			var legend:Legend = event.currentTarget as Legend;
+			switch(event.type)
+			{
+				case MouseEvent.ROLL_OUT:
+					legend.filters = null;
+					break;
+				
+				case MouseEvent.ROLL_OVER :
+					legend.filters = [getShadowFilter()];
+					break;
+				
+				default:
+					break;
+			}
+		}
+		
+		protected function legendClickHandler(event:MouseEvent):void
+		{
+			
+		}
+		
 		private function createLegend(index:int):Legend
 		{
 			var legend:Legend = new Legend();
@@ -235,9 +281,17 @@ package com.printingoffice.framework.components
 			legend.left = chartLeft;
 			legend.width = 1;
 			legend.id = index.toString();
-			
+			legend.useHandCursor = true;
+			legend.buttonMode = true;
+			//legend.filters = [getShadowFilter()];
+			legend.addEventListener(MouseEvent.ROLL_OUT,legendRollHandler,false,0,true);
+			legend.addEventListener(MouseEvent.ROLL_OVER,legendRollHandler,false,0,true);
+			legend.addEventListener(MouseEvent.CLICK,legendClickHandler,false,0,true);
+
 			return legend;
 		}
+		
+		
 		
 		private function createLeftYAxisTag(item:Object, index:int):Label
 		{
