@@ -3,6 +3,7 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:view="com.printingoffice.view.*"
+					   showStatusBar="false"
 					   minWidth="913"
 					   minHeight="500"
 					   width="100%"
