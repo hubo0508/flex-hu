@@ -726,7 +726,6 @@
 				_statusField = value;
 			}
 
-
 		]]>
 	</fx:Script>
 

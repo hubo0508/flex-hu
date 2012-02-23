@@ -167,8 +167,6 @@ package com.printingoffice.framework.components
 		{
 			if(_data == null || _data.length == 0)return;
 			
-			trace("againMeasureSize" + "   " + isStartSizeMark);
-			
 			var maxNumber:Number = getMaxNumber(_data);
 			var singlePixel:Number = getSinglePixel(maxNumber);
 			
@@ -283,15 +281,12 @@ package com.printingoffice.framework.components
 			legend.id = index.toString();
 			legend.useHandCursor = true;
 			legend.buttonMode = true;
-			//legend.filters = [getShadowFilter()];
 			legend.addEventListener(MouseEvent.ROLL_OUT,legendRollHandler,false,0,true);
 			legend.addEventListener(MouseEvent.ROLL_OVER,legendRollHandler,false,0,true);
 			legend.addEventListener(MouseEvent.CLICK,legendClickHandler,false,0,true);
 
 			return legend;
 		}
-		
-		
 		
 		private function createLeftYAxisTag(item:Object, index:int):Label
 		{
@@ -430,7 +425,5 @@ package com.printingoffice.framework.components
 		{
 			_valueField = value;
 		}
-
-
 	}
 }
