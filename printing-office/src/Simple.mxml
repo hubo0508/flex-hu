@@ -26,19 +26,7 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/mx";
-		@namespace components "com.printingoffice.framework.components.*";
-		@namespace graphic "com.printingoffice.framework.components.graphic.*";
-		
-		s|Label{
-			fontFamily: 微软雅黑,黑体,Arial, '_sans';
-		}
-		
-	</fx:Style>
-	
-	<mx:DataGrid da
+
 	
 	<s:BorderContainer top="10" left="10" width="148" height="153" />
 	
