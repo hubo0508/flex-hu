@@ -4,10 +4,14 @@
 @namespace easy "library://flexeasy";
 
 
-*{
-	fontFamily: Arial, "_sans";
-	advancedAntiAliasing:true;
+s|WindowedApplication{
+	fontFamily: 宋体,Arial, "_sans";
 }
+/*
+*{
+	fontFamily: Arial,微软雅黑, "_sans";
+	advancedAntiAliasing:true;
+}*/
 
 /*
 @font-face {
