@@ -21,12 +21,12 @@
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.event.MenuButtonEvent;
+			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.view.reception.children.Setting;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			
-			private var setting:Setting;
+			import mx.managers.PopUpManager;
 
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -54,7 +54,21 @@
 
 			protected function pageDetailClickSettingMenuHandler(event:MenuButtonEvent):void
 			{
-				
+				var SID:String = "com.printingoffice.view.reception.children.Setting";
+				var setting:Setting;
+				if(UIUtil.isExistWindown(SID,this) == false)
+				{
+					setting = new Setting();
+					setting.id = SID;
+					setting.x = event.point.x -setting.width ;
+					setting.y = event.point.y;
+				}
+				else
+				{
+					setting = UIUtil.getWindown(SID,this) as Setting;
+				}
+
+				PopUpManager.addPopUp(setting, UIUtil.getApplication(this), false);
 			}
 
 		]]>

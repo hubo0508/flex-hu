@@ -4,8 +4,13 @@ package com.printingoffice.framework.util
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	
+	import mx.controls.Alert;
+	import mx.core.IChildList;
+	import mx.core.IFlexDisplayObject;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
+	import mx.managers.ISystemManager;
+	import mx.managers.PopUpManager;
 	
 	import spark.components.Application;
 	
@@ -26,7 +31,94 @@ package com.printingoffice.framework.util
 		public function UIUtil()
 		{
 		}
+		
+		public static function getWindown(SID:String, UIObj:UIComponent):UIComponent
+		{
+			var systemManager:ISystemManager=UIObj.systemManager;
+			var ichildList:IChildList = systemManager.rawChildren;
+			for (var i:int=0; i < ichildList.numChildren; i++)
+			{
+				var obj:Object = ichildList.getChildAt(i);			
+				if(getID(obj) == SID)
+				{
+					return obj as UIComponent;
+				}
+			}
+			return null;
+		}
+		
+		public static function isExistWindown(SID:String, UIObj:UIComponent):Boolean
+		{
+			var systemManager:ISystemManager=UIObj.systemManager;
+			var ichildList:IChildList = systemManager.rawChildren;
+			for (var i:int=0; i < ichildList.numChildren; i++)
+			{
+				var obj:Object = ichildList.getChildAt(i);			
+				if(getID(obj) == SID)
+				{
+					return true;
+					break;
+				}
+			}
+			return false;
+		}
 
+		/**
+		 * 删除上一个弹出窗口
+		 * 
+		 * @param SID:String 弹出窗口对象ID
+		 * @param UIObj:UICompontent 弹出窗口当前所在页面
+		 */
+		public static function beforeDeletingTheWindow(SID:String,UIObj:UIComponent):void
+		{				
+			//Save SID
+			var SID_Arr:Array = [];
+			
+			//Query SID
+			var systemManager:ISystemManager=UIObj.systemManager;
+			var ichildList:IChildList = systemManager.rawChildren;
+			for (var i:int=0; i < ichildList.numChildren; i++)
+			{
+				var obj:Object = ichildList.getChildAt(i);			
+				
+				try
+				{
+					if(obj.id == SID)
+					{
+						SID_Arr.push(i); 
+					}
+				}
+				catch(e:*){trace(e)}					
+			}
+			
+			if(SID_Arr.length <= 1) return;
+			
+			//Remove
+			SID_Arr.pop();
+			for(var j:int=0; j < SID_Arr.length; j++)
+			{
+				PopUpManager.removePopUp(ichildList.getChildAt(SID_Arr[j]) as IFlexDisplayObject);
+			}
+		}
+		
+		public static function removeAllWindow(displayObject:UIComponent):void
+		{
+			var systemManager:ISystemManager=displayObject.systemManager;
+			
+			var ichildList:IChildList=systemManager.rawChildren;
+			for (var i:int=0; i < ichildList.numChildren; i++)
+			{
+				var obj:Object=ichildList.getChildAt(i);
+				trace(i+" content = " + obj);
+				if (obj == "mouseCatcher" || obj == "cursorHolder" || obj is Alert || obj == "modalWindow" || obj is Application)
+				{
+				}
+				else
+				{	
+					PopUpManager.removePopUp(obj as IFlexDisplayObject);
+				}
+			}
+		}
 		
 		/**
 		 * 改变选择行数据存储缓存
