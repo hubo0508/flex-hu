@@ -4,16 +4,18 @@
 <p><b>create-time：</b>2012-2-9</p>
 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
-				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   borderVisible="false"
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   mouseDownOutside="mouseDownOutsideHandler(event)"
 				   width="300"
 				   height="200">
 	
 	<fx:Script>
 		<![CDATA[
 			import mx.events.DynamicEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
 			
 			public static const CLICK_EVENT:String  = "clickEvent";
 			
@@ -24,6 +26,12 @@
 				
 				this.dispatchEvent(dye);
 			}			
+
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -50,4 +58,5 @@
 			</s:ArrayList>
 		</s:dataProvider>
 	</s:List>
-</s:BorderContainer>
+	
+</s:Group>
