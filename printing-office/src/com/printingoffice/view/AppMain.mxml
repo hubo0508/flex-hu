@@ -78,4 +78,7 @@
 	
 	<framework:RightContent id="content"/>
 	
+	<!--
+	<framework:BottomNavigator id="bn" />-->
+	
 </s:SkinnableContainer>
