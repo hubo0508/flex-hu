@@ -12,14 +12,21 @@
 					  xmlns="com.printingoffice.components.*" 
 					  height="29"
 					  minWidth="10" >
+	
+	<fx:Metadata>
+		[Event(name="clickSettingMenu",type="com.printingoffice.framework.event.MenuButtonEvent")]
+	</fx:Metadata>
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.framework.event.MenuButtonEvent;
 			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
+			
+			public static const SETTING:String = "setting";
 			
 			private var pagingState:PagingState;
 			
@@ -117,7 +124,26 @@
 					bc.setStyle("borderColor", 0xFFFFFF);
 				}
 			}
+			
+			protected function settingClickHandler(event:MouseEvent):void
+			{
+				var btn:Button = event.currentTarget as Button;
+				
+				var currentPoint:Point = UIUtil.getUiAbsolutePosition(btn);
+				currentPoint.x += btn.width;
+				currentPoint.y += btn.height;
+				
+				dispatch(MenuButtonEvent.CLICK_SETTING_MENU,currentPoint);
+			}
 
+			private function dispatch(type:String,point:Point):void
+			{
+				var menuEvent:MenuButtonEvent = new MenuButtonEvent(type);
+				menuEvent.types = type;
+				menuEvent.point = point;
+				
+				this.dispatchEvent(menuEvent);
+			}
 		]]>
 	</fx:Script>
 
@@ -143,7 +169,7 @@
 		<graphic:Previous  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	
-	<components:Button  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0"> 
+	<components:Button id="setting"  triangleOver="true" minHeight="29" name="设置" width="68" right="10" verticalCenter="0" click="settingClickHandler(event)"> 
 		<graphic:Gear verticalCenter="0" horizontalCenter="-7"/>		
 		<graphic:Triangle  horizontalCenter="7" verticalCenter="0"/>
 	</components:Button>

@@ -20,8 +20,13 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.framework.event.MenuButtonEvent;
+			import com.printingoffice.view.reception.children.Setting;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
+			
+			private var setting:Setting;
 
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -46,6 +51,12 @@
 				grid.dataProvider = acc;	
 				
 			}
+
+			protected function pageDetailClickSettingMenuHandler(event:MenuButtonEvent):void
+			{
+				
+			}
+
 		]]>
 	</fx:Script>
 
@@ -71,7 +82,7 @@
 	</components:Button>
 
 	<!--分页信息-->
-	<viewcom:PageDetail top="19" right="0"/>
+	<viewcom:PageDetail id="pageDetail" top="19" right="0" clickSettingMenu="pageDetailClickSettingMenuHandler(event)"/>
 	
 	<!--分隔线-->
 	<graphic:Line/>
