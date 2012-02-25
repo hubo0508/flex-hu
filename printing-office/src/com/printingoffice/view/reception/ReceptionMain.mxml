@@ -26,6 +26,7 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 
 			protected function creationCompleteHandler(event:FlexEvent):void
@@ -58,10 +59,17 @@
 				var setting:Setting;
 				if(UIUtil.isExistWindown(SID,this) == false)
 				{
+					var menuData:ArrayCollection = new ArrayCollection();
+					menuData.addItem({text:"数据统计与值班列表",selected:true});
+					menuData.addItem({text:"数据统计",selected:false});
+					menuData.addItem({text:"值班列表",selected:false});
+
 					setting = new Setting();
 					setting.id = SID;
 					setting.x = event.point.x -setting.width ;
 					setting.y = event.point.y;
+					setting.initModuleMenu(menuData);
+					setting.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 				}
 				else
 				{
@@ -69,6 +77,12 @@
 				}
 
 				PopUpManager.addPopUp(setting, UIUtil.getApplication(this), false);
+			}
+			
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				var SID:String = "com.printingoffice.view.reception.children.Setting";
+				PopUpManager.removePopUp(UIUtil.getWindown(SID,this));
 			}
 
 		]]>
