@@ -9,7 +9,7 @@
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 		  xmlns:components="com.printingoffice.framework.components.*"
-		  creationComplete="hgroup1_creationCompleteHandler(event)"
+		  creationComplete="creationCompleteHandler(event)"
 		  width="100%"
 		  gap="0">
 	
@@ -18,7 +18,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 
-			protected function hgroup1_creationCompleteHandler(event:FlexEvent):void
+			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				setTimeout(initChart,500);
 			}
