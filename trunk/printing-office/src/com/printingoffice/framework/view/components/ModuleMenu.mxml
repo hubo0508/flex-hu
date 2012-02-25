@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	 <p><b>auth：</b>HUBO</p>
-	 <p><b>create-time：</b>2012-2-9</p>
-	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-2-9</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
@@ -10,7 +10,7 @@
 				   borderVisible="false"
 				   width="160"
 				   height="275">
-
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -73,7 +73,7 @@
 							}	
 						}											
 						break;
-										
+					
 					default:
 						break;
 				}
@@ -104,7 +104,7 @@
 				box.left = 10;
 				box.selected = Boolean(item["selected"]);
 				box.id = index.toString();
-
+				
 				bc.addElement(box);
 				
 				return bc;
@@ -192,15 +192,15 @@
 			{
 				return _dataField;
 			}
-
+			
 			public function set dataField(value:String):void
 			{
 				_dataField = value;
 			}
-
+			
 		]]>
 	</fx:Script>
-
+	
 	<s:filters> 
 		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
 							 alpha='0.4' color='#000000'  knockout='false' quality='1'
@@ -212,28 +212,5 @@
 			<s:SolidColor color="#EEEEEE"/>
 		</s:fill>
 	</s:Rect>	
-	
-	<!--
-	<s:List id="list" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
-		<s:itemRenderer>
-			<fx:Component>
-				<s:ItemRenderer> 
-					<s:CheckBox color="#444444" fontSize="15" label="{data.type}" left="15" top="7" bottom="7" />
-				</s:ItemRenderer>
-			</fx:Component>
-		</s:itemRenderer>
-		<s:dataProvider>
-			<s:ArrayList>
-				<fx:Object type="前台接件"/>
-				<fx:Object type="稿件印前"/>
-				<fx:Object type="稿件印后"/>
-				<fx:Object type="CAD出图"/>
-				<fx:Object type="客户管理"/>
-				<fx:Object type="原材料管理" />
-				<fx:Object type="人员管理"/>
-				<fx:Object type="财务管理" />
-				<fx:Object type="员工考勤" />
-			</s:ArrayList>
-		</s:dataProvider>
-	</s:List>-->
+
 </s:BorderContainer>
