@@ -116,7 +116,7 @@
 	<graphic:Line/>
 
 	<!--统计信息-->
-	<children:Statistics  height="140"  x="0" top="80"/>
+	<children:StatisticsAndOnDuty  height="140"  x="0" top="80"/>
 	
 	<!--内容-->
 	<s:Scroller width="100%" height="100%" x="0" top="240">
