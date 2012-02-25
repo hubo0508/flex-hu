@@ -7,26 +7,32 @@
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx"
-					  xmlns:components="com.printingoffice.components.*"
+					  xmlns:components="com.printingoffice.framework.components.*"
 					  backgroundColor="#F5F5F5"
 					  top="0"
 					  left="0"
 					  width="100%"
-					  height="115" xmlns:components1="com.printingoffice.framework.components.*">
+					  height="115" >
 
 	<fx:Script>
 		<![CDATA[
 			import com.printingoffice.framework.components.TooTip;
 			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
-			import com.printingoffice.framework.view.components.SearchList;
+			import com.printingoffice.framework.view.components.AdvancedSearchWindow;
 			
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			/**
+			 * 提示消息容器
+			 */
 			private var tootip:TooTip;
 			
-			private var searchList:SearchList;
+			/**
+			 * 高级搜索容器
+			 */
+			private var advancedSearchWindow:AdvancedSearchWindow;
 			
 			protected function focusEventHandler(event:FocusEvent):void
 			{
@@ -49,7 +55,7 @@
 				}		
 			}
 			
-			protected function dropDownHandler(event:MouseEvent):void
+			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
 			{
 				var img:Image = event.currentTarget as Image;
 				
@@ -80,6 +86,14 @@
 				}
 			}
 			
+			/**
+			 * <p>显示或删除【提示消息容器】</p>
+			 * 
+			 * 注：【提示消息容器】组件只在第一次使用时创建。消毁时并没有物理删除，只是隐藏容器，在第二次使用该容器时直接调用缓存。
+			 * 
+			 * @param value:Boolean true||false
+			 * @param img:Image 从该对象中取得要显示【提示消息容器】的绝对坐标
+			 */
 			private function showTootip(value:Boolean,img:Image):void
 			{
 				if (value)
@@ -103,34 +117,52 @@
 					}
 				}
 			}
-
-			protected function dropDown_clickHandler(event:MouseEvent):void
+			
+			/**
+			 * <p>点击图片时，弹出【高级搜索容器】组件</p>
+			 * 
+			 * 注：【高级搜索容器】组件只在第一次使用时创建。消毁时并没有物理删除，只是隐藏容器，在第二次使用该容器时直接调用缓存。
+			 */
+			protected function detailedWindowImgClickHandler(event:MouseEvent):void
 			{
-				if(searchList == null)
+				if(advancedSearchWindow == null)
 				{
-					searchList = new SearchList();	
-					searchList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-					searchList.addEventListener(SearchList.CLOSE_EVENT,mouseDownOutsideHandler,false,0,true);
+					advancedSearchWindow = new AdvancedSearchWindow();	
+					advancedSearchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					advancedSearchWindow.addEventListener(AdvancedSearchWindow.CLOSE_EVENT,mouseDownOutsideHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
 					point.y += searchTextBC.height;
-					searchList.x = point.x;
-					searchList.y = point.y;
-					searchList.currentPoint = point;
+					advancedSearchWindow.x = point.x;
+					advancedSearchWindow.y = point.y;
+					advancedSearchWindow.currentPoint = point;
 				}
 				
-				dropDown.visible = false;
+				setDetailedWindowImgVisible(false);
 				
-				PopUpManager.addPopUp(searchList, UIUtil.getApplication(this), false);				
+				PopUpManager.addPopUp(advancedSearchWindow, UIUtil.getApplication(this), false);				
 			}
 			
-			protected function mouseDownOutsideHandler(event:Event):void
+			/**
+			 * 在使用 PopUpManager 打开的[【高级搜索容器】组件外部单击时，从该组件分派。
+			 */
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
 			{
-				dropDown.visible = true;
+				setDetailedWindowImgVisible(true);
 				
-				PopUpManager.removePopUp(searchList);
+				PopUpManager.removePopUp(advancedSearchWindow);
 			}
 
+			/**
+			 * 显示或隐藏【高级搜索容器】组件
+			 */
+			private function setDetailedWindowImgVisible(value:Boolean):void
+			{
+				if(detailedWindowImg.visible = value)
+				{
+					detailedWindowImg.visible = value;
+				}
+			}
 		]]>
 	</fx:Script>
 	
@@ -145,10 +177,10 @@
 	</s:Line>
 	
 	<s:BorderContainer id="searchTextBC" borderColor="#D9D9D9" backgroundColor="#F2F3F5" left="222" width="338" height="29" top="71">
-		<components1:TInput imeMode="CHINESE" height="100%" fontSize="16"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"
+		<components:TInput imeMode="CHINESE" height="100%" fontSize="16"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"
 						   focusIn="focusEventHandler(event)" focusOut="focusEventHandler(event)"/>
-		<mx:Image id="dropDown" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"
-				  		  mouseOut="dropDownHandler(event)" mouseOver="dropDownHandler(event)" click="dropDown_clickHandler(event)"/>
+		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"
+				  		  mouseOut="detailedWindowImgMouseHandler(event)" mouseOver="detailedWindowImgMouseHandler(event)" click="detailedWindowImgClickHandler(event)"/>
 	</s:BorderContainer> 
 	<s:Button skinClass="assets.skin.SearchBtnSkin"  width="72" height="29" top="71" left="575"/>
 
