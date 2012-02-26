@@ -216,6 +216,7 @@
 		]]>
 	</fx:Script>
 
+	<!--背景颜色-->
 	<s:Rect  id="bg" x="0" y="0" height="29" width="160" visible="false">
 		<s:fill>
 			<s:SolidColor color="#EEEEEE"/>

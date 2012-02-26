@@ -12,9 +12,10 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.components.CloseButton;
 			import com.printingoffice.framework.core.TweenLite;
+			import com.printingoffice.framework.event.MenuEvent;
+			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
@@ -25,30 +26,40 @@
 			
 			import spark.components.Label;
 
+			/**
+			 * 数据提供程序项目中作为数据提示显示的字段名称。默认情况下，该列表将在每个项目上查找 text 属性并将其显示出来。
+			 */
 			private var _dataField:String = "text"
-				
-			private var menuHeight:int = 29;
-
-			private var redColor:uint = 0xDD4B39;
-			
-			private var defaultColor:uint = 0x222222;
 			
 			/**
-			 * 是否创建关闭按钮
+			 * 默认【菜单项】高度【内部使用】
+			 */
+			private var defaultItemHeight:int = 29;
+			
+			/**
+			 * 在【菜单项】创建时，其右侧是否显示关闭按钮，默认false
 			 */
 			private var _closeButton:Boolean = false;
 			
+			/**
+			 * 在【菜单项】创建时，closeButton=true的情况下，点击关闭按钮抛出事件常量值(类型 )
+			 */
 			public static const REMOVE_MENU:String = "removeMenu";
 			
 			/**
-			 * <p>菜单项标识</p>
+			 * <p>【菜单项】标识</p>
 			 * 
 			 * 注：</br>
 			 * 1、菜单项标识可从MenuText.name属性取得。</br>
-			 * 2、默认菜单项标识为空字符串，选中后将此菜单项，name属性将赋值为MenuBar.REMOVE_MENU。</br>
+			 * 2、默认菜单项标识为空字符串，当用户单击【菜单项】后将【菜单项】name属性将赋值为MenuBar.REMOVE_MENU。</br>
 			 */
 			public static const CURR_MENU:String = "currentMenu";
 			
+			/**
+			 * <p>继续父容器updateDisplayList。</p>
+			 * 
+			 * 当容器布局改变时，重新手动计算高度，改变整个容器高度
+			 */
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{				
 				super.updateDisplayList(w,h);
@@ -68,6 +79,14 @@
 				new TweenLite(this,0.3,{height:measuringHeight});
 			}
 			
+			/**
+			 * <p>初始化【菜单项】</p>
+			 * 
+			 * 注：</br>
+			 * 在创建【菜单项】后，是否显示右侧关闭按钮，根据属性值closeButton来判断，并且第一个元素不能有关闭按钮。
+			 * 
+			 * @parm data:ArrayCollection 要查看的数据集
+			 */
 			public function initMenuButton(data:ArrayCollection):void
 			{
 				if (data == null || data.length == 0)
@@ -76,53 +95,52 @@
 				var len:int=data.length;
 				for (var i:int=0; i < len; i++)
 				{
-					var menuText:MenuText  = this.createMenuText(i,data.getItemAt(i));
-					menuText.x = 0;
-					menuText.y = i * menuHeight;
-					menuText.addEventListener(MouseEvent.ROLL_OUT,menuTextEventHandler,false,0,true);
-					menuText.addEventListener(MouseEvent.ROLL_OVER,menuTextEventHandler,false,0,true);
-					menuText.addEventListener(MouseEvent.CLICK,menuTextEventHandler,false,0,true);
+					var instanceItem:MenuText  = this.getInstanceItemMenuText(i,data.getItemAt(i));
+					instanceItem.x = 0;
+					instanceItem.y = i * defaultItemHeight;
+					instanceItem.addEventListener(MouseEvent.ROLL_OUT,instanceItemMenuTextHandler,false,0,true);
+					instanceItem.addEventListener(MouseEvent.ROLL_OVER,instanceItemMenuTextHandler,false,0,true);
+					instanceItem.addEventListener(MouseEvent.CLICK,instanceItemMenuTextHandler,false,0,true);
 					
 					if(closeButton && i>0)
 					{
-						var closeButton:CloseButton = new CloseButton();
-						closeButton.id = i.toString();
-						closeButton.verticalCenter = 0;
-						closeButton.name = REMOVE_MENU;
-						closeButton.addEventListener(MouseEvent.CLICK,clickCloseButtonHandler,false,0,true);
+						var rightCloseButton:CloseButton = new CloseButton();
+						rightCloseButton.id = i.toString();
+						rightCloseButton.verticalCenter = 0;
+						rightCloseButton.name = REMOVE_MENU;
+						rightCloseButton.addEventListener(MouseEvent.CLICK,rightCloseHandler,false,0,true);
 						
-						menuText.addElement(closeButton);
+						instanceItem.addElement(rightCloseButton);
 					}
 
-					this.addElement(menuText);
+					this.addElement(instanceItem);
 				}
 			}
 			
 			/**
-			 * <p>取得当前菜单容器中菜单项的标识</p>
+			 * <p>判断是当前【菜单容器】中是否有选择中的【菜单项】</p>
 			 * 
-			 * 注：如当前容器中未有选择中的菜单项，则返回null。有选中菜单项返回常量MenuBar.CURR_MENU </br>
-			 * 
-			 * </br>
-			 * 
-			 * @return 当前菜单容器中有选中的菜单项，则返回常量MenuBar.CURR_MENU，反之返回null。
+			 * @return 在当前【菜单容器】中有【菜单项】选中，则返回true，否则false。
 			 */
-			public function getSelectedMark():String
+			public function hasSelected():Boolean
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var menuText:MenuText = this.getElementAt(i) as MenuText;
-					if(menuText && menuText.name == CURR_MENU)
+					var instanceItem:MenuText = this.getElementAt(i) as MenuText;
+					if(instanceItem && instanceItem.name == CURR_MENU)
 					{
-						return CURR_MENU;
+						return true;
 					}
 				}
 				
-				return null;
+				return false;
 			}
 			
-			protected function clickCloseButtonHandler(event:MouseEvent):void
+			/**
+			 * 点击【菜单项】右侧的关闭按钮，抛出事件。
+			 */
+			protected function rightCloseHandler(event:MouseEvent):void
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
 				
@@ -132,18 +150,17 @@
 				this.dispatchEvent(dye);				
 			}
 			
-			public function bgLeftHidden():void
-			{				
-				if(this.bgLeft.visible)
-				{
-					this.bgLeft.visible = false;
-				}
-			}
-			
-			protected function menuTextEventHandler(event:MouseEvent):void
+			/**
+			 * <p>鼠标的移入、移出、点击具体的列表项，触发</p>
+			 * 
+			 * 1、【MouseEvent.ROLL_OUT】</br>
+			 * 2、【MouseEvent.ROLL_OVER】</br>
+			 * 3、【MouseEvent.CLICK】</br>
+			 */
+			protected function instanceItemMenuTextHandler(event:MouseEvent):void
 			{
-				var menuText:MenuText = event.currentTarget as MenuText;
-				var lastClickID:String = menuText.id.toString();
+				var instanceItem:MenuText = event.currentTarget as MenuText;
+				var lastClickID:String = instanceItem.id.toString();
 				
 				switch(event.type)
 				{
@@ -151,33 +168,33 @@
 						
 						if(event.target is FlexLoader)break;
 						
-						var originalX:Number = menuText.x;
-						var originalY:Number = menuText.y;
+						var originalX:Number = instanceItem.x;
+						var originalY:Number = instanceItem.y;
 						
-						menuText.textColor = redColor;
-						menuText.name = CURR_MENU;
-						changebgLeftPoint(menuText.x,menuText.y);
+						instanceItem.textColor = Const.RED_COLOR;
+						instanceItem.name = CURR_MENU;
+						changebgLeftPoint(instanceItem.x,instanceItem.y);
 						
 						clearLastClickColor(lastClickID);
 						
-						showOrHideCloseButton(false,menuText);
+						showOrHideCloseButton(false,instanceItem);
 						
-						this.dispatch(menuText.data["url"],menuText.data);
+						this.dispatch(instanceItem.data["url"],instanceItem.data);
 						
 						break;
 					
 					case MouseEvent.ROLL_OUT :
-						this.bgRightVisible(false);
+						rectVisible(false,bg);
 						
-						showOrHideCloseButton(false,menuText);
+						showOrHideCloseButton(false,instanceItem);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						this.bgRightVisible(true);
-						bgRight.x = menuText.x;
-						bgRight.y = menuText.y
+						rectVisible(true,bg);
+						bg.x = instanceItem.x;
+						bg.y = instanceItem.y
 						
-						showOrHideCloseButton(true,menuText);
+						showOrHideCloseButton(true,instanceItem);
 						break;
 					
 					default :
@@ -186,22 +203,24 @@
 			}
 			
 			/**
-			 * 显示或隐藏关闭按钮
+			 * <p>显示或隐藏【菜单项】右侧关闭按钮</p>
+			 * 
+			 * 当菜单项容器【MenuText】的标识【MenuText.name】为选中的【菜单项时】，则不作任何业务处理。
 			 * 
 			 * @param value:Boolean true || false
-			 * @param menuText:MenuText 菜单文本容器
+			 * @param instanceItem:MenuText 菜单项容器
 			 */
-			public function showOrHideCloseButton(value:Boolean,menuText:MenuText):void
+			public function showOrHideCloseButton(value:Boolean,instanceItem:MenuText):void
 			{
-				if(menuText.name == CURR_MENU && value)return;
+				if(instanceItem.name == CURR_MENU && value)return;
 				
-				var num:int = menuText.numElements;
+				var num:int = instanceItem.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var obj:Object = menuText.getElementAt(i);
-					if(UIUtil.getName(obj) == REMOVE_MENU)
+					var element:Object = instanceItem.getElementAt(i);
+					if(UIUtil.getName(element) == REMOVE_MENU)
 					{
-						obj.visible  = value;
+						element.visible  = value;
 					}
 				}
 			}
@@ -230,7 +249,7 @@
 					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
 					if(currBtn && currBtn.name == CURR_MENU)
 					{
-						currBtn.textColor = defaultColor;
+						currBtn.textColor = Const.DEFAULT_COLOR;
 						currBtn.name = "";
 						break;
 					}
@@ -245,7 +264,7 @@
 					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
 					if(currBtn && lastClickID != currBtn.id.toString() && currBtn.name == CURR_MENU)
 					{
-						currBtn.textColor = defaultColor;
+						currBtn.textColor = Const.DEFAULT_COLOR;
 						currBtn.name = "";
 						break;
 					}
@@ -267,15 +286,35 @@
 				}
 			}
 			
-			private function bgRightVisible(value:Boolean):void
+			/**
+			 * 隐藏【菜单项】左侧图形
+			 */
+			public function bgLeftHide():void
 			{
-				if(bgRight.visible != value)
+				rectVisible(false,bgLeft);
+			}
+			
+			/**
+			 * 显示或隐藏填充图形元素【Rect】
+			 * 
+			 * @param value:Boolean true||false
+			 * @param rect:Rect 填充图形元素
+			 */
+			private function rectVisible(value:Boolean, rect:Rect):void
+			{
+				if(rect.visible != value)
 				{
-					bgRight.visible = value;
+					rect.visible = value;
 				}
 			}
 
-			private function createMenuText(index:int,data:Object):MenuText
+			/**
+			 * <p>创建【菜单项】</p>
+			 * 
+			 * @param index:int 行索引值
+			 * @parma data:Ojbect 单行数据源
+			 */
+			private function getInstanceItemMenuText(index:int,data:Object):MenuText
 			{
 				var menuText:MenuText = new MenuText();
 				menuText.data = data;
@@ -285,18 +324,24 @@
 				return menuText;
 			}
 
+			/**
+			 * 数据提供程序项目中作为数据提示显示的字段名称。默认情况下，该列表将在每个项目上查找 text 属性并将其显示出来。
+			 */
 			public function get dataField():String
 			{
 				return _dataField;
 			}
 
+			/**
+			 * @private
+			 */
 			public function set dataField(value:String):void
 			{
-				_dataField=value;
+				_dataField = value;
 			}
 
 			/**
-			 * 是否创建关闭按钮
+			 * 在【菜单项】创建时，其右侧是否显示关闭按钮，默认false
 			 */
 			public function get closeButton():Boolean
 			{
@@ -311,7 +356,6 @@
 				_closeButton = value;
 			}
 
-
 		]]>
 	</fx:Script>
 	
@@ -319,13 +363,15 @@
 		[Event(name="menuEvent",type="com.printingoffice.framework.event.MenuEvent")]
 		[Event(name="removeMenu",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
-
-	<s:Rect  id="bgRight" x="0" y="0" height="29" width="180" visible="false">
+	
+	<!--菜单项背景颜色-->
+	<s:Rect  id="bg" x="0" y="0" height="29" width="180" visible="false">
 		<s:fill>
 			<s:SolidColor color="#EEEEEE"/>
 		</s:fill>
 	</s:Rect>	
 	
+	<!--菜单项左侧图形-->
 	<s:Rect id="bgLeft" visible="false" height="29" width="4" x="0" y="0">
 		<s:fill>
 			<s:SolidColor color="#DD4B39"/>
