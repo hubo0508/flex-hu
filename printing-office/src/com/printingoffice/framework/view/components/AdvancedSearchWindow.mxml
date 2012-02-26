@@ -15,6 +15,7 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
 			
 			import mx.events.DynamicEvent;
@@ -23,63 +24,82 @@
 			
 			public static const CLOSE_EVENT:String = "closeSearchList";
 			
-			private var chooseSearchType:ChooseSearchType;
+			/**
+			 * 搜索类型窗体
+			 */
+			private var searchTypeList:SearchTypeList;
 			
+			/**
+			 * 存储x,y坐标，由使用组件输入值
+			 */
 			public var currentPoint:Point;
 			
 			protected function destroy(event:Event):void
 			{
-//				currentPoint = null;
-//				chooseSearchType.removeEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler);
-//				chooseSearchType = null;				
+				//currentPoint = null;
+				//searchTypeList.removeEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler);
+				//searchTypeList = null;				
 			}
 			
-			protected function close_clickHandler(event:MouseEvent):void
+			/**
+			 * 点击关闭按钮，抛出事件
+			 */
+			protected function closeClickHandler(event:MouseEvent):void
 			{
 				this.dispatchEvent(new Event(CLOSE_EVENT));
 			}
 
-			protected function searchTypeBtn_clickHandler(event:MouseEvent):void
+			/**
+			 * <p>点击类型列表按钮，弹出搜索类型窗体</p>
+			 * 
+			 * 注：创建与使用【搜索类型窗体】缓存侧略，【搜索类型窗体】只在第一次初始时创建，当第二调用或显示【搜索类型窗体】时，不再初始化，直接使用缓存。
+			 */
+			protected function searchListClickHandler(event:MouseEvent):void
 			{
-				if(chooseSearchType == null)
+				if(searchTypeList == null)
 				{
-					chooseSearchType = new ChooseSearchType();
-					chooseSearchType.x = this.currentPoint.x + searchTypeBtn.x;
-					chooseSearchType.y = this.currentPoint.y + searchTypeBtn.y;
-					chooseSearchType.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-					chooseSearchType.addEventListener(ChooseSearchType.CLICK_EVENT,chooseTypeClickHandler,false,0,true);
+					searchTypeList = new SearchTypeList();
+					searchTypeList.x = this.currentPoint.x + searchListBtn.x;
+					searchTypeList.y = this.currentPoint.y + searchListBtn.y;
+					searchTypeList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					searchTypeList.addEventListener(Const.CHOOSE_TYPE,chooseTypeHandler,false,0,true);
 				}
 
-				PopUpManager.addPopUp(chooseSearchType, UIUtil.getApplication(this), false);	
+				PopUpManager.addPopUp(searchTypeList, UIUtil.getApplication(this), false);	
 			}
 			
-			protected function chooseTypeClickHandler(event:DynamicEvent):void
+			/**
+			 * 在弹出【搜索类型窗体】组件中，选择类型并确认，事件捕获到该方法
+			 */
+			protected function chooseTypeHandler(event:DynamicEvent):void
 			{
 				var selectItem:Object = event.data;
-				searchTypeBtn.text = selectItem.type;
+				searchListBtn.text = selectItem.type;
 				
-				PopUpManager.removePopUp(chooseSearchType);
+				PopUpManager.removePopUp(searchTypeList);
 			}
 			
+			/**
+			 * 当用户在使用 PopUpManager 打开的某个组件外部单击时，从该组件分派。
+			 */
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
-				PopUpManager.removePopUp(chooseSearchType);
+				PopUpManager.removePopUp(searchTypeList);
 			}
 
 		]]>
 	</fx:Script>
 
-	
 	<s:filters> 
 		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
 							 alpha='0.4' color='#000000'  knockout='false' quality='1'
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin" click="close_clickHandler(event)"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
+	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin" click="closeClickHandler(event)"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
-	<components:SearchListButton id="searchTypeBtn" isPopMask="true" click="searchTypeBtn_clickHandler(event)" text="未归档内容" x="10"  y="38"/>
+	<components:SearchListButton id="searchListBtn" isPopMask="true" click="searchListClickHandler(event)" text="未归档内容" x="10"  y="38"/>
 	
 	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
 	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>
