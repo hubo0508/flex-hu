@@ -145,8 +145,8 @@
 			 */
 			public function initChildrenMenu():void
 			{
-				var notSelected:Array = listMenu.getNotSelected();
-				var selected:Array = listMenu.getSelectedIndex();
+				var notSelected:Array = listMenu.getIndexValue(false);
+				var selected:Array = listMenu.getIndexValue(true);
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
