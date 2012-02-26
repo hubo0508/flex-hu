@@ -246,11 +246,11 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
-					if(currBtn && currBtn.name == CURR_MENU)
+					var instanceItem:MenuText = this.getElementAt(i) as  MenuText;
+					if(instanceItem && instanceItem.name == CURR_MENU)
 					{
-						currBtn.textColor = Const.DEFAULT_COLOR;
-						currBtn.name = "";
+						instanceItem.textColor = Const.DEFAULT_COLOR;
+						instanceItem.name = "";
 						break;
 					}
 				}
@@ -261,11 +261,11 @@
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var currBtn:MenuText = this.getElementAt(i) as  MenuText;
-					if(currBtn && lastClickID != currBtn.id.toString() && currBtn.name == CURR_MENU)
+					var instanceItem:MenuText = this.getElementAt(i) as  MenuText;
+					if(instanceItem && lastClickID != instanceItem.id.toString() && instanceItem.name == CURR_MENU)
 					{
-						currBtn.textColor = Const.DEFAULT_COLOR;
-						currBtn.name = "";
+						instanceItem.textColor = Const.DEFAULT_COLOR;
+						instanceItem.name = "";
 						break;
 					}
 				}
