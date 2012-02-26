@@ -67,27 +67,27 @@ package com.printingoffice.framework.components
 		private var _valueField:String = "numbers";
 		
 		/**
-		 * Y轴右侧组件标签
+		 * Y轴右侧组件标签【内部使用】
 		 */
 		private static const RIGHT_Y_AXIS_TAG:String = "rightYAxisTag";
 		
 		/**
-		 * Y轴左侧组件标签
+		 * Y轴左侧组件标签【内部使用】
 		 */
 		private static const LEFT_Y_AXIS_TAG:String = "leftYAxisTag";
 		
 		/**
-		 * 内部使用，私有。
+		 * 内部使用，【内部使用】
 		 */
 		private var _data:ArrayCollection;		
 
 		/**
-		 * 内部使用，私有。
+		 * 内部使用，【内部使用】
 		 */
 		private var timer:Timer;
 		
 		/**
-		 * 内部使用，私有。
+		 * 内部使用，【内部使用】
 		 */
 		private var isStartSizeMark:Boolean = false;
 		
