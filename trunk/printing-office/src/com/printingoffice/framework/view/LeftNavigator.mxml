@@ -26,8 +26,8 @@
 			import com.printingoffice.framework.event.MenuEvent;
 			import com.printingoffice.framework.util.Const;
 			import com.printingoffice.framework.util.UIUtil;
+			import com.printingoffice.framework.view.components.ListContainer;
 			import com.printingoffice.framework.view.components.MenuText;
-			import com.printingoffice.framework.view.components.ModuleMenu;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -46,7 +46,7 @@
 			/**
 			 * 模块菜单切换列表窗体
 			 */
-			private var moduleMenu:ModuleMenu;
+			private var listMenu:ListContainer;
 			
 			/**
 			 * 提示消息容器
@@ -85,7 +85,7 @@
 			{
 				this.initModuleMenu();
 				
-				PopUpManager.addPopUp(moduleMenu, UIUtil.getApplication(this), false);				
+				PopUpManager.addPopUp(listMenu, UIUtil.getApplication(this), false);				
 			}
 			
 			/**
@@ -100,16 +100,19 @@
 			 */
 			public function initModuleMenu():void
 			{
-				if(moduleMenu == null)
+				if(listMenu == null)
 				{
-					moduleMenu = new ModuleMenu();
-					moduleMenu.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					listMenu = new  ListContainer();
+					listMenu.setStyle("backgroundColor",0xFFFFFF);
+					listMenu.width = 160;
+					listMenu.filters = [UIUtil.getInstanceDropShadow()];
+					listMenu.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(menuThemes);
-					moduleMenu.x = point.x;
-					moduleMenu.y = point.y + menuThemes.height + 2;
+					listMenu.x = point.x;
+					listMenu.y = point.y + menuThemes.height + 2;
 					
-					moduleMenu.initModuleMenu(moduleMenuDataProvider);	
+					listMenu.initItem(moduleMenuDataProvider);	
 					
 					initChildrenMenu();
 				}
@@ -129,7 +132,7 @@
 			protected function mouseDownOutsideHandler(event:Event):void
 			{				
 				initChildrenMenu();
-				PopUpManager.removePopUp(moduleMenu);
+				PopUpManager.removePopUp(listMenu);
 			}
 			
 			/**
@@ -142,8 +145,8 @@
 			 */
 			public function initChildrenMenu():void
 			{
-				var notSelected:Array = moduleMenu.getNotSelected();
-				var selected:Array = moduleMenu.getSelected();
+				var notSelected:Array = listMenu.getNotSelected();
+				var selected:Array = listMenu.getSelectedIndex();
 				
 				this.removeNotSelectedMenu(notSelected);
 				this.addSelectedMenu(selected);
@@ -395,7 +398,7 @@
 			protected function clickCloseButtonHandler(event:MouseEvent):void
 			{
 				var btn:CloseButton = event.currentTarget as CloseButton;
-				moduleMenu.setSelectedIsFalse(btn.id);
+				listMenu.setItemSelected(btn.id, false);
 				
 				removeChildrenMenuByIndex(btn.id);
 			}

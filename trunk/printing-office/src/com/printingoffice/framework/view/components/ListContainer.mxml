@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-<p><b>auth：</b>HUBO</p>
-<p><b>create-time：</b>2012-2-9</p>
-<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-26</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-				   xmlns:s="library://ns.adobe.com/flex/spark"
-				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   borderVisible="false"
-				   width="160"
-				   height="275">
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" >
 	
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.events.DynamicEvent;
 			
+			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
 			import spark.components.Label;
 			import spark.skins.spark.BorderContainerSkin;
 			
-			public static const CLICK_EVENT:String  = "clickEvent";
-			
+			/**
+			 * 数据提供程序项目中作为数据提示显示的字段名称。默认情况下，该列表将在每个项目上查找 text 属性并将其显示出来。
+			 */
 			private var _dataField:String = "text";
 			
-			private var defaultSingleMenuHeight:int = 35;
+			/**
+			 * 默认列表项高度【内部使用】
+			 */
+			private var defaultItemMenuHeight:int = 35;
 			
+			/**
+			 * 当前选中索引【内部使用】
+			 */
 			private var selectedIndex:Array = [];
 			
-			public function initModuleMenu(data:ArrayCollection):void
+			/**
+			 * <p>初始列表项</p>
+			 * 
+			 * @param data:ArrayConllection 要查看的数据集
+			 */
+			public function initItem(data:ArrayCollection):void
 			{
 				if(data == null || data.length<=0)return;	
 				
@@ -37,17 +47,24 @@
 				{
 					var item:Object = data.getItemAt(i);					
 					var singleMenu:BorderContainer = createSingleModule(i,item);
-					singleMenu.addEventListener(MouseEvent.CLICK,singleMenuMouseHandler,false,0,true);					
-					singleMenu.addEventListener(MouseEvent.ROLL_OUT,singleMenuMouseHandler,false,0,true);
-					singleMenu.addEventListener(MouseEvent.ROLL_OVER,singleMenuMouseHandler,false,0,true);
+					singleMenu.addEventListener(MouseEvent.CLICK,menuItemMouseHandler,false,0,true);					
+					singleMenu.addEventListener(MouseEvent.ROLL_OUT,menuItemMouseHandler,false,0,true);
+					singleMenu.addEventListener(MouseEvent.ROLL_OVER,menuItemMouseHandler,false,0,true);
 					singleMenu.x = 0;
-					singleMenu.y = i * defaultSingleMenuHeight;
+					singleMenu.y = i * defaultItemMenuHeight;
 					
 					this.addElement(singleMenu);
 				}
 			}
 			
-			protected function singleMenuMouseHandler(event:MouseEvent):void
+			/**
+			 * <p>鼠标的移入、移出、点击具体的列表项，触发</p>
+			 * 
+			 * 1、【MouseEvent.ROLL_OUT】控制列表项的背景颜色是否可见。</br>
+			 * 2、【MouseEvent.ROLL_OVER】控制列表项的背景颜色是否可见，更新列表项背景颜色的坐标位置。</br>
+			 * 3、【MouseEvent.CLICK】切换列表项的CheckBox状态，true||false。</br>
+			 */
+			protected function menuItemMouseHandler(event:MouseEvent):void
 			{
 				switch(event.type)
 				{
@@ -79,6 +96,9 @@
 				}
 			}
 			
+			/**
+			 * 控制列表项的背景颜色是否可见
+			 */
 			private function changeBgVisible(value:Boolean):void
 			{
 				if(bg.visible != value)
@@ -87,13 +107,19 @@
 				}
 			}
 			
+			/**
+			 * <p>创建列表项</p>
+			 * 
+			 * @param index:int 行索引
+			 * @param item:Object 数据源
+			 */
 			private function createSingleModule(index:int,item:Object):BorderContainer
 			{
 				var bc:BorderContainer = new BorderContainer();
 				bc.setStyle("borderVisible",false);
 				bc.setStyle("backgroundAlpha",0);
-				bc.width = 160;
-				bc.height = 35;
+				bc.percentWidth = 100;
+				bc.height = defaultItemMenuHeight;
 				bc.useHandCursor = true;
 				bc.buttonMode = true;
 				bc.id = index.toString();
@@ -110,27 +136,38 @@
 				return bc;
 			}
 			
-			public function setSelectedIsFalse(id:String):void
+			/**
+			 * <p>设置具体项的状态</p>
+			 * 
+			 * @param rowIndex:String 行索引值
+			 * @param value:Boolean 状态true||false
+			 */
+			public function setItemSelected(rowIndex:String, value:Boolean):void
 			{
-				if(id == null || id == "")return;
+				if(rowIndex == null || rowIndex == "")return;
 				
 				var num:int = this.numElements;
 				for(var k:int=0; k<num; k++)
 				{
 					var bc:BorderContainer = this.getElementAt(k) as BorderContainer;
-					if(bc && bc.id.toString() == id)
+					if(bc && bc.id.toString() == rowIndex)
 					{
 						var checkbox:CheckBox = bc.getElementAt(0) as CheckBox;
-						if(checkbox && checkbox.selected)
+						if(checkbox && checkbox.selected != value)
 						{
-							checkbox.selected = false;
+							checkbox.selected = value;
 							break;
 						}
 					}
 				}
 			}
 			
-			public function getSelected():Array
+			/**
+			 * 取得选中的索引值
+			 * 
+			 * @return 索引值的数组形式
+			 */
+			public function getSelectedIndex():Array
 			{
 				var selectedItem:Array = [];
 				
@@ -155,9 +192,9 @@
 			{
 				var notSelected:Array = [];
 				
-				var selectedValue:Array = getSelected();
+				var selectedValue:Array = getSelectedIndex();
 				var len2:int = selectedValue.length;
-				var len:int = getLastMenuIndex();
+				var len:int = getLastItemIndex();
 				for(var i:int=0; i<len; i++)
 				{
 					var isExist:Boolean = false;
@@ -180,37 +217,39 @@
 				return notSelected;
 			}
 			
-			
-			
-			private function getLastMenuIndex():int
+			/**
+			 * 取得最后列表项索引值
+			 */
+			private function getLastItemIndex():int
 			{
 				var cont:BorderContainer = this.getElementAt(this.numElements-1) as BorderContainer;
 				return int(cont.id);
 			}
-			
+
+			/**
+			 * 数据提供程序项目中作为数据提示显示的字段名称。默认情况下，该列表将在每个项目上查找 text 属性并将其显示出来。
+			 */
 			public function get dataField():String
 			{
 				return _dataField;
 			}
-			
+
+			/**
+			 * @private
+			 */
 			public function set dataField(value:String):void
 			{
 				_dataField = value;
 			}
 			
+			
 		]]>
 	</fx:Script>
-	
-	<s:filters> 
-		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
-							 alpha='0.4' color='#000000'  knockout='false' quality='1'
-							 strength='1' inner='false' hideObject='false'/>
-	</s:filters>
-	
+
 	<s:Rect  id="bg" x="0" y="0" height="29" width="160" visible="false">
 		<s:fill>
 			<s:SolidColor color="#EEEEEE"/>
 		</s:fill>
 	</s:Rect>	
-
-</s:BorderContainer>
+	
+</s:SkinnableContainer>

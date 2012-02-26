@@ -34,6 +34,9 @@
 			 */
 			private var advancedSearchWindow:AdvancedSearchWindow;
 			
+			/**
+			 * <p>鼠标焦点事件</p>
+			 */
 			protected function focusEventHandler(event:FocusEvent):void
 			{
 				var tinput:TInput  = event.currentTarget as  TInput;
@@ -55,6 +58,9 @@
 				}		
 			}
 			
+			/**
+			 * <p>鼠标移入与移出目标对象时，触发</p>
+			 */
 			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
 			{
 				var img:Image = event.currentTarget as Image;
