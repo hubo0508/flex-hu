@@ -4,22 +4,22 @@
 	 <p><b>create-time：</b>2012-2-9</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-				   xmlns:s="library://ns.adobe.com/flex/spark"
-				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   borderVisible="false"
-				   width="300"
-				   height="200">
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  backgroundColor="#FFFFFF"
+					  width="300"
+					  height="200">
 
 	<fx:Script>
 		<![CDATA[
-			import mx.events.DynamicEvent;
+			import com.printingoffice.framework.util.Const;
 			
-			public static const CLICK_EVENT:String  = "clickEvent";
+			import mx.events.DynamicEvent;
 			
 			protected function list_clickHandler(event:MouseEvent):void
 			{
-				var dye:DynamicEvent = new DynamicEvent(CLICK_EVENT);
+				var dye:DynamicEvent = new DynamicEvent(Const.CHOOSE_TYPE);
 				dye.data = list.selectedItem;
 				
 				this.dispatchEvent(dye);
@@ -50,4 +50,5 @@
 			</s:ArrayList>
 		</s:dataProvider>
 	</s:List>
-</s:BorderContainer>
+	
+</s:SkinnableContainer>
