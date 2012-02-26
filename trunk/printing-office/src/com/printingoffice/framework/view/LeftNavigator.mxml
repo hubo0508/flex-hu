@@ -230,7 +230,7 @@
 				}
 				else
 				{
-					commonlyUsedMenu.bgLeftHidden();
+					commonlyUsedMenu.bgLeftHide();
 					commonlyUsedMenu.restituteSelectedTextColor();
 					
 					clearChildrenSelectedState(menubar.id);				
@@ -331,7 +331,7 @@
 						if((currentClickID && bc.id != currentClickID) || !currentClickID)
 						{
 							var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
-							menubar.bgLeftHidden();
+							menubar.bgLeftHide();
 							menubar.restituteSelectedTextColor();
 						}
 					}
@@ -426,7 +426,7 @@
 				if(submenu)
 				{
 					var menuBar:MenuBar = submenu.getElementAt(2) as MenuBar;
-					if(menuBar.getSelectedMark() == MenuBar.CURR_MENU && event.type == MouseEvent.ROLL_OVER)
+					if(menuBar.hasSelected() && event.type == MouseEvent.ROLL_OVER)
 					{
 						return;
 					}
