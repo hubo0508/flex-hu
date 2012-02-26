@@ -15,6 +15,7 @@
 			
 			import spark.components.BorderContainer;
 			import spark.components.CheckBox;
+			import spark.components.Group;
 			import spark.components.Label;
 			import spark.skins.spark.BorderContainerSkin;
 			
@@ -46,7 +47,7 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var item:Object = data.getItemAt(i);					
-					var instanceItem:BorderContainer = getInstanceOfItem(i,item);
+					var instanceItem:Group = getInstanceOfItem(i,item);
 					instanceItem.addEventListener(MouseEvent.CLICK,instanceItemMouseHandler,false,0,true);					
 					instanceItem.addEventListener(MouseEvent.ROLL_OUT,instanceItemMouseHandler,false,0,true);
 					instanceItem.addEventListener(MouseEvent.ROLL_OVER,instanceItemMouseHandler,false,0,true);
@@ -73,16 +74,16 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						var instanceItem:BorderContainer = event.currentTarget as BorderContainer;
+						var instanceItem:Group = event.currentTarget as Group;
 						changeBgVisible(true);
 						bg.x = instanceItem.x;
 						bg.y = instanceItem.y;
 						break;
 					
 					case MouseEvent.CLICK :
-						if(event.target is BorderContainerSkin)
+						if(event.target is Group)
 						{
-							var instanceItem2:BorderContainer = event.currentTarget as BorderContainer;
+							var instanceItem2:Group = event.currentTarget as Group;
 							var checkbox:CheckBox = instanceItem2.getElementAt(0) as CheckBox;
 							if(checkbox)
 							{
@@ -113,11 +114,9 @@
 			 * @param index:int 行索引
 			 * @param item:Object 数据源
 			 */
-			private function getInstanceOfItem(index:int,item:Object):BorderContainer
+			private function getInstanceOfItem(index:int,item:Object):Group
 			{
-				var instanceItem:BorderContainer = new BorderContainer();
-				instanceItem.setStyle("borderVisible",false);
-				instanceItem.setStyle("backgroundAlpha",0);
+				var instanceItem:Group = new Group();
 				instanceItem.percentWidth = 100;
 				instanceItem.height = defaultItemMenuHeight;
 				instanceItem.useHandCursor = true;
@@ -149,7 +148,7 @@
 				var num:int = this.numElements;
 				for(var k:int=0; k<num; k++)
 				{
-					var instanceItem:BorderContainer = this.getElementAt(k) as BorderContainer;
+					var instanceItem:Group = this.getElementAt(k) as Group;
 					if(instanceItem && instanceItem.id.toString() == rowIndex)
 					{
 						var checkbox:CheckBox = instanceItem.getElementAt(0) as CheckBox;
@@ -175,7 +174,7 @@
 				var len:int = this.numElements;
 				for(var i:int=0; i<len; i++)
 				{					
-					var instanceItem:BorderContainer = this.getElementAt(i) as BorderContainer;
+					var instanceItem:Group = this.getElementAt(i) as Group;
 					if(instanceItem)
 					{
 						var checkbox:CheckBox = instanceItem.getElementAt(0) as CheckBox;
@@ -194,7 +193,7 @@
 			 */
 			private function getLastItemIndex():int
 			{
-				var instanceItem:BorderContainer = this.getElementAt(this.numElements-1) as BorderContainer;
+				var instanceItem:Group = this.getElementAt(this.numElements-1) as Group;
 				return int(instanceItem.id);
 			}
 
