@@ -73,17 +73,17 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						var singleMenu:BorderContainer = event.currentTarget as BorderContainer;
+						var instanceItem:BorderContainer = event.currentTarget as BorderContainer;
 						changeBgVisible(true);
-						bg.x = singleMenu.x;
-						bg.y = singleMenu.y;
+						bg.x = instanceItem.x;
+						bg.y = instanceItem.y;
 						break;
 					
 					case MouseEvent.CLICK :
 						if(event.target is BorderContainerSkin)
 						{
-							var sm:BorderContainer = event.currentTarget as BorderContainer;
-							var checkbox:CheckBox = sm.getElementAt(0) as CheckBox;
+							var instanceItem2:BorderContainer = event.currentTarget as BorderContainer;
+							var checkbox:CheckBox = instanceItem2.getElementAt(0) as CheckBox;
 							if(checkbox)
 							{
 								checkbox.selected = !checkbox.selected;
@@ -115,14 +115,14 @@
 			 */
 			private function getInstanceOfItem(index:int,item:Object):BorderContainer
 			{
-				var bc:BorderContainer = new BorderContainer();
-				bc.setStyle("borderVisible",false);
-				bc.setStyle("backgroundAlpha",0);
-				bc.percentWidth = 100;
-				bc.height = defaultItemMenuHeight;
-				bc.useHandCursor = true;
-				bc.buttonMode = true;
-				bc.id = index.toString();
+				var instanceItem:BorderContainer = new BorderContainer();
+				instanceItem.setStyle("borderVisible",false);
+				instanceItem.setStyle("backgroundAlpha",0);
+				instanceItem.percentWidth = 100;
+				instanceItem.height = defaultItemMenuHeight;
+				instanceItem.useHandCursor = true;
+				instanceItem.buttonMode = true;
+				instanceItem.id = index.toString();
 				
 				var box:CheckBox = new CheckBox();
 				box.label = item[dataField];
@@ -131,9 +131,9 @@
 				box.selected = Boolean(item["selected"]);
 				box.id = index.toString();
 				
-				bc.addElement(box);
+				instanceItem.addElement(box);
 				
-				return bc;
+				return instanceItem;
 			}
 			
 			/**
@@ -149,10 +149,10 @@
 				var num:int = this.numElements;
 				for(var k:int=0; k<num; k++)
 				{
-					var bc:BorderContainer = this.getElementAt(k) as BorderContainer;
-					if(bc && bc.id.toString() == rowIndex)
+					var instanceItem:BorderContainer = this.getElementAt(k) as BorderContainer;
+					if(instanceItem && instanceItem.id.toString() == rowIndex)
 					{
-						var checkbox:CheckBox = bc.getElementAt(0) as CheckBox;
+						var checkbox:CheckBox = instanceItem.getElementAt(0) as CheckBox;
 						if(checkbox && checkbox.selected != value)
 						{
 							checkbox.selected = value;
@@ -175,10 +175,10 @@
 				var len:int = this.numElements;
 				for(var i:int=0; i<len; i++)
 				{					
-					var cont:BorderContainer = this.getElementAt(i) as BorderContainer;
-					if(cont)
+					var instanceItem:BorderContainer = this.getElementAt(i) as BorderContainer;
+					if(instanceItem)
 					{
-						var checkbox:CheckBox = cont.getElementAt(0) as CheckBox;
+						var checkbox:CheckBox = instanceItem.getElementAt(0) as CheckBox;
 						if(checkbox.selected == value)
 						{
 							indexValue.push(checkbox.id);
@@ -194,8 +194,8 @@
 			 */
 			private function getLastItemIndex():int
 			{
-				var cont:BorderContainer = this.getElementAt(this.numElements-1) as BorderContainer;
-				return int(cont.id);
+				var instanceItem:BorderContainer = this.getElementAt(this.numElements-1) as BorderContainer;
+				return int(instanceItem.id);
 			}
 
 			/**
