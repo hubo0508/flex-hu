@@ -11,6 +11,8 @@ package  com.printingoffice.framework.components
 	import spark.components.SkinnableContainer;
 	
 	/**
+	 * <p>消息提示容器</p>
+	 * 
 	 * <p>
 	 *     <b>HUBO 2012-2-9  /  hubo.0508ⓐgmail.com</br>com.printingoffice.components.SkinnableContainer.as</b>
 	 * </p>
@@ -24,18 +26,43 @@ package  com.printingoffice.framework.components
 			this.text = message;
 		}
 		
+		/**
+		 * 容器显示文本值
+		 */
 		private var _text:String;
+		
+		/**
+		 * 容器顶部三角形默认高度(default=8)
+		 */
 		private var _triangleH:int = 8;
+		
+		/**
+		 * 容器顶部三角形默认宽度(default=8)
+		 */
 		private var _triangleW:int = 8;
 		
+		/**
+		 * 文本标签【内部使用】
+		 */
 		private var label:Label;
 		
+		/**
+		 * 容器背景颜色(default=0x000000)
+		 */
+		private var _bgColor:uint = 0x000000;
+		
+		/**
+		 * 继续父容器measure()，重新定义默认高度
+		 */
 		override protected function measure():void
 		{
 			super.measure();
 			measuredHeight = 29;
 		}
 		
+		/**
+		 * 继续父容器createChildren()，创建文本标签
+		 */
 		override protected function createChildren():void
 		{
 			super.createChildren();
@@ -49,6 +76,9 @@ package  com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * 继续父容器commitProperties()，更改文本标签的属性值设置
+		 */
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
@@ -63,12 +93,17 @@ package  com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * <p>继续父容器updateDisplayList()</p>
+		 * 
+		 * 对容器真充背景颜色，重新绘制边框，在其容器顶部增加三角形。
+		 */
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{			
 			super.updateDisplayList(w, h);
 			
 			graphics.clear();
-			graphics.beginFill(0x000000);
+			graphics.beginFill(bgColor);
 
 			this.graphics.moveTo(0, 0);
 			
@@ -87,31 +122,18 @@ package  com.printingoffice.framework.components
 			graphics.endFill();
 		}
 
-		public function get triangleH():int
-		{
-			return _triangleH;
-		}
 
-		public function set triangleH(value:int):void
-		{
-			_triangleH = value;
-		}
-
-		public function get triangleW():int
-		{
-			return _triangleW;
-		}
-
-		public function set triangleW(value:int):void
-		{
-			_triangleW = value;
-		}
-
+		/**
+		 * 容器显示文本值
+		 */
 		public function get text():String
 		{
 			return _text;
 		}
 
+		/**
+		 * @private
+		 */
 		public function set text(value:String):void
 		{
 			_text = value;
@@ -120,6 +142,54 @@ package  com.printingoffice.framework.components
 			{
 				label.text = value;
 			}
+		}
+
+		/**
+		 * 容器顶部三角形默认高度(default=8)
+		 */
+		public function get triangleH():int
+		{
+			return _triangleH;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set triangleH(value:int):void
+		{
+			_triangleH = value;
+		}
+
+		/**
+		 * 容器顶部三角形默认宽度(default=8)
+		 */
+		public function get triangleW():int
+		{
+			return _triangleW;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set triangleW(value:int):void
+		{
+			_triangleW = value;
+		}
+
+		/**
+		 * 容器背景颜色(default=0x000000)
+		 */
+		public function get bgColor():uint
+		{
+			return _bgColor;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set bgColor(value:uint):void
+		{
+			_bgColor = value;
 		}
 	}
 }
