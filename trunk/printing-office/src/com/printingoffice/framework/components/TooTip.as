@@ -2,6 +2,7 @@ package  com.printingoffice.framework.components
 {
 	
 	import flash.display.Graphics;
+	import flash.events.Event;
 	import flash.geom.Point;
 	
 	import mx.core.IVisualElement;
@@ -114,8 +115,11 @@ package  com.printingoffice.framework.components
 		public function set text(value:String):void
 		{
 			_text = value;
+			
+			if(label && label.text != value)
+			{
+				label.text = value;
+			}
 		}
-
-		
 	}
 }

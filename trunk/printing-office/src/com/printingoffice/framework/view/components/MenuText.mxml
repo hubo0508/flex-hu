@@ -17,10 +17,19 @@
 	<fx:Script>
 		<![CDATA[
 			
+			/**
+			 * 显示文本颜色值(default=0x222222)
+			 */
 			[Bindable]public var textColor:uint = 0x222222;
 			
+			/**
+			 * 显示文本
+			 */
 			[Bindable]public var text:String;
 			
+			/**
+			 * 存储数据源
+			 */
 			public var data:Object;			
 			
 		]]>
