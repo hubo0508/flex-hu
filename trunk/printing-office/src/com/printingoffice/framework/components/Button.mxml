@@ -30,11 +30,28 @@
 			private var originalColor:Array = [0xF1F1F1,0xECE9E9];
 			private var overColor:Array = [0xF5F5F5,0xEAE9E9];
 			
-			[Bindable]private var originalColor1:uint =0xF5F5F5;				
-			[Bindable]private var originalColor2:uint = 0xECE9E9;
+			/**
+			 * <p>按钮渐变色的上部分，默认为0xF5F5F5【内部使用】</p>
+			 * 
+			 * 当鼠标移入、移出时更改此颜色值，从属性originalColora或overColor中取得已经定义的颜色值，当更改后自动生效
+			 */
+			[Bindable]private var gradientTop:uint =0xF5F5F5;		
 			
+			/**
+			 * <p>按钮渐变色的下部分，默认为0xECE9E9【内部使用】</p>
+			 * 
+			 * 当鼠标移入、移出时更改此颜色值，从属性originalColora或overColor中取得已经定义的颜色值，当更改后自动生效
+			 */
+			[Bindable]private var gradientBottom:uint = 0xECE9E9;
+			
+			/**
+			 * 
+			 */
 			private var filter:Array = null;
 			
+			/**
+			 * 消息提示容器【内部使用】
+			 */
 			private var tootip:TooTip;
 			
 			[Bindable]private var _text:String;
@@ -45,17 +62,15 @@
 			
 			private var _maskType:String;
 			
+			/**
+			 * 继续父容器measure()，重新定义默认高度与宽度
+			 */
 			override protected function measure():void
 			{
 				super.measure();
 				
 				minHeight = 29;
 				minWidth = 35;
-			}
-			
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w,h);				
 			}
 			
 			protected function rollHandler(event:MouseEvent):void
@@ -78,14 +93,12 @@
 						
 						PopUpManager.removePopUp(tootip);
 						
-						originalColor1 = this.originalColor[0];
-						originalColor2 = this.originalColor[1];					
+						gradientTop = this.originalColor[0];
+						gradientBottom = this.originalColor[1];					
 						break;
 					
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
-						
-						tootip.text = text == null || "" ? this.name : text;
 						
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 						if(isPopMask)
@@ -100,8 +113,8 @@
 							tootip.y = point.y+this.height+tootip.triangleH;	
 						}
 						
-						originalColor1 = this.overColor[0];
-						originalColor2 = this.overColor[1];
+						gradientTop = this.overColor[0];
+						gradientBottom = this.overColor[1];
 						break;
 					
 					default:
@@ -200,8 +213,8 @@
 	
 	<s:backgroundFill>		
 		<s:LinearGradient rotation="90">
-			<s:GradientEntry color="{originalColor1}"/>
-			<s:GradientEntry color="{originalColor2}"/>
+			<s:GradientEntry color="{gradientTop}"/>
+			<s:GradientEntry color="{gradientBottom}"/>
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
