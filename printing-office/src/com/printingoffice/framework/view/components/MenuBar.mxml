@@ -153,14 +153,15 @@
 			/**
 			 * <p>鼠标的移入、移出、点击具体的列表项，触发</p>
 			 * 
-			 * 1、【MouseEvent.ROLL_OUT】</br>
-			 * 2、【MouseEvent.ROLL_OVER】</br>
-			 * 3、【MouseEvent.CLICK】</br>
+			 * 1、【MouseEvent.ROLL_OUT】隐藏填充图形元素【Rect】。隐藏【菜单项】右侧关闭按钮。</br>
+			 * 2、【MouseEvent.ROLL_OVER】显示填充图形元素【Rect】。显示【菜单项】右侧关闭按钮。</br>
+			 * 3、【MouseEvent.CLICK】移动【菜单项】左侧图形X与Y坐标。该变当前点击【菜单项】文本颜色。
+			 * 将上次当前【菜单项】状态还原为默认状态。隐藏【菜单项】右侧关闭按钮。派发点击事件。</br>
 			 */
 			protected function instanceItemMenuTextHandler(event:MouseEvent):void
 			{
 				var instanceItem:MenuText = event.currentTarget as MenuText;
-				var lastClickID:String = instanceItem.id.toString();
+				var currentMenuSID:String = instanceItem.id.toString();
 				
 				switch(event.type)
 				{
@@ -173,9 +174,10 @@
 						
 						instanceItem.textColor = Const.RED_COLOR;
 						instanceItem.name = CURR_MENU;
-						changebgLeftPoint(instanceItem.x,instanceItem.y);
+						rectVisible(true,bgLeft);
+						changeRectPoint(instanceItem.x, instanceItem.y, bgLeft);
 						
-						clearLastClickColor(lastClickID);
+						upMenuToRestoreDefault(currentMenuSID);
 						
 						showOrHideCloseButton(false,instanceItem);
 						
@@ -226,7 +228,11 @@
 			}
 			
 			/**
-			 * 派发事件
+			 * 点击【菜单项】，派发事件
+			 * 
+			 * @param url:String
+			 * @param data:Object(default=null)
+			 * @param types:String(default=null)
 			 */
 			protected function dispatch(url:String, data:Object = null, types:String = null):void
 			{
@@ -239,9 +245,9 @@
 			}
 			
 			/**
-			 * 将当前菜单容器中选中的文本还原到初始化颜色
+			 * 将当前菜单容器中选中的【菜单项】文本还原到初始值
 			 */
-			public function restituteSelectedTextColor():void
+			public function menuTextToRestoreDefault():void
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
@@ -256,13 +262,18 @@
 				}
 			}
 			
-			public function clearLastClickColor(lastClickID:String):void
+			/**
+			 * 将上次当前【菜单项】状态还原为默认状态
+			 * 
+			 * @param currentMenuSID:String 当前点击【菜单】项ID
+			 */
+			public function upMenuToRestoreDefault(currentMenuSID:String):void
 			{
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
 					var instanceItem:MenuText = this.getElementAt(i) as  MenuText;
-					if(instanceItem && lastClickID != instanceItem.id.toString() && instanceItem.name == CURR_MENU)
+					if(instanceItem && currentMenuSID != instanceItem.id.toString() && instanceItem.name == CURR_MENU)
 					{
 						instanceItem.textColor = Const.DEFAULT_COLOR;
 						instanceItem.name = "";
@@ -271,18 +282,22 @@
 				}
 			}
 			
-			private function changebgLeftPoint(x:Number,y:Number):void
+			/**
+			 * <p>更改填充图形元素【Rect】的x,y坐标值</p>
+			 * 
+			 * @param x:Number x轴坐标新值
+			 * @param y:Number y轴坐标新值
+			 * @param rect:Rect 填充图形元素【Rect】
+			 */
+			private function changeRectPoint(x:Number,y:Number, rect:Rect):void
 			{
-				if(this.bgLeft.visible == false){
-					this.bgLeft.visible = true;
-				}				
-				if(this.bgLeft.x != x)
+				if(rect.x != x)
 				{
-					new TweenLite(bgLeft, .5, {x: x});
+					new TweenLite(rect, .5, {x: x});
 				}
-				if(this.bgLeft.y != y)
+				if(rect.y != y)
 				{
-					new TweenLite(bgLeft, .5, {y: y});
+					new TweenLite(rect, .5, {y: y});
 				}
 			}
 			
