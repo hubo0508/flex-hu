@@ -7,7 +7,8 @@
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   xmlns:components="com.printingoffice.framework.view.components.*" 
+				   xmlns:components="com.printingoffice.framework.components.*" 
+				   xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 				   backgroundColor="#FFFFFF"
 				   removed="destroy(event)"
 				   width="338"
@@ -74,7 +75,8 @@
 			protected function chooseTypeHandler(event:DynamicEvent):void
 			{
 				var selectItem:Object = event.data;
-				searchListBtn.text = selectItem.type;
+				searchText.text = selectItem.type;
+				searchListBtn.name = selectItem.type;
 				
 				PopUpManager.removePopUp(searchTypeList);
 			}
@@ -97,9 +99,13 @@
 	</s:filters>
 	
 	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin" click="closeClickHandler(event)"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
-	
+
 	<s:Label text="搜索" x="10" y="10" fontSize="16" color="#818181"/>	
-	<components:SearchListButton id="searchListBtn" isPopMask="true" click="searchListClickHandler(event)" text="未归档内容" x="10"  y="38"/>
+	<components:Button id="searchListBtn" isPopMask="true" name="未归档内容" click="searchListClickHandler(event)"  x="10"  y="38">
+		<graphic:Triangle  rotation="180" verticalCenter="-5" right="10"/>
+		<graphic:Triangle  rotation="0" verticalCenter="5" right="10"/>
+		<s:Label id="searchText" left="10" text="未归档内容" verticalCenter="0" right="25" fontSize="14" color="#303030"/>
+	</components:Button>
 	
 	<s:Label text="客户名称" x="10" fontSize="16" color="#818181" top="80"/>
 	<mx:TextInput top="103" left="10" right="10" borderColor="#C0C0C0" fontSize="14"/>

@@ -85,6 +85,8 @@
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
 						
+						tootip.text = text == null || "" ? this.name : text;
+						
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 						if(isPopMask)
 						{
@@ -97,7 +99,6 @@
 							tootip.x = point.x + this.width*0.5 - tootip.width*0.5;
 							tootip.y = point.y+this.height+tootip.triangleH;	
 						}
-						
 						
 						originalColor1 = this.overColor[0];
 						originalColor2 = this.overColor[1];

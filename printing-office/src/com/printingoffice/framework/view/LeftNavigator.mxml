@@ -332,7 +332,7 @@
 						{
 							var menubar:MenuBar = bc.getElementAt(bc.numElements-1) as MenuBar;
 							menubar.bgLeftHide();
-							menubar.restituteSelectedTextColor();
+							menubar.menuTextToRestoreDefault();
 						}
 					}
 				}
