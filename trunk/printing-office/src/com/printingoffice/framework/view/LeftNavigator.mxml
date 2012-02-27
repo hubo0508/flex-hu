@@ -231,7 +231,7 @@
 				else
 				{
 					commonlyUsedMenu.bgLeftHide();
-					commonlyUsedMenu.restituteSelectedTextColor();
+					commonlyUsedMenu.menuTextToRestoreDefault();
 					
 					clearChildrenSelectedState(menubar.id);				
 				}				
