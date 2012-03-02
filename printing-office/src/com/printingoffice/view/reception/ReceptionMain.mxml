@@ -97,11 +97,11 @@
 		<graphic:Refresh  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	
-	<components:Button   triangleOver="true" maskType="right" name="归档"  width="68" minHeight="29" left="160" top="16" >
+	<components:Button   triangleOver="true" name="归档"  width="68" minHeight="29" left="160" top="16" >
 		<graphic:Archive  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	
-	<components:Button   triangleOver="true" maskType="left" name="删除"  width="68" minHeight="29" left="294" top="16" >
+	<components:Button   triangleOver="true" name="删除"  width="68" minHeight="29" left="294" top="16" >
 		<graphic:Recover  horizontalCenter="0" verticalCenter="0"/>
 	</components:Button>
 	
