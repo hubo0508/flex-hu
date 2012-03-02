@@ -91,6 +91,12 @@ package com.printingoffice.framework.components
 		 */
 		private var isStartSizeMark:Boolean = false;
 		
+		/**
+		 * <p>重写父组件updateDisplayList</p>
+		 * 
+		 * 1、根据属性isStartSizeMark值来设定，当容器大小改变时，是否重新绘制图表的width与高。</br>
+		 * 2、在调用initChart()函数初始化图表后，创建了一个计时期，在1000毫秒后，改变属性isStartSizeMark的值为true</br>
+		 */
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w,h);
@@ -101,6 +107,9 @@ package com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * 
+		 */
 		public function initChart(data:ArrayCollection):void
 		{		
 			if(data == null || data.length == 0) return;
@@ -151,6 +160,9 @@ package com.printingoffice.framework.components
 			timer.start();	
 		}
 		
+		/**
+		 * 停止定时器
+		 */
 		private function timerStop():void
 		{
 			if(timer.running)
@@ -163,6 +175,12 @@ package com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * <p>当图表最外层容器大小发生改变时，调用该方法从新设定图表所有柱子的高度</p>
+		 * 
+		 * @param w:Number 最新宽度
+		 * @param h:Number 最新高度
+		 */
 		protected function againMeasureSize(w:Number, h:Number):void
 		{
 			if(_data == null || _data.length == 0)return;
@@ -188,6 +206,11 @@ package com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * 根据索引值得到单个图表柱子的宽度
+		 * 
+		 * @param index:String 索引值
+		 */
 		private function getLegendWidthByIndex(index:String):Number
 		{
 			var returnValue:Number = 0;
@@ -205,11 +228,22 @@ package com.printingoffice.framework.components
 			return returnValue;
 		}
 		
-		private function playEffect(legend:Legend, actualWidth:Number):void
+		/**
+		 * 当图表宽度改变时，设定一个简单的动画效果。动画效果时间为1秒钟。
+		 * 
+		 * @param legend:Legend 图表单个柱子组件
+		 * @param actualWidth:Number 最新的宽度
+		 */
+		private function playEffect(legend:Legend, newsWidth:Number):void
 		{
-			new TweenLite(legend,1,{width:actualWidth});				
+			new TweenLite(legend,1,{width:newsWidth});				
 		}
 		
+		/**
+		 * 根据显示最大值与当前图表容器对比，算出实际显示值所对应的单个屏幕像素。
+		 * 
+		 * @param maxWidth:Number 显示数据中最大值
+		 */
 		private function getSinglePixel(maxWidth:Number):Number
 		{
 			var instanceOfWide:Number = this.width - chartLeft - chartRight;
@@ -217,6 +251,9 @@ package com.printingoffice.framework.components
 			return instanceOfWide / maxWidth;
 		}
 		
+		/**
+		 * <p>在显示数据源中，遍历得到最大值</p>
+		 */
 		private function getMaxNumber(dataProvider:ArrayCollection):Number
 		{
 			var maxNum:Number = 0;
@@ -231,6 +268,9 @@ package com.printingoffice.framework.components
 			return maxNum;
 		}
 		
+		/**
+		 * 创建图表投影
+		 */
 		private function getShadowFilter():spark.filters.DropShadowFilter
 		{
 			var filter:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
