@@ -45,7 +45,7 @@
 			[Bindable]private var gradientBottom:uint = 0xECE9E9;
 			
 			/**
-			 * 
+			 *  <p>存储颜色投影【内部使用】</p>
 			 */
 			private var filter:Array = null;
 			
@@ -54,13 +54,24 @@
 			 */
 			private var tootip:TooTip;
 			
+			/**
+			 * 显示文本
+			 */
 			[Bindable]private var _text:String;
 			
+			/**
+			 * <p>指标组件的父级是否为弹出容器(default=false)</p>
+			 * 
+			 * 此属性对取坐值会有影响
+			 */
 			private var _isPopMask:Boolean = false;
 			
+			/**
+			 * <p>设定鼠标在移出或移过按钮组件时，是否改变内部组件的颜色值</p>
+			 * 
+			 * 当内部组件为VectorFig或其属性name=="VectorFig"时，其本身的值为true才会生效
+			 */
 			private var _triangleOver:Boolean = false;
-			
-			private var _maskType:String;
 			
 			/**
 			 * 继续父容器measure()，重新定义默认高度与宽度
@@ -73,6 +84,17 @@
 				minWidth = 35;
 			}
 			
+			/**
+			 * <p>鼠标移出、移入调用</p>
+			 * 
+			 * 1、初始化按钮颜色投影。初始化完成后存储到缓存，全局变量中，在第二次使用时，不再创建。</br>
+			 * 2、初始化消息提示组件。初始化完成后存储到缓存，全局变量中，在第二次使用时，不再创建。</br>
+			 * 3、MouseEvent.ROLL_OUT：将按钮组件投影颜色属性设值为null。隐藏消息提示组件。改边按钮组件的背景渐变颜色。</br>
+			 * 3、MouseEvent.ROLL_OVER：将缓存中的投影颜色值赋值到按钮。显示消息提示组件。改边按钮组件的背景渐变颜色。</br>
+			 * 4、调用changeTriangleBgColor()，改变内部绘画组成的颜色块。
+			 * 
+			 * @see com.printingoffice.framework.components.Button.changeTriangleBgColor()
+			 */
 			protected function rollHandler(event:MouseEvent):void
 			{
 				if(filter == null)
@@ -125,6 +147,11 @@
 				
 			}
 			
+			/**
+			 * <p>设定鼠标在移出或移过按钮组件时，是否改变内部组件的颜色值</p>
+			 * 
+			 * 当内部组件为VectorFig或其属性name=="VectorFig"时，其本身的值为true才会生效
+			 */
 			private function changeTriangleBgColor(type:String):void
 			{
 				if(triangleOver == false)return;
@@ -140,12 +167,14 @@
 							obj.changeBgColor(type);
 						}catch(e:*){
 							trace(e);
-						}
 					}
 				}						
 			}
 	
-			private function createDropShadowFilter():spark.filters.DropShadowFilter				
+			/**
+			 * 创建颜色投影值
+			 */
+			protected function createDropShadowFilter():spark.filters.DropShadowFilter				
 			{		
 				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
 				dsf.angle = 45;
@@ -163,12 +192,18 @@
 				return dsf;
 			}
 			
+			/**
+			 *  显示文本
+			 */
 			[Bindable(event="text")]
 			public function get text():String
 			{
 				return _text;
 			}
 			
+			/**
+			 * @private
+			 */
 			public function set text(value:String):void
 			{
 				_text = value;
@@ -176,35 +211,40 @@
 				this.dispatchEvent(new Event("text"));
 			}
 
+			/**
+			 * <p>指标组件的父级是否为弹出容器(default=false)</p>
+			 * 
+			 * 此属性对取坐值会有影响
+			 */
 			public function get isPopMask():Boolean
 			{
 				return _isPopMask;
 			}
 
+			/**
+			 * @private
+			 */
 			public function set isPopMask(value:Boolean):void
 			{
 				_isPopMask = value;
 			}
 
+			/**
+			 * <p>设定鼠标在移出或移过按钮组件时，是否改变内部组件的颜色值</p>
+			 * 
+			 * 当内部组件为VectorFig或其属性name=="VectorFig"时，其本身的值为true才会生效
+			 */
 			public function get triangleOver():Boolean
 			{
 				return _triangleOver;
 			}
 
+			/**
+			 * @private
+			 */
 			public function set triangleOver(value:Boolean):void
 			{
 				_triangleOver = value;
-			}
-
-			[Inspectable(category="General", enumeration="left,right")]
-			public function get maskType():String
-			{
-				return _maskType;
-			}
-
-			public function set maskType(value:String):void
-			{
-				_maskType = value;
 			}
 
 			
