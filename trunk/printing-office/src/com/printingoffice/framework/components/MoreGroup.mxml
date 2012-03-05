@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-3-5</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   useHandCursor="true"
+				   buttonMode="true"
+				   height="35">
+
+	<fx:Script>
+		<![CDATA[
+			
+			/**
+			 * 当前行或当前单个对象显示源
+			 */
+			public var data:Object;
+			
+		]]>
+	</fx:Script>
+	
+</s:Group>

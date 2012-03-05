@@ -103,8 +103,6 @@
 				if(listMenu == null)
 				{
 					listMenu = new  ListContainer();
-					listMenu.setStyle("backgroundColor",0xFFFFFF);
-					listMenu.width = 160;
 					listMenu.filters = [UIUtil.getInstanceDropShadow()];
 					listMenu.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 					

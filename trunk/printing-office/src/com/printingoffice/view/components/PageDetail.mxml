@@ -131,7 +131,7 @@
 				
 				var currentPoint:Point = UIUtil.getUiAbsolutePosition(btn);
 				currentPoint.x += btn.width;
-				currentPoint.y += btn.height;
+				currentPoint.y += btn.height+2;
 				
 				dispatch(MenuButtonEvent.CLICK_SETTING_MENU,currentPoint);
 			}
