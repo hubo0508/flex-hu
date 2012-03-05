@@ -4,7 +4,7 @@
 	 <p><b>create-time：</b>2012-2-7</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 					  xmlns:s="library://ns.adobe.com/flex/spark"
 					  xmlns:mx="library://ns.adobe.com/flex/mx">
 	
@@ -113,4 +113,4 @@
 	
 	<mx:Image id="loadImg" visible="false" source="{com.printingoffice.framework.util.Const.loading}" verticalCenter="0" horizontalCenter="18" height="70%" width="70%"/>
 
-</s:SkinnableContainer>
+</s:Group>

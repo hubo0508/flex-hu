@@ -108,7 +108,9 @@ package com.printingoffice.framework.components
 		}
 		
 		/**
+		 * 初始化与显示图表柱
 		 * 
+		 * @param data:ArrayCollection 显示数据
 		 */
 		public function initChart(data:ArrayCollection):void
 		{		
@@ -146,6 +148,9 @@ package com.printingoffice.framework.components
 			}
 		}
 		
+		/**
+		 * 启动计时器
+		 */
 		private function startTimer():void
 		{
 			if(timer == null)
@@ -289,6 +294,11 @@ package com.printingoffice.framework.components
 			return filter;
 		}
 		
+		/**
+		 * 图表单个柱子的鼠标移出、移入事件
+		 * 
+		 * </br>改变属性filters值
+		 */
 		protected function legendRollHandler(event:MouseEvent):void
 		{
 			var legend:Legend = event.currentTarget as Legend;
@@ -312,6 +322,11 @@ package com.printingoffice.framework.components
 			
 		}
 		
+		/**
+		 * 创建图表单个柱子实例
+		 * 
+		 * @param index:int 索引位置(在容器中的显示位置)
+		 */
 		private function createLegend(index:int):Legend
 		{
 			var legend:Legend = new Legend();
@@ -328,6 +343,9 @@ package com.printingoffice.framework.components
 			return legend;
 		}
 		
+		/**
+		 * <p>创建Y轴标签(左)</p>
+		 */
 		private function createLeftYAxisTag(item:Object, index:int):Label
 		{
 			var lab:Label = new Label();
@@ -341,6 +359,9 @@ package com.printingoffice.framework.components
 			return lab;
 		}
 		
+		/**
+		 * <p>创建Y轴标签(右)</p>
+		 */
 		private function createRightYAxisTag(index:int, text:String, legendWidth:Number, top:Object):Label
 		{
 			var tag:Label = new Label();

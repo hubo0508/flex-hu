@@ -43,69 +43,6 @@
 				
 				this.dispatchEvent(new Event(UPDATE_DISPLAY_LIST));
 
-//				var scrollerMaskTop:UIComponent=this.getGroup(SCROLLER_MASK_TOP);
-//				var menuGroup:VGroup=this.getGroup(MENU_GROUP) as VGroup;
-//				if (menuGroup.verticalScrollPosition > 0)
-//				{
-//					setGroupVisible(true,scrollerMaskTop);
-//				}
-//				else
-//				{
-//					setGroupVisible(false,scrollerMaskTop);
-//				}
-				
-//				var scroller:Scroller = this.getScroller();
-//				if(scroller)
-//				{
-//					scrollerMaskTop.y = 100;
-//				}
-			}
-
-			
-			
-			private function setGroupVisible(value:Boolean,scroller:IVisualElement):void
-			{
-				if(scroller.visible != value)
-				{
-					scroller.visible = value;
-				}
-			}
-			
-			private function getScroller():Scroller
-			{
-				var num:int = this.numElements;
-				for(var i:int=0; i<num; i++)
-				{
-					var obj:Object = this.getElementAt(i);
-					if(MENU_GROUP_SCROLLER == UIUtil.getName(obj))
-					{
-						return obj as Scroller;
-					}
-				}
-				
-				return null;
-			}
-			
-			private function getGroup(type:String):UIComponent
-			{
-				var num:int=this.numElements;
-				for (var i:int=0; i < num; i++)
-				{
-					var obj:Object=this.getElementAt(i);
-					if (UIUtil.getName(obj) == MENU_GROUP_SCROLLER)
-					{
-						var children:Object=obj.getElementAt(0);
-						if (children && type == UIUtil.getName(children))
-							return children as UIComponent;
-					}
-					else
-					{
-						if (type == UIUtil.getName(obj))
-							return obj as UIComponent;
-					}
-				}
-
-				return null;
 			}
 		]]>
 	</fx:Script>
