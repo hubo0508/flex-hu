@@ -5,8 +5,10 @@
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" >
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  backgroundColor="0xFFFFFF"
+					  width="160">
 	
 	<fx:Script>
 		<![CDATA[

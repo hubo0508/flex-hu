@@ -22,12 +22,19 @@
 		<![CDATA[
 			import com.printingoffice.framework.event.MenuButtonEvent;
 			import com.printingoffice.framework.util.UIUtil;
+			import com.printingoffice.framework.view.components.ListContainer;
 			import com.printingoffice.view.reception.children.Setting;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
+			
+			import spark.components.VGroup;
+			
+			private static const SID_LC:String = "com.printingoffice.view.reception.children.ListContainer";
+			
+			private var settingWin:VGroup;
 
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -52,28 +59,42 @@
 				grid.dataProvider = acc;	
 				
 			}
-
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(settingWin == null)
+				{
+					settingWin = new VGroup();
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+			}
+				
 			protected function pageDetailClickSettingMenuHandler(event:MenuButtonEvent):void
 			{
-				var SID:String = "com.printingoffice.view.reception.children.Setting";
-				var setting:Setting;
-				if(UIUtil.isExistWindown(SID,this) == false)
+				var setting:ListContainer;
+				if(UIUtil.isExistWindown(SID_LC,this) == false)
 				{
 					var menuData:ArrayCollection = new ArrayCollection();
-					menuData.addItem({text:"数据统计与值班列表",selected:true});
-					menuData.addItem({text:"数据统计",selected:false});
-					menuData.addItem({text:"值班列表",selected:false});
-
-					setting = new Setting();
-					setting.id = SID;
+					menuData.addItem({text:"数据统计与值班列表",selected:true, classpath:"com.printingoffice.view.reception.children.StatisticsAndOnDuty"});
+					menuData.addItem({text:"数据统计",selected:false, classpath:"com.printingoffice.view.reception.children.Statistics"});
+					menuData.addItem({text:"值班列表",selected:false, classpath:"com.printingoffice.view.reception.children.Duty"});
+					
+					setting = new ListContainer();
+					setting.id = SID_LC;
 					setting.x = event.point.x -setting.width ;
 					setting.y = event.point.y;
-					setting.initModuleMenu(menuData);
+					setting.initItem(menuData);
 					setting.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 				}
 				else
 				{
-					setting = UIUtil.getWindown(SID,this) as Setting;
+					setting = UIUtil.getWindown(SID_LC,this) as ListContainer;
 				}
 
 				PopUpManager.addPopUp(setting, UIUtil.getApplication(this), false);
@@ -81,8 +102,7 @@
 			
 			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
 			{
-				var SID:String = "com.printingoffice.view.reception.children.Setting";
-				PopUpManager.removePopUp(UIUtil.getWindown(SID,this));
+				PopUpManager.removePopUp(UIUtil.getWindown(SID_LC,this));
 			}
 
 		]]>
