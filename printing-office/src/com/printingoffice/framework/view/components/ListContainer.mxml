@@ -10,8 +10,15 @@
 					  backgroundColor="0xFFFFFF"
 					  width="160">
 	
+	<fx:Metadata>
+		[Event(name="itemListClick",type=" com.printingoffice.framework.event.UseEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
+			import com.printingoffice.framework.components.MoreGroup;
+			import com.printingoffice.framework.event.UseEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.events.DynamicEvent;
 			
@@ -49,7 +56,7 @@
 				for(var i:int=0; i<len; i++)
 				{
 					var item:Object = data.getItemAt(i);					
-					var instanceItem:Group = getInstanceOfItem(i,item);
+					var instanceItem:MoreGroup = getInstanceOfItem(i,item);
 					instanceItem.addEventListener(MouseEvent.CLICK,instanceItemMouseHandler,false,0,true);					
 					instanceItem.addEventListener(MouseEvent.ROLL_OUT,instanceItemMouseHandler,false,0,true);
 					instanceItem.addEventListener(MouseEvent.ROLL_OVER,instanceItemMouseHandler,false,0,true);
@@ -76,7 +83,7 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						var instanceItem:Group = event.currentTarget as Group;
+						var instanceItem:MoreGroup = event.currentTarget as MoreGroup;
 						changeBgVisible(true);
 						bg.x = instanceItem.x;
 						bg.y = instanceItem.y;
@@ -85,18 +92,33 @@
 					case MouseEvent.CLICK :
 						if(event.target is Group)
 						{
-							var instanceItem2:Group = event.currentTarget as Group;
+							var instanceItem2:MoreGroup = event.currentTarget as MoreGroup;
 							var checkbox:CheckBox = instanceItem2.getElementAt(0) as CheckBox;
 							if(checkbox)
 							{
 								checkbox.selected = !checkbox.selected;
 							}	
+							
+							this.dispatchItemListClick(instanceItem2.data);
 						}											
 						break;
 					
 					default:
 						break;
 				}
+			}
+			
+			/**
+			 * 点击当前ListContainer中单个【菜单项】，派发事件
+			 * 
+			 * @param item:Object 当前显示【菜单项】数据源
+			 */
+			protected function dispatchItemListClick(item:Object):void
+			{
+				var useEvent:UseEvent = new UseEvent(UseEvent.ITEM_LIST_CLICK);
+				useEvent.data = item;
+				
+				this.dispatchEvent(useEvent);
 			}
 			
 			/**
@@ -116,14 +138,11 @@
 			 * @param index:int 行索引
 			 * @param item:Object 数据源
 			 */
-			private function getInstanceOfItem(index:int,item:Object):Group
+			private function getInstanceOfItem(index:int,item:Object):MoreGroup
 			{
-				var instanceItem:Group = new Group();
-				instanceItem.percentWidth = 100;
-				instanceItem.height = defaultItemMenuHeight;
-				instanceItem.useHandCursor = true;
-				instanceItem.buttonMode = true;
+				var instanceItem:MoreGroup = new MoreGroup();
 				instanceItem.id = index.toString();
+				instanceItem.data = item;
 				
 				var box:CheckBox = new CheckBox();
 				box.label = item[dataField];
