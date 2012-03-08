@@ -2,6 +2,7 @@ package com.printingoffice.framework.util
 {
 	import flash.display.DisplayObject;
 	import flash.display.Graphics;
+	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	
 	import mx.controls.Alert;
@@ -22,7 +23,7 @@ package com.printingoffice.framework.util
 	 *     <b>HUBO 2012-2-9  /  hubo.0508ⓐgmail.com</br>com.printingoffice.util.UIUtil.as</b>
 	 * </p>
 	 */
-	public class UIUtil
+	public class UIUtil extends EventDispatcher
 	{
 		
 		public static const PUSH:String = "push";
@@ -36,6 +37,8 @@ package com.printingoffice.framework.util
 		public function UIUtil()
 		{
 		}
+		
+
 		
 		public static function getSkinBC():SkinnableContainer
 		{

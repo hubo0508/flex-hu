@@ -26,6 +26,7 @@
 			import spark.components.CheckBox;
 			import spark.components.Group;
 			import spark.components.Label;
+			import spark.components.RadioButton;
 			import spark.skins.spark.BorderContainerSkin;
 			
 			/**
@@ -42,6 +43,11 @@
 			 * 当前选中索引【内部使用】
 			 */
 			private var selectedIndex:Array = [];
+			
+			/**
+			 * ListContainer类型
+			 */
+			private var _boxType:String = "checkBox";
 			
 			/**
 			 * <p>初始列表项</p>
@@ -90,21 +96,56 @@
 						break;
 					
 					case MouseEvent.CLICK :
-						if(event.target is Group)
+						var checkbox:CheckBox;
+						if(event.target is MoreGroup)
 						{
 							var instanceItem2:MoreGroup = event.currentTarget as MoreGroup;
-							var checkbox:CheckBox = instanceItem2.getElementAt(0) as CheckBox;
+							checkbox = getCheckBox(instanceItem2);
 							if(checkbox)
 							{
 								checkbox.selected = !checkbox.selected;
 							}	
-							
-							this.dispatchItemListClick(instanceItem2.data);
-						}											
+						}					
+						else
+						{
+							checkbox= event.target as CheckBox;
+						}
+						
+						if(checkbox && boxType == "radioButton")
+						{
+							setBoxNotSelected(checkbox.id.toString());
+						}
+						
+						this.dispatchItemListClick(instanceItem2.data);
 						break;
 					
 					default:
 						break;
+				}
+			}
+			
+			private function getCheckBox(instanceItem:MoreGroup):CheckBox
+			{
+				if(instanceItem == null)return null;
+				
+				return instanceItem.getElementAt(0) as CheckBox;
+			}
+			
+			/**
+			 * 设置当前除外的所有选择状态为false
+			 * 
+			 * @param index:String 当前选择索引
+			 */
+			public function setBoxNotSelected(index:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int = 0; i<num; i++)
+				{
+					var checkbox:CheckBox = getCheckBox(this.getElementAt(i) as MoreGroup);
+					if(checkbox && checkbox.id.toString() != index && checkbox.selected)
+					{
+						checkbox.selected = false;
+					}
 				}
 			}
 			
@@ -233,6 +274,25 @@
 			{
 				_dataField = value;
 			}
+			
+			[Inspectable(category="General", enumeration="checkBox,radioButton", defaultValue="checkBox")]
+
+			/**
+			 * ListContainer选择类型
+			 */
+			public function get boxType():String
+			{
+				return _boxType;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set boxType(value:String):void
+			{
+				_boxType = value;
+			}
+
 			
 		]]>
 	</fx:Script>
