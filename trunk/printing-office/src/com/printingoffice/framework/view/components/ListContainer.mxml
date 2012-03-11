@@ -99,13 +99,16 @@
 						var checkbox:CheckBox;
 						if(event.target is MoreGroup)
 						{
-							var instanceItem2:MoreGroup = event.currentTarget as MoreGroup;
-							checkbox = getCheckBox(instanceItem2);
+							checkbox = getBox(event.currentTarget as MoreGroup);
+//							if(checkbox && getLastSelectedBoxIndex() == checkbox.id  && checkbox.selected)
+//							{
+//								break;
+//							}
 							if(checkbox)
 							{
 								checkbox.selected = !checkbox.selected;
 							}	
-						}					
+						}
 						else
 						{
 							checkbox= event.target as CheckBox;
@@ -114,9 +117,9 @@
 						if(checkbox && boxType == "radioButton")
 						{
 							setBoxNotSelected(checkbox.id.toString());
-						}
+						}						
 						
-						this.dispatchItemListClick(instanceItem2.data);
+						this.dispatchItemListClick(checkbox);						
 						break;
 					
 					default:
@@ -124,7 +127,35 @@
 				}
 			}
 			
-			private function getCheckBox(instanceItem:MoreGroup):CheckBox
+			/**
+			 * 取得最后一次选择的CheckBox索引值，只针对属性boxType == "radioButton"有效
+			 */
+			public function getLastSelectedBoxIndex():String
+			{
+				if(boxType != "radioButton")
+					return null;
+				
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var moreGroup:MoreGroup = this.getElementAt(i) as MoreGroup;
+					if(moreGroup)
+					{
+						var box:CheckBox = getBox(moreGroup);
+						if(box.selected)
+						{
+							return box.id;						
+						}
+					}
+				}
+				
+				return null;
+			}
+			
+			/**
+			 * 从容器中取得CheckBox
+			 */
+			private function getBox(instanceItem:MoreGroup):CheckBox
 			{
 				if(instanceItem == null)return null;
 				
@@ -141,7 +172,7 @@
 				var num:int = this.numElements;
 				for(var i:int = 0; i<num; i++)
 				{
-					var checkbox:CheckBox = getCheckBox(this.getElementAt(i) as MoreGroup);
+					var checkbox:CheckBox = getBox(this.getElementAt(i) as MoreGroup);
 					if(checkbox && checkbox.id.toString() != index && checkbox.selected)
 					{
 						checkbox.selected = false;
@@ -152,12 +183,13 @@
 			/**
 			 * 点击当前ListContainer中单个【菜单项】，派发事件
 			 * 
-			 * @param item:Object 当前显示【菜单项】数据源
+			 * @param item:Object 当前显示【菜单项】选择框
 			 */
-			protected function dispatchItemListClick(item:Object):void
+			protected function dispatchItemListClick(checkbox:CheckBox):void
 			{
+				var moreGroup:MoreGroup = (checkbox.parent as MoreGroup);
 				var useEvent:UseEvent = new UseEvent(UseEvent.ITEM_LIST_CLICK);
-				useEvent.data = item;
+				useEvent.data = moreGroup.data;
 				
 				this.dispatchEvent(useEvent);
 			}

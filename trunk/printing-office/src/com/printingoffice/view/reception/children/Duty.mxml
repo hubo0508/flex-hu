@@ -20,21 +20,10 @@
 
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				setTimeout(initChart,500);
+
 			}
 
-			private function initChart():void
-			{
-				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({type:'已接件',numbers:120});
-				acc.addItem({type:'等待中',numbers:60});
-				acc.addItem({type:'印刷中',numbers:70});
-				acc.addItem({type:'装订中',numbers:40});
-				acc.addItem({type:'已完成',numbers:20});
-				acc.addItem({type:'待送件',numbers:10});
-				
-				chartStatistics.initChart(acc)
-			}
+
 			
 		]]>
 	</fx:Script>

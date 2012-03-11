@@ -16,7 +16,7 @@
 		 top="115"
 		 left="200"
 		 width="100%"
-		 height="100%">
+		 height="100%" xmlns:action="com.printingoffice.action.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -24,6 +24,8 @@
 			import com.printingoffice.framework.event.UseEvent;
 			import com.printingoffice.framework.util.UIUtil;
 			import com.printingoffice.framework.view.components.ListContainer;
+			import com.printingoffice.view.reception.children.Duty;
+			import com.printingoffice.view.reception.children.Statistics;
 			
 			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
@@ -127,9 +129,11 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Metadata>
-		
-	</fx:Metadata>
+	<fx:Declarations>
+		<action:UIAction UI="{new Statistics()}"/>
+		<action:UIAction UI="{new Duty()}"/>
+		<action:UIAction UI="{new StatisticsAndOnDuty()}"/>
+	</fx:Declarations>
 
 	<components:Button  triangleOver="true" minHeight="29" name="选择" width="68" top="16" > 
 		<s:CheckBox  verticalCenter="0" horizontalCenter="-7"/>		
