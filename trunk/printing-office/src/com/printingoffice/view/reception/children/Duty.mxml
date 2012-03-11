@@ -4,14 +4,13 @@
 	 <p><b>create-time：</b>2012-2-22</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-		  xmlns:s="library://ns.adobe.com/flex/spark"
-		  xmlns:mx="library://ns.adobe.com/flex/mx"
-		  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
-		  xmlns:components="com.printingoffice.framework.components.*"
-		  creationComplete="creationCompleteHandler(event)"
-		  width="100%"
-		  gap="0">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:graphic="com.printingoffice.framework.components.graphic.*"
+		 xmlns:components="com.printingoffice.framework.components.*"
+		 creationComplete="creationCompleteHandler(event)"
+		 width="100%" height="100%" minHeight="10">
 	
 	<fx:Script>
 		<![CDATA[
@@ -27,21 +26,24 @@
 			
 		]]>
 	</fx:Script>
-
-
-	<graphic:Line height="100%" width="0"/>
+	
+	<s:HGroup horizontalCenter="0" y="0" verticalAlign="middle">
+		<s:Label styleName="tag" fontSize="15" text="人员值班列表：11月12日 12:00 ～ 11月14日 12:00&#xd;"  color="#444444"/>
+		<graphic:Triangle x="239" y="11" />  
+	</s:HGroup>	
 	
 	<!--当前值班人员-->
-	<s:Group width="50%" height="100%">
-		<s:HGroup horizontalCenter="0" y="0" verticalAlign="middle">
-			<s:Label styleName="tag" fontSize="15" text="人员值班列表：11月12日 12:00 ～ 11月14日 12:00&#xd;"  color="#444444"/>
-			<graphic:Triangle x="239" y="11" />  
-		</s:HGroup>		
+	<s:Group width="50%" id="left_group">
 		<s:Label styleName="tag" text="分店经理：胡云    印前主管：尹勤    印后主管：王阳"  x="14" y="27"/>
 		<s:Label styleName="tag" text="前台：郑海燕、李佳"  x="14" y="50"/>
 		<s:Label styleName="tag" text="印前：胡波、朱彬、蔡勇军、廖雨祥"  x="14" y="73"/>
-		<s:Label styleName="tag" text="印后：将于、胡志刚、张湘龙"  x="14" y="96"/>
-		<s:Label styleName="tag" text="接件：甘云、刘属"  x="14" y="117"/>
 	</s:Group>
 	
-</s:HGroup>
+	<graphic:Line height="100%" width="0" left="{left_group.width}" top="25" bottom="0"/>
+
+	<s:Group width="50%"  left="{left_group.width+1}">
+		<s:Label styleName="tag" text="印后：将于、胡志刚、张湘龙" x="14" y="27"/>
+		<s:Label styleName="tag" text="接件：甘云、刘属"  x="14" y="50"/>
+	</s:Group>
+	
+</s:Group>
