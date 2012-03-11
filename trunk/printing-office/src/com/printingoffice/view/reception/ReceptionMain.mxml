@@ -43,9 +43,13 @@
 			private var settingWin:VGroup;
 			
 			private var itemList:ListContainer;
+			
+			private var originalGridTop:Number = 0;
 
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+				originalGridTop = Number(gridScroller.top) - statisticsAndOnDuty.height;
+				
 				var acc:ArrayCollection = new ArrayCollection();
 				acc.addItem({bgColor:0,statusIcon:[1,2],orderNo:'00000001',names:"大西南稿件",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
 				acc.addItem({bgColor:0,statusIcon:[4],orderNo:'00000002',names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
@@ -125,16 +129,22 @@
 				var ClassReference:Class=getDefinitionByName(classpath) as Class;
 				var instance:IVisualElement = new ClassReference() as IVisualElement;
 				
+				trace("statisticsAndOnDuty.height = " + statisticsAndOnDuty.height + " | instance.height = " + instance.height + " | originalGridTop = " + originalGridTop);
+				
+				var oldStatisticsContainersHeight:Number = statisticsAndOnDuty.height;
+				
 				statisticsAndOnDuty.removeAllElements();
 				statisticsAndOnDuty.addElement(instance);
-				statisticsAndOnDuty.validateNow();
+				this.validateNow();
 			
-				setStatisticsContainersNewHeights(instance.height+statisticsAndOnDuty.top);
+				trace("statisticsAndOnDuty.height = " + statisticsAndOnDuty.height + " | instance.height = " + instance.height + " | originalGridTop = " + originalGridTop);
+				
+				setGridNewTop(oldStatisticsContainersHeight - statisticsAndOnDuty.height);
 			}
 			
-			private function setStatisticsContainersNewHeights(value:Number):void
+			private function setGridNewTop(value:Number):void
 			{
-				if(statisticsAndOnDuty.height < value)
+				if(gridScroller.top < value)
 				{
 					//TweenLite.tweenTo(statisticsAndOnDuty,.3,{height:value});
 				}
@@ -177,12 +187,12 @@
 	<graphic:Line/>
 
 	<!--统计信息-->
-	<s:BorderContainer id="statisticsAndOnDuty" width="100%" top="80" >
+	<s:BorderContainer id="statisticsAndOnDuty" width="100%" top="80" minHeight="10">
 		<children:StatisticsAndOnDuty  />
 	</s:BorderContainer>	
 	
 	<!--内容-->
-	<s:Scroller width="100%" height="100%" x="0" top="240">
+	<s:Scroller width="100%" height="100%" x="0" top="240" id="gridScroller">
 		<components:Content id="contentgroup" width="100%" height="100%">		
 			<datagrid:Grid id="grid"  
 						   bgColorField="bgColor" statusField="statusIcon" 

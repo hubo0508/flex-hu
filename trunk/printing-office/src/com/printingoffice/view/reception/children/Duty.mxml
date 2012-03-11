@@ -10,7 +10,9 @@
 		 xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 		 xmlns:components="com.printingoffice.framework.components.*"
 		 creationComplete="creationCompleteHandler(event)"
-		 width="100%" height="100%" minHeight="10">
+		 width="100%"
+		 height="100%"
+		 minHeight="10">
 	
 	<fx:Script>
 		<![CDATA[
@@ -39,7 +41,7 @@
 		<s:Label styleName="tag" text="印前：胡波、朱彬、蔡勇军、廖雨祥"  x="14" y="73"/>
 	</s:Group>
 	
-	<graphic:Line height="100%" width="0" left="{left_group.width}" top="25" bottom="0"/>
+	<!--<graphic:Line height="100%" width="0" left="{left_group.width}" top="25" bottom="0"/>-->
 
 	<s:Group width="50%"  left="{left_group.width+1}">
 		<s:Label styleName="tag" text="印后：将于、胡志刚、张湘龙" x="14" y="27"/>
