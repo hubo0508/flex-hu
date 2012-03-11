@@ -144,9 +144,10 @@
 			
 			private function setGridNewTop(value:Number):void
 			{
-				if(gridScroller.top < value)
+				var newTop:Number = Number(gridScroller.top) - value;
+				if(newTop > originalGridTop)
 				{
-					//TweenLite.tweenTo(statisticsAndOnDuty,.3,{height:value});
+					TweenLite.tweenTo(gridScroller,.3,{top:newTop});
 				}
 			}
 
@@ -187,9 +188,9 @@
 	<graphic:Line/>
 
 	<!--统计信息-->
-	<s:BorderContainer id="statisticsAndOnDuty" width="100%" top="80" minHeight="10">
+	<s:Group id="statisticsAndOnDuty" width="100%" top="80" minHeight="10">
 		<children:StatisticsAndOnDuty  />
-	</s:BorderContainer>	
+	</s:Group>	
 	
 	<!--内容-->
 	<s:Scroller width="100%" height="100%" x="0" top="240" id="gridScroller">
