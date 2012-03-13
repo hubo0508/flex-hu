@@ -4,14 +4,15 @@
 	 <p><b>create-time：</b>2012-2-22</p>
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 		  xmlns:components="com.printingoffice.framework.components.*"
 		  creationComplete="creationCompleteHandler(event)"
 		  width="100%"
-		  gap="0">
+		  height="83"
+		  minHeight="10">
 	
 	<fx:Script>
 		<![CDATA[
@@ -25,30 +26,34 @@
 
 			private function initChart():void
 			{
-				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({type:'已接件',numbers:120});
-				acc.addItem({type:'等待中',numbers:60});
-				acc.addItem({type:'印刷中',numbers:70});
-				acc.addItem({type:'装订中',numbers:40});
-				acc.addItem({type:'已完成',numbers:20});
-				acc.addItem({type:'待送件',numbers:10});
+				var accLeft:ArrayCollection = new ArrayCollection();
+				accLeft.addItem({type:'已接件',numbers:120});
+				accLeft.addItem({type:'等待中',numbers:60});
+				accLeft.addItem({type:'印刷中',numbers:70});
 				
-				chartStatistics.initChart(acc)
+				var accRight:ArrayCollection = new ArrayCollection();
+				accRight.addItem({type:'装订中',numbers:40});
+				accRight.addItem({type:'已完成',numbers:20});
+				accRight.addItem({type:'待送件',numbers:10});
+				
+				chartStatisticsLeft.initChart(accLeft);
+				chartStatisticsRight.initChart(accRight);
 			}
 			
 		]]>
 	</fx:Script>
 
+	<s:HGroup horizontalCenter="0" y="0" verticalAlign="middle">
+		<s:Label styleName="tag" fontSize="15" text="数据统计时间段：11月12日 12:00 ～ 11月14日 12:00" horizontalCenter="0" color="#444444"/>
+		<graphic:Triangle x="239" y="11" />
+	</s:HGroup>	
+	
 	<!--图表-->
-	<s:Group width="50%" height="100%">
-		<s:HGroup horizontalCenter="0" verticalAlign="middle">
-			<s:Label styleName="tag" fontSize="15" text="数据统计时间段：11月12日 12:00 ～ 11月14日 12:00" horizontalCenter="0" color="#444444"/>
-			<graphic:Triangle x="239" y="11" />
-		</s:HGroup>	
-		<components:ChartStatistics id="chartStatistics" width="100%" height="100%" top="15"/>
-	</s:Group>	
+	<components:ChartStatistics id="chartStatisticsLeft" width="50%" height="100%" top="15"/>
 	
-	<graphic:Line height="100%" width="0"/>
+	<graphic:Line height="100%" width="0" left="{chartStatisticsLeft.width}"/>
+	
+	<components:ChartStatistics id="chartStatisticsRight" width="50%" height="100%" top="15" left="{chartStatisticsLeft.width+1}"/>
 	
 	
-</s:HGroup>
+</s:Group>

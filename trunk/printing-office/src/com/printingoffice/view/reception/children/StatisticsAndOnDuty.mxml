@@ -11,8 +11,9 @@
 		  xmlns:components="com.printingoffice.framework.components.*"
 		  creationComplete="creationCompleteHandler(event)"
 		  width="100%"
-		  gap="0"
 		  height="140"
+		  minHeight="10"
+		  gap="0"
 		  x="0">
 	
 	<fx:Script>
