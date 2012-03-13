@@ -27,6 +27,7 @@
 			import com.printingoffice.framework.view.components.ListContainer;
 			import com.printingoffice.view.reception.children.Duty;
 			import com.printingoffice.view.reception.children.Statistics;
+			import com.printingoffice.view.reception.children.StatisticsAndOnDuty;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -98,8 +99,8 @@
 			{
 				
 				var menuData:ArrayCollection = new ArrayCollection();
-				menuData.addItem({text:"数据统计与值班列表",selected:true, classpath:"com.printingoffice.view.reception.children.StatisticsAndOnDuty"});
-				menuData.addItem({text:"数据统计",selected:false, classpath:"com.printingoffice.view.reception.children.Statistics"});
+				menuData.addItem({text:"数据统计与值班列表",selected:false, classpath:"com.printingoffice.view.reception.children.StatisticsAndOnDuty"});
+				menuData.addItem({text:"数据统计",selected:true, classpath:"com.printingoffice.view.reception.children.Statistics"});
 				menuData.addItem({text:"值班列表",selected:false, classpath:"com.printingoffice.view.reception.children.Duty"});
 				
 				if(itemList == null)
@@ -127,18 +128,20 @@
 			{
 				var classpath:String = event.data["classpath"];
 				var ClassReference:Class=getDefinitionByName(classpath) as Class;
-				var instance:IVisualElement = new ClassReference() as IVisualElement;
+				var instance:UIComponent = new ClassReference() as UIComponent;
+				instance.id = classpath;
 				
 				var oldStatisticsContainersHeight:Number = statisticsAndOnDuty.height;
 				
 				statisticsAndOnDuty.removeAllElements();
 				statisticsAndOnDuty.addElement(instance);
 				
-				setGridNewTop(oldStatisticsContainersHeight - instance.height -2);
+				setGridNewTop(oldStatisticsContainersHeight - instance.height);
 			}
 			
 			private function setGridNewTop(value:Number):void
 			{
+				trace("gridScroller.top = " + gridScroller.top + "  |  Number(gridScroller.top) - value = " + (Number(gridScroller.top) - value));
 				var newTop:Number = Number(gridScroller.top) - value;
 				TweenLite.tweenTo(gridScroller,.3,{top:newTop});
 			}
@@ -181,11 +184,11 @@
 
 	<!--统计信息-->
 	<s:Group id="statisticsAndOnDuty" width="100%" top="80" minHeight="10">
-		<children:StatisticsAndOnDuty  />
+		<children:Statistics  />
 	</s:Group>	
 	
 	<!--内容-->
-	<s:Scroller width="100%" height="100%" x="0" top="240" id="gridScroller">
+	<s:Scroller width="100%" height="100%" x="0" top="180" id="gridScroller">
 		<components:Content id="contentgroup" width="100%" height="100%">		
 			<datagrid:Grid id="grid"  
 						   bgColorField="bgColor" statusField="statusIcon" 
