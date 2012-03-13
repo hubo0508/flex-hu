@@ -51,7 +51,7 @@
 	<!--图表-->
 	<components:ChartStatistics id="chartStatisticsLeft" width="50%" height="100%" top="15"/>
 	
-	<graphic:Line height="100%" width="0" left="{chartStatisticsLeft.width}"/>
+	<graphic:Line height="58" width="0" left="{chartStatisticsLeft.width}" top="25" bottom="0"/>
 	
 	<components:ChartStatistics id="chartStatisticsRight" width="50%" height="100%" top="15" left="{chartStatisticsLeft.width+1}"/>
 	
