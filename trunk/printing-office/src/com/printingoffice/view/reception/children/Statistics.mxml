@@ -53,7 +53,7 @@
 	
 	<graphic:Line height="58" width="0" left="{chartStatisticsLeft.width}" top="25" bottom="0"/>
 	
-	<components:ChartStatistics id="chartStatisticsRight" width="50%" height="100%" top="15" left="{chartStatisticsLeft.width+1}"/>
+	<components:ChartStatistics id="chartStatisticsRight" width="50%" height="100%" top="15" left="{chartStatisticsLeft.width+5}"/>
 	
 	
 </s:Group>
