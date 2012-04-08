@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="955"
+			   minHeight="600" creationComplete="application1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+
+
+				var oceans:Array = ["1", "3", "4", "2"]; 
+				oceans.reverse(); 
+				trace(oceans); // output: Pacific,Indian,Atlantic,Arctic
+				
+				var poets:Array =["2012-09-23 22:01", "2012-09-23 22:03", "2012-09-23 22:02", "2012-07-23 22:01"]; 
+				poets.sort(); // default sort 
+				trace(poets); // output: Angelou,Blake,Dante,cummings 
+				
+				poets.sort(Array.CASEINSENSITIVE); 
+				trace(poets); // output: Angelou,Blake,cummings,Dante 
+				
+				poets.sort(Array.DESCENDING); 
+				trace(poets); // output: cummings,Dante,Blake,Angelou 
+				
+				poets.sort(Array.DESCENDING | Array.CASEINSENSITIVE); // use two options 
+				trace(poets); // output: Dante,cummings,Blake,Angelou
+			
+			}
+
+		]]>
+	</fx:Script>
+	
+	
+	
+</s:Application>
+ 
