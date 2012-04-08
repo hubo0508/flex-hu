@@ -22,22 +22,31 @@ package org.flexgrid.components
 		 * 可用值为：left right top bottom，这四个值可随意组合。
 		 */
 		private var _borderSides:String="";
-		public var backgroupColor:uint = 0;
+		public var bgColor:Object;
 		public var borderColor:uint = 0xB5B8C8;
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w, h);
 			
+			if(borderSides == "" && bgColor == null)
+				return;
+			
 			var g:Graphics=graphics;
 			if (isNaN(w) || isNaN(h))
 				return;
 			g.clear();
 			
-			//Utils.drawBackgroup(backgroupColor,g,w,h);			
-			g.lineStyle(1, borderColor);
-			Utils.drawBorder(Utils.lineSides(borderSides),g,w,h);
+			if(bgColor != null)
+			{
+				Utils.drawBackgroup(bgColor as uint,g,w,h);	
+			}
 			
+			if(borderSides != "")
+			{
+				g.lineStyle(1, borderColor);
+				Utils.drawBorder(Utils.lineSides(borderSides),g,w,h);
+			}
 		}
 
 		/**
