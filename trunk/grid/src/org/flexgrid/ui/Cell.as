@@ -1,6 +1,13 @@
 package org.flexgrid.ui
 {
+	import flash.events.Event;
+	
+	import mx.controls.Alert;
+	import mx.events.DynamicEvent;
+	
+	import org.flexgrid.components.CellLabel;
 	import org.flexgrid.components.CustomGroup;
+	import org.flexgrid.util.ConstantsLibrary;
 	
 	import spark.components.Group;
 	import spark.components.Label;
@@ -17,7 +24,7 @@ package org.flexgrid.ui
 		/*
 		 * 显示文本 
 		 */
-		private var tagText:Label;
+		private var tagText:CellLabel;
 		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
@@ -27,7 +34,7 @@ package org.flexgrid.ui
 		/**
 		 * 显示文本左右便宜量，默认为1 
 		 */
-		private var _offset:int = 2;
+		private var _offset:int = 5;
 		
 		/**
 		 * 显示文本
@@ -42,8 +49,8 @@ package org.flexgrid.ui
 		override protected function measure():void
 		{
 			super.measure();
-			this.measuredHeight = 20;
-			this.measuredWidth = 100;
+			this.measuredHeight = ConstantsLibrary.CELL_HEIGHT;
+			this.measuredWidth = ConstantsLibrary.CELL_WEIGHT;
 		}
 		
 		override protected function createChildren():void
@@ -52,8 +59,8 @@ package org.flexgrid.ui
 			
 			if(!tagText)
 			{
-				tagText = new Label();
-				tagText.text = "xxxx";
+				tagText = new CellLabel();
+				tagText.addEventListener("changeCellLabel",changeCellLabel);
 				
 				this.addElement(tagText);
 			}
@@ -66,7 +73,7 @@ package org.flexgrid.ui
 			if(tagText)
 			{
 				tagText.verticalCenter = 0;
-				tagText.left = this.offset;
+				tagText.setStyle("paddingLeft",offset);
 				tagText.text = text;
 				if(isTruncated){
 					tagText.maxDisplayedLines = 1;
@@ -81,8 +88,22 @@ package org.flexgrid.ui
 			if(tagText && tagText.maxWidth != w)
 			{
 				tagText.maxWidth = this.width;
+				//mx.controls.Alert.show(this.verticalScrollPosition+"");
 			}
 		}
+		
+		/**
+		 * 当CellLabel组件高度
+		 */
+		protected function changeCellLabel(event:DynamicEvent):void
+		{
+			var newHeight:Number = event.value as Number;
+			if(this.height < newHeight && this.height != (newHeight + 8))
+			{
+				this.height = newHeight + 8;
+			}
+		}
+		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
 		 */
