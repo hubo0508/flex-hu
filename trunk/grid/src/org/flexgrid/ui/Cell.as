@@ -55,7 +55,8 @@ package org.flexgrid.ui
 		
 		public function Cell()
 		{
-			this.addEventListener(MouseEvent.CLICK,clickCellHandler,false,0,true);
+			super();
+			addEventListener(MouseEvent.CLICK,clickCellHandler,false,0,true);
 		}
 		
 		override protected function measure():void
@@ -121,6 +122,7 @@ package org.flexgrid.ui
 		 */
 		protected function clickCellHandler(event:MouseEvent):void
 		{
+			Alert.show("xx");
 			if(checkbox && type == "checkbox")
 			{
 				this.setCheckboxState();
