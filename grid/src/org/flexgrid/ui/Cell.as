@@ -60,7 +60,7 @@ package org.flexgrid.ui
 			if(!tagText)
 			{
 				tagText = new CellLabel();
-				tagText.addEventListener("changeCellLabel",changeCellLabel);
+				tagText.addEventListener("changeCellLabel",changeCellLabel,false,0,true);
 				
 				this.addElement(tagText);
 			}
