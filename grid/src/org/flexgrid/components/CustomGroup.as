@@ -24,9 +24,9 @@ package org.flexgrid.components
 		private var _borderSides:String="";
 		
 		/**
-		 * 容器背景颜色，默认值为null。
+		 * 容器背景颜色，默认值为【0xFFFFFF】白色。
 		 */
-		private var _bgColor:Object;
+		private var _bgColor:Object = 0xFFFFFF;
 		
 		/**
 		 * 容器边框色，默认值为0xB5B8C8
