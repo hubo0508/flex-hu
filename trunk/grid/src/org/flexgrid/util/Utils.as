@@ -1,7 +1,7 @@
 package org.flexgrid.util
 {
 	import flash.display.Graphics;
-	
+
 
 	/**
 	 * <p><b>HUBO 2012-1-18  /  hubo.0508ⓐgmail.com</br>org.hu.flexeasy.util.Utils.as</b></p>
@@ -11,9 +11,9 @@ package org.flexgrid.util
 		public function Utils()
 		{
 		}
-		
-		
-		public static function drawBackgroup(color:uint, g:Graphics, w:Number, h:Number,alpha:Number=1):void
+
+
+		public static function drawBackgroup(color:uint, g:Graphics, w:Number, h:Number, alpha:Number=1):void
 		{
 			if (color != 0)
 			{
@@ -28,36 +28,42 @@ package org.flexgrid.util
 			if (sides.left == "left")
 			{
 				g.moveTo(0, 0);
-				
-				if (sides.bottom != 'bottom'){
+
+				if (sides.bottom != 'bottom')
+				{
 					g.lineTo(0, h);
-				}else{
-					g.lineTo(0, h-1);
+				}
+				else
+				{
+					g.lineTo(0, h - 1);
 				}
 			}
-			
+
 			if (sides.right == "right")
 			{
-				g.moveTo(w-1, 0);
-				g.lineTo(w-1, h-1);
-				
-				if (sides.bottom != 'bottom'){
+				g.moveTo(w - 1, 0);
+				g.lineTo(w - 1, h - 1);
+
+				if (sides.bottom != 'bottom')
+				{
 					g.lineTo(w, h);
-				}else{
-					g.lineTo(w-1, h-1);
+				}
+				else
+				{
+					g.lineTo(w - 1, h - 1);
 				}
 			}
-			
+
 			if (sides.top == "top")
 			{
 				g.moveTo(0, 0);
-				g.lineTo(w-1, 0);
+				g.lineTo(w - 1, 0);
 			}
-			
+
 			if (sides.bottom == 'bottom')
 			{
-				g.moveTo(0, h-1);
-				g.lineTo(w, h-1);
+				g.moveTo(0, h - 1);
+				g.lineTo(w, h - 1);
 			}
 		}
 
