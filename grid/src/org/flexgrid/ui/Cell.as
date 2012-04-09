@@ -1,6 +1,7 @@
 package org.flexgrid.ui
 {
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
 	import mx.events.DynamicEvent;
@@ -9,6 +10,7 @@ package org.flexgrid.ui
 	import org.flexgrid.components.CustomGroup;
 	import org.flexgrid.util.ConstantsLibrary;
 	
+	import spark.components.CheckBox;
 	import spark.components.Group;
 	import spark.components.Label;
 	
@@ -21,10 +23,15 @@ package org.flexgrid.ui
 	public class Cell extends CustomGroup
 	{
 		
-		/*
-		 * 显示文本 
+		/**
+		 * 显示文本【私有】
 		 */
 		private var tagText:CellLabel;
+		
+		/**
+		 * 显示选择框【私有】
+		 */
+		private var checkbox:CheckBox;
 		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
@@ -41,9 +48,14 @@ package org.flexgrid.ui
 		 */
 		private var _text:String;
 		
+		/**
+		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom】
+		 */
+		private var _type:String = "text";
+		
 		public function Cell()
 		{
-			super();
+			this.addEventListener(MouseEvent.CLICK,clickCellHandler,false,0,true);
 		}
 		
 		override protected function measure():void
@@ -57,12 +69,19 @@ package org.flexgrid.ui
 		{
 			super.createChildren();
 			
-			if(!tagText)
+			if(!tagText && type == "text")
 			{
 				tagText = new CellLabel();
 				tagText.addEventListener("changeCellLabel",changeCellLabel,false,0,true);
 				
 				this.addElement(tagText);
+			}
+			
+			if(!checkbox && type == "checkbox")
+			{
+				checkbox = new CheckBox();
+				
+				this.addElement(checkbox);
 			}
 		}
 
@@ -70,7 +89,7 @@ package org.flexgrid.ui
 		{
 			super.commitProperties();
 			
-			if(tagText)
+			if(tagText && type == "text")
 			{
 				tagText.verticalCenter = 0;
 				tagText.setStyle("paddingLeft",offset);
@@ -79,16 +98,32 @@ package org.flexgrid.ui
 					tagText.maxDisplayedLines = 1;
 				}
 			}
+			
+			if(checkbox && type == "checkbox")
+			{
+				checkbox.verticalCenter = 0;
+				checkbox.horizontalCenter = 0;
+			}
 		}
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
 			super.updateDisplayList(w,h);
 			
-			if(tagText && tagText.maxWidth != w)
+			if(tagText && type == "text" && tagText.maxWidth != w)
 			{
 				tagText.maxWidth = this.width;
-				//mx.controls.Alert.show(this.verticalScrollPosition+"");
+			}
+		}
+		
+		/**
+		 * 点击当前单元格
+		 */
+		protected function clickCellHandler(event:MouseEvent):void
+		{
+			if(checkbox && type == "checkbox")
+			{
+				this.setCheckboxState();
 			}
 		}
 		
@@ -103,6 +138,20 @@ package org.flexgrid.ui
 				this.height = newHeight + 8;
 			}
 		}
+		
+		/**
+		 * 设置选择框状态，当type值为checkbox时，调用该函数有效
+		 */
+		public function setCheckboxState():void
+		{
+			if(!checkbox || type != "checkbox") return;
+			
+			checkbox.selected = !checkbox.selected;
+		}
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//get and set//
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
@@ -150,6 +199,24 @@ package org.flexgrid.ui
 		public function set text(value:String):void
 		{
 			_text = value;
+		}
+		
+		[Inspectable(category="General", enumeration="text,checkbox,custom", defaultValue="text")]
+
+		/**
+		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom】
+		 */
+		public function get type():String
+		{
+			return _type;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set type(value:String):void
+		{
+			_type = value;
 		}
 
 
