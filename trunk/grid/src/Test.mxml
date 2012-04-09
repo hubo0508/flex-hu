@@ -4,6 +4,19 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   minWidth="955"
 			   minHeight="600" creationComplete="application1_creationCompleteHandler(event)" xmlns:ui="org.flexgrid.ui.*">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace ui "org.flexgrid.ui.*";
+		
+		s|Application{
+			fontFamily:"宋体";
+			fontSize:12;
+		}
+		
+	</fx:Style>
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -36,10 +49,10 @@
 	</fx:Script>
 	
 	<s:VGroup top="200" left="200" gap="0" width="100%">
-		<ui:Cell borderSides="left right top bottom"  text="胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说">
-		</ui:Cell>
-		
-
+		<ui:Cell borderSides="left right top "  text="胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说" />
+		<ui:Cell borderSides="left right top"  text="2012-09-23 22:03" />
+		<ui:Cell borderSides="left right top"  text="2012-09-23 22:02" />
+		<ui:Cell borderSides="left right top bottom"  text="2012-09-23 22:01" />
 	</s:VGroup>
 	
 	
