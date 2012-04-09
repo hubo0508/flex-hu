@@ -22,8 +22,16 @@ package org.flexgrid.components
 		 * 可用值为：left right top bottom，这四个值可随意组合。
 		 */
 		private var _borderSides:String="";
-		public var bgColor:Object;
-		public var borderColor:uint = 0xB5B8C8;
+		
+		/**
+		 * 容器背景颜色，默认值为null。
+		 */
+		private var _bgColor:Object;
+		
+		/**
+		 * 容器边框色，默认值为0xB5B8C8
+		 */
+		private var _bColor:uint = 0xB5B8C8;
 		
 		override protected function updateDisplayList(w:Number, h:Number):void
 		{
@@ -44,7 +52,7 @@ package org.flexgrid.components
 			
 			if(borderSides != "")
 			{
-				g.lineStyle(1, borderColor);
+				g.lineStyle(1, bColor);
 				Utils.drawBorder(Utils.lineSides(borderSides),g,w,h);
 			}
 		}
@@ -65,6 +73,39 @@ package org.flexgrid.components
 		{
 			_borderSides = value;
 		}
+
+		/**
+		 * 容器背景颜色，默认值为null。
+		 */
+		public function get bgColor():Object
+		{
+			return _bgColor;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set bgColor(value:Object):void
+		{
+			_bgColor = value;
+		}
+
+		/**
+		 * 容器边框色，默认值为0xB5B8C8
+		 */
+		public function get bColor():uint
+		{
+			return _bColor;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set bColor(value:uint):void
+		{
+			_bColor = value;
+		}
+
 
 	}
 }
