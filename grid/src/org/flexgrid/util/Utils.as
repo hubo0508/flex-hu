@@ -28,18 +28,32 @@ package org.flexgrid.util
 			if (sides.left == "left")
 			{
 				g.moveTo(0, 0);
-				g.lineTo(0, h-1);
+				
+				if (sides.bottom != 'bottom'){
+					g.lineTo(0, h);
+				}else{
+					g.lineTo(0, h-1);
+				}
 			}
+			
 			if (sides.right == "right")
 			{
 				g.moveTo(w-1, 0);
 				g.lineTo(w-1, h-1);
+				
+				if (sides.bottom != 'bottom'){
+					g.lineTo(w, h);
+				}else{
+					g.lineTo(w-1, h-1);
+				}
 			}
+			
 			if (sides.top == "top")
 			{
 				g.moveTo(0, 0);
 				g.lineTo(w-1, 0);
 			}
+			
 			if (sides.bottom == 'bottom')
 			{
 				g.moveTo(0, h-1);
