@@ -2,14 +2,14 @@ package org.flexgrid.ui
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-
+	
 	import mx.controls.Alert;
 	import mx.events.DynamicEvent;
-
+	
 	import org.flexgrid.components.CellLabel;
 	import org.flexgrid.components.CustomGroup;
 	import org.flexgrid.util.ConstantsLibrary;
-
+	
 	import spark.components.CheckBox;
 	import spark.components.Group;
 	import spark.components.Label;
@@ -23,6 +23,9 @@ package org.flexgrid.ui
 	public class Cell extends CustomGroup
 	{
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//私有对象//
+		//////////////
 		/**
 		 * 显示文本【私有】
 		 */
@@ -32,7 +35,10 @@ package org.flexgrid.ui
 		 * 显示选择框【私有】
 		 */
 		private var checkbox:CheckBox;
-
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//外部调用对象//
+		//////////////
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
 		 */
@@ -49,15 +55,26 @@ package org.flexgrid.ui
 		private var _text:String;
 
 		/**
-		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom】
+		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom、custombg】
 		 */
 		private var _type:String="text";
+		
+		/**
+		 * 单行显示数据
+		 */
+		private var _data:Object;
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 		public function Cell()
 		{
 			super();
 			addEventListener(MouseEvent.CLICK, clickCellHandler, false, 0, true);
 		}
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 		override protected function measure():void
 		{
@@ -204,10 +221,10 @@ package org.flexgrid.ui
 			_text=value;
 		}
 
-		[Inspectable(category="General", enumeration="text,checkbox,custom", defaultValue="text")]
+		[Inspectable(category="General", enumeration="text,checkbox,custom,custombg", defaultValue="text")]
 
 		/**
-		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom】
+		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom、custombg】
 		 */
 		public function get type():String
 		{
@@ -222,6 +239,21 @@ package org.flexgrid.ui
 			_type=value;
 		}
 
+		/**
+		 * 单行显示数据
+		 */
+		public function get data():Object
+		{
+			return _data;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set data(value:Object):void
+		{
+			_data = value;
+		}
 
 	}
 }

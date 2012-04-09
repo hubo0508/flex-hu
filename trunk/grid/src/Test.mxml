@@ -42,7 +42,7 @@
 	</fx:Script>
 	
 	<s:VGroup top="200" left="200" gap="0" width="100%">
-		<ui:Cell  borderSides="left right top " id="c"  text="胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说" isTruncated="false"/>
+		<ui:Cell  borderSides="left right top " id="c"  text="胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说"/>
 		<ui:Cell  borderSides="left right top"  text="2012-09-23 22:03" />
 		<ui:Cell  borderSides="left right top"  text="2012-09-23 22:02" type="checkbox" />
 		<ui:Cell  borderSides="left right top bottom"  text="2012-09-23 22:01" />
