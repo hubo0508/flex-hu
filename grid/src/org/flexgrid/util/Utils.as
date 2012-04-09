@@ -27,23 +27,23 @@ package org.flexgrid.util
 		{
 			if (sides.left == "left")
 			{
-				g.moveTo(-1, 0);
-				g.lineTo(-1, h+1);
+				g.moveTo(0, 0);
+				g.lineTo(0, h-1);
 			}
 			if (sides.right == "right")
 			{
-				g.moveTo(w, 0);
-				g.lineTo(w, h+1);
+				g.moveTo(w-1, 0);
+				g.lineTo(w-1, h-1);
 			}
 			if (sides.top == "top")
 			{
-				g.moveTo(-1, -1);
-				g.lineTo(w+1, -1);
+				g.moveTo(0, 0);
+				g.lineTo(w-1, 0);
 			}
 			if (sides.bottom == 'bottom')
 			{
-				g.moveTo(0, h);
-				g.lineTo(w, h);
+				g.moveTo(0, h-1);
+				g.lineTo(w, h-1);
 			}
 		}
 

@@ -35,7 +35,13 @@
 		]]>
 	</fx:Script>
 	
-	<ui:Cell width="50%" height="50%" top="100" left="100" bgColor="0xB5B8C8"/>
+	<s:VGroup top="200" left="200" gap="0" width="100%">
+		<ui:Cell borderSides="left right top bottom"  text="胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说胡说">
+		</ui:Cell>
+		
+
+	</s:VGroup>
+	
 	
 </s:Application>
  
