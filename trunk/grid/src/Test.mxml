@@ -13,6 +13,7 @@
 		s|Application{
 			fontFamily:"宋体";
 			fontSize:12;
+			cursor:"crosshair";
 		}
 		
 	</fx:Style>
@@ -22,16 +23,19 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.managers.CursorManager;
+			import mx.managers.CursorManagerPriority;
+			
+			import org.flexgrid.util.ConstantsLibrary;
 			
 			import spark.components.BorderContainer;
+			
+			
 
 			protected function application1_creationCompleteHandler(event:FlexEvent):void
 			{
+				CursorManager.setCursor(ConstantsLibrary.CURSOR_STYLE,CursorManagerPriority.MEDIUM);
 
-
-				var bc:BorderContainer = new BorderContainer();	
-			
-				
 			}
 
 
@@ -40,6 +44,8 @@
 
 		]]>
 	</fx:Script>
+	
+	
 	
 	
 	

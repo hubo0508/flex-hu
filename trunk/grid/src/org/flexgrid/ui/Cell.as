@@ -172,12 +172,13 @@ package org.flexgrid.ui
 			}
 		}
 
+
 		/**
 		 * 点击当前单元格
 		 */
 		protected function clickCellHandler(event:MouseEvent):void
 		{
-			if (checkbox && type == "checkbox")
+			if (checkbox && type == "checkbox" && !(event.target is CheckBox))
 			{
 				this.setCheckboxState();
 			}
