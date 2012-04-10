@@ -6,7 +6,9 @@ package org.flexgrid.ui
 	import mx.controls.Alert;
 	import mx.core.ClassFactory;
 	import mx.events.DynamicEvent;
+	import mx.events.FlexEvent;
 	
+	import org.flexgrid.components.CellButton;
 	import org.flexgrid.components.CellLabel;
 	import org.flexgrid.components.CustomGroup;
 	import org.flexgrid.skin.CellTitleButtonSkin;
@@ -16,6 +18,7 @@ package org.flexgrid.ui
 	import spark.components.CheckBox;
 	import spark.components.Group;
 	import spark.components.Label;
+	import spark.skins.spark.ButtonSkin;
 
 
 	/**
@@ -43,6 +46,7 @@ package org.flexgrid.ui
 		 * 显示标准头【私有】
 		 */
 		private var button:Button;
+//		private var button:CellButton;
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//外部调用对象//
@@ -62,6 +66,11 @@ package org.flexgrid.ui
 		 * 显示文本左右便宜量，默认为1
 		 */
 		private var _offset:int=5;
+		
+		/**
+		 * 显示文本对齐方式
+		 */
+		private var _textAlign:String = "left";
 
 		/**
 		 * 显示文本
@@ -85,11 +94,21 @@ package org.flexgrid.ui
 		{
 			super();
 			addEventListener(MouseEvent.CLICK, clickCellHandler, false, 0, true);
+			addEventListener(FlexEvent.CREATION_COMPLETE,creationComplete,false,0,true);
 		}
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+		protected function creationComplete(event:FlexEvent):void
+		{
+			if(button)
+			{
+			
+			}
+
+		}
+		
 		override protected function measure():void
 		{
 			super.measure();
@@ -104,11 +123,12 @@ package org.flexgrid.ui
 			if(!button && type == "button")
 			{
 				button = new Button();
+				button.label = text;
 				
 				this.addElement(button);
 			}
 
-			if ((!tagText && type == "text") || type == "button")
+			if (!tagText && type == "text")
 			{
 				tagText=new CellLabel();
 				tagText.addEventListener("changeCellLabel", changeCellLabel, false, 0, true);
@@ -129,7 +149,7 @@ package org.flexgrid.ui
 		{
 			super.commitProperties();
 
-			if ((tagText && type == "text") || type == "button")
+			if (tagText && type == "text")
 			{
 				tagText.verticalCenter=0;
 				tagText.setStyle("paddingLeft", offset);
@@ -164,17 +184,39 @@ package org.flexgrid.ui
 		{
 			super.updateDisplayList(w, h);
 
-			if ((tagText && type == "text" && tagText.maxWidth != w) || type == "button")
+			if (tagText && type == "text" && tagText.maxWidth != w)
 			{
 				tagText.maxWidth=this.width;
 			}
 			
 			if(button && type == "button")
 			{
-				
+				this.setCellTextAlign(Object(button.getChildAt(0)).labelDisplay as Label);
 			}
 		}
 
+		/**
+		 * 设置单元格文本对齐方式
+		 */
+		private function setCellTextAlign(label:Label):void
+		{
+			if (textAlign == "left")
+			{
+				label.horizontalCenter="undefined";
+				label.left = 5;
+			}
+			
+			if (textAlign == "right")
+			{
+				label.horizontalCenter="undefined";
+				label.right = 5;
+			}
+			
+			if (textAlign == "center")
+			{
+				label.horizontalCenter=0;
+			}
+		}
 
 		/**
 		 * 点击当前单元格
@@ -316,6 +358,25 @@ package org.flexgrid.ui
 		public function set styleNameButton(value:String):void
 		{
 			_styleNameButton = value;
+		}
+
+		[Inspectable(category="General", enumeration="left,center,right", defaultValue="left")]
+
+		
+		/**
+		 * 显示文本对齐方式
+		 */
+		public function get textAlign():String
+		{
+			return _textAlign;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set textAlign(value:String):void
+		{
+			_textAlign = value;
 		}
 
 
