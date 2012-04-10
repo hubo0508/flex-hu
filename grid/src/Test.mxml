@@ -30,6 +30,7 @@
 			import mx.managers.CursorManager;
 			import mx.managers.CursorManagerPriority;
 			
+			import org.flexgrid.skin.CellTitleButtonSkin;
 			import org.flexgrid.util.ConstantsLibrary;
 			
 			import spark.components.BorderContainer;
@@ -44,8 +45,8 @@
 	
 	<s:VGroup  verticalCenter="0" horizontalCenter="0" gap="0">
 		<s:HGroup  width="300" gap="0">
-			<ui:Cell  borderSides="left right top " text="标题1" type="button"/>
-			<ui:Cell  borderSides="right top"  text="标题2" type="button"/>
+			<ui:Cell  textAlign="right" borderSides="left right top " text="标题1" type="button"/>
+			<ui:Cell  textAlign="center" borderSides="right top"  text="标题2" type="button"/>
 			<ui:Cell  borderSides="right top"  text="标题3" type="button" />
 		</s:HGroup>
 		<s:HGroup gap="0">
