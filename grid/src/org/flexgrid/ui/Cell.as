@@ -10,6 +10,7 @@ package org.flexgrid.ui
 	import org.flexgrid.components.CustomGroup;
 	import org.flexgrid.util.ConstantsLibrary;
 	
+	import spark.components.Button;
 	import spark.components.CheckBox;
 	import spark.components.Group;
 	import spark.components.Label;
@@ -35,6 +36,11 @@ package org.flexgrid.ui
 		 * 显示选择框【私有】
 		 */
 		private var checkbox:CheckBox;
+		
+		/**
+		 * 显示标准头【私有】
+		 */
+		private var button:Button;
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//外部调用对象//
