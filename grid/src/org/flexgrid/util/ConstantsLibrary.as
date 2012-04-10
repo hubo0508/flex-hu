@@ -15,5 +15,8 @@ package org.flexgrid.util
 		public static const CELL_HEIGHT:int=20;
 
 		public static const CELL_WEIGHT:int=100;
+		
+		[Embed('assets/image/cursorStyle.png')]
+		public static const CURSOR_STYLE:Class;
 	}
 }
