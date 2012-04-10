@@ -16,6 +16,10 @@
 			cursor:"crosshair";
 		}
 		
+		.button{
+			skinClass: ClassReference("org.flexgrid.skin.CellTitleButtonSkin");
+		}
+		
 	</fx:Style>
 	
 	<fx:Script>
@@ -29,26 +33,14 @@
 			import org.flexgrid.util.ConstantsLibrary;
 			
 			import spark.components.BorderContainer;
-			
-			
 
 			protected function application1_creationCompleteHandler(event:FlexEvent):void
 			{
-				CursorManager.setCursor(ConstantsLibrary.CURSOR_STYLE,CursorManagerPriority.MEDIUM);
-
+				//CursorManager.setCursor(ConstantsLibrary.CURSOR_STYLE,CursorManagerPriority.MEDIUM);
 			}
-
-
-
-
 
 		]]>
 	</fx:Script>
-	
-	
-	
-	
-	
 	
 	<s:VGroup  verticalCenter="0" horizontalCenter="0" gap="0">
 		<s:HGroup  width="300" gap="0">

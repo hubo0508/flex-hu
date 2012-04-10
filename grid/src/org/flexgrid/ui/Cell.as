@@ -49,9 +49,9 @@ package org.flexgrid.ui
 		//////////////
 		
 		/**
-		 * 
+		 * 当单元格显示类型为【button】时，可自定义样式名称。
 		 */
-		private var skinClassButton:String = "org.flexgrid.skin.CellTitleButtonSkin";
+		private var _styleNameButton:String;
 		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
@@ -100,8 +100,15 @@ package org.flexgrid.ui
 		override protected function createChildren():void
 		{
 			super.createChildren();
+			
+			if(!button && type == "button")
+			{
+				button = new Button();
+				
+				this.addElement(button);
+			}
 
-			if (!tagText && type == "text")
+			if ((!tagText && type == "text") || type == "button")
 			{
 				tagText=new CellLabel();
 				tagText.addEventListener("changeCellLabel", changeCellLabel, false, 0, true);
@@ -116,19 +123,13 @@ package org.flexgrid.ui
 				this.addElement(checkbox);
 			}
 			
-			if(!button && type == "button")
-			{
-				button = new Button();
-				
-				this.addElement(button);
-			}
 		}
 
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
 
-			if (tagText && type == "text")
+			if ((tagText && type == "text") || type == "button")
 			{
 				tagText.verticalCenter=0;
 				tagText.setStyle("paddingLeft", offset);
@@ -147,13 +148,15 @@ package org.flexgrid.ui
 			
 			if(button && type == "button")
 			{
-				//button.percentHeight = 100;
-				//button.percentWidth = 100;
 				button.top = 1;
 				button.left = 1;
 				button.right = 1;
 				button.bottom = 1;
-				button.setStyle("skinClass",Class(CellTitleButtonSkin));
+				if(styleNameButton == null || styleNameButton == ""){
+					button.setStyle("skinClass",Class(CellTitleButtonSkin));
+				}else{
+					button.styleName = styleNameButton;
+				}
 			}
 		}
 
@@ -161,7 +164,7 @@ package org.flexgrid.ui
 		{
 			super.updateDisplayList(w, h);
 
-			if (tagText && type == "text" && tagText.maxWidth != w)
+			if ((tagText && type == "text" && tagText.maxWidth != w) || type == "button")
 			{
 				tagText.maxWidth=this.width;
 			}
@@ -298,6 +301,23 @@ package org.flexgrid.ui
 		{
 			_data = value;
 		}
+
+		/**
+		 * 当单元格显示类型为【button】时，可自定义样式名称。
+		 */
+		public function get styleNameButton():String
+		{
+			return _styleNameButton;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set styleNameButton(value:String):void
+		{
+			_styleNameButton = value;
+		}
+
 
 	}
 }
