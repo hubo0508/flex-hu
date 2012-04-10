@@ -1,0 +1,68 @@
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21" alpha.disabled="0.5">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.Button")]
+		]]>
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Rect id="fill" left="0" right="0" top="0" bottom="0" radiusX="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xFFFFFF"    color.over="0xBBBDBD" 	 color.down="0xAAAAAA"  alpha="0.85" />
+				<s:GradientEntry color="0xD8D8D8" color.over="0x9FA0A1" 	 color.down="0x929496"   alpha="0.85" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 3: fill lowlight -->
+	<s:Rect id="lowlight" left="0" right="0" top="0" bottom="0" radiusX="0">
+		<s:fill>
+			<s:LinearGradient rotation="270">
+				<s:GradientEntry color="0xF7F8FA" ratio="0.0"  color.over="0xBCECFE" color.down="0x8CD4F6"	/>
+				<s:GradientEntry color="0xF1F2F4" ratio="0.48001" color.over="0xBCECFE" color.down="0x8CD4F6"	/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 4: fill highlight -->
+	<s:Rect id="highlight" left="0" right="0" top="0" bottom="0" radiusX="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xFFFFFF" color.over="0xE3F7FF" color.down="0xBCE4F9"	 ratio="0.0"/>
+				<s:GradientEntry color="0xFFFFFF" color.over="0xE3F7FF" color.down="0xBCE4F9"	 ratio="0.38" />
+				<s:GradientEntry color="0xF7F8FA"	 ratio="0.38001" alpha="0" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 6: highlight stroke (down state only) -->
+	<s:Rect id="hldownstroke1" left="1" right="1" top="1" bottom="1" radiusX="0" includeIn="down">
+		<s:stroke>
+			<s:LinearGradientStroke rotation="90" weight="1">
+				<s:GradientEntry color="0x000000" alpha="0.25" ratio="0.0" />
+				<s:GradientEntry color="0x000000" alpha="0.25" ratio="0.001" />
+				<s:GradientEntry color="0x000000" alpha="0.07" ratio="0.0011" />
+				<s:GradientEntry color="0x000000" alpha="0.07" ratio="0.965" />
+				<s:GradientEntry color="0x000000" alpha="0.00" ratio="0.9651" />
+			</s:LinearGradientStroke>
+		</s:stroke>
+	</s:Rect>
+	<s:Rect id="hldownstroke2" left="2" right="2" top="2" bottom="2" radiusX="0" includeIn="down">
+		<s:stroke>
+			<s:LinearGradientStroke rotation="90" weight="1">
+				<s:GradientEntry color="0x000000" alpha="0.09" ratio="0.0" />
+				<s:GradientEntry color="0x000000" alpha="0.00" ratio="0.0001" />
+			</s:LinearGradientStroke>
+		</s:stroke>
+	</s:Rect>
+	
+</s:SparkSkin>
