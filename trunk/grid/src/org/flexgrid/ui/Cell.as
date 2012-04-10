@@ -4,10 +4,12 @@ package org.flexgrid.ui
 	import flash.events.MouseEvent;
 	
 	import mx.controls.Alert;
+	import mx.core.ClassFactory;
 	import mx.events.DynamicEvent;
 	
 	import org.flexgrid.components.CellLabel;
 	import org.flexgrid.components.CustomGroup;
+	import org.flexgrid.skin.CellTitleButtonSkin;
 	import org.flexgrid.util.ConstantsLibrary;
 	
 	import spark.components.Button;
@@ -45,6 +47,12 @@ package org.flexgrid.ui
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//外部调用对象//
 		//////////////
+		
+		/**
+		 * 
+		 */
+		private var skinClassButton:String = "org.flexgrid.skin.CellTitleButtonSkin";
+		
 		/**
 		 * 显示文本是否在过长时截断文本，默认为true
 		 */
@@ -61,7 +69,7 @@ package org.flexgrid.ui
 		private var _text:String;
 
 		/**
-		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom、custombg】
+		 * 内容样式，默认为【text】，可选值为【text、checkbox、button】
 		 */
 		private var _type:String="text";
 		
@@ -107,6 +115,13 @@ package org.flexgrid.ui
 
 				this.addElement(checkbox);
 			}
+			
+			if(!button && type == "button")
+			{
+				button = new Button();
+				
+				this.addElement(button);
+			}
 		}
 
 		override protected function commitProperties():void
@@ -129,6 +144,17 @@ package org.flexgrid.ui
 				checkbox.verticalCenter=0;
 				checkbox.horizontalCenter=0;
 			}
+			
+			if(button && type == "button")
+			{
+				//button.percentHeight = 100;
+				//button.percentWidth = 100;
+				button.top = 1;
+				button.left = 1;
+				button.right = 1;
+				button.bottom = 1;
+				button.setStyle("skinClass",Class(CellTitleButtonSkin));
+			}
 		}
 
 		override protected function updateDisplayList(w:Number, h:Number):void
@@ -138,6 +164,11 @@ package org.flexgrid.ui
 			if (tagText && type == "text" && tagText.maxWidth != w)
 			{
 				tagText.maxWidth=this.width;
+			}
+			
+			if(button && type == "button")
+			{
+				
 			}
 		}
 
@@ -227,10 +258,16 @@ package org.flexgrid.ui
 			_text=value;
 		}
 
-		[Inspectable(category="General", enumeration="text,checkbox,custom,custombg", defaultValue="text")]
+		[Inspectable(category="General", enumeration="text,checkbox,button", defaultValue="text")]
 
 		/**
-		 * 内容样式，默认为【text】，可选值为【text、checkbox、custom、custombg】
+		 * <p>内容样式，默认为【text】，可选值为【text、checkbox、button】</p>
+		 * 
+		 * <ul>
+		 * 		<li>text：单元格显示内容为文本形式。</li>
+		 *	    <li>checkbox：单元格显示内容为复选框形式。当设置此类型，默认点击单元格任意位置，相当于点击复选框</li>
+		 *  	<li>button：以Button组件作为背景样式。该Button样式可由外部提供，类型为skinClass</li>
+		 * </ul>
 		 */
 		public function get type():String
 		{
