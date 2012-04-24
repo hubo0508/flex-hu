@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			    creationComplete="creationCompleteHandler(event)"
+			   minWidth="955"
+			   minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import org.flexgrid.BasicXmlProcessor;
+			import org.flexgrid.XmlProcessor;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var xml:XMLList = xml_1;
+				for each (var xmlChildren:XML in xml)   
+				{   
+					//trace(xmlChildren.@headerText);
+					
+					//有子结点，递归   
+					if (xmlChildren.hasComplexContent())   
+					{   
+						var xmlProcessor:BasicXmlProcessor = new BasicXmlProcessor();
+						var allNode:Array = xmlProcessor.getXmlTexts(xmlChildren.children(),["headerText","id"]);
+						trace("");
+//						for each(var s:String in allNode)
+//						{
+//							trace(s);
+//						}
+//						
+						//var list:XMLList=xmlChildren.children();   
+						//Trav_AddDg(list, desc); //递归调用     
+					}   
+				}   
+				
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+
+		<fx:XMLList xmlns="" id="xml_2">
+			<grid headerText="AP无线侧">
+				<grid headerText="接收量(M)" />
+				<grid headerText="发送量(M)" />
+				<grid headerText="接收流量(Kbps)" />
+				<grid headerText="发送流量(Kbps)" />
+			</grid>
+		</fx:XMLList>		
+		
+		<fx:XMLList xmlns="" id="xml_1">
+			<grid headerText="统计日期" />
+			<grid headerText="序号" />
+			<grid headerText="地市" />
+			<grid headerText="AP无线侧">
+				<grid headerText="接收量(M)" id="1"/>
+				<grid headerText="发送量(M)" />
+				<grid headerText="接收流量(Kbps)" />
+				<grid headerText="发送流量(Kbps)" />
+			</grid>
+			<grid headerText="日平均在线用户数"  />
+		</fx:XMLList>		
+	</fx:Declarations>
+	<s:TextArea x="89" y="97" width="473" height="290" id="msg"/>
+</s:Application>
