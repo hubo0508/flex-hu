@@ -12,7 +12,6 @@ package org.flexgrid
 		{
 		}
 		
-		
 		/**
 		 * 根据key取得xml文本
 		 */
