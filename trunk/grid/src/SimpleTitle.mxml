@@ -88,8 +88,8 @@
 				if(customHeaderXml)
 				{
 					this.layoutCustomHeaderRow(customHeaderXml);
-					this.measureCustomHeaderRowPoint(customHeaderXml);
-					this.measureCustomHeaderRowWidth(customHeaderXml);
+					//this.measureCustomHeaderRowPoint(customHeaderXml);
+					//this.measureCustomHeaderRowWidth(customHeaderXml);
 					//this.measureCustomHeaderRowHeight(customHeaderXml);
 				}
 			}
@@ -163,7 +163,7 @@
 				var num:int = this.headerRowGroup.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var cell:Cell = getGridCellByIndex(i);
+					var cell:Cell = getHeadCellByIndex(i);
 					if(cell && isTextInChildren(cell.text, children))
 					{
 						point.x += cell.width;
@@ -194,7 +194,7 @@
 			/**
 			 * 根据索引取得单元格
 			 */
-			private function getGridCellByIndex(index:int):Cell
+			private function getHeadCellByIndex(index:int):Cell
 			{
 				return this.headerRowGroup.getElementAt(index) as Cell;	
 			}
@@ -228,10 +228,10 @@
 					
 					if(xml.parent() != undefined)
 					{
-						var parentCell:Cell = getHeaderCell(xml.parent().@[displayLabelField]);
+						var absoluteLabel:Array = xmlPro.getAbsoluteLabel(displayLabelField,xml);
 						var currentCell:Cell = getHeaderCell(xml.@[displayLabelField]);
 					
-						currentCell.move(firstLineWidth,parentCell.height);
+						currentCell.move(firstLineWidth,getAbsolutePoint(absoluteLabel).y);
 						firstLineWidth += currentCell.width;
 					}
 					
@@ -242,8 +242,19 @@
 				}
 			}
 			
-			//private function getAllType(xml:XML)
-			
+			private function getAbsolutePoint(absoluteLabel:Array ):Point
+			{
+				var point:Point = new Point(0,0);
+				
+				var num:int = absoluteLabel.length;
+				for(var i:int=0; i<num; i++)
+				{
+					var cell:Cell = this.getHeadCellByIndex(i);
+					point.y += cell.height;
+				}
+				
+				return point;
+			}
 			
 			/**
 			 * 根据显示文本或类型取得单元格
@@ -303,7 +314,9 @@
 				<grid headerText="接收量(M)"/>
 				<grid headerText="发送量(M)" />
 				<grid headerText="接收流量(Kbps)" />
-				<grid headerText="发送流量(Kbps)" />
+				<grid headerText="发送流量(Kbps)" >
+					<grid headerText="3xe"/>
+				</grid>
 			</grid>
 			<grid headerText="统计日期" />
 			<grid headerText="序号" />
