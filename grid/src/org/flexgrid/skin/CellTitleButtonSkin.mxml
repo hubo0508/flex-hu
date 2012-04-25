@@ -65,6 +65,6 @@
 		</s:stroke>
 	</s:Rect>
 	
-	<s:Label id="labelDisplay" maxDisplayedLines="1" verticalCenter="-2" right="10"/>
+	<s:Label id="labelDisplay" maxDisplayedLines="1" verticalCenter="0" right="10"/>
 	
 </s:SparkSkin>

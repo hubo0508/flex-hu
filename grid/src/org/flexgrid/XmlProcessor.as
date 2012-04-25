@@ -43,9 +43,28 @@ package org.flexgrid
 			return null;
 		}
 		
-		public function getAllChildren(xml):Array
+		public function getAllChildren(labelField:String, xml:XML, children:Array):Array
 		{
+			if(!xml.hasComplexContent())
+			{
+				children.push( xml.@[labelField]);
+				return children;
+			}	
 			
+			children.push(xml.@[labelField]);
+			
+			var xmllist:XMLList = xml.children();
+			for each(var xmlchildren:XML in xmllist)
+			{
+				if(xmlchildren.hasComplexContent())
+				{
+					children.push(xmlchildren.@[labelField]);
+					return children;
+				}	
+				
+			}
+			
+			return children;
 		}
 		
 		/**
