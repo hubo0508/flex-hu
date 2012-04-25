@@ -25,11 +25,13 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 			
 			import org.flexgrid.XmlProcessor;
 			import org.flexgrid.ui.Cell;
 			
+			import spark.components.BorderContainer;
 			import spark.components.Group;
 			
 			/**
@@ -47,7 +49,7 @@
 			/**
 			 * 标题行容器
 			 */
-			private var headerRowGroup:Group;
+			private var headerRowGroup:BorderContainer;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -60,7 +62,7 @@
 				
 				if(!headerRowGroup)
 				{
-					headerRowGroup = new Group();
+					headerRowGroup = new BorderContainer();
 					
 					this.addElement(headerRowGroup);
 				}
@@ -79,8 +81,9 @@
 				
 				if(headerRowGroup)
 				{
-					headerRowGroup.minHeight = 10;
-					headerRowGroup.minWidth = 10;
+					headerRowGroup.minHeight = 1;
+					//headerRowGroup.minWidth = 10;
+					headerRowGroup.percentWidth = 100;
 					headerRowGroup.left = 100;
 					headerRowGroup.top = 100;
 				}
@@ -215,23 +218,33 @@
 						
 						if(upSibling == null)
 						{
-							cell.move(0,0);
+							moveUI(0,0,cell);
 							firstLineWidth += cell.width;
 						}
 						
 						if(upSibling != null)
 						{
-							cell.move(firstLineWidth,0);
+							moveUI(firstLineWidth,0,cell);
 							firstLineWidth += cell.width;
 						}
 					}
 					
 					if(xml.parent() != undefined)
 					{
-						var absoluteLabel:Array = xmlPro.getAbsoluteLabel(displayLabelField,xml);
+						var absoluteLabel:Array = xmlPro.getLayerCellAbsoluteLabel(displayLabelField,xml);
+						var parentCell:Cell = getHeaderCell(xml.parent().@[displayLabelField]);
 						var currentCell:Cell = getHeaderCell(xml.@[displayLabelField]);
-					
-						currentCell.move(firstLineWidth,getAbsolutePoint(absoluteLabel).y);
+						
+						trace(currentCell.text + " | currentCell.width = " + currentCell.width);
+						
+						var layerCellAbsolutePoint:Point = getLayerCellAbsolutePoint(absoluteLabel);
+						if(firstLineWidth == 0)
+						{
+							firstLineWidth = parentCell.x;
+						}
+						
+						moveUI(firstLineWidth,layerCellAbsolutePoint.y,currentCell);
+						
 						firstLineWidth += currentCell.width;
 					}
 					
@@ -242,7 +255,25 @@
 				}
 			}
 			
-			private function getAbsolutePoint(absoluteLabel:Array ):Point
+			private function moveUI(x:Number,y:Number, ui:UIComponent):void
+			{
+				
+				trace("moveUI.x = " + x + "  moveUI.y = " + y);
+				if(ui.x != x)
+				{
+					ui.x = x;
+				}
+				
+				if(ui.y != y)
+				{
+					ui.y = y;
+				}
+			}
+			
+			/**
+			 * 取得有层级关系的单元格坐标
+			 */
+			private function getLayerCellAbsolutePoint(absoluteLabel:Array ):Point
 			{
 				var point:Point = new Point(0,0);
 				
@@ -310,6 +341,7 @@
 
 	<fx:Declarations>
 		<fx:XMLList xmlns="" id="xml_1">
+			<grid headerText="日平均在线用户数"  />
 			<grid headerText="AP无线侧">
 				<grid headerText="接收量(M)"/>
 				<grid headerText="发送量(M)" />
@@ -321,7 +353,6 @@
 			<grid headerText="统计日期" />
 			<grid headerText="序号" />
 			<grid headerText="地市" />
-			<grid headerText="日平均在线用户数"  />
 		</fx:XMLList>		
 	</fx:Declarations>
 	

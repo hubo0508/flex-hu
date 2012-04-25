@@ -12,7 +12,7 @@ package org.flexgrid
 		{
 		}
 		
-		public function getAbsoluteLabel(labelField:String, xml:XML):Array
+		public function getLayerCellAbsoluteLabel(labelField:String, xml:XML):Array
 		{
 			var absoluteLabel:Array = [];
 			while(true)
