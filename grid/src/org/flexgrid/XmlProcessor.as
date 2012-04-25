@@ -12,6 +12,24 @@ package org.flexgrid
 		{
 		}
 		
+		public function getAbsoluteLabel(labelField:String, xml:XML):Array
+		{
+			var absoluteLabel:Array = [];
+			while(true)
+			{
+				absoluteLabel.push(xml.@[labelField]);
+				xml = xml.parent();
+				
+				if(xml.parent() == undefined )
+				{
+					break;
+				}
+			}
+			
+			return absoluteLabel;
+		}
+		
+		
 		public function getUpSibling(labelField:String, cuurentXML:XML, dataxml:XMLList):XML
 		{
 			var upSbling:XML = null;
