@@ -6,10 +6,46 @@ package org.flexgrid
 	 *     <b>HUBO 2012-4-24  /  hubo.0508ⓐgmail.com</br>org.flexgrid.BasicXmlProcessor.as</b>
 	 * </p>
 	 */
-	public class BasicXmlProcessor 
+	public class XmlProcessor 
 	{
-		public function BasicXmlProcessor()
+		public function XmlProcessor()
 		{
+		}
+		
+		public function getUpSibling(labelField:String, cuurentXML:XML, dataxml:XMLList):XML
+		{
+			var upSbling:XML = null;
+			for each(var xml:XML in dataxml)
+			{
+				if(xml.@[labelField] == cuurentXML.@[labelField])
+				{
+					return upSbling;
+				}
+				upSbling = xml;
+			}
+			
+			return null;
+		}
+		
+		public function getNextSibling(labelField:String, cuurentXML:XML, dataxml:XMLList):XML
+		{
+			var mark:Boolean = true;
+			for each(var xml:XML in dataxml)
+			{
+				if(mark == false){
+					return xml;
+				}
+				if(xml.@[labelField] == cuurentXML.@[labelField])	{
+					mark = false;
+				}
+			}
+			
+			return null;
+		}
+		
+		public function getAllChildren(xml):Array
+		{
+			
 		}
 		
 		/**

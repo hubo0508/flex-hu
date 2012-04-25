@@ -43,6 +43,8 @@
 		]]>
 	</fx:Script>
 	
+	
+	
 	<s:VGroup  verticalCenter="0" horizontalCenter="0" gap="0">
 		<s:HGroup  width="300" gap="0">
 			<ui:Cell  textAlign="right" borderSides="left right top " text="标题1" type="button"/>
@@ -70,7 +72,7 @@
 			</s:VGroup>
 		</s:HGroup>
 	</s:VGroup>
-
+	<ui:Cell  textAlign="right" borderSides="left right top " text="标题1" type="button"/>
 
 </s:Application>
  
