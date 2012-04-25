@@ -5,64 +5,286 @@
 			    creationComplete="creationCompleteHandler(event)"
 			   minWidth="955"
 			   minHeight="600">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace ui "org.flexgrid.ui.*";
+		
+		s|Application{
+			fontFamily:"宋体";
+			fontSize:12;
+			cursor:"crosshair";
+		}
+		
+		.button{
+			skinClass: ClassReference("org.flexgrid.skin.CellTitleButtonSkin");
+		}
+		
+	</fx:Style>
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 			
-			import org.flexgrid.BasicXmlProcessor;
 			import org.flexgrid.XmlProcessor;
-
+			import org.flexgrid.ui.Cell;
+			
+			import spark.components.Group;
+			
+			/**
+			 * 自定义标题行
+			 */
+			private var customHeaderXml:XMLList;
+			
+			private static const xmlPro:XmlProcessor = new XmlProcessor();
+			
+			/**
+			 * 显示行
+			 */
+			private var displayLabelField:String = "headerText";
+			
+			/**
+			 * 标题行容器
+			 */
+			private var headerRowGroup:Group;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				var xml:XMLList = xml_1;
-				for each (var xmlChildren:XML in xml)   
-				{   
-					//trace(xmlChildren.@headerText);
-					
-					//有子结点，递归   
-					if (xmlChildren.hasComplexContent())   
-					{   
-						var xmlProcessor:BasicXmlProcessor = new BasicXmlProcessor();
-						var allNode:Array = xmlProcessor.getXmlTexts(xmlChildren.children(),["headerText","id"]);
-						trace("");
-//						for each(var s:String in allNode)
-//						{
-//							trace(s);
-//						}
-//						
-						//var list:XMLList=xmlChildren.children();   
-						//Trav_AddDg(list, desc); //递归调用     
-					}   
-				}   
 				
 			}
-
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(!headerRowGroup)
+				{
+					headerRowGroup = new Group();
+					
+					this.addElement(headerRowGroup);
+				}
+				
+				customHeaderXml = xml_1;
+				if(customHeaderXml)
+				{
+					this.createCustomHeaderRow(customHeaderXml);
+					headerRowGroup.validateNow();
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+				if(headerRowGroup)
+				{
+					headerRowGroup.minHeight = 10;
+					headerRowGroup.minWidth = 10;
+					headerRowGroup.left = 100;
+					headerRowGroup.top = 100;
+				}
+				
+				if(customHeaderXml)
+				{
+					this.layoutCustomHeaderRow(customHeaderXml);
+					this.measureCustomHeaderRowWidth(customHeaderXml);
+					this.measureCustomHeaderRowHeight(customHeaderXml);
+				}
+			}
+			
+			/**
+			 * 重新测量大小自定义标题头高度
+			 */
+			private function measureCustomHeaderRowHeight(dataxml:XMLList):void
+			{
+				for each(var xml:XML in dataxml)
+				{
+					if(!xml.hasComplexContent())
+					{
+						var currentCell:Cell = this.getHeaderCell(xml.@[displayLabelField]);
+						var children:Array = xmlPro.getXmlText(xml.children(),displayLabelField);
+						
+						var childrenPoint:Point = getChildrenCellsPoint(children);
+						currentCell.width = childrenPoint.x;
+					}
+				}
+			}
+			
+			/**
+			 * 重新测量大小自定义标题头宽度
+			 */
+			private function measureCustomHeaderRowWidth(dataxml:XMLList):void
+			{
+				for each(var xml:XML in dataxml)
+				{
+					if(xml.hasComplexContent())
+					{
+						var currentCell:Cell = this.getHeaderCell(xml.@[displayLabelField]);
+						var children:Array = xmlPro.getXmlText(xml.children(),displayLabelField);
+						
+						var childrenPoint:Point = getChildrenCellsPoint(children);
+						currentCell.width = childrenPoint.x;
+					}
+				}
+			}
+			
+			/**
+			 * 取得指定子标题头总宽
+			 */
+			private function getChildrenCellsPoint(children:Array):Point
+			{
+				var point:Point = new Point(0,0);
+				var num:int = this.headerRowGroup.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var cell:Cell = getGridCellByIndex(i);
+					if(cell && isTextInChildren(cell.text, children))
+					{
+						point.x += cell.width;
+						//point.y += cell.height;
+					}
+				}
+				
+				return point;
+			}
+			
+			/**
+			 * 文本是否在属于children:Array
+			 */
+			private function isTextInChildren(text:String, children:Array):Boolean
+			{
+				var num:int = children.length;
+				for(var i:int=0; i<num; i++)
+				{
+					if(text == children[i].toString())
+					{
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			/**
+			 * 根据索引取得单元格
+			 */
+			private function getGridCellByIndex(index:int):Cell
+			{
+				return this.headerRowGroup.getElementAt(index) as Cell;	
+			}
+			
+			/**
+			 * 重新布局
+			 */
+			private function layoutCustomHeaderRow(dataxml:XMLList):void
+			{
+				var firstLineWidth:Number = 0;
+				for each(var xml:XML in dataxml)
+				{
+					var cell:Cell = getHeaderCell(xml.@[displayLabelField]);
+					if(xml.parent() == undefined )
+					{
+						var upSibling:XML = xmlPro.getUpSibling(displayLabelField, xml, dataxml);
+						var nextSibling:XML = xmlPro.getNextSibling(displayLabelField, xml,dataxml);
+						
+						if(upSibling == null)
+						{
+							cell.move(0,0);
+							firstLineWidth += cell.width;
+						}
+						
+						if(upSibling != null)
+						{
+							cell.move(firstLineWidth,0);
+							firstLineWidth += cell.width;
+						}
+					}
+					
+					if(xml.parent() != undefined)
+					{
+						var parentCell:Cell = getHeaderCell(xml.parent().@[displayLabelField]);
+						var currentCell:Cell = getHeaderCell(xml.@[displayLabelField]);
+					
+						currentCell.move(firstLineWidth,parentCell.height);
+						firstLineWidth += currentCell.width;
+					}
+					
+					if(xml.hasComplexContent())
+					{
+						layoutCustomHeaderRow(xml.children());
+					}
+				}
+			}
+			
+			//private function getAllType(xml:XML)
+			
+			
+			/**
+			 * 根据显示文本或类型取得单元格
+			 */
+			private function getHeaderCell(text:String):Cell
+			{
+				var targetCell:Cell;
+				
+				var num:int = this.headerRowGroup.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var cell:Cell = this.headerRowGroup.getElementAt(i) as Cell;
+					if(cell.text == text )
+					{
+						targetCell = cell;
+						break;
+					}
+				}
+				
+				return targetCell;
+			}
+			
+			/**
+			 * 创建自定义标题
+			 */
+			private function createCustomHeaderRow(dataxml:XMLList):void
+			{
+				for each(var xml:XML in dataxml)
+				{
+					this.headerRowGroup.addElement(createHeaderRow(xml));
+					if(xml.hasComplexContent())
+					{
+						this.createCustomHeaderRow(xml.children());
+					}
+				}
+			}
+			
+			/**
+			 * 创建元格
+			 */
+			private function createHeaderRow(xml:XML):Cell
+			{
+				var cell:Cell = new Cell();
+				cell.borderSides="left right top";
+				cell.text = xml.@[displayLabelField];
+				cell.type = "button";
+				cell.data = xml;
+				
+				return cell;
+			}
 		]]>
 	</fx:Script>
 
 	<fx:Declarations>
-
-		<fx:XMLList xmlns="" id="xml_2">
+		<fx:XMLList xmlns="" id="xml_1">
 			<grid headerText="AP无线侧">
-				<grid headerText="接收量(M)" />
+				<grid headerText="接收量(M)"/>
 				<grid headerText="发送量(M)" />
 				<grid headerText="接收流量(Kbps)" />
 				<grid headerText="发送流量(Kbps)" />
 			</grid>
-		</fx:XMLList>		
-		
-		<fx:XMLList xmlns="" id="xml_1">
 			<grid headerText="统计日期" />
 			<grid headerText="序号" />
 			<grid headerText="地市" />
-			<grid headerText="AP无线侧">
-				<grid headerText="接收量(M)" id="1"/>
-				<grid headerText="发送量(M)" />
-				<grid headerText="接收流量(Kbps)" />
-				<grid headerText="发送流量(Kbps)" />
-			</grid>
 			<grid headerText="日平均在线用户数"  />
 		</fx:XMLList>		
 	</fx:Declarations>
-	<s:TextArea x="89" y="97" width="473" height="290" id="msg"/>
+	
 </s:Application>
