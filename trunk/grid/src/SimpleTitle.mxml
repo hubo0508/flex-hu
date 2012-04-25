@@ -88,8 +88,33 @@
 				if(customHeaderXml)
 				{
 					this.layoutCustomHeaderRow(customHeaderXml);
+					this.measureCustomHeaderRowPoint(customHeaderXml);
 					this.measureCustomHeaderRowWidth(customHeaderXml);
-					this.measureCustomHeaderRowHeight(customHeaderXml);
+					//this.measureCustomHeaderRowHeight(customHeaderXml);
+				}
+			}
+			
+			/**
+			 * 重新测量大小自定义标题头坐标
+			 */
+			private function measureCustomHeaderRowPoint(dataxml:XMLList):void
+			{
+				for each(var xml:XML in dataxml)
+				{
+					if(!xml.hasComplexContent())
+					{
+						var currentCell:Cell = this.getHeaderCell(xml.@[displayLabelField]);
+						var children:Array = xmlPro.getXmlText(xml.children(),displayLabelField);
+						
+						var num:int = children.length;
+						for(var i:int=0; i<num; i++)
+						{
+							var childrenCell:Cell = this.getHeaderCell(children[i]);
+						}
+						
+//						var childrenPoint:Point = getChildrenCellsPoint(children);
+//						currentCell.width = childrenPoint.x;
+					}
 				}
 			}
 			
