@@ -199,8 +199,6 @@ package org.flexgrid.ui
 					var parentCell:Cell = getHeaderCell(xml.parent().@[displayLabelField]);
 					var currentCell:Cell = getHeaderCell(xml.@[displayLabelField]);
 					
-					trace(currentCell.text + " | currentCell.width = " + currentCell.width);
-					
 					var layerCellAbsolutePoint:Point = getLayerCellAbsolutePoint(absoluteLabel);
 					if(firstLineWidth == 0)
 					{
@@ -221,8 +219,6 @@ package org.flexgrid.ui
 		
 		private function moveUI(x:Number,y:Number, ui:UIComponent):void
 		{
-			
-			trace("moveUI.x = " + x + "  moveUI.y = " + y);
 			if(ui.x != x)
 			{
 				ui.x = x;
@@ -316,6 +312,5 @@ package org.flexgrid.ui
 		{
 			_customHeaderXml = value;
 		}
-
 	}
 }
