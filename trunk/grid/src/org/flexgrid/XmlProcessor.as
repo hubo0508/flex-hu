@@ -22,7 +22,7 @@ package org.flexgrid
 				if(xml.hasComplexContent())
 				{
 					var newnum:int = 0;
-					if(xml.parent() == undefined ){
+					if(xml.parent() == undefined){
 						newnum= getRowDeepNum(xml.children(), 2);
 					}else{
 						newnum= getRowDeepNum(xml.children(), deepNum+1);
