@@ -12,6 +12,27 @@ package org.flexgrid
 		{
 		}
 		
+		/**
+		 * 遍历取得XML子级最深的Number
+		 */
+		public function getDeepNum(dataxml:XMLList, deepNum:int = 1):int
+		{
+			for each(var xml:XML in dataxml)
+			{
+				if(xml.hasComplexContent())
+				{
+					var newnum:int = 0;
+					if(xml.parent() == undefined ){
+						newnum= getRowDeepNum(xml.children(), 2);
+					}else{
+						newnum= getRowDeepNum(xml.children(), deepNum+1);
+					}
+					deepNum = deepNum > newnum ? deepNum : newnum;
+				}
+			}
+			return deepNum;
+		}
+		
 		public function getLayerCellAbsoluteLabel(labelField:String, xml:XML):Array
 		{
 			var absoluteLabel:Array = [];
@@ -29,7 +50,9 @@ package org.flexgrid
 			return absoluteLabel;
 		}
 		
-		
+		/**
+		 * 得到上一次兄弟节点
+		 */
 		public function getUpSibling(labelField:String, cuurentXML:XML, dataxml:XMLList):XML
 		{
 			var upSbling:XML = null;
@@ -45,6 +68,9 @@ package org.flexgrid
 			return null;
 		}
 		
+		/**
+		 * 得到下一个兄弟节点
+		 */
 		public function getNextSibling(labelField:String, cuurentXML:XML, dataxml:XMLList):XML
 		{
 			var mark:Boolean = true;
@@ -61,8 +87,16 @@ package org.flexgrid
 			return null;
 		}
 		
+		/**
+		 * 根据当前节点得到下属的所有子节点
+		 */
 		public function getAllChildren(labelField:String, xml:XML, children:Array):Array
 		{
+			
+			if(children == null || children.length == 0 ){
+				children = [];	
+			}
+			
 			if(!xml.hasComplexContent())
 			{
 				children.push( xml.@[labelField]);
