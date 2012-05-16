@@ -54,8 +54,8 @@ package org.flexgrid.ui
 			
 			if(customHeaderXml)
 			{
-				this.layoutCustomHeaderRow(customHeaderXml);
-				//this.measureCustomHeaderRowPoint(customHeaderXml);
+				this.layoutCell(customHeaderXml);
+				this.measureSizeCell(customHeaderXml);
 				//this.measureCustomHeaderRowWidth(customHeaderXml);
 				//this.measureCustomHeaderRowHeight(customHeaderXml);
 			}
@@ -64,23 +64,13 @@ package org.flexgrid.ui
 		/**
 		 * 重新测量大小自定义标题头坐标
 		 */
-		private function measureCustomHeaderRowPoint(dataxml:XMLList):void
+		private function measureSizeCell(dataxml:XMLList):void
 		{
 			for each(var xml:XML in dataxml)
 			{
 				if(!xml.hasComplexContent())
 				{
-					var currentCell:Cell = this.getHeaderCell(xml.@[displayLabelField]);
-					var children:Array = xmlPro.getXmlText(xml.children(),displayLabelField);
 					
-					var num:int = children.length;
-					for(var i:int=0; i<num; i++)
-					{
-						var childrenCell:Cell = this.getHeaderCell(children[i]);
-					}
-					
-					//						var childrenPoint:Point = getChildrenCellsPoint(children);
-					//						currentCell.width = childrenPoint.x;
 				}
 			}
 		}
@@ -169,7 +159,7 @@ package org.flexgrid.ui
 		/**
 		 * 重新布局
 		 */
-		private function layoutCustomHeaderRow(dataxml:XMLList):void
+		private function layoutCell(dataxml:XMLList):void
 		{
 			var firstLineWidth:Number = 0;
 			for each(var xml:XML in dataxml)
@@ -212,7 +202,7 @@ package org.flexgrid.ui
 				
 				if(xml.hasComplexContent())
 				{
-					layoutCustomHeaderRow(xml.children());
+					layoutCell(xml.children());
 				}
 			}
 		}

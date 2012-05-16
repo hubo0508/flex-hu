@@ -3,7 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   minWidth="955"
-			   minHeight="600" xmlns:ui="org.flexgrid.ui.*">
+			   minHeight="600" xmlns:ui="org.flexgrid.ui.*" creationComplete="application1_creationCompleteHandler(event)">
 	
 	<fx:Style>
 		@namespace s "library://ns.adobe.com/flex/spark";
@@ -21,22 +21,37 @@
 		}
 		
 	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			import org.flexgrid.XmlProcessor;
+
+			private static const xmlPro:XmlProcessor = new XmlProcessor();
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				//trace(xmlPro.getRowDeepNum(xml_1));
+			}
+
+		]]>
+	</fx:Script>
 	
 	
 
 	<fx:Declarations>
 		<fx:XMLList xmlns="" id="xml_1">
 			<grid headerText="日平均在线用户数"  />
-			<grid headerText="AP无线侧">
+			<grid headerText="AP无线侧-1">
 				<grid headerText="接收量(M)"/>
 				<grid headerText="发送量(M)" />
 				<grid headerText="接收流量(Kbps)" />
-				<grid headerText="发送流量(Kbps)" >
-					<grid headerText="3xwwwe"/>
+				<grid headerText="发送流量(Kbps)-2" >
 				</grid>
 			</grid>
 			<grid headerText="统计日期" />
-			<grid headerText="序号" />
+			<grid headerText="序号A-1" >
+			</grid>
 			<grid headerText="地市" />
 		</fx:XMLList>		
 	</fx:Declarations>
