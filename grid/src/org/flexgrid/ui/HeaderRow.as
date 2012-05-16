@@ -61,16 +61,32 @@ package org.flexgrid.ui
 			}
 		}
 		
+		override protected function updateDisplayList(w:Number, h:Number):void
+		{
+			super.updateDisplayList(w,h);
+			
+			if(customHeaderXml)
+			{
+				//this.validateNow();
+				//this.measureSizeCell(customHeaderXml);
+			}
+		}
+		
 		/**
 		 * 重新测量大小自定义标题头坐标
 		 */
 		private function measureSizeCell(dataxml:XMLList):void
 		{
+			var deepNum:int = xmlPro.getDeepNum(dataxml);
 			for each(var xml:XML in dataxml)
 			{
-				if(!xml.hasComplexContent())
-				{
+				var cell:Cell = this.getHeaderCell(xml.@[displayLabelField]);
+				trace("text="+cell.text+"| deepNum="+deepNum+"| height="+cell.height);
+				
+				if(xml.hasComplexContent()){
 					
+				}else{
+					cell.height = 19*deepNum;
 				}
 			}
 		}
