@@ -11,23 +11,26 @@ package org.flexgrid
 		public function XmlProcessor()
 		{
 		}
-		
+
 		/**
 		 * 遍历取得XML子级最深的Number
 		 */
-		public function getDeepNum(dataxml:XMLList, deepNum:int = 1):int
+		public function getDeepNum(dataxml:XMLList, deepNum:int=1):int
 		{
-			for each(var xml:XML in dataxml)
+			for each (var xml:XML in dataxml)
 			{
-				if(xml.hasComplexContent())
+				if (xml.hasComplexContent())
 				{
-					var newnum:int = 0;
-					if(xml.parent() == undefined){
-						newnum= getRowDeepNum(xml.children(), 2);
-					}else{
-						newnum= getRowDeepNum(xml.children(), deepNum+1);
+					var newnum:int=0;
+					if (xml.parent() == undefined)
+					{
+						newnum=getDeepNum(xml.children(), 2);
 					}
-					deepNum = deepNum > newnum ? deepNum : newnum;
+					else
+					{ 
+						newnum=getDeepNum(xml.children(), deepNum + 1);
+					}
+					deepNum=deepNum > newnum ? deepNum : newnum;
 				}
 			}
 			return deepNum;
