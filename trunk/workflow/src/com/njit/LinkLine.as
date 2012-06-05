@@ -1,9 +1,9 @@
 package com.njit
 {
 	import flash.geom.Point;
-	
+
 	import mx.core.UIComponent;
-	
+
 	/**
 	 * 带箭头线条
 	 */

@@ -4,51 +4,31 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   creationComplete="init()">
 
-		<fx:Script>
-			<![CDATA[
-				
-				import com.njit.LinkLine;
-				import com.njit.ElementNode;
-				
-				private var map1:ElementNode;
-				private var map2:ElementNode;
-				private var line:LinkLine;
-				//private var colorArr:Array=["0xFF0000", "0x00FF00", "0x0000FF", "0xFFFF00"];
-				//private var k:int=0;
-				
-				private function init():void
-				{ 
-					map1=new ElementNode(new Point(50, 50), "主机", "assets/images/client.png");
-					map2=new ElementNode(new Point(300, 300), "服务器", "assets/images/server.png");
-					line=new LinkLine();
-					line.setStartPoint(new Point(map1.getCenterX(), map1.getCenterY()));
-					line.setEndPoint(new Point(map2.getCenterX(), map2.getCenterY()));
-					line.setTip("哈哈哈哈");
-					line.drawLine();
-					map1.setLine(line, true);
-					map2.setLine(line, false);
-//					this.addChild(map1);
-//					this.addChild(map2);
-//					this.addChild(line);
-					this.addElement(map1);
-					this.addElement(map2);
-					this.addElement(line);
-					
-					//				var time:Timer=new Timer(1000, 100);
-					//				time.addEventListener(TimerEvent.TIMER, doTime);
-					//				time.start();
-				}
-				
-				//			//定时器设置颜色线条颜色变换
-				//			private function doTime(event:TimerEvent):void
-				//			{
-				//				line.setLineColor(colorArr[k++]);
-				//				line.drawLine();
-				//				if (k >= colorArr.length)
-				//					k=0;
-				//			}
-				
-			]]>
-		</fx:Script>
-	
+	<fx:Script>
+		<![CDATA[
+			import com.njit.LinkLine;
+			import com.njit.ElementNode;
+
+			private var map1:ElementNode;
+			private var map2:ElementNode;
+			private var line:LinkLine;
+
+			private function init():void
+			{
+				map1=new ElementNode(new Point(50, 50), "主机", "assets/images/client.png");
+				map2=new ElementNode(new Point(300, 300), "服务器", "assets/images/server.png");
+				line=new LinkLine();
+				line.setStartPoint(new Point(map1.getCenterX(), map1.getCenterY()));
+				line.setEndPoint(new Point(map2.getCenterX(), map2.getCenterY()));
+				line.setTip("哈哈哈哈");
+				line.drawLine();
+				map1.setLine(line, true);
+				map2.setLine(line, false);
+				this.addElement(map1);
+				this.addElement(map2);
+				this.addElement(line);
+			}
+		]]>
+	</fx:Script>
+
 </s:Application>
