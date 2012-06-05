@@ -65,7 +65,7 @@ package com.hubo.workflow.core
 			this.initTagtext(this.nodeName);
 			this.addElement(tagText); 
 			
-			tagImg.source = url;
+			this.initTagImg(url);
 			this.addElement(tagImg);
 		}
 		
@@ -158,13 +158,21 @@ package com.hubo.workflow.core
 		}
 
 		/**
-		 * 初始标签文本horizontalCenter
+		 * 初始标签文本
 		 */
 		private function initTagtext(text:String):void
 		{
 			tagText.text=text;
 			tagText.horizontalCenter = 0;
 			tagText.bottom = 10;
+		}
+		
+		/**
+		 * 初始标签图片
+		 */
+		private function initTagImg(url:String):void
+		{
+			tagImg.source = url;
 		}
 		
 		public function getCenterX():int
