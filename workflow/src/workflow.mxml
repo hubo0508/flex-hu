@@ -13,7 +13,7 @@
 			private var map2:ElementNode;
 			private var line:LinkLine;
 
-			private function init():void
+			private function init():void 
 			{
 				map1=new ElementNode(new Point(50, 50), "主机", "assets/images/client.png");
 				map2=new ElementNode(new Point(300, 300), "服务器", "assets/images/server.png");
@@ -22,8 +22,8 @@
 				line.setEndPoint(new Point(map2.getCenterX(), map2.getCenterY()));
 				line.setTip("哈哈哈哈");
 				line.drawLine();
-				map1.setLine(line, true);
-				map2.setLine(line, false);
+				map1.addAssociatedLines(line, true);
+				map2.addAssociatedLines(line, false);
 				this.addElement(map1);
 				this.addElement(map2);
 				this.addElement(line);

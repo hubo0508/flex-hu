@@ -19,7 +19,7 @@ package com.njit
 		 */
 		private var nodeName:String="网元";
 		
-		private var lineList:Array=new Array();
+		private var linesCollection:Array=new Array();
 		private var lineCount:int=0;
 		private var oldIndex:int=0;
 		
@@ -95,23 +95,13 @@ package com.njit
 			}
 		}
 		
-		/**
-		 * 初始标签文本horizontalCenter
-		 */
-		private function initTagtext(text:String):void
-		{
-			tagText.text=text;
-			tagText.horizontalCenter = 0;
-			tagText.bottom = 10;
-		}
-
 		private function refreshLine():void
 		{
 			var x:int=this.getCenterX();
 			var y:int=this.getCenterY();
-			for (var i:int=0; i < lineList.length; i++)
+			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
 			{
-				var lineFlag:LineFlag=lineList[i];
+				var lineFlag:LineFlag=linesCollection[i];
 				var line:LinkLine=lineFlag.getLine();
 				var isHeaderLine:Boolean=lineFlag.getFlag();
 				if (isHeaderLine)
@@ -126,10 +116,13 @@ package com.njit
 			}
 		}
 
-		public function setLine(line:LinkLine, flag:Boolean):void
+		/**
+		 * 添加与当前元素节点关联的线条
+		 */
+		public function addAssociatedLines(line:LinkLine, flag:Boolean):void
 		{
 			var lineFlag:LineFlag=new LineFlag(line, flag);
-			lineList[lineCount]=lineFlag;
+			linesCollection[lineCount]=lineFlag;
 			lineCount++;
 		}
 
@@ -167,6 +160,16 @@ package com.njit
 			}
 		}
 
+		/**
+		 * 初始标签文本horizontalCenter
+		 */
+		private function initTagtext(text:String):void
+		{
+			tagText.text=text;
+			tagText.horizontalCenter = 0;
+			tagText.bottom = 10;
+		}
+		
 		public function getCenterX():int
 		{
 			return this.x + 30;
