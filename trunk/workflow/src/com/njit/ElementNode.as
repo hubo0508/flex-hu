@@ -102,7 +102,7 @@ package com.njit
 			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
 			{
 				var lineFlag:LineFlag=linesCollection[i];
-				var line:LinkLine=lineFlag.getLine();
+				var line:ElementLine=lineFlag.getLine();
 				var isHeaderLine:Boolean=lineFlag.getFlag();
 				if (isHeaderLine)
 				{
@@ -119,7 +119,7 @@ package com.njit
 		/**
 		 * 添加与当前元素节点关联的线条
 		 */
-		public function addAssociatedLines(line:LinkLine, flag:Boolean):void
+		public function addAssociatedLines(line:ElementLine, flag:Boolean):void
 		{
 			var lineFlag:LineFlag=new LineFlag(line, flag);
 			linesCollection[lineCount]=lineFlag;

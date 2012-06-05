@@ -7,7 +7,7 @@ package com.njit
 	/**
 	 * 带箭头线条
 	 */
-	public class LinkLine extends UIComponent
+	public class ElementLine extends UIComponent
 	{
 
 		/**
@@ -41,7 +41,7 @@ package com.njit
 		private var radius:uint=6;
 
 
-		public function LinkLine()
+		public function ElementLine()
 		{
 			super();
 		}

@@ -5,16 +5,16 @@ package com.njit
 	public class LineFlag
 	{
 
-		private var line:LinkLine;
+		private var line:ElementLine;
 		private var flag:Boolean;
 
-		public function LineFlag(l:LinkLine, f:Boolean)
+		public function LineFlag(l:ElementLine, f:Boolean)
 		{
 			this.line=l;
 			this.flag=f;
 		}
 
-		public function setLine(l:LinkLine):void
+		public function setLine(l:ElementLine):void
 		{
 			this.line=l;
 		}
@@ -24,7 +24,7 @@ package com.njit
 			this.flag=f;
 		}
 
-		public function getLine():LinkLine
+		public function getLine():ElementLine
 		{
 			return this.line;
 		}

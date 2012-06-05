@@ -6,18 +6,18 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.njit.LinkLine;
+			import com.njit.ElementLine;
 			import com.njit.ElementNode;
 
 			private var map1:ElementNode;
 			private var map2:ElementNode;
-			private var line:LinkLine;
+			private var line:ElementLine;
 
 			private function init():void 
 			{
 				map1=new ElementNode(new Point(50, 50), "主机", "assets/images/client.png");
 				map2=new ElementNode(new Point(300, 300), "服务器", "assets/images/server.png");
-				line=new LinkLine();
+				line=new ElementLine();
 				line.setStartPoint(new Point(map1.getCenterX(), map1.getCenterY()));
 				line.setEndPoint(new Point(map2.getCenterX(), map2.getCenterY()));
 				line.setTip("哈哈哈哈");
