@@ -85,11 +85,11 @@ package com.hubo.workflow.core
 					break;
 				
 				case MouseEvent.MOUSE_MOVE :
-					this.refreshLine();
+					this.reloadLine();
 					break;
 				
 				case MoveEvent.MOVE :
-					this.refreshLine();
+					this.reloadLine();
 					break;
 				
 				default:
@@ -97,16 +97,18 @@ package com.hubo.workflow.core
 			}
 		}
 		
-		private function refreshLine():void
+		/**
+		 * 重新加载线条
+		 */
+		private function reloadLine():void
 		{
 			var x:int=this.getCenterX();
 			var y:int=this.getCenterY();
 			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
 			{
-				var lineFlag:LineFlag=linesCollection[i];
-				var line:ElementLine=lineFlag.getLine();
-				var isHeaderLine:Boolean=lineFlag.getFlag();
-				if (isHeaderLine)
+				var lineFlag:LineProperties=linesCollection[i];
+				var line:ElementLine=lineFlag.elementLine;
+				if (lineFlag.arrowsMark)
 				{
 					line.setStartPoint(new Point(x, y));
 				}
@@ -121,10 +123,9 @@ package com.hubo.workflow.core
 		/**
 		 * 添加与当前元素节点关联的线条
 		 */
-		public function addAssociatedLines(line:ElementLine, flag:Boolean):void
+		public function addAssociatedLines(elementLine:ElementLine, arrowsMark:Boolean):void
 		{
-			var lineFlag:LineFlag=new LineFlag(line, flag);
-			linesCollection.push(lineFlag);
+			linesCollection.push(new LineProperties(elementLine, arrowsMark));
 		}
 
 		/**
