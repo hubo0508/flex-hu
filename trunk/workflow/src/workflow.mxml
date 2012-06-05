@@ -6,8 +6,8 @@
 
 	<fx:Script>
 		<![CDATA[
-			import com.njit.ElementLine;
-			import com.njit.ElementNode;
+			import com.hubo.workflow.core.ElementLine;
+			import com.hubo.workflow.core.ElementNode;
 
 			private var map1:ElementNode;
 			private var map2:ElementNode;
