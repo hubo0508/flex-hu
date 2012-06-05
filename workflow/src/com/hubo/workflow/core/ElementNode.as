@@ -108,14 +108,9 @@ package com.hubo.workflow.core
 			{
 				var lineFlag:LineProperties=linesCollection[i];
 				var line:ElementLine=lineFlag.elementLine;
-				if (lineFlag.arrowsMark)
-				{
-					line.setStartPoint(new Point(x, y));
-				}
-				else
-				{
-					line.setEndPoint(new Point(x, y));
-				}
+				
+				var point:Point = new Point(getCenterX(), getCenterY());
+				lineFlag.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
 				line.drawLine();
 			}
 		}
@@ -175,7 +170,7 @@ package com.hubo.workflow.core
 		public function getCenterX():int
 		{
 			return this.x + 30;
-		}
+		} 
 
 		public function getCenterY():int
 		{
