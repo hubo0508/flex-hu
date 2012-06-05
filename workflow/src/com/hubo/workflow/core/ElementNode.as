@@ -19,8 +19,10 @@ package com.hubo.workflow.core
 		 */
 		private var nodeName:String="网元";
 		
-		private var linesCollection:Array=new Array();
-		private var lineCount:int=0;
+		/**
+		 * 存储当前元素节点所关联的线条集合
+		 */
+		private var linesCollection:Array=[];
 		private var oldIndex:int=0;
 		
 		/**
@@ -122,8 +124,7 @@ package com.hubo.workflow.core
 		public function addAssociatedLines(line:ElementLine, flag:Boolean):void
 		{
 			var lineFlag:LineFlag=new LineFlag(line, flag);
-			linesCollection[lineCount]=lineFlag;
-			lineCount++;
+			linesCollection.push(lineFlag);
 		}
 
 		/**
