@@ -102,8 +102,6 @@ package com.hubo.workflow.core
 		 */
 		private function reloadLine():void
 		{
-			var x:int=this.getCenterX();
-			var y:int=this.getCenterY();
 			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
 			{
 				var lineFlag:LineProperties=linesCollection[i];
