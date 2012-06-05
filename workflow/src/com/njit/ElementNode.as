@@ -55,16 +55,44 @@ package com.njit
 		 */
 		private function init(url:String):void
 		{
-			this.addEventListener(flash.events.MouseEvent.MOUSE_DOWN, dragBeginHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_UP, dragEndHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_MOVE, dragMoveHandler,false,0,true);
-			this.addEventListener(mx.events.MoveEvent.MOVE, moveHandler,false,0,true);
+			this.addEventListener(flash.events.MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
+			this.addEventListener(flash.events.MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
+			this.addEventListener(flash.events.MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
+			this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
 			
 			this.initTagtext(this.nodeName);
 			this.addElement(tagText); 
 			
 			tagImg.source = url;
 			this.addElement(tagImg);
+		}
+		
+		protected function tagMouseHandler(event:MouseEvent):void
+		{
+			switch(event.type)
+			{
+				case MouseEvent.MOUSE_DOWN :
+					this.startDrag();
+					oldIndex=this.parent.getChildIndex(this);
+					this.parent.setChildIndex(this, this.parent.numChildren - 1);
+					break;
+				
+				case MouseEvent.MOUSE_UP : 
+					this.stopDrag();
+					this.parent.setChildIndex(this, oldIndex);
+					break;
+				
+				case MouseEvent.MOUSE_MOVE :
+					this.refreshLine();
+					break;
+				
+				case MoveEvent.MOVE :
+					this.refreshLine();
+					break;
+				
+				default:
+					break;
+			}
 		}
 		
 		/**
@@ -75,19 +103,6 @@ package com.njit
 			tagText.text=text;
 			tagText.horizontalCenter = 0;
 			tagText.bottom = 10;
-		}
-
-		/**
-		 * 移动元素节点后调度
-		 */
-		private function moveHandler(event:MoveEvent):void
-		{
-			this.refreshLine();
-		}
-
-		private function dragMoveHandler(event:MouseEvent):void
-		{
-			this.refreshLine();
 		}
 
 		private function refreshLine():void
@@ -118,26 +133,6 @@ package com.njit
 			lineCount++;
 		}
 
-		/**
-		 * 开始拖动元素节点
-		 */
-		private function dragBeginHandler(event:MouseEvent):void
-		{
-			this.startDrag();
-			oldIndex=this.parent.getChildIndex(this);
-			this.parent.setChildIndex(this, this.parent.numChildren - 1);
-			
-		}
-
-		/**
-		 * 结束拖动元素节点
-		 */
-		private function dragEndHandler(event:MouseEvent):void
-		{
-			this.stopDrag();
-			this.parent.setChildIndex(this, oldIndex);
-		}
-		
 		/**
 		 * 设置元素节点最新X,Y坐标
 		 */
