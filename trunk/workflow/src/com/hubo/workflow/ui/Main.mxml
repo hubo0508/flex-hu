@@ -23,8 +23,8 @@
 			
 			private function init():void 
 			{
-				var node1:ElementNode=new ElementNode(new Point(50, 50), "主机", Global.START);
-				var node2:ElementNode=new ElementNode(new Point(300, 300), "服务器", Global.PERSON);
+				var node1:ElementNode=new ElementNode(new Point(50, 50), "主机", Global.STARTSTR);
+				var node2:ElementNode=new ElementNode(new Point(300, 300), "服务器", Global.PERSONSTR);
 				var line:ElementLine=new ElementLine();
 				line.setStartPoint(new Point(node1.getCenterX(), node1.getCenterY()));
 				line.setEndPoint(new Point(node2.getCenterX(), node2.getCenterY()));
