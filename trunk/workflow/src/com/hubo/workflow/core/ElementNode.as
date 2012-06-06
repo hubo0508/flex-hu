@@ -4,15 +4,16 @@ package com.hubo.workflow.core
 	import flash.geom.Point;
 	
 	import mx.controls.Image;
-	import mx.controls.Label;
 	import mx.events.MoveEvent;
 	
+	import spark.components.BorderContainer;
 	import spark.components.Group;
+	import spark.components.Label;
 
 	/**
 	 * 元素节点
 	 */
-	public class ElementNode extends Group
+	public class ElementNode extends BorderContainer
 	{
 		/**
 		 * 元素节点名字
@@ -28,12 +29,12 @@ package com.hubo.workflow.core
 		/**
 		 * 标签图片
 		 */
-		private var tagImg:Image=new Image();
+		private var tagImg:Image;
 		
 		/**
 		 * 标签文本
 		 */
-		private var tagText:Label=new Label();
+		private var tagText:Label;
 
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
@@ -42,7 +43,7 @@ package com.hubo.workflow.core
 		 * @param nodeName:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:String, w:Number=100, h:Number=100)
+		public function ElementNode(location:Point, nodeName:String, url:String, w:Number=60, h:Number=80)
 		{
 			this.setLocation(location);
 			this.setSize(w,h);
@@ -67,6 +68,14 @@ package com.hubo.workflow.core
 			
 			this.initTagImg(url);
 			this.addElement(tagImg);
+		}
+		
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			this.useHandCursor = true;
+			this.buttonMode = true;
 		}
 		
 		protected function tagMouseHandler(event:MouseEvent):void
@@ -160,9 +169,13 @@ package com.hubo.workflow.core
 		 */
 		private function initTagtext(text:String):void
 		{
+			if(tagText == null)
+			{
+				tagText = new spark.components.Label
+			}
 			tagText.text=text;
 			tagText.horizontalCenter = 0;
-			tagText.bottom = 10;
+			tagText.bottom = 2;
 		}
 		
 		/**
@@ -170,6 +183,12 @@ package com.hubo.workflow.core
 		 */
 		private function initTagImg(url:String):void
 		{
+			if(tagImg == null)
+			{
+				tagImg = new Image();
+			}
+			
+			tagImg.horizontalCenter = 0;
 			tagImg.source = url;
 		}
 		

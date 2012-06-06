@@ -8,27 +8,24 @@
 		<![CDATA[
 			import com.hubo.workflow.core.ElementLine;
 			import com.hubo.workflow.core.ElementNode;
-
-			private var map1:ElementNode;
-			private var map2:ElementNode;
-			private var line:ElementLine;
+			import com.hubo.workflow.util.Global;
 
 			private function init():void 
 			{
-				map1=new ElementNode(new Point(50, 50), "主机", "assets/images/client.png");
-				map2=new ElementNode(new Point(300, 300), "服务器", "assets/images/server.png");
-				line=new ElementLine();
-				line.setStartPoint(new Point(map1.getCenterX(), map1.getCenterY()));
-				line.setEndPoint(new Point(map2.getCenterX(), map2.getCenterY()));
+				var node1:ElementNode=new ElementNode(new Point(50, 50), "主机", Global.START);
+				var node2:ElementNode=new ElementNode(new Point(300, 300), "服务器", Global.PERSON);
+				var line:ElementLine=new ElementLine();
+				line.setStartPoint(new Point(node1.getCenterX(), node1.getCenterY()));
+				line.setEndPoint(new Point(node2.getCenterX(), node2.getCenterY()));
 				line.setTip("哈哈哈哈");
 				line.drawLine();
-				map1.addAssociatedLines(line, true);
-				map2.addAssociatedLines(line, false);
-				this.addElement(map1);
-				this.addElement(map2);
+				node1.addAssociatedLines(line, true);
+				node2.addAssociatedLines(line, false);
+				this.addElement(node1);
+				this.addElement(node2);
 				this.addElement(line);
 			}
 		]]>
 	</fx:Script>
-
+	
 </s:Application>
