@@ -34,9 +34,9 @@ package com.hubo.workflow.util
 		[Embed(source="com/hubo/workflow/ui/assets/approval.png")]		
 		public static const APPROVAL:Class;
 
-//		public static const START:String="assets/images/start48x48.png";
-//
-//		public static const PERSON:String="assets/images/person60x60.png";
+		public static const STARTSTR:String="assets/images/start48x48.png";
+
+		public static const PERSONSTR:String="assets/images/person60x60.png";
 
 		public static function glowFilter():spark.filters.GlowFilter
 		{
