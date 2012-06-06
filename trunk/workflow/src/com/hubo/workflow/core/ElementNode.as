@@ -1,5 +1,7 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.util.Global;
+	
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
@@ -58,6 +60,8 @@ package com.hubo.workflow.core
 		 */
 		private function init(url:String):void
 		{
+			this.addEventListener(flash.events.MouseEvent.MOUSE_OVER, mouseHandler,false,0,true);
+			this.addEventListener(flash.events.MouseEvent.MOUSE_OUT, mouseHandler,false,0,true);
 			this.addEventListener(flash.events.MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
 			this.addEventListener(flash.events.MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
 			this.addEventListener(flash.events.MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
@@ -76,6 +80,25 @@ package com.hubo.workflow.core
 			
 			this.useHandCursor = true;
 			this.buttonMode = true;
+		}
+		
+		protected function mouseHandler(event:MouseEvent):void
+		{
+			if(tagImg == null) return;
+			
+			switch (event.type)
+			{
+				case MouseEvent.MOUSE_OUT:
+					tagImg.filters=[];
+					break;
+
+				case MouseEvent.MOUSE_OVER:
+					tagImg.filters=[Global.glowFilter()];
+					break;
+				
+				default:
+					break;
+			}
 		}
 		
 		protected function tagMouseHandler(event:MouseEvent):void
