@@ -90,7 +90,7 @@
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
-	<s:Rect width="48" height="48" radiusX="3" radiusY="3" id="menuBg" left="252" verticalCenter="0">
+	<s:Rect width="48" height="48" radiusX="3" radiusY="3" id="menuBg" left="243" verticalCenter="0">
 		<s:fill>
 			<s:LinearGradient rotation="90">
 				<s:GradientEntry color="0xA8C6EE"/>
@@ -98,19 +98,19 @@
 		</s:fill>
 	</s:Rect>	
 	
-	<mx:LinkButton left="18" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+	<mx:LinkButton left="10" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
 				   name="开始" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton left="78" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+	<mx:LinkButton left="68" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
 				   name="分支"  icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton left="136" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+	<mx:LinkButton left="126" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
 				   name="审批" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton left="194" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+	<mx:LinkButton left="184" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
 				   name="结束"  icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton left="252" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)"
+	<mx:LinkButton left="243" right="10" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)"
 				   name="鼠标"  icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 
 </s:BorderContainer>
