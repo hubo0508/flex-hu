@@ -16,15 +16,7 @@
 			private var proxyComponent:UIComponent = new UIComponent;  
 			
 			
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w,h);
-				
-				
-				proxyComponent.graphics.lineStyle(2,0x0099ff,1);   
-				proxyComponent.graphics.moveTo(event.localX, event.localY);  
-				
-			}
+		
 			
 			private var startPoint:Point = new Point;  
 			private var endPoint:Point = new Point;  
