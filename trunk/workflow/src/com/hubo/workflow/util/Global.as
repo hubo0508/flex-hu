@@ -40,9 +40,9 @@ package com.hubo.workflow.util
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
 		
-		public static const STARTSTR:String="assets/images/start48x48.png";
+		public static const PERSONSTR:String="com/hubo/workflow/ui/assets/approval.png";
 
-		public static const PERSONSTR:String="assets/images/person60x60.png";
+		public static const STARTSTR:String="com/hubo/workflow/ui/assets/start.png";
 
 		public static function glowFilter():spark.filters.GlowFilter
 		{

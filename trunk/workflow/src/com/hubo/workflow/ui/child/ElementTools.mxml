@@ -20,16 +20,20 @@
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
 			
+			import mx.controls.Image;
 			import mx.managers.PopUpManager;
+			
+			import spark.primitives.BitmapImage;
 			
 			/**
 			 * 消息提示容器【内部使用】
 			 */
 			private var tootip:TooTip;
 			
+	
+			
 			protected function mouseHandler(event:MouseEvent):void
 			{
-				
 				if(event.target is LinkButton)return;
 				
 				switch(event.type)
@@ -54,6 +58,7 @@
 					tootip = new TooTip("");
 				}
 				
+				
 				var btn:LinkButton = event.currentTarget as LinkButton;
 				switch (event.type)
 				{
@@ -74,12 +79,38 @@
 					case MouseEvent.CLICK:
 						TweenLite.tweenTo(menuBg, .5, {left: btn.left});
 						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						var tempImg:Image= new Image();
+						tempImg.id = "tempImg";
+						tempImg.source = btn.getStyle("icon");
+						tempImg.addEventListener(MouseEvent.CLICK,tempImgClickHandler,false,0,true);
+						
+						tempImg.x=this.stage.mouseX-24;
+						tempImg.y=this.stage.mouseY-24;
+						
+						PopUpManager.addPopUp(tempImg, UIUtil.getApplication(this), false);
+						
+						tempImg.startDrag();
+						break;
+					
+					case MouseEvent.MOUSE_UP : 
+						break;
 
 					default:
 						break;
 				}
 
 			}			
+			
+			protected function tempImgClickHandler(event:MouseEvent):void
+			{
+				//var tempImgUp:Image = UIUtil.getWindown("tempImg",this) as Image;
+				var temImg:Image = event.currentTarget as Image;
+				temImg.stopDrag();
+				
+				PopUpManager.removePopUp(temImg);
+			}
 		]]>
 	</fx:Script>
 	
@@ -90,7 +121,7 @@
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
-	<s:Rect width="48" height="48" radiusX="3" radiusY="3" id="menuBg" left="243" verticalCenter="0">
+	<s:Rect width="48" height="48" radiusX="3" radiusY="3" id="menuBg" left="243" top="6">
 		<s:fill>
 			<s:LinearGradient rotation="90">
 				<s:GradientEntry color="0xA8C6EE"/>
@@ -98,19 +129,34 @@
 		</s:fill>
 	</s:Rect>	
 	
-	<mx:LinkButton left="10" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="开始" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	<mx:LinkButton left="10"  top="6"
+				   click="btnMouseHandler(event)" 
+				   mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" 
+				   mouseDown="btnMouseHandler(event)" mouseUp="btnMouseHandler(event)" 
+				   name="开始" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	
-	<mx:LinkButton left="68" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="分支"  icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	<mx:LinkButton left="68"   top="6"
+				   click="btnMouseHandler(event)" 
+				   mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" 
+				   mouseDown="btnMouseHandler(event)" mouseUp="btnMouseHandler(event)" 
+				   name="分支"  icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	
-	<mx:LinkButton left="126" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="审批" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	<mx:LinkButton left="126"  top="6"
+				   click="btnMouseHandler(event)" 
+				   mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" 
+				   mouseDown="btnMouseHandler(event)" mouseUp="btnMouseHandler(event)" 
+				   name="审批" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	
-	<mx:LinkButton left="184" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="结束"  icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	<mx:LinkButton left="184"   top="6"
+				   click="btnMouseHandler(event)" 
+				   mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" 
+				   mouseDown="btnMouseHandler(event)" mouseUp="btnMouseHandler(event)" 
+				   name="结束"  icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	
-	<mx:LinkButton left="243" right="10" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)"
-				   name="鼠标"  icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	<mx:LinkButton left="243" right="10"  top="6"
+				   click="btnMouseHandler(event)" 
+				   mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" 
+				   mouseDown="btnMouseHandler(event)" mouseUp="btnMouseHandler(event)" 
+				   name="鼠标"  icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 
 </s:BorderContainer>
