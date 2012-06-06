@@ -33,6 +33,10 @@ package com.hubo.workflow.util
 		
 		[Embed(source="com/hubo/workflow/ui/assets/approval.png")]		
 		public static const APPROVAL:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/mouse.png")]		
+		public static const MOUSE:Class;
+
 
 		public static const STARTSTR:String="assets/images/start48x48.png";
 

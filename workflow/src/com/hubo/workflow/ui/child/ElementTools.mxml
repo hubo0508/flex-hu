@@ -2,24 +2,50 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   minWidth="265"
-				   height="23"
+				   useHandCursor="true"
+				   buttonMode="true"
+				   mouseDown="mouseHandler(event)"
+				    mouseUp="mouseHandler(event)"
+				   minWidth="10"
+				   height="60"
 				   cornerRadius="5"
 				   borderColor="#999999"
-				   top="64">
+				   top="90"
+				   right="20">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.util.Global;
+			
+			protected function mouseHandler(event:MouseEvent):void
+			{
+				
+				if(event.target is LinkButton)return;
+				
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_DOWN :
+						this.startDrag();
+						break;
+					
+					case MouseEvent.MOUSE_UP : 
+						this.stopDrag();
+						break;
+					
+					default:
+						break;
+				}
+			}
 
 			protected function btn_clickHandler(event:MouseEvent):void
 			{
 			}
+
 		]]>
 	</fx:Script>
 	
 	<s:layout>
-		<s:HorizontalLayout gap="2"/>
+		<s:HorizontalLayout gap="10" verticalAlign="middle" paddingLeft="8" paddingRight="8"/>
 	</s:layout>
 	
 	<s:backgroundFill>
@@ -33,5 +59,6 @@
 	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
 
 </s:BorderContainer>
