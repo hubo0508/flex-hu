@@ -16,7 +16,7 @@ package com.hubo.workflow.core
 	/**
 	 * 元素节点
 	 */
-	public class ElementNode extends BorderContainer
+	public class ElementNode extends Group
 	{
 		/**
 		 * 元素节点名字
