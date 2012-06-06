@@ -6,7 +6,7 @@
 				   width="30"
 				   minHeight="130"
 				   top="230"
-				   left="-131">
+				   left="-1">
 	
 	<!--
 	概况监控>>配置
@@ -18,6 +18,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.util.Global;
 			
 			import spark.skins.spark.BorderContainerSkin;
@@ -27,12 +28,12 @@
 			 */
 			protected function close_ClickHandler(event:MouseEvent):void
 			{
-				this.left = -131;
-				
-				titleBC.useHandCursor = true;
-				titleBC.buttonMode = true;
-				
-				this.close_img.visible = false;
+				TweenLite.tweenTo(this, .5, {left: (-131), onComplete:function():void{
+					titleBC.useHandCursor = true;
+					titleBC.buttonMode = true;
+					
+					close_img.visible = false;
+				}});
 			}
 			
 			
@@ -40,12 +41,12 @@
 			{
 				if(titleBC.useHandCursor && titleBC.buttonMode && (event.target is BorderContainerSkin || event.target is Label))
 				{
-					this.left = -1;
-					
-					titleBC.useHandCursor = false;
-					titleBC.buttonMode = false;
-					
-					this.close_img.visible = true;
+					TweenLite.tweenTo(this, .5, {left: (-1), onComplete:function():void{
+						titleBC.useHandCursor = false;
+						titleBC.buttonMode = false;
+						
+						close_img.visible = true;
+					}});
 				}
 			}
 		]]>
@@ -69,10 +70,10 @@
 	</s:BorderContainer>
 
 	<!--标题-->
-	<s:BorderContainer id="titleBC" width="30" height="80" styleName="bor" useHandCursor="true" buttonMode="true" click="titleBC_clickHandler(event)">
-		<mx:Image id="close_img" source="{Global.CLOSE}" horizontalCenter="-1"  visible="false"
+	<s:BorderContainer id="titleBC" width="30" height="95" styleName="bor" useHandCursor="true" buttonMode="true" click="titleBC_clickHandler(event)">
+		<mx:Image id="close_img" source="{Global.CLOSE}" horizontalCenter="-1"  visible="true"
 				  top="5" useHandCursor="true" buttonMode="true" click="close_ClickHandler(event)"/>
-		<s:Label text="配置" width="20" fontSize="12" fontFamily="宋体" horizontalCenter="3" verticalCenter="0"/>
+		<s:Label text="功能菜单" width="20" fontSize="12" fontFamily="宋体" horizontalCenter="3" verticalCenter="5"/>
 	</s:BorderContainer>
 	
 </s:BorderContainer>
