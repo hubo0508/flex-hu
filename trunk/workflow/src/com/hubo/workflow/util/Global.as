@@ -36,8 +36,10 @@ package com.hubo.workflow.util
 		
 		[Embed(source="com/hubo/workflow/ui/assets/mouse.png")]		
 		public static const MOUSE:Class;
+ 
 
-
+		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
+		
 		public static const STARTSTR:String="assets/images/start48x48.png";
 
 		public static const PERSONSTR:String="assets/images/person60x60.png";
