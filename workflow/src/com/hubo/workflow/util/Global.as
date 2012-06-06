@@ -18,10 +18,25 @@ package com.hubo.workflow.util
 		}
 		
 		public static const BG_GRID_WH:int = 15;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/log.png")]		
+		public static const LOG:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/start.png")]		
+		public static const START:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/end.png")]		
+		public static const END:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/branch.png")]		
+		public static const BRANCH:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/approval.png")]		
+		public static const APPROVAL:Class;
 
-		public static const START:String="assets/images/start48x48.png";
-
-		public static const PERSON:String="assets/images/person60x60.png";
+//		public static const START:String="assets/images/start48x48.png";
+//
+//		public static const PERSON:String="assets/images/person60x60.png";
 
 		public static function glowFilter():spark.filters.GlowFilter
 		{

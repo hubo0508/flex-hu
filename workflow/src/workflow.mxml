@@ -2,46 +2,8 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
-			   creationComplete="init()">
+			   xmlns:ui="com.hubo.workflow.ui.*">
 
-	<fx:Script>
-		<![CDATA[
-			import com.hubo.workflow.core.ElementLine;
-			import com.hubo.workflow.core.ElementNode;
-			import com.hubo.workflow.util.Global;
-			
-			import mx.core.IVisualElement;
-			import mx.core.UIComponent;
+	<ui:Main/>
 
-			private function init():void 
-			{
-				var node1:ElementNode=new ElementNode(new Point(50, 50), "主机", Global.START);
-				var node2:ElementNode=new ElementNode(new Point(300, 300), "服务器", Global.PERSON);
-				var line:ElementLine=new ElementLine();
-				line.setStartPoint(new Point(node1.getCenterX(), node1.getCenterY()));
-				line.setEndPoint(new Point(node2.getCenterX(), node2.getCenterY()));
-				line.setTip("哈哈哈哈");
-				line.drawLine();
-				node1.addAssociatedLines(line, true);
-				node2.addAssociatedLines(line, false);
-				workflowGroup.addElement(node1);
-				workflowGroup.addElement(node2);
-				workflowGroup.addElement(line);
-				
-			}
-			
-			override protected function updateDisplayList(w:Number, h:Number):void
-			{
-				super.updateDisplayList(w,h);
-				
-				Global.drawBackgroundGrid(grid,w,h);
-			}
-			
-		]]>
-	</fx:Script>
-	
-	<mx:UIComponent id="grid"/>
-	
-	<s:Group id="workflowGroup" width="100%" height="100%"/>
-	
 </s:Application>
