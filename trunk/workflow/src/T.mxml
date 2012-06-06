@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"   
+			   xmlns:s="library://ns.adobe.com/flex/spark"   
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" creationComplete="onLoad();" >  
+	
+	<fx:Script>  
+		<![CDATA[  
+			import flash.display.Sprite;  
+			import flash.geom.Point;  
+			
+			import mx.core.UIComponent;  
+			
+			// 实际绘图组件  
+			private var canvasComponent:UIComponent = new UIComponent;  
+			// 代理组件  
+			private var proxyComponent:UIComponent = new UIComponent;  
+			
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+				
+				proxyComponent.graphics.lineStyle(2,0x0099ff,1);   
+				proxyComponent.graphics.moveTo(event.localX, event.localY);  
+				
+			}
+			
+			private var startPoint:Point = new Point;  
+			private var endPoint:Point = new Point;  
+			private var isDrawing:Boolean = false;// 是否正在绘图  
+			private var hasDrawed:Boolean = false;// 是否有绘图行为  
+			
+			private function onLoad():void{  
+				
+				this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);  
+				this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);  
+				this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);  
+				
+				// Application加入代理组件  
+				this.addElement(proxyComponent);  
+			}  
+			
+			private function onMouseDown(event:MouseEvent):void{  
+				proxyComponent.graphics.lineStyle(2,0x0099ff,1);   
+				proxyComponent.graphics.moveTo(event.localX, event.localY);  
+				
+				startPoint.x = event.localX;  
+				startPoint.y = event.localY;  
+				isDrawing = true;  
+				hasDrawed = false;  
+			}  
+			
+			public function onMouseMove(event:MouseEvent):void{  
+				if(isDrawing){  
+					hasDrawed = true;// 有绘图行为  
+					// 清除掉原有的绘图内容，如果不清除，则画面上会出现多条画线，而本例的效果是为了实现画线时线条可以动态的移动  
+					proxyComponent.graphics.clear();  
+					proxyComponent.graphics.lineStyle(2,0x0099ff,1);   
+					proxyComponent.graphics.moveTo(startPoint.x, startPoint.y);  
+					proxyComponent.graphics.lineTo(event.localX, event.localY);  
+					
+					endPoint.x = event.localX;  
+					endPoint.y = event.localY;  
+				}  
+			}  
+			
+			private function onMouseUp(event:MouseEvent):void{  
+				if(isDrawing && hasDrawed){  
+					// 创建新UI对象，加入容器，并清除掉代理对象  
+					canvasComponent =  new UIComponent;  
+					canvasComponent.graphics.lineStyle(2,0x0099ff,1);   
+					canvasComponent.graphics.moveTo(startPoint.x, startPoint.y);  
+					canvasComponent.graphics.lineTo(endPoint.x, endPoint.y);  
+					
+					this.addElement(canvasComponent);  
+					proxyComponent.graphics.clear();  
+				}  
+				isDrawing = false;  
+			}  
+			
+		]]>  
+	</fx:Script>  
+	
+</s:Application>  
