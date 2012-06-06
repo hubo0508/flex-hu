@@ -1,5 +1,7 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.util.Global;
+	
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
@@ -65,7 +67,7 @@ package com.hubo.workflow.core
 					break;
 				
 				case MouseEvent.MOUSE_OVER:
-					objUI.filters=[this.glowFilter()];
+					objUI.filters=[Global.glowFilter()];
 					break;
 				
 				default:
@@ -116,42 +118,6 @@ package com.hubo.workflow.core
 			}
 		}
 		
-		private function glowFilter():spark.filters.GlowFilter
-		{
-			var glow:spark.filters.GlowFilter = new spark.filters.GlowFilter();
-			glow.blurX = 5;
-			glow.blurY = 5;
-			glow.alpha = 1;
-			glow.color = 0xC67036;
-			glow.knockout = false;
-			glow.quality = 	1;
-			glow.strength = 1;
-			glow.inner = false;
-			
-			return glow;
-		}
-		
-		/**
-		 * 创建投影效果
-		 */
-		private function createDropShadowFilter():void				
-		{				
-			var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
-			dsf.angle = 45;
-			dsf.blurX = 10;
-			dsf.blurY = 10;
-			dsf.distance = 0;
-			dsf.alpha = 0.8;
-			dsf.color = 0x00000;
-			dsf.knockout = false;
-			dsf.quality = 1;
-			dsf.strength = 1;
-			dsf.inner = false;
-			dsf.hideObject = false;
-			
-			this.filters = [dsf];
-		}
-
 		public function removeLine():void
 		{
 			this.graphics.clear();
