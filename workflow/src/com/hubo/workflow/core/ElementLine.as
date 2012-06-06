@@ -28,7 +28,7 @@ package com.hubo.workflow.core
 		/**
 		 * 线条颜色
 		 */
-		private var lineColor:uint=0x000000;
+		private var lineColor:uint=0x0099ff;
 
 		/**
 		 * 线条提示语
