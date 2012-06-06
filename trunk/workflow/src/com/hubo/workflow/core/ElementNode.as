@@ -2,6 +2,7 @@ package com.hubo.workflow.core
 {
 	import com.hubo.workflow.util.Global;
 	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
@@ -60,11 +61,11 @@ package com.hubo.workflow.core
 		 */
 		private function init(url:String):void
 		{
-			this.addEventListener(flash.events.MouseEvent.MOUSE_OVER, mouseHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_OUT, mouseHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
-			this.addEventListener(flash.events.MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.MOUSE_OVER, mouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.MOUSE_OUT, mouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
 			this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
 			
 			this.initTagtext(this.nodeName);
@@ -82,7 +83,7 @@ package com.hubo.workflow.core
 			this.buttonMode = true;
 		}
 		
-		protected function mouseHandler(event:MouseEvent):void
+		protected function mouseHandler(event:Event):void
 		{
 			if(tagImg == null) return;
 			
@@ -101,7 +102,7 @@ package com.hubo.workflow.core
 			}
 		}
 		
-		protected function tagMouseHandler(event:MouseEvent):void
+		protected function tagMouseHandler(event:Event):void
 		{
 			switch(event.type)
 			{
@@ -120,7 +121,7 @@ package com.hubo.workflow.core
 					this.reloadLine();
 					break;
 				
-				case MoveEvent.MOVE :
+				case mx.events.MoveEvent.MOVE :
 					this.reloadLine();
 					break;
 				
