@@ -16,7 +16,9 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.TooTip;
+			import com.hubo.workflow.core.ElementNode;
 			import com.hubo.workflow.core.TweenLite;
+			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
 			
@@ -58,7 +60,6 @@
 					tootip = new TooTip("");
 				}
 				
-				
 				var btn:LinkButton = event.currentTarget as LinkButton;
 				switch (event.type)
 				{
@@ -83,6 +84,7 @@
 					case MouseEvent.MOUSE_DOWN :
 						var tempImg:Image= new Image();
 						tempImg.id = "tempImg";
+						tempImg.name = btn.name;
 						tempImg.source = btn.getStyle("icon");
 						tempImg.addEventListener(MouseEvent.CLICK,tempImgClickHandler,false,0,true);
 						
@@ -100,19 +102,25 @@
 					default:
 						break;
 				}
-
 			}			
 			
 			protected function tempImgClickHandler(event:MouseEvent):void
 			{
-				//var tempImgUp:Image = UIUtil.getWindown("tempImg",this) as Image;
 				var temImg:Image = event.currentTarget as Image;
 				temImg.stopDrag();
+				
+				var cE:CreateElementNodeEvent = new CreateElementNodeEvent(CreateElementNodeEvent.CREATE_ELEMENT_NODE);
+				cE.node = new ElementNode(new Point(temImg.x,temImg.y), temImg.name, temImg.source);
+				this.dispatchEvent(cE);
 				
 				PopUpManager.removePopUp(temImg);
 			}
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="createElementNode",type="com.hubo.workflow.event.CreateElementNodeEvent")]
+	</fx:Metadata>
 	
 	<s:backgroundFill>
 		<s:LinearGradient rotation="90">

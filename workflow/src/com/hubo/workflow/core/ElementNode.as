@@ -46,7 +46,7 @@ package com.hubo.workflow.core
 		 * @param nodeName:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:String, w:Number=48, h:Number=70)
+		public function ElementNode(location:Point, nodeName:String, url:Object, w:Number=48, h:Number=70)
 		{
 			this.setLocation(location);
 			this.setSize(w,h);
@@ -59,7 +59,7 @@ package com.hubo.workflow.core
 		 * 
 		 * @param url:String 标签图片路径
 		 */
-		private function init(url:String):void
+		private function init(url:Object):void
 		{
 			this.addEventListener(MouseEvent.MOUSE_OVER, mouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.MOUSE_OUT, mouseHandler,false,0,true);
@@ -206,7 +206,7 @@ package com.hubo.workflow.core
 		/**
 		 * 初始标签图片
 		 */
-		private function initTagImg(url:String):void
+		private function initTagImg(url:Object):void
 		{
 			if(tagImg == null)
 			{
