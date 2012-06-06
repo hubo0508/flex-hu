@@ -16,6 +16,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.TooTip;
+			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
 			
@@ -54,37 +55,33 @@
 				}
 				
 				var btn:LinkButton = event.currentTarget as LinkButton;
-				
-				switch(event.type)
+				switch (event.type)
 				{
-					case MouseEvent.MOUSE_OVER :
-						tootip.text = btn.name;
-						
-						var point:Point = UIUtil.getUiAbsolutePosition(btn);
-						tootip.x = point.x + btn.width*0.5 - tootip.width*0.5;
-						tootip.y = point.y+btn.height+tootip.triangleH;	
-						
+					case MouseEvent.MOUSE_OVER:
+						tootip.text=btn.name;
+
+						var point:Point=UIUtil.getUiAbsolutePosition(btn);
+						tootip.x=point.x + btn.width * 0.5 - tootip.width * 0.5;
+						tootip.y=point.y + btn.height + tootip.triangleH;
+
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 						break;
-					
-					case MouseEvent.MOUSE_OUT :
+
+					case MouseEvent.MOUSE_OUT:
 						PopUpManager.removePopUp(tootip);
 						break;
-					
-					case MouseEvent.CLICK :
+
+					case MouseEvent.CLICK:
+						TweenLite.tweenTo(menuBg, .5, {left: btn.left});
 						break;
-					
+
 					default:
 						break;
 				}
-			}
 
+			}			
 		]]>
 	</fx:Script>
-	
-	<s:layout>
-		<s:HorizontalLayout gap="10" verticalAlign="middle" paddingLeft="8" paddingRight="8"/>
-	</s:layout>
 	
 	<s:backgroundFill>
 		<s:LinearGradient rotation="90">
@@ -93,19 +90,27 @@
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
-	<mx:LinkButton mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="开始" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<s:Rect width="48" height="48" radiusX="3" radiusY="3" id="menuBg" left="252" verticalCenter="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xA8C6EE"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>	
 	
-	<mx:LinkButton mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="分支"  icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton left="18" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+				   name="开始" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="审批" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton left="78" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+				   name="分支"  icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
-				   name="结束"  icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton left="136" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+				   name="审批" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 	
-	<mx:LinkButton mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)"
-				   name="鼠标"  icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton left="194" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)" 
+				   name="结束"  icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
+	
+	<mx:LinkButton left="252" mouseOut="btnMouseHandler(event)" mouseOver="btnMouseHandler(event)" click="btnMouseHandler(event)"
+				   name="鼠标"  icon="{Global.MOUSE}" paddingLeft="0" paddingRight="0" width="48" height="48" verticalCenter="0"/>
 
 </s:BorderContainer>
