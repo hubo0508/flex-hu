@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   minWidth="265"
+				   height="23"
+				   cornerRadius="5"
+				   borderColor="#999999"
+				   top="64">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hongguan.event.ToolsEvent;
+			import com.hubo.workflow.util.Global;
+			
+
+			protected function btn_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:HorizontalLayout gap="2"/>
+	</s:layout>
+	
+	<s:backgroundFill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="#F4F4F4"/>
+			<s:GradientEntry color="#E2E2E2"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+	
+	
+	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.START}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.BRANCH}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.APPROVAL}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+	<mx:LinkButton click="btn_clickHandler(event)" icon="{Global.END}" paddingLeft="0" paddingRight="0" width="48" height="48"/>
+
+</s:BorderContainer>
