@@ -13,9 +13,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			
 			import com.hubo.workflow.core.ElementLine;
 			import com.hubo.workflow.core.ElementNode;
+			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.util.Global;
 			
 			import mx.core.IVisualElement;
@@ -45,6 +45,12 @@
 				Global.drawBackgroundGrid(grid,w,h);
 			}
 			
+
+			protected function createElementNodeHandler(event:CreateElementNodeEvent):void
+			{
+				workflowGroup.addElement(event.node);
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -54,7 +60,7 @@
 	
 	<s:BitmapImage source="{Global.LOG}" horizontalCenter="0" top="40"/>
 	
-	<child:ElementTools/>
+	<child:ElementTools createElementNode="createElementNodeHandler(event)"/>
 	
 	<!--<child:Config/>-->
 
