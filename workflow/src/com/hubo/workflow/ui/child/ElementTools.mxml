@@ -5,13 +5,13 @@
 				   useHandCursor="true"
 				   buttonMode="true"
 				   mouseDown="mouseHandler(event)"
-				    mouseUp="mouseHandler(event)"
+				   mouseUp="mouseHandler(event)"
 				   minWidth="10"
 				   height="60"
 				   cornerRadius="5"
-				   borderColor="#999999"
-				   top="90"
-				   right="20">
+				   borderVisible="false"
+				   top="120"
+				   left="20">
 	
 	<fx:Script>
 		<![CDATA[
