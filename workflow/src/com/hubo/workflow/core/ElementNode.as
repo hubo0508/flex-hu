@@ -7,11 +7,11 @@ package com.hubo.workflow.core
 	import flash.geom.Point;
 	
 	import mx.controls.Image;
+	import mx.controls.Label;
 	import mx.events.MoveEvent;
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
-	import spark.components.Label;
 
 	/**
 	 * 元素节点
@@ -46,7 +46,7 @@ package com.hubo.workflow.core
 		 * @param nodeName:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:String, w:Number=60, h:Number=80)
+		public function ElementNode(location:Point, nodeName:String, url:String, w:Number=48, h:Number=70)
 		{
 			this.setLocation(location);
 			this.setSize(w,h);
@@ -195,7 +195,8 @@ package com.hubo.workflow.core
 		{
 			if(tagText == null)
 			{
-				tagText = new spark.components.Label
+				tagText = new Label
+				tagText.maxWidth = 48;
 			}
 			tagText.text=text;
 			tagText.horizontalCenter = 0;
@@ -218,7 +219,7 @@ package com.hubo.workflow.core
 		
 		public function getCenterX():int
 		{
-			return this.x + 30;
+			return this.x + this.width;
 		} 
 
 		public function getCenterY():int
