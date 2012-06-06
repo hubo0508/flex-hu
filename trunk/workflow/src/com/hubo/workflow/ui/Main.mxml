@@ -56,6 +56,6 @@
 	
 	<child:ElementTools/>
 	
-	<child:Config/>
+	<!--<child:Config/>-->
 
 </s:Group>
