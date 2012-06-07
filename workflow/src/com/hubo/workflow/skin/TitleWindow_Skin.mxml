@@ -185,7 +185,7 @@
                 
                 <s:Rect id="tbDiv" left="0" right="0" height="1" bottom="0">
                     <s:fill>
-                        <s:SolidColor color="0x005CB1"/>
+                        <s:SolidColor color="0xC7C7C7"/>
                     </s:fill>
                 </s:Rect>
                 
