@@ -3,8 +3,7 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ui="com.hubo.workflow.ui.*"
-			   fontSize="12"
-			   fontFamily="宋体">
+			  >
 	
 	<fx:Style source="com/hubo/workflow/ui/assets/Style.css"/>
 
