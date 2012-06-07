@@ -75,6 +75,12 @@
 				notEndLine = event.line;
 			}
 			
+			protected function clickElementNodeHandler(event:MouseEvent):void
+			{
+				var node:ElementNode = event.currentTarget as ElementNode;
+				node.addAssociatedLines(this.notEndLine,false);
+			}
+			
 			/**
 			 * 画线
 			 */
@@ -119,7 +125,8 @@
 			protected function createElementNodeHandler(event:CreateElementNodeEvent):void
 			{
 				var node:ElementNode = event.node;
-				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true)
+				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true);
+				node.addEventListener(MouseEvent.CLICK,clickElementNodeHandler,false,0,true);
 				node.SID = this.countnode;
 				workflowGroup.addElement(node);
 				
