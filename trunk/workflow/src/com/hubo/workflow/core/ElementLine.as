@@ -28,7 +28,7 @@ package com.hubo.workflow.core
 		/**
 		 * 线条颜色
 		 */
-		private var lineColor:uint=0xBDBDBD;
+		private var lineColor:uint=0x222222;
 
 		/**
 		 * 线条提示语
@@ -89,7 +89,7 @@ package com.hubo.workflow.core
 		/**
 		 * 画线
 		 */
-		public function drawLine():void
+		public function draw():void
 		{
 			this.graphics.clear();
 			this.graphics.lineStyle(2, lineColor);

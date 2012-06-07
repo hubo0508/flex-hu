@@ -27,7 +27,7 @@
 				
 				this.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);  
 				this.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);  
-				this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);  
+				this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);   
 				
 				// Application加入代理组件  
 				this.addElement(proxyComponent);  

@@ -1,5 +1,6 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.event.CreateElementLineEvent;
 	import com.hubo.workflow.ui.child.ConfigNodeWindown;
 	import com.hubo.workflow.ui.child.ConfigTools;
 	import com.hubo.workflow.util.Global;
@@ -20,6 +21,8 @@ package com.hubo.workflow.core
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
+	
+	[Event(name="createElementLine",type="com.hubo.workflow.event.CreateElementLineEvent")]
 
 	/**
 	 * 元素节点
@@ -36,6 +39,11 @@ package com.hubo.workflow.core
 		 */
 		private var linesCollection:Array=[];
 		private var oldIndex:int=0;
+		
+		/**
+		 * 标示
+		 */
+		public var SID:int;
 		
 		/**
 		 * 标签图片
@@ -114,6 +122,17 @@ package com.hubo.workflow.core
 			}
 		}
 		
+		/**
+		 * 取得当前元素节点在Application中的中心点坐标
+		 */
+		public function centerPoint():Point
+		{
+			var point:Point = UIUtil.getUiAbsolutePosition(this);
+			point.x += this.width*0.5;
+			point.y += this.width*0.5;
+			return point;
+		}
+		
 		protected function mouseHandler(event:Event):void
 		{
 			if(tagImg == null) return;
@@ -149,6 +168,15 @@ package com.hubo.workflow.core
 					break;
 				
 				case ConfigTools.NODE_CONNECT :
+					this.removeConfigTools();
+					
+					var eleLine:ElementLine = new ElementLine();
+					eleLine.setStartPoint(this.centerPoint());
+					this.addAssociatedLines(eleLine,false);
+					
+					var cEvent:CreateElementLineEvent = new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
+					cEvent.line = eleLine;
+					this.dispatchEvent(cEvent);
 					break;
 				
 				default:
@@ -259,7 +287,7 @@ package com.hubo.workflow.core
 				
 				var point:Point = new Point(getCenterX(), getCenterY());
 				lineFlag.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
-				line.drawLine();
+				line.draw();
 			}
 		}
 

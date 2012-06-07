@@ -16,11 +16,21 @@
 		<![CDATA[
 			import com.hubo.workflow.core.ElementLine;
 			import com.hubo.workflow.core.ElementNode;
+			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
+			import com.hubo.workflow.ui.child.ConfigTools;
 			import com.hubo.workflow.util.Global;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
+			import mx.events.DynamicEvent;
+			
+			private var countnode:int = 1;
+			
+			/**
+			 * 手动画线时的起点坐标
+			 */
+			private var  startingPoint:Point = new Point(0,0);
 			
 			/**
 			 * 初始事件监听
@@ -33,6 +43,16 @@
 			}
 			
 			/**
+			 * 开始画线
+			 */
+			protected function createElementLineHandler(event:CreateElementLineEvent):void
+			{
+				this.workflowGroup.addElement(event.line);
+				event.line.setEndPoint(thisMouseXY());
+				event.line.draw();
+			}
+			
+			/**
 			 * 画线
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
@@ -40,12 +60,15 @@
 				switch(event.type)
 				{
 					case MouseEvent.MOUSE_DOWN :
+						this.startingPoint.x = this.stage.mouseX;
+						this.startingPoint.y = this.stage.mouseY;
 						break;
 					
 					case MouseEvent.MOUSE_UP :
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
+						trace("xx");
 						break;
 					
 					default :
@@ -55,18 +78,22 @@
 			
 			private function init():void 
 			{
-				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
-				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
-				var line:ElementLine=new ElementLine();
-				line.setStartPoint(new Point(node1.getCenterX(), node1.getCenterY()));
-				line.setEndPoint(new Point(node2.getCenterX(), node2.getCenterY()));
-				line.setTip("哈哈哈哈");
-				line.drawLine();
-				node1.addAssociatedLines(line, true);
-				node2.addAssociatedLines(line, false);
-				workflowGroup.addElement(node1);
-				workflowGroup.addElement(node2);
-				workflowGroup.addElement(line);
+//				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
+//				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
+//				var node3:ElementNode=new ElementNode(new Point(600, 600), "结束", Global.END);
+//				
+//				var line:ElementLine=new ElementLine();
+//				line.setStartPoint(new Point(0, 100));
+//				line.setEndPoint(new Point(200, 200));
+//				line.draw();
+//				
+//				node1.addAssociatedLines(line, true);
+//				node2.addAssociatedLines(line, false);
+//				
+//				
+//				workflowGroup.addElement(node1);
+//				workflowGroup.addElement(node2);
+				//workflowGroup.addElement(line);
 				
 			}
 			
@@ -84,7 +111,33 @@
 			 */
 			protected function createElementNodeHandler(event:CreateElementNodeEvent):void
 			{
-				workflowGroup.addElement(event.node);
+				var node:ElementNode = event.node;
+				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true)
+				node.SID = this.countnode;
+				workflowGroup.addElement(node);
+				
+				this.countnode ++;
+			}
+			
+			private function getElementNodeBySID(sid:int):ElementNode
+			{
+				var ele:ElementNode;
+				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				{
+					var node:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					if(node && node.SID == sid)
+					{
+						ele = node;
+						break;
+					}
+				}
+				
+				return ele;
+			}
+			
+			private function thisMouseXY():Point
+			{
+				return new Point(this.stage.mouseX, this.stage.mouseY);
 			}
 
 		]]>
