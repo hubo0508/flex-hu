@@ -31,9 +31,10 @@
 			 * 消息提示容器【内部使用】
 			 */
 			private var tootip:TooTip;
-			
-	
-			
+
+			/**
+			 * 当前顶级容器鼠标事件
+			 */
 			protected function mouseHandler(event:MouseEvent):void
 			{
 				if(event.target is LinkButton)return;

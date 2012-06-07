@@ -1,6 +1,8 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.ui.child.Tools;
 	import com.hubo.workflow.util.Global;
+	import com.hubo.workflow.util.UIUtil;
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -9,6 +11,7 @@ package com.hubo.workflow.core
 	import mx.controls.Image;
 	import mx.controls.Label;
 	import mx.events.MoveEvent;
+	import mx.managers.PopUpManager;
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
@@ -38,6 +41,11 @@ package com.hubo.workflow.core
 		 * 标签文本
 		 */
 		private var tagText:Label;
+		
+		/**
+		 * 工具栏
+		 */
+		private var tool:Tools;
 
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
@@ -83,6 +91,16 @@ package com.hubo.workflow.core
 			this.buttonMode = true;
 		}
 		
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			
+			if(tool == null)
+			{
+				tool = new Tools();
+			}
+		}
+		
 		protected function mouseHandler(event:Event):void
 		{
 			if(tagImg == null) return;
@@ -91,10 +109,18 @@ package com.hubo.workflow.core
 			{
 				case MouseEvent.MOUSE_OUT:
 					tagImg.filters=[];
+					
+					PopUpManager.removePopUp(tool);
 					break;
 
 				case MouseEvent.MOUSE_OVER:
 					tagImg.filters=[Global.glowFilter()];
+
+					var point:Point = UIUtil.getUiAbsolutePosition(this);
+					tool.x = point.x + this.width+10;
+					tool.y = point.y + this.height*0.5-10;
+					
+					PopUpManager.addPopUp(tool, UIUtil.getApplication(this), false);
 					break;
 				
 				default:
