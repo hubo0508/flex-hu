@@ -6,6 +6,7 @@
 			   fontSize="12"
 			   fontFamily="宋体">
 
-	<ui:Main/>
-
+	<ui:Main/> 
+ 
 </s:Application>
+ 

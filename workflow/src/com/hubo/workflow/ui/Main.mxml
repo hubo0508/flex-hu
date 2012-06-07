@@ -23,8 +23,8 @@
 			
 			private function init():void 
 			{
-				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.STARTSTR);
-				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.PERSONSTR);
+				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
+				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
 				var line:ElementLine=new ElementLine();
 				line.setStartPoint(new Point(node1.getCenterX(), node1.getCenterY()));
 				line.setEndPoint(new Point(node2.getCenterX(), node2.getCenterY()));
@@ -60,7 +60,7 @@
 	
 	<s:BitmapImage source="{Global.LOG}" horizontalCenter="0" top="40"/>
 	
-	<child:ElementTools createElementNode="createElementNodeHandler(event)"/>
+	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
 	
 	<!--<child:Config/>-->
 
