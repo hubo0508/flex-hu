@@ -167,8 +167,8 @@ package com.hubo.workflow.core
 
 				case ConfigTools.NODE_DELETE:
 					this.removeConfigTools();
-					this.configTools = null;
-					this.linesCollection = null;
+					this.configTools=null;
+					this.linesCollection=null;
 					(parent as Object).removeElement(this);
 					break;
 
@@ -181,7 +181,7 @@ package com.hubo.workflow.core
 
 					var cEvent:CreateElementLineEvent=new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
 					cEvent.line=eleLine;
-					cEvent.upElementNodeSID = this.SID;
+					cEvent.upElementNodeSID=this.SID;
 					this.dispatchEvent(cEvent);
 					break;
 
@@ -284,12 +284,26 @@ package com.hubo.workflow.core
 		{
 			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
 			{
-				var lineFlag:LineProperties=linesCollection[i];
-				var line:ElementLine=lineFlag.elementLine;
+				var linePro:LineProperties=linesCollection[i];
+				var line:ElementLine=linePro.elementLine;
 
-				var point:Point=new Point(getCenterX(), getCenterY());
-				lineFlag.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
-				line.draw();
+				trace("lineFlag.arrowsMark = " + linePro.arrowsMark);
+
+				var point:Point=this.centerPoint();
+				linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
+				if (line)
+				{
+					line.draw();
+
+					if (linePro.arrowsMark == false)
+					{
+						var newEndPoint:Point = line.getEndPoint();
+						newEndPoint.x-=this.width * 0.5 - 2;
+						newEndPoint.y=newEndPoint.y - this.width * 0.5 + 20;
+						line.setEndPoint(newEndPoint);
+						line.draw();
+					}
+				}
 			}
 		}
 
@@ -365,14 +379,14 @@ package com.hubo.workflow.core
 			tagImg.source=url;
 		}
 
-		public function getCenterX():int
-		{
-			return this.x + this.width;
-		}
-
-		public function getCenterY():int
-		{
-			return this.y + 30;
-		}
+//		public function getCenterX():int
+//		{
+//			return this.x + this.width;
+//		}
+//
+//		public function getCenterY():int
+//		{
+//			return this.y + 30;
+//		}
 	}
 }

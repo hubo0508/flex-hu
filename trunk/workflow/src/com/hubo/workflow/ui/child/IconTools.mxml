@@ -7,11 +7,10 @@
 				   mouseDown="mouseHandler(event)"
 				   mouseUp="mouseHandler(event)"
 				   minWidth="10"
-				   height="60"
+				   height="60" horizontalCenter="0"
 				   cornerRadius="5"
 				   borderVisible="false"
-				   top="120"
-				   left="20">
+				   bottom="30">
 	
 	<fx:Script>
 		<![CDATA[

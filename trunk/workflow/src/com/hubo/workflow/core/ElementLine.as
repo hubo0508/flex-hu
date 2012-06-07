@@ -138,6 +138,11 @@ package com.hubo.workflow.core
 		{
 			this.endPoint=point;
 		}
+		
+		public function getEndPoint():Point
+		{
+			return endPoint;
+		}
 
 		/**
 		 * 设置线条颜色
