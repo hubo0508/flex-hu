@@ -36,6 +36,12 @@ package com.hubo.workflow.util
 		
 		[Embed(source="com/hubo/workflow/ui/assets/mouse.png")]		
 		public static const MOUSE:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/application_view_list.png")]		
+		public static const LIST:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/delete.gif")]		
+		public static const DELETE:Class;
  
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";

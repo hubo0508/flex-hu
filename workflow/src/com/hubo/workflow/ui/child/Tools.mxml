@@ -3,9 +3,16 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   minWidth="10"
+				   alpha="0.8"
 				   minHeight="10"
 				   cornerRadius="5"
 				   borderVisible="false">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hubo.workflow.util.Global;
+		]]>
+	</fx:Script>
 	
 	<s:backgroundFill>
 		<s:LinearGradient rotation="90">
@@ -13,5 +20,13 @@
 			<s:GradientEntry color="#E4E4E3"/>
 		</s:LinearGradient>
 	</s:backgroundFill>
+	
+	<s:layout>
+		<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+	</s:layout>
+	
+	<mx:LinkButton icon="{Global.LIST}" label="节点属性"/>
+	
+	<mx:LinkButton icon="{Global.DELETE}" label="删除节点"/>
 	
 </s:BorderContainer>
