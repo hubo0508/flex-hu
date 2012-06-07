@@ -28,7 +28,7 @@
 			private var countnode:int = 1;
 			
 			
-			private var notEndLine:ElementLine;
+			private var thisLine:ElementLine;
 			
 			private function init():void 
 			{
@@ -72,13 +72,15 @@
 				event.line.setEndPoint(thisMouseXY());
 				event.line.draw();
 				
-				notEndLine = event.line;
+				thisLine = event.line;
 			}
 			
 			protected function clickElementNodeHandler(event:MouseEvent):void
 			{
 				var node:ElementNode = event.currentTarget as ElementNode;
-				node.addAssociatedLines(this.notEndLine,false);
+				node.addAssociatedLines(this.thisLine,false);
+				
+				this.stopDrawLine();
 			}
 			
 			/**
@@ -92,14 +94,14 @@
 						break;
 					
 					case MouseEvent.MOUSE_UP :
-						notEndLine = null;
+						this.removeLine();
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
-						if(notEndLine)
+						if(thisLine)
 						{
-							notEndLine.setEndPoint(new Point(event.stageX,event.stageY));
-							notEndLine.draw();
+							thisLine.setEndPoint(new Point(event.stageX,event.stageY));
+							thisLine.draw();
 						}
 						break;
 					
@@ -108,7 +110,24 @@
 				}
 			}
 			
+			private function stopDrawLine():void
+			{
+				thisLine = null;
+			}
 			
+			private function removeLine():void
+			{
+				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				{
+					var line:ElementLine = workflowGroup.getElementAt(i) as ElementLine;
+					if(line && line == this.thisLine)
+					{
+							workflowGroup.removeElement(line);
+							this.stopDrawLine();
+							break;
+					}
+				}
+			}
 			
 			/**
 			 * 调用底层API画背景网格
