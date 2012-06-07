@@ -21,8 +21,8 @@ package com.hubo.workflow.core
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
-	
-	[Event(name="createElementLine",type="com.hubo.workflow.event.CreateElementLineEvent")]
+
+	[Event(name="createElementLine", type="com.hubo.workflow.event.CreateElementLineEvent")]
 
 	/**
 	 * 元素节点
@@ -33,33 +33,33 @@ package com.hubo.workflow.core
 		 * 元素节点名字
 		 */
 		private var nodeName:String="网元";
-		
+
 		/**
 		 * 存储当前元素节点所关联的线条集合
 		 */
 		private var linesCollection:Array=[];
 		private var oldIndex:int=0;
-		
+
 		/**
 		 * 标示
 		 */
 		public var SID:int;
-		
+
 		/**
 		 * 标签图片
 		 */
 		private var tagImg:Image;
-		
+
 		/**
 		 * 标签文本
 		 */
 		private var tagText:Label;
-		
+
 		/**
 		 * 工具栏
 		 */
 		private var configTools:ConfigTools;
-		
+
 		/**
 		 * 工具栏消失记时器
 		 */
@@ -75,68 +75,69 @@ package com.hubo.workflow.core
 		public function ElementNode(location:Point, nodeName:String, url:Object, w:Number=48, h:Number=70)
 		{
 			this.setLocation(location);
-			this.setSize(w,h);
+			this.setSize(w, h);
 			this.nodeName=nodeName;
 			this.init(url);
 		}
 
 		/**
 		 * 初始化
-		 * 
+		 *
 		 * @param url:String 标签图片路径
 		 */
 		private function init(url:Object):void
 		{
-			this.addEventListener(MouseEvent.ROLL_OUT, mouseHandler,false,0,true);
-			this.addEventListener(MouseEvent.ROLL_OVER, mouseHandler,false,0,true);
-			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
-			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
-			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
-			this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
-			
+			this.addEventListener(MouseEvent.ROLL_OUT, mouseHandler, false, 0, true);
+			this.addEventListener(MouseEvent.ROLL_OVER, mouseHandler, false, 0, true);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler, false, 0, true);
+			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler, false, 0, true);
+			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
+			//this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
+
 			this.initTagtext(this.nodeName);
-			this.addElement(tagText); 
-			
+			this.addElement(tagText);
+
 			this.initTagImg(url);
 			this.addElement(tagImg);
 		}
-		
+
 		override protected function commitProperties():void
 		{
 			super.commitProperties();
-			
-			this.useHandCursor = true;
-			this.buttonMode = true;
+
+			this.useHandCursor=true;
+			this.buttonMode=true;
 		}
-		
+
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			
-			if(configTools == null)
+
+			if (configTools == null)
 			{
-				configTools = new ConfigTools();
-				configTools.addEventListener(MouseEvent.ROLL_OUT,configToolsMouseHandler,false,0,true);
-				configTools.addEventListener(MouseEvent.ROLL_OVER,configToolsMouseHandler,false,0,true);
-				configTools.addEventListener(ConfigTools.DYE_CLICK,configToolsClickHandler,false,0,true);
+				configTools=new ConfigTools();
+				configTools.addEventListener(MouseEvent.ROLL_OUT, configToolsMouseHandler, false, 0, true);
+				configTools.addEventListener(MouseEvent.ROLL_OVER, configToolsMouseHandler, false, 0, true);
+				configTools.addEventListener(ConfigTools.DYE_CLICK, configToolsClickHandler, false, 0, true);
 			}
 		}
-		
+
 		/**
 		 * 取得当前元素节点在Application中的中心点坐标
 		 */
 		public function centerPoint():Point
 		{
-			var point:Point = UIUtil.getUiAbsolutePosition(this);
-			point.x += this.width*0.5;
-			point.y += this.width*0.5;
+			var point:Point=UIUtil.getUiAbsolutePosition(this);
+			point.x+=this.width * 0.5;
+			point.y+=this.width * 0.5;
 			return point;
 		}
-		
+
 		protected function mouseHandler(event:Event):void
 		{
-			if(tagImg == null) return;
-			
+			if (tagImg == null)
+				return;
+
 			switch (event.type)
 			{
 				case MouseEvent.ROLL_OUT:
@@ -148,144 +149,149 @@ package com.hubo.workflow.core
 					tagImg.filters=[Global.glowFilter()];
 					this.showConfigTools();
 					break;
-				
+
 				default:
 					break;
 			}
 		}
-		
+
 		protected function configToolsClickHandler(event:DynamicEvent):void
 		{
-			switch(event.name)
+			switch (event.name)
 			{
-				case ConfigTools.NODE_ATTRIBUTES :
-					
-					PopUpUtil.messageWindow(new ConfigNodeWindown(),this,false);
-					
+				case ConfigTools.NODE_ATTRIBUTES:
+
+					PopUpUtil.messageWindow(new ConfigNodeWindown(), this, false);
+
 					break;
-				
-				case ConfigTools.NODE_DELETE :
-					break;
-				
-				case ConfigTools.NODE_CONNECT :
+
+				case ConfigTools.NODE_DELETE:
 					this.removeConfigTools();
-					
-					var eleLine:ElementLine = new ElementLine();
+					this.configTools = null;
+					this.linesCollection = null;
+					var parentGroup:Group = this.parent as Group;
+					parentGroup.removeElement(this);
+					break;
+
+				case ConfigTools.NODE_CONNECT:
+					this.removeConfigTools();
+
+					var eleLine:ElementLine=new ElementLine();
 					eleLine.setStartPoint(this.centerPoint());
-					this.addAssociatedLines(eleLine,false);
-					
-					var cEvent:CreateElementLineEvent = new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
-					cEvent.line = eleLine;
+					this.addAssociatedLines(eleLine, false);
+
+					var cEvent:CreateElementLineEvent=new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
+					cEvent.line=eleLine;
 					this.dispatchEvent(cEvent);
 					break;
-				
+
 				default:
 					break;
 			}
 		}
-		
+
 		protected function configToolsMouseHandler(event:MouseEvent):void
 		{
-			switch(event.type)
+			switch (event.type)
 			{
-				case MouseEvent.ROLL_OUT :
+				case MouseEvent.ROLL_OUT:
 					removeConfigTools();
 					break;
-				
-				case MouseEvent.ROLL_OVER :
+
+				case MouseEvent.ROLL_OVER:
 					this.stopTimer();
 					break;
-				
+
 				default:
 					break;
 			}
 		}
-		
+
 		private function removeConfigTools():void
 		{
 			//TweenLite.tweenTo(tool, .3, {alpha: 0, onComplete:function():void{
-				PopUpManager.removePopUp(configTools);
+			PopUpManager.removePopUp(configTools);
 			//}});
 		}
-			
+
 		private function showConfigTools():void
 		{
-			var point:Point = UIUtil.getUiAbsolutePosition(this);
-			configTools.x = point.x + this.width+5;
-			configTools.y = point.y + this.height*0.5-10;
+			var point:Point=UIUtil.getUiAbsolutePosition(this);
+			configTools.x=point.x + this.width + 5;
+			configTools.y=point.y + this.height * 0.5 - 10;
 			//tool.setStyle("alpha",0.8);
-			
+
 			PopUpManager.addPopUp(configTools, UIUtil.getApplication(this), false);
 		}
-		
+
 		private function startTimer():void
 		{
-			if(timer == null)
+			if (timer == null)
 			{
-				timer=new Timer(100,1);
+				timer=new Timer(100, 1);
 			}
-			
+
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
 				removeConfigTools();
-				
+
 				timer.stop();
-			},false,0,true);					
-			timer.start();	
+			}, false, 0, true);
+			timer.start();
 		}
-		
+
 		private function stopTimer():void
 		{
-			if(timer && timer.running)
+			if (timer && timer.running)
 			{
-				timer.stop();	
+				timer.stop();
 			}
-			
-			if(timer)
+
+			if (timer)
 			{
-				timer = null;
+				timer=null;
 			}
 		}
-		
+
 		protected function tagMouseHandler(event:Event):void
 		{
-			switch(event.type)
+			switch (event.type)
 			{
-				case MouseEvent.MOUSE_DOWN :
+				case MouseEvent.MOUSE_DOWN:
 					this.startDrag();
 					oldIndex=this.parent.getChildIndex(this);
 					this.parent.setChildIndex(this, this.parent.numChildren - 1);
 					break;
-				
-				case MouseEvent.MOUSE_UP : 
+
+				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
 					this.parent.setChildIndex(this, oldIndex);
 					break;
-				
-				case MouseEvent.MOUSE_MOVE :
+
+				case MouseEvent.MOUSE_MOVE:
 					this.reloadLine();
 					break;
-				
-				case mx.events.MoveEvent.MOVE :
-					this.reloadLine();
-					break;
-				
+
+//				case mx.events.MoveEvent.MOVE :
+//					this.reloadLine();
+//					break;
+
 				default:
 					break;
 			}
 		}
-		
+
 		/**
 		 * 重新加载线条
 		 */
 		private function reloadLine():void
 		{
-			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
+			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
 			{
 				var lineFlag:LineProperties=linesCollection[i];
 				var line:ElementLine=lineFlag.elementLine;
-				
-				var point:Point = new Point(getCenterX(), getCenterY());
+
+				var point:Point=new Point(getCenterX(), getCenterY());
 				lineFlag.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
 				line.draw();
 			}
@@ -304,32 +310,33 @@ package com.hubo.workflow.core
 		 */
 		public function setLocation(point:Point):void
 		{
-			if(point == null) return;
-			
-			if(this.x != point.x)
+			if (point == null)
+				return;
+
+			if (this.x != point.x)
 			{
-				this.x = point.x;	
+				this.x=point.x;
 			}
-			
-			if(this.y != point.y)
+
+			if (this.y != point.y)
 			{
-				this.y = point.y;	
+				this.y=point.y;
 			}
 		}
-		
+
 		/**
 		 * 设置元素节点最新大小
 		 */
 		public function setSize(w:Number, h:Number):void
 		{
-			if(this.width != w)
+			if (this.width != w)
 			{
-				this.width = w;	
+				this.width=w;
 			}
-			
-			if(this.height != h)
+
+			if (this.height != h)
 			{
-				this.height = h;	
+				this.height=h;
 			}
 		}
 
@@ -338,34 +345,34 @@ package com.hubo.workflow.core
 		 */
 		private function initTagtext(text:String):void
 		{
-			if(tagText == null)
+			if (tagText == null)
 			{
-				tagText = new Label
-				tagText.maxWidth = 48;
+				tagText=new Label
+				tagText.maxWidth=48;
 			}
 			tagText.text=text;
-			tagText.horizontalCenter = 0;
-			tagText.bottom = 2;
+			tagText.horizontalCenter=0;
+			tagText.bottom=2;
 		}
-		
+
 		/**
 		 * 初始标签图片
 		 */
 		private function initTagImg(url:Object):void
 		{
-			if(tagImg == null)
+			if (tagImg == null)
 			{
-				tagImg = new Image();
+				tagImg=new Image();
 			}
-			
-			tagImg.horizontalCenter = 0;
-			tagImg.source = url;
+
+			tagImg.horizontalCenter=0;
+			tagImg.source=url;
 		}
-		
+
 		public function getCenterX():int
 		{
 			return this.x + this.width;
-		} 
+		}
 
 		public function getCenterY():int
 		{
