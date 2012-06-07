@@ -169,8 +169,7 @@ package com.hubo.workflow.core
 					this.removeConfigTools();
 					this.configTools = null;
 					this.linesCollection = null;
-					var parentGroup:Group = this.parent as Group;
-					parentGroup.removeElement(this);
+					(parent as Object).removeElement(this);
 					break;
 
 				case ConfigTools.NODE_CONNECT:
