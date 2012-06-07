@@ -6,7 +6,9 @@ package com.hubo.workflow.core
 	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.geom.Point;
+	import flash.utils.Timer;
 	
 	import mx.controls.Image;
 	import mx.controls.Label;
@@ -46,6 +48,11 @@ package com.hubo.workflow.core
 		 * 工具栏
 		 */
 		private var tool:Tools;
+		
+		/**
+		 * 工具栏消失记时器
+		 */
+		private var timer:Timer;
 
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
@@ -98,6 +105,8 @@ package com.hubo.workflow.core
 			if(tool == null)
 			{
 				tool = new Tools();
+				tool.addEventListener(MouseEvent.MOUSE_OUT,toolMouseHandler,false,0,true);
+				tool.addEventListener(MouseEvent.MOUSE_OVER,toolMouseHandler,false,0,true);
 			}
 		}
 		
@@ -109,8 +118,7 @@ package com.hubo.workflow.core
 			{
 				case MouseEvent.MOUSE_OUT:
 					tagImg.filters=[];
-					
-					PopUpManager.removePopUp(tool);
+					this.startTimer();
 					break;
 
 				case MouseEvent.MOUSE_OVER:
@@ -125,6 +133,51 @@ package com.hubo.workflow.core
 				
 				default:
 					break;
+			}
+		}
+		
+		protected function toolMouseHandler(event:MouseEvent):void
+		{
+			switch(event.type)
+			{
+				case MouseEvent.MOUSE_OUT :
+					PopUpManager.removePopUp(tool);
+					break;
+				
+				case MouseEvent.MOUSE_OVER :
+					this.stopTimer();
+					break;
+				
+				default:
+					break;
+			}
+		}
+		
+		private function startTimer():void
+		{
+			if(!timer){
+				timer=new Timer(1000,1);
+			}
+			
+			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+			{
+				PopUpManager.removePopUp(tool);
+				
+				timer.stop();
+			},false,0,true);					
+			timer.start();	
+		}
+		
+		private function stopTimer():void
+		{
+			if(timer.running)
+			{
+				timer.stop();	
+			}
+			
+			if(timer)
+			{
+				timer = null;
 			}
 		}
 		
