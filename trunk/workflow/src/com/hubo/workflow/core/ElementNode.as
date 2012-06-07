@@ -1,6 +1,6 @@
 package com.hubo.workflow.core
 {
-	import com.hubo.workflow.ui.child.Tools;
+	import com.hubo.workflow.ui.child.ConfigTools;
 	import com.hubo.workflow.util.Global;
 	import com.hubo.workflow.util.UIUtil;
 	
@@ -12,6 +12,7 @@ package com.hubo.workflow.core
 	
 	import mx.controls.Image;
 	import mx.controls.Label;
+	import mx.events.DynamicEvent;
 	import mx.events.MoveEvent;
 	import mx.managers.PopUpManager;
 	
@@ -47,7 +48,7 @@ package com.hubo.workflow.core
 		/**
 		 * 工具栏
 		 */
-		private var tool:Tools;
+		private var configTools:ConfigTools;
 		
 		/**
 		 * 工具栏消失记时器
@@ -102,11 +103,12 @@ package com.hubo.workflow.core
 		{
 			super.createChildren();
 			
-			if(tool == null)
+			if(configTools == null)
 			{
-				tool = new Tools();
-				tool.addEventListener(MouseEvent.ROLL_OUT,toolMouseHandler,false,0,true);
-				tool.addEventListener(MouseEvent.ROLL_OVER,toolMouseHandler,false,0,true);
+				configTools = new ConfigTools();
+				configTools.addEventListener(MouseEvent.ROLL_OUT,configToolsMouseHandler,false,0,true);
+				configTools.addEventListener(MouseEvent.ROLL_OVER,configToolsMouseHandler,false,0,true);
+				configTools.addEventListener(ConfigTools.DYE_CLICK,configToolsClickHandler,false,0,true);
 			}
 		}
 		
@@ -123,12 +125,7 @@ package com.hubo.workflow.core
 
 				case MouseEvent.ROLL_OVER:
 					tagImg.filters=[Global.glowFilter()];
-
-					var point:Point = UIUtil.getUiAbsolutePosition(this);
-					tool.x = point.x + this.width+5;
-					tool.y = point.y + this.height*0.5-10;
-					
-					PopUpManager.addPopUp(tool, UIUtil.getApplication(this), false);
+					this.showConfigTools();
 					break;
 				
 				default:
@@ -136,12 +133,30 @@ package com.hubo.workflow.core
 			}
 		}
 		
-		protected function toolMouseHandler(event:MouseEvent):void
+		protected function configToolsClickHandler(event:DynamicEvent):void
+		{
+			switch(event.name)
+			{
+				case ConfigTools.NODE_ATTRIBUTES :
+					break;
+				
+				case ConfigTools.NODE_DELETE :
+					break;
+				
+				case ConfigTools.NODE_CONNECT :
+					break;
+				
+				default:
+					break;
+			}
+		}
+		
+		protected function configToolsMouseHandler(event:MouseEvent):void
 		{
 			switch(event.type)
 			{
 				case MouseEvent.ROLL_OUT :
-					PopUpManager.removePopUp(tool);
+					removeConfigTools();
 					break;
 				
 				case MouseEvent.ROLL_OVER :
@@ -153,6 +168,23 @@ package com.hubo.workflow.core
 			}
 		}
 		
+		private function removeConfigTools():void
+		{
+			//TweenLite.tweenTo(tool, .3, {alpha: 0, onComplete:function():void{
+				PopUpManager.removePopUp(configTools);
+			//}});
+		}
+			
+		private function showConfigTools():void
+		{
+			var point:Point = UIUtil.getUiAbsolutePosition(this);
+			configTools.x = point.x + this.width+5;
+			configTools.y = point.y + this.height*0.5-10;
+			//tool.setStyle("alpha",0.8);
+			
+			PopUpManager.addPopUp(configTools, UIUtil.getApplication(this), false);
+		}
+		
 		private function startTimer():void
 		{
 			if(timer == null)
@@ -162,7 +194,7 @@ package com.hubo.workflow.core
 			
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
-				PopUpManager.removePopUp(tool);
+				removeConfigTools();
 				
 				timer.stop();
 			},false,0,true);					

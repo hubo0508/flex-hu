@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   minWidth="10"
+				   alpha="0.8"
+				   minHeight="10"
+				   cornerRadius="5"
+				   borderVisible="false">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hubo.workflow.util.Global;
+			
+			import mx.events.DynamicEvent;
+			
+			public static const DYE_CLICK:String = "dyeClick";
+			
+			/**
+			 * 节点属性
+			 */
+			public static const NODE_ATTRIBUTES:String = "nodeAttributes";
+			
+			/**
+			 * 删除节点
+			 */
+			public static const NODE_DELETE:String = "nodeDelete";
+			
+			/**
+			 * 连接节点
+			 */
+			public static const NODE_CONNECT:String = "nodeConnect";
+
+			protected function buttonClickHandler(event:MouseEvent):void
+			{
+				var button:LinkButton = event.currentTarget as LinkButton;
+				var dye:DynamicEvent = new DynamicEvent(DYE_CLICK);
+				dye.name = button.name;
+				
+				this.dispatchEvent(dye);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:backgroundFill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="#F3F3F3"/>
+			<s:GradientEntry color="#E4E4E3"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+	
+	<s:layout>
+		<s:VerticalLayout paddingTop="5" paddingLeft="5" paddingRight="5" paddingBottom="5"/>
+	</s:layout>
+	
+	<mx:LinkButton name="{NODE_ATTRIBUTES}" click="buttonClickHandler(event)" icon="{Global.LIST}"  label="节点属性"/>
+	
+	<mx:LinkButton name="{NODE_DELETE}" click="buttonClickHandler(event)" icon="{Global.DELETE}" label="删除节点"/>
+	
+	<mx:LinkButton name="{NODE_CONNECT}" click="buttonClickHandler(event)" icon="{Global.CONNECT}" label="连接节点"/>
+	
+</s:BorderContainer>

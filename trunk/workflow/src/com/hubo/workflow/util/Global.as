@@ -42,6 +42,9 @@ package com.hubo.workflow.util
 		
 		[Embed(source="com/hubo/workflow/ui/assets/delete.gif")]		
 		public static const DELETE:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/connect.png")]		
+		public static const CONNECT:Class;
  
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
