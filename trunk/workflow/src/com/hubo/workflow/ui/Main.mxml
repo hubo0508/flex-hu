@@ -88,12 +88,15 @@
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
 			{
+				if(!(event.target is Group && event.currentTarget is Group)) return;
+				
 				switch(event.type)
 				{
 					case MouseEvent.MOUSE_DOWN :
 						break;
 					
 					case MouseEvent.MOUSE_UP :
+						//结束当前画线，鼠标必须单击某个元素节点，否则删除当前线
 						this.removeLine();
 						break;
 					
@@ -117,6 +120,8 @@
 			
 			private function removeLine():void
 			{
+				if(this.thisLine == null)return;
+				
 				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
 				{
 					var line:ElementLine = workflowGroup.getElementAt(i) as ElementLine;
