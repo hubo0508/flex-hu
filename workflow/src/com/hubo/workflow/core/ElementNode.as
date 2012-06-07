@@ -76,8 +76,8 @@ package com.hubo.workflow.core
 		 */
 		private function init(url:Object):void
 		{
-			this.addEventListener(MouseEvent.MOUSE_OVER, mouseHandler,false,0,true);
-			this.addEventListener(MouseEvent.MOUSE_OUT, mouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.ROLL_OUT, mouseHandler,false,0,true);
+			this.addEventListener(MouseEvent.ROLL_OVER, mouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler,false,0,true);
@@ -105,8 +105,8 @@ package com.hubo.workflow.core
 			if(tool == null)
 			{
 				tool = new Tools();
-				tool.addEventListener(MouseEvent.MOUSE_OUT,toolMouseHandler,false,0,true);
-				tool.addEventListener(MouseEvent.MOUSE_OVER,toolMouseHandler,false,0,true);
+				tool.addEventListener(MouseEvent.ROLL_OUT,toolMouseHandler,false,0,true);
+				tool.addEventListener(MouseEvent.ROLL_OVER,toolMouseHandler,false,0,true);
 			}
 		}
 		
@@ -116,16 +116,16 @@ package com.hubo.workflow.core
 			
 			switch (event.type)
 			{
-				case MouseEvent.MOUSE_OUT:
+				case MouseEvent.ROLL_OUT:
 					tagImg.filters=[];
 					this.startTimer();
 					break;
 
-				case MouseEvent.MOUSE_OVER:
+				case MouseEvent.ROLL_OVER:
 					tagImg.filters=[Global.glowFilter()];
 
 					var point:Point = UIUtil.getUiAbsolutePosition(this);
-					tool.x = point.x + this.width+10;
+					tool.x = point.x + this.width+5;
 					tool.y = point.y + this.height*0.5-10;
 					
 					PopUpManager.addPopUp(tool, UIUtil.getApplication(this), false);
@@ -140,11 +140,11 @@ package com.hubo.workflow.core
 		{
 			switch(event.type)
 			{
-				case MouseEvent.MOUSE_OUT :
+				case MouseEvent.ROLL_OUT :
 					PopUpManager.removePopUp(tool);
 					break;
 				
-				case MouseEvent.MOUSE_OVER :
+				case MouseEvent.ROLL_OVER :
 					this.stopTimer();
 					break;
 				
@@ -155,8 +155,9 @@ package com.hubo.workflow.core
 		
 		private function startTimer():void
 		{
-			if(!timer){
-				timer=new Timer(1000,1);
+			if(timer == null)
+			{
+				timer=new Timer(100,1);
 			}
 			
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
@@ -170,7 +171,7 @@ package com.hubo.workflow.core
 		
 		private function stopTimer():void
 		{
-			if(timer.running)
+			if(timer && timer.running)
 			{
 				timer.stop();	
 			}
