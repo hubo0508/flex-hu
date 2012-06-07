@@ -22,6 +22,37 @@
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			
+			/**
+			 * 初始事件监听
+			 */
+			private function initEventListener():void
+			{
+				this.addEventListener(MouseEvent.MOUSE_DOWN, drawLineHandler,false,0,true);  
+				this.addEventListener(MouseEvent.MOUSE_UP,  drawLineHandler,false,0,true);  
+				this.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true);  
+			}
+			
+			/**
+			 * 画线
+			 */
+			protected function drawLineHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_DOWN :
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
 			private function init():void 
 			{
 				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
@@ -39,14 +70,18 @@
 				
 			}
 			
+			/**
+			 * 调用底层API画背景网格
+			 */
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
 				super.updateDisplayList(w,h);
-				
 				Global.drawBackgroundGrid(grid,w,h);
 			}
 			
-
+			/**
+			 * 点击级件（IconTools）工具栏时，创建元素节点
+			 */
 			protected function createElementNodeHandler(event:CreateElementNodeEvent):void
 			{
 				workflowGroup.addElement(event.node);
