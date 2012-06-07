@@ -3,6 +3,11 @@
 @namespace mx "library://ns.adobe.com/flex/mx";
 @namespace tools "library://flex.tools";
 
+s|Application{
+	fontSize:12;
+	fontFamily:"宋体";
+} 
+
 mx|TabNavigator
 {
 	tabHeight: 25;
