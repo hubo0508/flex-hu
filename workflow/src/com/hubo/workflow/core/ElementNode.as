@@ -177,7 +177,7 @@ package com.hubo.workflow.core
 
 					var eleLine:ElementLine=new ElementLine();
 					eleLine.setStartPoint(this.centerPoint());
-					this.addAssociatedLines(eleLine, false);
+					this.addAssociatedLines(eleLine, true);
 
 					var cEvent:CreateElementLineEvent=new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
 					cEvent.line=eleLine;
@@ -258,13 +258,13 @@ package com.hubo.workflow.core
 			{
 				case MouseEvent.MOUSE_DOWN:
 					this.startDrag();
-					oldIndex=this.parent.getChildIndex(this);
-					this.parent.setChildIndex(this, this.parent.numChildren - 1);
+//					oldIndex=this.parent.getChildIndex(this);
+//					this.parent.setChildIndex(this, this.parent.numChildren - 1);
 					break;
 
 				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
-					this.parent.setChildIndex(this, oldIndex);
+					//this.parent.setChildIndex(this, oldIndex);
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
