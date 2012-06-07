@@ -1,7 +1,9 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.ui.child.ConfigNodeWindown;
 	import com.hubo.workflow.ui.child.ConfigTools;
 	import com.hubo.workflow.util.Global;
+	import com.hubo.workflow.util.PopUpUtil;
 	import com.hubo.workflow.util.UIUtil;
 	
 	import flash.events.Event;
@@ -138,6 +140,9 @@ package com.hubo.workflow.core
 			switch(event.name)
 			{
 				case ConfigTools.NODE_ATTRIBUTES :
+					
+					PopUpUtil.messageWindow(new ConfigNodeWindown(),this,false);
+					
 					break;
 				
 				case ConfigTools.NODE_DELETE :
