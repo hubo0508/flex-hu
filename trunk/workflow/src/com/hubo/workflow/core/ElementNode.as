@@ -181,6 +181,7 @@ package com.hubo.workflow.core
 
 					var cEvent:CreateElementLineEvent=new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
 					cEvent.line=eleLine;
+					cEvent.upElementNodeSID = this.SID;
 					this.dispatchEvent(cEvent);
 					break;
 
@@ -270,10 +271,6 @@ package com.hubo.workflow.core
 				case MouseEvent.MOUSE_MOVE:
 					this.reloadLine();
 					break;
-
-//				case mx.events.MoveEvent.MOVE :
-//					this.reloadLine();
-//					break;
 
 				default:
 					break;

@@ -16,6 +16,8 @@ package com.hubo.workflow.event
 		
 		public var line:ElementLine;
 		
+		public var upElementNodeSID:int;
+		
 		public function CreateElementLineEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);

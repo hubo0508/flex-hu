@@ -72,6 +72,9 @@
 				event.line.draw();
 				
 				thisLine = event.line;
+				
+				var index:int = getElementNodeIndexBySID(event.upElementNodeSID);
+				this.workflowGroup.setElementIndex(event.line,index);
 			}
 			
 			protected function clickElementNodeHandler(event:MouseEvent):void
@@ -168,6 +171,22 @@
 				}
 				
 				return ele;
+			}
+			
+			private function getElementNodeIndexBySID(sid:int):int
+			{
+				var index:int;
+				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				{
+					var node:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					if(node && node.SID == sid)
+					{
+						index = i;
+						break;
+					}
+				}
+				
+				return index;
 			}
 			
 			private function thisMouseXY():Point
