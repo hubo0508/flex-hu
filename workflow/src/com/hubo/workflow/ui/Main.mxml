@@ -58,8 +58,7 @@
 			 */
 			private function initEventListener():void
 			{
-				workflowGroup.addEventListener(MouseEvent.MOUSE_DOWN, drawLineHandler,false,0,true);  
-				workflowGroup.addEventListener(MouseEvent.MOUSE_UP,  drawLineHandler,false,0,true);  
+				workflowGroup.addEventListener(MouseEvent.CLICK,  drawLineHandler,false,0,true);  
 				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true);  
 			}
 			
@@ -88,22 +87,20 @@
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
 			{
-				if(!(event.target is Group && event.currentTarget is Group)) return;
-				
 				switch(event.type)
 				{
-					case MouseEvent.MOUSE_DOWN :
-						break;
-					
-					case MouseEvent.MOUSE_UP :
+					case MouseEvent.CLICK :
 						//结束当前画线，鼠标必须单击某个元素节点，否则删除当前线
-						this.removeLine();
+						if(event.target is Group && event.currentTarget is Group)
+						{
+							this.removeLine();
+						}
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
 						if(thisLine)
 						{
-							thisLine.setEndPoint(new Point(event.stageX,event.stageY));
+							thisLine.setEndPoint(new Point(event.stageX-2,event.stageY-2));
 							thisLine.draw();
 						}
 						break;

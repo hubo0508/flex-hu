@@ -227,7 +227,7 @@ package com.hubo.workflow.core
 		{
 			if (timer == null)
 			{
-				timer=new Timer(100, 1);
+				timer=new Timer(50, 1);
 			}
 
 			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
