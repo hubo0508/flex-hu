@@ -27,19 +27,40 @@
 			
 			private var countnode:int = 1;
 			
-			/**
-			 * 手动画线时的起点坐标
-			 */
-			private var  startingPoint:Point = new Point(0,0);
+			
+			private var notEndLine:ElementLine;
+			
+			private function init():void 
+			{
+				//				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
+				//				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
+				//				var node3:ElementNode=new ElementNode(new Point(600, 600), "结束", Global.END);
+				//				
+				//				var line:ElementLine=new ElementLine();
+				//				line.setStartPoint(new Point(0, 100));
+				//				line.setEndPoint(new Point(200, 200));
+				//				line.draw();
+				//				
+				//				node1.addAssociatedLines(line, true);
+				//				node2.addAssociatedLines(line, false);
+				//				
+				//				
+				//				workflowGroup.addElement(node1);
+				//				workflowGroup.addElement(node2);
+				//workflowGroup.addElement(line);
+				
+				
+				this.initEventListener();
+			}
 			
 			/**
 			 * 初始事件监听
 			 */
 			private function initEventListener():void
 			{
-				this.addEventListener(MouseEvent.MOUSE_DOWN, drawLineHandler,false,0,true);  
-				this.addEventListener(MouseEvent.MOUSE_UP,  drawLineHandler,false,0,true);  
-				this.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true);  
+				workflowGroup.addEventListener(MouseEvent.MOUSE_DOWN, drawLineHandler,false,0,true);  
+				workflowGroup.addEventListener(MouseEvent.MOUSE_UP,  drawLineHandler,false,0,true);  
+				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true);  
 			}
 			
 			/**
@@ -50,6 +71,8 @@
 				this.workflowGroup.addElement(event.line);
 				event.line.setEndPoint(thisMouseXY());
 				event.line.draw();
+				
+				notEndLine = event.line;
 			}
 			
 			/**
@@ -60,15 +83,18 @@
 				switch(event.type)
 				{
 					case MouseEvent.MOUSE_DOWN :
-						this.startingPoint.x = this.stage.mouseX;
-						this.startingPoint.y = this.stage.mouseY;
 						break;
 					
 					case MouseEvent.MOUSE_UP :
+						notEndLine = null;
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
-						trace("xx");
+						if(notEndLine)
+						{
+							notEndLine.setEndPoint(new Point(event.stageX,event.stageY));
+							notEndLine.draw();
+						}
 						break;
 					
 					default :
@@ -76,26 +102,7 @@
 				}
 			}
 			
-			private function init():void 
-			{
-//				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
-//				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
-//				var node3:ElementNode=new ElementNode(new Point(600, 600), "结束", Global.END);
-//				
-//				var line:ElementLine=new ElementLine();
-//				line.setStartPoint(new Point(0, 100));
-//				line.setEndPoint(new Point(200, 200));
-//				line.draw();
-//				
-//				node1.addAssociatedLines(line, true);
-//				node2.addAssociatedLines(line, false);
-//				
-//				
-//				workflowGroup.addElement(node1);
-//				workflowGroup.addElement(node2);
-				//workflowGroup.addElement(line);
-				
-			}
+			
 			
 			/**
 			 * 调用底层API画背景网格
