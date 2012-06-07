@@ -1,0 +1,67 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace tools "library://flex.tools";
+
+mx|TabNavigator
+{
+	tabHeight: 25;
+	tabWidth: 70;
+	horizontalGap: 6;
+	background-alpha:0;
+	horizontal-align:left;
+	border-color:#5B5656;
+	color: #000000;
+	selectedTabTextStyleName: tabNavigatorSelectedTabText;
+	/* focusSkin: Embed(source="/images/textBoxFocus.png",
+	scaleGridLeft="5", scaleGridTop="5", scaleGridRight="10", scaleGridBottom="10"); */
+}
+
+
+mx|TabBar
+{
+	
+	firstButtonStyleName: "tabStyle";
+	tabStyleName: "tabStyle";
+	lastButtonStyleName: "tabStyle";
+	color: #4C5F6C;
+	selectedTabTextStyleName: tabBarSelectedTabText;
+	
+	/* focusSkin: Embed(source="/images/textBoxFocus.png",
+	scaleGridLeft="5", scaleGridTop="5", scaleGridRight="10", scaleGridBottom="10"); */
+}
+
+.tabStyle {
+	disabledSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	downSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	overSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedDisabledSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedDownSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedOverSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	selectedUpSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	upSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
+	
+	tabHeight:45;
+	
+	/* focusSkin: Embed(source="/com/hubo/workflow/ui/assets/textBoxFocus.png",
+	scaleGridLeft="5", scaleGridTop="5", scaleGridRight="10", scaleGridBottom="10"); */
+	
+}
+
+.tabBarSelectedTabText
+{
+	color: #4C5F6C;
+}
+
+.tabNavigatorSelectedTabText
+{
+	color: #13ACFF;
+}

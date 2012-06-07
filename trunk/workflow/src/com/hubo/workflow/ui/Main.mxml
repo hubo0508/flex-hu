@@ -7,9 +7,10 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:child="com.hubo.workflow.ui.child.*"
 		 creationComplete="init()"
 		 width="100%"
-		 height="100%" xmlns:child="com.hubo.workflow.ui.child.*">
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
