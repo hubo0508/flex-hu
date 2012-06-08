@@ -302,6 +302,9 @@ package com.hubo.workflow.core
 			}
 		}
 		
+		/**
+		 * 重新加载箭头
+		 */
 		public function refreshArrow():void
 		{
 			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
@@ -415,15 +418,6 @@ package com.hubo.workflow.core
 			tagImg.horizontalCenter=0;
 			tagImg.source=url;
 		}
-
-//		public function getCenterX():int
-//		{
-//			return this.x + this.width;
-//		}
-//
-//		public function getCenterY():int
-//		{
-//			return this.y + 30;
-//		}
+		
 	}
 }
