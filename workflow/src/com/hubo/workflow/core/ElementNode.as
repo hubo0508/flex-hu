@@ -16,6 +16,7 @@ package com.hubo.workflow.core
 	import mx.controls.Image;
 	import mx.controls.Label;
 	import mx.events.DynamicEvent;
+	import mx.events.FlexEvent;
 	import mx.events.MoveEvent;
 	import mx.managers.PopUpManager;
 	
@@ -64,6 +65,11 @@ package com.hubo.workflow.core
 		 * 工具栏消失记时器
 		 */
 		private var timer:Timer;
+		
+		/**
+		 * 缓存移动前坐标
+		 */
+		private var cachePoint:Point = new Point();
 
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
@@ -92,6 +98,7 @@ package com.hubo.workflow.core
 			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
+			this.addEventListener(FlexEvent.CREATION_COMPLETE,createionCompleteHandler,false,0,true);
 			//this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
 
 			this.initTagtext(this.nodeName);
@@ -121,7 +128,17 @@ package com.hubo.workflow.core
 				configTools.addEventListener(ConfigTools.DYE_CLICK, configToolsClickHandler, false, 0, true);
 			}
 		}
+		
+		protected function createionCompleteHandler(event:FlexEvent):void
+		{
+			this.updateCachePoint();
+		}
 
+		private function updateCachePoint():void
+		{
+			this.cachePoint = UIUtil.getUiAbsolutePosition(this);
+		}
+		
 		/**
 		 * 取得当前元素节点在Application中的中心点坐标
 		 */
@@ -253,56 +270,76 @@ package com.hubo.workflow.core
 			}
 		}
 
+		/**
+		 * 元素节点鼠标事件
+		 */
 		protected function tagMouseHandler(event:Event):void
 		{
 			switch (event.type)
 			{
 				case MouseEvent.MOUSE_DOWN:
 					this.startDrag();
-//					oldIndex=this.parent.getChildIndex(this);
-//					this.parent.setChildIndex(this, this.parent.numChildren - 1);
 					break;
 
 				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
-					//this.parent.setChildIndex(this, oldIndex);
+					this.refreshArrow();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
-					this.reloadLine();
+					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
+					trace("this : x="+thisPoint.x+" y="+thisPoint.y);
+					trace("cache : x="+cachePoint.x+" y="+cachePoint.y);
+					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
+					{
+						this.refreshLine();
+					}
+					this.updateCachePoint();
 					break;
 
 				default:
 					break;
 			}
 		}
-
-		/**
-		 * 重新加载线条
-		 */
-		private function reloadLine():void
+		
+		public function refreshArrow():void
 		{
 			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
 			{
 				var linePro:LineProperties=linesCollection[i];
 				var line:ElementLine=linePro.elementLine;
-
-				trace("lineFlag.arrowsMark = " + linePro.arrowsMark);
-
-				var point:Point=this.centerPoint();
-				linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
-				if (line)
+				
+				if (line && linePro.arrowsMark == false)
 				{
+					var point:Point=this.centerPoint();
+					linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
+					
+					var newEndPoint:Point = line.getEndPoint();
+					newEndPoint.x-=this.width * 0.5 - 2;
+					newEndPoint.y=newEndPoint.y - this.width * 0.5 + 20;
+					line.setEndPoint(newEndPoint);
 					line.draw();
+					
+					trace("**********重新加载箭头**********");
+				}
+			}
+		}
 
-					if (linePro.arrowsMark == false)
-					{
-						var newEndPoint:Point = line.getEndPoint();
-						newEndPoint.x-=this.width * 0.5 - 2;
-						newEndPoint.y=newEndPoint.y - this.width * 0.5 + 20;
-						line.setEndPoint(newEndPoint);
-						line.draw();
-					}
+		/**
+		 * 重新加载线条
+		 */
+		public function refreshLine():void
+		{
+			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
+			{
+				var linePro:LineProperties=linesCollection[i];
+				var line:ElementLine=linePro.elementLine;
+				if(line)
+				{
+					var point:Point=this.centerPoint();
+					linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
+					line.draw();
+					trace("**********重新加载线条**********");
 				}
 			}
 		}

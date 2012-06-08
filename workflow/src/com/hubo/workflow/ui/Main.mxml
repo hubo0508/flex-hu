@@ -81,6 +81,7 @@
 			{
 				var node:ElementNode = event.currentTarget as ElementNode;
 				node.addAssociatedLines(this.thisLine,false);
+				node.refreshArrow();
 				
 				this.stopDrawLine();
 			}
