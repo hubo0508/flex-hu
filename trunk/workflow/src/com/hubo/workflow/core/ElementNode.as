@@ -313,8 +313,8 @@ package com.hubo.workflow.core
 
 				case MouseEvent.MOUSE_MOVE:
 					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
-					trace("this : x="+thisPoint.x+" y="+thisPoint.y);
-					trace("cache : x="+cachePoint.x+" y="+cachePoint.y);
+					//trace("this : x="+thisPoint.x+" y="+thisPoint.y);
+					//trace("cache : x="+cachePoint.x+" y="+cachePoint.y);
 					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
 					{
 						this.refreshLine();
@@ -332,23 +332,29 @@ package com.hubo.workflow.core
 		 */
 		public function refreshArrow():void
 		{
-			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
+			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
 			{
 				var linePro:LineProperties=linesCollection[i];
 				var line:ElementLine=linePro.elementLine;
 				
+				//flase 有箭头
 				if (line && linePro.arrowsMark == false)
 				{
-					var point:Point=this.centerPoint();
-					linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
+					//ody = odist/dist*dy  \  odx = odist/dist*dx
+					var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
+					var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
+					var dist:Number=Math.sqrt(dx * dx + dy * dy);
+					var ody:Number = this.width*0.5/dist*dy;
+					var odx:Number = this.width*0.5/dist*dx;
 					
-					var newEndPoint:Point = line.getEndPoint();
-					newEndPoint.x-=this.width * 0.5 - 2;
-					newEndPoint.y=newEndPoint.y - this.width * 0.5 + 20;
-					line.setEndPoint(newEndPoint);
+					var point:Point = this.centerPoint();
+					point.x += odx;
+					point.y += ody;
+					line.setEndPoint(point);
+					
 					line.draw();
 					
-					trace("**********重新加载箭头**********");
+					trace("**********重新加载箭头**********"+"  |  dist="+dist.toString()+"  |  dx="+dx.toString()+"  |  dy="+dy.toString() + "  |  ody="+ody + "  |  odx="+odx + "  |  odist="+this.width/2);
 				}
 			}
 		}
