@@ -3,7 +3,7 @@
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   minWidth="10"
-				   alpha="0.8"
+				   alpha="0.7"
 				   minHeight="10"
 				   cornerRadius="5"
 				   borderVisible="false">
@@ -15,6 +15,8 @@
 			import mx.events.DynamicEvent;
 			
 			public static const DYE_CLICK:String = "dyeClick";
+			
+			public var markPopUp:Boolean = false;
 			
 			/**
 			 * 节点属性
