@@ -79,10 +79,18 @@
 			
 			protected function clickElementNodeHandler(event:MouseEvent):void
 			{
-				var node:ElementNode = event.currentTarget as ElementNode;
-				node.addAssociatedLines(this.thisLine,false);
-				node.refreshArrow();
-				
+				this.drawLastLine(event.currentTarget as ElementNode);
+			}
+			
+			protected function rollOverElementNodeHandler(event:MouseEvent):void
+			{
+				this.drawLastLine(event.currentTarget as ElementNode);
+			}
+			
+			private function drawLastLine(elementNode:ElementNode):void
+			{
+				elementNode.addAssociatedLines(this.thisLine,false);
+				elementNode.refreshArrow();
 				this.stopDrawLine();
 			}
 			
@@ -152,6 +160,7 @@
 				var node:ElementNode = event.node;
 				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true);
 				node.addEventListener(MouseEvent.CLICK,clickElementNodeHandler,false,0,true);
+				node.addEventListener(MouseEvent.ROLL_OVER,rollOverElementNodeHandler,false,0,true);
 				node.SID = this.countnode;
 				workflowGroup.addElement(node);
 				
