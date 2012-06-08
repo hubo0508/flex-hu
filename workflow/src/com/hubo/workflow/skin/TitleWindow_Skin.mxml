@@ -18,23 +18,23 @@
         static private const exclusions:Array = ["background", "titleDisplay", "contentGroup", "border"];
 		
 		/* exclusions before Flex 4.5 for backwards-compatibility purposes */
-		static private const exclusions_4_0:Array = ["background", "titleDisplay", "contentGroup"];
-		
-		/**
-		 * @private
-		 */
-		override public function get colorizeExclusions():Array 
-		{
-			// Since border is styleable via borderColor, no need to allow chromeColor to affect
-			// the border.  This is wrapped in a compatibility flag since this change was added  
-			// in Flex 4.5
-			if (FlexVersion.compatibilityVersion < FlexVersion.VERSION_4_5)
-			{
-				return exclusions_4_0;
-			}
-			
-			return exclusions;
-		}
+//		static private const exclusions_4_0:Array = ["background", "titleDisplay", "contentGroup"];
+//		
+//		/**
+//		 * @private
+//		 */
+//		override public function get colorizeExclusions():Array 
+//		{
+//			// Since border is styleable via borderColor, no need to allow chromeColor to affect
+//			// the border.  This is wrapped in a compatibility flag since this change was added  
+//			// in Flex 4.5
+//			if (FlexVersion.compatibilityVersion < FlexVersion.VERSION_4_5)
+//			{
+//				return exclusions_4_0;
+//			}
+//			
+//			return exclusions;
+//		}
         
         /**
          * @private
