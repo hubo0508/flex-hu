@@ -64,7 +64,12 @@ package com.hubo.workflow.core
 		/**
 		 * 工具栏消失记时器
 		 */
-		private var timer:Timer;
+		private var removeConfigToolsTimer:Timer;
+		
+		/**
+		 * 显示配置工具栏的记时器，添加该记时器可延迟。
+		 */
+		private var showConfigToolsTimer:Timer;
 		
 		/**
 		 * 缓存移动前坐标
@@ -99,7 +104,6 @@ package com.hubo.workflow.core
 			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE,createionCompleteHandler,false,0,true);
-			//this.addEventListener(mx.events.MoveEvent.MOVE, tagMouseHandler,false,0,true);
 
 			this.initTagtext(this.nodeName);
 			this.addElement(tagText);
@@ -159,7 +163,10 @@ package com.hubo.workflow.core
 			{
 				case MouseEvent.ROLL_OUT:
 					tagImg.filters=[];
-					this.startTimer();
+//					if(this.configTools.markPopUp)
+//					{
+						this.startRemoveConfigToolsTimer();
+//					}
 					break;
 
 				case MouseEvent.ROLL_OVER:
@@ -216,7 +223,7 @@ package com.hubo.workflow.core
 					break;
 
 				case MouseEvent.ROLL_OVER:
-					this.stopTimer();
+					this.stopTimer(this.removeConfigToolsTimer);
 					break;
 
 				default:
@@ -228,36 +235,54 @@ package com.hubo.workflow.core
 		{
 			//TweenLite.tweenTo(tool, .3, {alpha: 0, onComplete:function():void{
 			PopUpManager.removePopUp(configTools);
+			configTools.markPopUp = false;
 			//}});
 		}
 
 		private function showConfigTools():void
 		{
-			var point:Point=UIUtil.getUiAbsolutePosition(this);
-			configTools.x=point.x + this.width + 5;
-			configTools.y=point.y + this.height * 0.5 - 10;
-			//tool.setStyle("alpha",0.8);
-
-			PopUpManager.addPopUp(configTools, UIUtil.getApplication(this), false);
+			startShowConfigToolsTimer();
+		}
+		
+		private function startShowConfigToolsTimer():void
+		{
+//			if (showConfigToolsTimer == null)
+//			{
+//				showConfigToolsTimer=new Timer(500, 1);
+//			}
+//			
+//			showConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+//			{
+				var point:Point=UIUtil.getUiAbsolutePosition(this);
+				configTools.x=point.x + this.width + 5;
+				configTools.y=point.y + this.height * 0.5 - 10;
+				//tool.setStyle("alpha",0.8);
+				
+				PopUpManager.addPopUp(configTools, UIUtil.getApplication(this), false);
+				configTools.markPopUp = true;
+				
+//				stopTimer(showConfigToolsTimer);
+//			}, false, 0, true);
+//			showConfigToolsTimer.start();
 		}
 
-		private function startTimer():void
+		private function startRemoveConfigToolsTimer():void
 		{
-			if (timer == null)
+			if (removeConfigToolsTimer == null)
 			{
-				timer=new Timer(50, 1);
+				removeConfigToolsTimer=new Timer(50, 1);
 			}
 
-			timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+			removeConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
 				removeConfigTools();
 
-				timer.stop();
+				removeConfigToolsTimer.stop();
 			}, false, 0, true);
-			timer.start();
+			removeConfigToolsTimer.start();
 		}
 
-		private function stopTimer():void
+		private function stopTimer(timer:Timer):void
 		{
 			if (timer && timer.running)
 			{

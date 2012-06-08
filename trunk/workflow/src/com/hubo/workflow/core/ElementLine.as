@@ -92,7 +92,7 @@ package com.hubo.workflow.core
 		public function draw():void
 		{
 			this.graphics.clear();
-			this.graphics.lineStyle(2, lineColor);
+			this.graphics.lineStyle(1, lineColor);
 			this.graphics.moveTo(startPoint.x, startPoint.y);
 			this.graphics.lineTo(endPoint.x, endPoint.y);
 			this.toolTip=tip;
