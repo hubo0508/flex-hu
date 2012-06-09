@@ -33,13 +33,12 @@ package com.hubo.workflow.core
 		/**
 		 * 元素节点名字
 		 */
-		private var nodeName:String="网元";
+		private var nodeName:String;
 
 		/**
 		 * 存储当前元素节点所关联的线条集合
 		 */
 		private var linesCollection:Array=[];
-		private var oldIndex:int=0;
 
 		/**
 		 * 标示
@@ -199,12 +198,13 @@ package com.hubo.workflow.core
 				case ConfigTools.NODE_CONNECT:
 					this.removeConfigTools();
 
-					var eleLine:ElementLine=new ElementLine();
-					eleLine.setStartPoint(this.centerPoint());
-					this.addAssociatedLines(eleLine, true);
+					var elementLine:ElementLine=new ElementLine();
+					elementLine.setStartPoint(this.centerPoint());
+					elementLine.addAssociatedElementNode(this);
+					this.addAssociatedLines(elementLine, true);
 
 					var cEvent:CreateElementLineEvent=new CreateElementLineEvent(CreateElementLineEvent.CREATE_ELEMENT_LINE);
-					cEvent.line=eleLine;
+					cEvent.line=elementLine;
 					cEvent.upElementNodeSID=this.SID;
 					this.dispatchEvent(cEvent);
 					break;
@@ -313,8 +313,6 @@ package com.hubo.workflow.core
 
 				case MouseEvent.MOUSE_MOVE:
 					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
-					//trace("this : x="+thisPoint.x+" y="+thisPoint.y);
-					//trace("cache : x="+cachePoint.x+" y="+cachePoint.y);
 					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
 					{
 						this.refreshLine();
@@ -351,10 +349,11 @@ package com.hubo.workflow.core
 					point.x += odx;
 					point.y += ody;
 					line.setEndPoint(point);
-					
 					line.draw();
+				}
+				else
+				{
 					
-					trace("**********重新加载箭头**********"+"  |  dist="+dist.toString()+"  |  dx="+dx.toString()+"  |  dy="+dy.toString() + "  |  ody="+ody + "  |  odx="+odx + "  |  odist="+this.width/2);
 				}
 			}
 		}

@@ -27,29 +27,10 @@
 			
 			private var countnode:int = 1;
 			
-			
 			private var thisLine:ElementLine;
 			
 			private function init():void 
 			{
-				//				var node1:ElementNode=new ElementNode(new Point(300, 300), "开始", Global.START);
-				//				var node2:ElementNode=new ElementNode(new Point(500, 400), "审批", Global.APPROVAL);
-				//				var node3:ElementNode=new ElementNode(new Point(600, 600), "结束", Global.END);
-				//				
-				//				var line:ElementLine=new ElementLine();
-				//				line.setStartPoint(new Point(0, 100));
-				//				line.setEndPoint(new Point(200, 200));
-				//				line.draw();
-				//				
-				//				node1.addAssociatedLines(line, true);
-				//				node2.addAssociatedLines(line, false);
-				//				
-				//				
-				//				workflowGroup.addElement(node1);
-				//				workflowGroup.addElement(node2);
-				//workflowGroup.addElement(line);
-				
-				
 				this.initEventListener();
 			}
 			
@@ -68,7 +49,7 @@
 			protected function createElementLineHandler(event:CreateElementLineEvent):void
 			{
 				this.workflowGroup.addElement(event.line);
-				event.line.setEndPoint(thisMouseXY());
+				event.line.setEndPoint(stageMousePoint());
 				event.line.draw();
 				
 				thisLine = event.line;
@@ -77,20 +58,31 @@
 				this.workflowGroup.setElementIndex(event.line,index);
 			}
 			
-			protected function clickElementNodeHandler(event:MouseEvent):void
+			/**
+			 * 某个元素节点 的鼠标事件处理
+			 */
+			protected function elementNodeHandler(event:MouseEvent):void
 			{
-				this.drawLastLine(event.currentTarget as ElementNode);
-			}
-			
-			protected function rollOverElementNodeHandler(event:MouseEvent):void
-			{
-				this.drawLastLine(event.currentTarget as ElementNode);
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OVER :
+						this.drawLastLine(event.currentTarget as ElementNode);
+						break;
+					
+					case MouseEvent.CLICK :
+						this.drawLastLine(event.currentTarget as ElementNode);
+						break;
+					
+					default:
+						break;
+				}
 			}
 			
 			private function drawLastLine(elementNode:ElementNode):void
 			{
 				elementNode.addAssociatedLines(this.thisLine,false);
 				elementNode.refreshArrow();
+				this.thisLine.addAssociatedElementNode(elementNode);
 				this.stopDrawLine();
 			}
 			
@@ -137,11 +129,13 @@
 					if(line && line == this.thisLine)
 					{
 							workflowGroup.removeElement(line);
+							line.clear();
 							this.stopDrawLine();
 							break;
 					}
 				}
 			}
+			
 			
 			/**
 			 * 调用底层API画背景网格
@@ -159,14 +153,17 @@
 			{
 				var node:ElementNode = event.node;
 				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true);
-				node.addEventListener(MouseEvent.CLICK,clickElementNodeHandler,false,0,true);
-				node.addEventListener(MouseEvent.ROLL_OVER,rollOverElementNodeHandler,false,0,true);
+				node.addEventListener(MouseEvent.CLICK,elementNodeHandler,false,0,true);
+				node.addEventListener(MouseEvent.ROLL_OVER,elementNodeHandler,false,0,true);
 				node.SID = this.countnode;
 				workflowGroup.addElement(node);
 				
 				this.countnode ++;
 			}
 			
+			/**
+			 * 根据SID在容器中查找元素节点
+			 */
 			private function getElementNodeBySID(sid:int):ElementNode
 			{
 				var ele:ElementNode;
@@ -183,6 +180,9 @@
 				return ele;
 			}
 			
+			/**
+			 * 根据SID在容器中查找元素节点的索引值 
+			 */
 			private function getElementNodeIndexBySID(sid:int):int
 			{
 				var index:int;
@@ -199,7 +199,10 @@
 				return index;
 			}
 			
-			private function thisMouseXY():Point
+			/**
+			 * 取得当前舞台鼠标x,y点坐标
+			 */
+			private function stageMousePoint():Point
 			{
 				return new Point(this.stage.mouseX, this.stage.mouseY);
 			}
