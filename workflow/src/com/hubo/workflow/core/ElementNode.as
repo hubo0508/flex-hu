@@ -361,21 +361,7 @@ package com.hubo.workflow.core
 			return point;
 		}
 		
-		private function arrowPointWidth(startPoint:Point, elementNode:ElementNode):Point
-		{
-			//ody = odist/dist*dy  \  odx = odist/dist*dx
-			var dx:Number = startPoint.x - elementNode.centerPoint().x;
-			var dy:Number = startPoint.y - elementNode.centerPoint().y;
-			var dist:Number=Math.sqrt(dx * dx + dy * dy);
-			var ody:Number = elementNode.width*0.5/dist*dy;
-			var odx:Number = elementNode.width*0.5/dist*dx;
-			
-			var point:Point = elementNode.centerPoint();
-			point.x += odx;
-			point.y += ody;
-			
-			return point;
-		}
+	
 
 		/**
 		 * 重新加载线条
@@ -389,8 +375,6 @@ package com.hubo.workflow.core
 				if(line)
 				{
 					trace("***  ture：开始线条,无箭头  |   "+linepro.arrowsMark);
-//					linePro.arrowsMark ? line.setStartPoint(centerPoint()) : line.setEndPoint(centerPoint());
-//					line.draw();
 					
 					if(linepro.arrowsMark)
 					{
@@ -407,15 +391,13 @@ package com.hubo.workflow.core
 						//trace(elementNode.nodeName+" SID=" + elementNode.SID + "  this.SID="+this.SID+"  " + linepro.arrowsMark);
 						if(elementNode.SID != this.SID && linepro.arrowsMark == true)
 						{
-							var po:Point = arrowPointWidth(line.getStartPoint(), elementNode);
-							line.setEndPoint(arrowPointWidth(line.getStartPoint(), elementNode));
-							line.draw();
+							line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(), elementNode));
 						}
 						else
 						{
-							line.setEndPoint(arrowPointWidth(line.getStartPoint(),elementNode));
-							line.draw();
+							line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(),elementNode));
 						}
+						line.draw();
 					}
 					
 					if(nodesCollection == null || nodesCollection.length ==0)
@@ -425,7 +407,6 @@ package com.hubo.workflow.core
 				}
 			}
 		}
-		
 
 		/**
 		 * 添加与当前元素节点关联的线条
