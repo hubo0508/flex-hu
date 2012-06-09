@@ -44,7 +44,23 @@ package com.hubo.workflow.core
 		 * 箭头大小
 		 */
 		private var radius:uint = 8;
-
+		
+		/**
+		 * 存储当前元素节点所关联的元素节点集合
+		 */
+		private var nodeCollection:Array=[];
+		
+		public function clear():void
+		{
+			this.nodeCollection = null;
+			this.startPoint = null;
+			this.endPoint = null;
+		}
+		
+		public function addAssociatedElementNode(elementNode:ElementNode):void
+		{
+			this.nodeCollection.push(elementNode);
+		}
 
 		public function ElementLine()
 		{
