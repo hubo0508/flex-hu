@@ -61,6 +61,11 @@ package com.hubo.workflow.core
 		{
 			this.nodeCollection.push(elementNode);
 		}
+		
+		public function getAssociatedElementNode():Array
+		{
+			return nodeCollection;
+		}
 
 		public function ElementLine()
 		{

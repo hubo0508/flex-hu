@@ -177,15 +177,13 @@ package com.hubo.workflow.core
 					break;
 			}
 		}
-
+		
 		protected function configToolsClickHandler(event:DynamicEvent):void
 		{
 			switch (event.name)
 			{
 				case ConfigTools.NODE_ATTRIBUTES:
-
 					PopUpUtil.messageWindow(new ConfigNodeWindown(), this, false);
-
 					break;
 
 				case ConfigTools.NODE_DELETE:
@@ -328,16 +326,21 @@ package com.hubo.workflow.core
 		/**
 		 * 重新加载箭头
 		 */
-		public function refreshArrow():void
+		public function refreshArrow(data:Array=null):void
 		{
-			for (var i:int=0, len:int=linesCollection.length; i<len; i++)
+			data == null ? data = this.linesCollection : data;
+			
+			for (var i:int=0, len:int=data.length; i<len; i++)
 			{
-				var linePro:LineProperties=linesCollection[i];
+				var linePro:LineProperties=data[i];
 				var line:ElementLine=linePro.elementLine;
 				
 				//flase 有箭头
 				if (line && linePro.arrowsMark == false)
 				{
+					
+					trace("***");
+					
 					//ody = odist/dist*dy  \  odx = odist/dist*dx
 					var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
 					var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
@@ -351,12 +354,9 @@ package com.hubo.workflow.core
 					line.setEndPoint(point);
 					line.draw();
 				}
-				else
-				{
-					
-				}
 			}
 		}
+		
 
 		/**
 		 * 重新加载线条
@@ -369,10 +369,9 @@ package com.hubo.workflow.core
 				var line:ElementLine=linePro.elementLine;
 				if(line)
 				{
-					var point:Point=this.centerPoint();
-					linePro.arrowsMark ? line.setStartPoint(point) : line.setEndPoint(point);
+					trace("**********重新加载线条**********" + linePro.arrowsMark);
+					linePro.arrowsMark ? line.setStartPoint(centerPoint()) : line.setEndPoint(centerPoint());
 					line.draw();
-					trace("**********重新加载线条**********");
 				}
 			}
 		}
