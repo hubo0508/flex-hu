@@ -306,7 +306,7 @@ package com.hubo.workflow.core
 
 				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
-					this.refreshArrow();
+					//this.refreshArrow();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
@@ -335,28 +335,47 @@ package com.hubo.workflow.core
 				var linePro:LineProperties=data[i];
 				var line:ElementLine=linePro.elementLine;
 				
-				//flase 有箭头
+				//flase：结束线条,有箭头
 				if (line && linePro.arrowsMark == false)
 				{
-					
-					trace("***");
-					
-					//ody = odist/dist*dy  \  odx = odist/dist*dx
-					var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
-					var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
-					var dist:Number=Math.sqrt(dx * dx + dy * dy);
-					var ody:Number = this.width*0.5/dist*dy;
-					var odx:Number = this.width*0.5/dist*dx;
-					
-					var point:Point = this.centerPoint();
-					point.x += odx;
-					point.y += ody;
-					line.setEndPoint(point);
+					trace("***  flase：结束线条,有箭头  |   "+linePro.arrowsMark);
+					line.setEndPoint(arrowPoint(line));
 					line.draw();
 				}
 			}
 		}
 		
+		private function arrowPoint(elementLine:ElementLine):Point
+		{
+			//ody = odist/dist*dy  \  odx = odist/dist*dx
+			var dx:Number = elementLine.getStartPoint().x - elementLine.getEndPoint().x;
+			var dy:Number = elementLine.getStartPoint().y - elementLine.getEndPoint().y;
+			var dist:Number=Math.sqrt(dx * dx + dy * dy);
+			var ody:Number = this.width*0.5/dist*dy;
+			var odx:Number = this.width*0.5/dist*dx;
+			
+			var point:Point = this.centerPoint();
+			point.x += odx;
+			point.y += ody;
+			
+			return point;
+		}
+		
+		private function arrowPointWidth(startPoint:Point, elementNode:ElementNode):Point
+		{
+			//ody = odist/dist*dy  \  odx = odist/dist*dx
+			var dx:Number = startPoint.x - elementNode.centerPoint().x;
+			var dy:Number = startPoint.y - elementNode.centerPoint().y;
+			var dist:Number=Math.sqrt(dx * dx + dy * dy);
+			var ody:Number = elementNode.width*0.5/dist*dy;
+			var odx:Number = elementNode.width*0.5/dist*dx;
+			
+			var point:Point = elementNode.centerPoint();
+			point.x += odx;
+			point.y += ody;
+			
+			return point;
+		}
 
 		/**
 		 * 重新加载线条
@@ -365,16 +384,48 @@ package com.hubo.workflow.core
 		{
 			for (var i:int=0, len:int=linesCollection.length; i < len; i++)
 			{
-				var linePro:LineProperties=linesCollection[i];
-				var line:ElementLine=linePro.elementLine;
+				var linepro:LineProperties=linesCollection[i];
+				var line:ElementLine=linepro.elementLine;
 				if(line)
 				{
-					trace("**********重新加载线条**********" + linePro.arrowsMark);
-					linePro.arrowsMark ? line.setStartPoint(centerPoint()) : line.setEndPoint(centerPoint());
-					line.draw();
+					trace("***  ture：开始线条,无箭头  |   "+linepro.arrowsMark);
+//					linePro.arrowsMark ? line.setStartPoint(centerPoint()) : line.setEndPoint(centerPoint());
+//					line.draw();
+					
+					if(linepro.arrowsMark)
+					{
+						line.setStartPoint(centerPoint()) ;
+					}
+					
+					var nodesCollection:Array = line.getAssociatedElementNode();
+					for (var k:int=0, len2:int=nodesCollection.length; k < len2; k++)
+					{
+						var elementNode:ElementNode = nodesCollection[k];
+						//当前移动判断是开始节点还是结束节点
+						//移动目标为开始节点，将所有相关联的结束节点坐标更新
+						//移动目标为结束节点，所有相关联的开始节点不更新坐标，只更新当前移动坐标点
+						//trace(elementNode.nodeName+" SID=" + elementNode.SID + "  this.SID="+this.SID+"  " + linepro.arrowsMark);
+						if(elementNode.SID != this.SID && linepro.arrowsMark == true)
+						{
+							var po:Point = arrowPointWidth(line.getStartPoint(), elementNode);
+							line.setEndPoint(arrowPointWidth(line.getStartPoint(), elementNode));
+							line.draw();
+						}
+						else
+						{
+							line.setEndPoint(arrowPointWidth(line.getStartPoint(),elementNode));
+							line.draw();
+						}
+					}
+					
+					if(nodesCollection == null || nodesCollection.length ==0)
+					{
+						line.draw();
+					}
 				}
 			}
 		}
+		
 
 		/**
 		 * 添加与当前元素节点关联的线条

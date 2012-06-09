@@ -93,6 +93,8 @@
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
 			{
+				this.junit.writeLog(new Point(this.stage.mouseX, this.stage.mouseY));
+				
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
@@ -220,6 +222,7 @@
 	
 	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
 	
+	<child:Junit id="junit" left="0" bottom="0"/>
 	<!--<child:Config/>-->
 
 </s:Group>
