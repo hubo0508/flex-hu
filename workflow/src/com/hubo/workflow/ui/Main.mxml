@@ -66,11 +66,11 @@
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OVER :
-						this.drawLastLine(event.currentTarget as ElementNode);
+						this.drawLastLine(event.currentTarget as ElementNode, this.thisLine);
 						break;
 					
 					case MouseEvent.CLICK :
-						this.drawLastLine(event.currentTarget as ElementNode);
+						this.drawLastLine(event.currentTarget as ElementNode,this.thisLine);
 						break;
 					
 					default:
@@ -78,11 +78,13 @@
 				}
 			}
 			
-			private function drawLastLine(elementNode:ElementNode):void
+			private function drawLastLine(elementNode:ElementNode, elementLine:ElementLine):void
 			{
-				elementNode.addAssociatedLines(this.thisLine,false);
+				if(elementLine == null)return;
+				
+				elementNode.addAssociatedLines(elementLine,false);
 				elementNode.refreshArrow();
-				this.thisLine.addAssociatedElementNode(elementNode);
+				elementLine.addAssociatedElementNode(elementNode);
 				this.stopDrawLine();
 			}
 			
