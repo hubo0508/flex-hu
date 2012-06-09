@@ -93,8 +93,7 @@
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
 			{
-				this.junit.writeLog(new Point(this.stage.mouseX, this.stage.mouseY));
-				
+				//this.junit.writeLog(new Point(this.stage.mouseX, this.stage.mouseY));
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
@@ -212,17 +211,20 @@
 			}
 
 		]]>
-	</fx:Script>
+	</fx:Script> 
+	
+	
 	
 	<mx:UIComponent id="grid"/>
 	
 	<s:Group id="workflowGroup" width="100%" height="100%"/>
 	
-	<s:BitmapImage source="{Global.LOG}" horizontalCenter="0" top="40"/>
 	
 	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
 	
-	<child:Junit id="junit" left="0" bottom="0"/>
-	<!--<child:Config/>-->
+	<!--<child:Junit id="junit" left="0" bottom="0"/>
+	<child:Config/>-->
+	
+	<child:Navigation/>
 
 </s:Group>
