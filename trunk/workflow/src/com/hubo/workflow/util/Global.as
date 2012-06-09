@@ -1,6 +1,9 @@
 package com.hubo.workflow.util
 {
+	import com.hubo.workflow.core.ElementNode;
+	
 	import flash.display.Graphics;
+	import flash.geom.Point;
 	
 	import mx.core.UIComponent;
 	
@@ -88,6 +91,22 @@ package com.hubo.workflow.util
 			}
 
 			g.endFill();
+		}
+		
+		public static function arrowPointWidth(startPoint:Point, elementNode:ElementNode):Point
+		{
+			//ody = odist/dist*dy  \  odx = odist/dist*dx
+			var dx:Number = startPoint.x - elementNode.centerPoint().x;
+			var dy:Number = startPoint.y - elementNode.centerPoint().y;
+			var dist:Number=Math.sqrt(dx * dx + dy * dy);
+			var ody:Number = elementNode.width*0.5/dist*dy;
+			var odx:Number = elementNode.width*0.5/dist*dx;
+			
+			var point:Point = elementNode.centerPoint();
+			point.x += odx;
+			point.y += ody;
+			
+			return point;
 		}
 	}
 }
