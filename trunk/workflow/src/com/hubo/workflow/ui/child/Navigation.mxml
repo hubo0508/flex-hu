@@ -10,7 +10,7 @@
 		 width="100%"
 		 height="122"
 		 horizontalCenter="0"
-		 top="0">
+		 top="0" xmlns:components="com.hubo.workflow.components.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -48,4 +48,32 @@
 	
 	<s:BitmapImage source="{Global.LOG}" horizontalCenter="0" top="20"/>
 	
+	<s:Label maxDisplayedLines="1" maxWidth="210" bottom="12" fontSize="18" color="#DA2323" text="请假审批流程" fontFamily="宋体" left="10" fontWeight="bold"/>
+	
+	<s:Group width="100%" bottom="6" left="240">
+		<s:layout>
+			<s:HorizontalLayout/>
+		</s:layout>
+		<components:Button  name="立即保存"  width="74" height="27">
+			<s:Label text="立即保存" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="舍弃"  width="74" height="27">
+			<s:Label text="舍弃" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="验证"  width="74" height="27">
+			<s:Label text="验证" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="对齐"  width="74" height="27">
+			<s:Label text="对齐" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="缩放"  width="74" height="27">
+			<s:Label text="缩放" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="网络"  width="74" height="27">
+			<s:Label text="网络" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+		<components:Button  name="日志"  width="74" height="27">
+			<s:Label text="日志" horizontalCenter="0" verticalCenter="0"/>
+		</components:Button>
+	</s:Group>
 </s:Group>
