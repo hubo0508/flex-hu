@@ -14,6 +14,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.skin.CheckBoxSkin;
 			import com.hubo.workflow.util.Global;
 		]]>
 	</fx:Script>
@@ -64,16 +65,16 @@
 			<s:Label text="验证" horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
 		<components:Button  name="对齐"  width="74" height="27">
-			<s:Label text="对齐" horizontalCenter="0" verticalCenter="0"/>
+			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="对齐"  skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
 		<components:Button  name="缩放"  width="74" height="27">
-			<s:Label text="缩放" horizontalCenter="0" verticalCenter="0"/>
+			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="缩放" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button  name="网络"  width="74" height="27">
-			<s:Label text="网络" horizontalCenter="0" verticalCenter="0"/>
+		<components:Button  name="网格"  width="74" height="27">
+			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
 		<components:Button  name="日志"  width="74" height="27">
-			<s:Label text="日志" horizontalCenter="0" verticalCenter="0"/>
+			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="日志" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>	 	
 		</components:Button>
 	</s:Group>
 </s:Group>
