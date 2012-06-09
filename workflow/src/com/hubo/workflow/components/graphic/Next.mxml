@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-10</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<graphic1:VectorFig xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:graphic="com.printingoffice.components.graphic.*"
+				   path="M 13 15.012 L 0 7.505 L 13 0 L 13 15.012 Z"
+				   originalColor="#A0A0A0"
+				   overColor="#585858"
+				   minHeight="5"
+				   minWidth="5" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
+
+	<!--
+		 三角形图标  上一页
+	-->
+
+</graphic1:VectorFig>
