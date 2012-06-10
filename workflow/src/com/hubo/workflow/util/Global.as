@@ -48,20 +48,36 @@ package com.hubo.workflow.util
 		
 		[Embed(source="com/hubo/workflow/ui/assets/connect.png")]		
 		public static const CONNECT:Class;
- 
 		
 		[Embed(source="com/hubo/workflow/ui/assets/logClose.png")]		
 		public static const LOG_ERROR:Class;
 		
 		[Embed(source="com/hubo/workflow/ui/assets/logUncertain.png")]		
 		public static const LOG_UNCERTAIN:Class;
+		
+		//对齐 start
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment-bottom.png")]		
+		public static const LAYERS_BOTTOM:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment-center.png")]		
+		public static const LAYERS_CENTER:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment-left.png")]		
+		public static const LAYERS_LEFT:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment-middle.png")]		
+		public static const LAYERS_MIDDLE:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment-right.png")]		
+		public static const LAYERS_RIGHT:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/layers-alignment.png")]		
+		public static const LAYERS_TOP:Class;
+		
+		//对齐 end
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
 		
-		public static const PERSONSTR:String="com/hubo/workflow/ui/assets/approval.png";
-
-		public static const STARTSTR:String="com/hubo/workflow/ui/assets/start.png";
-
 		public static function glowFilter():spark.filters.GlowFilter
 		{
 			var glow:spark.filters.GlowFilter=new spark.filters.GlowFilter();

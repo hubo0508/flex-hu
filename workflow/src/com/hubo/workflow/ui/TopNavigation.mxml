@@ -22,10 +22,14 @@
 		<![CDATA[
 			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.skin.CheckBoxSkin;
+			import com.hubo.workflow.ui.child.AlignmentTools;
 			import com.hubo.workflow.util.Global;
+			import com.hubo.workflow.util.UIUtil;
 			
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
 			
 			/**
 			 * 日志
@@ -62,7 +66,22 @@
 			 */
 			public static const SAVE:String = "save";
 			
+			/**
+			 * 对齐容器
+			 */
+			private var alignmentTools:AlignmentTools;
 			
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(alignmentTools == null)
+				{
+					alignmentTools = new AlignmentTools();
+					alignmentTools.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,alignmentToolsOutsideHandler,false,0,true);
+				}
+			}
 
 			protected function creationComplete(event:FlexEvent):void
 			{
@@ -80,15 +99,57 @@
 			protected function clickMenuHandler(event:MouseEvent):void
 			{
 				var button:Button = event.currentTarget as Button;
-
-				var dye:ClickTopNavMenuEvent = new ClickTopNavMenuEvent(ClickTopNavMenuEvent.CLICK_NAV_MENU);
-				dye.name = button.type;
-				var checkbox:CheckBox = button.getCheckBox();
-				checkbox ? dye.selected = checkbox.selected : null;
-				this.dispatchEvent(dye);
+				switch(button.type)
+				{
+					case TopNavigation.ALIGNMENT :
+						if(button.getCheckBox().selected)
+						{
+							var point:Point=UIUtil.getUiAbsolutePosition(button);
+							alignmentTools.x=point.x;
+							alignmentTools.y=point.y + button.height + 3;
+							
+							PopUpManager.addPopUp(alignmentTools, UIUtil.getApplication(this), false);
+						}
+						else
+						{
+							PopUpManager.removePopUp(alignmentTools);
+						}
+						
+						break;
+					
+					case TopNavigation.ZOOM :
+						break;
+					
+					default:
+						var dye:ClickTopNavMenuEvent = new ClickTopNavMenuEvent(ClickTopNavMenuEvent.CLICK_NAV_MENU);
+						dye.name = button.type;
+						var checkbox:CheckBox = button.getCheckBox();
+						checkbox ? dye.selected = checkbox.selected : null;
+						this.dispatchEvent(dye);
+						break;
+				}
 			}
 			
+			protected function alignmentToolsOutsideHandler(event:FlexMouseEvent):void
+			{
+				PopUpManager.removePopUp(alignmentTools);
+				var thisButton:Button = getButtonMenuByType(TopNavigation.ALIGNMENT);
+				thisButton.getCheckBox().selected = false;
+			}
 			
+			private function getButtonMenuByType(type:String):Button
+			{
+				for(var i:int=0, num:int=menuGroup.numElements; i<num; i++)
+				{
+					var button:Button = menuGroup.getElementAt(i) as Button;
+					if(button &&  button.type == type)
+					{
+						return button;
+						break;
+					}
+				}
+				return null;
+			}
 		]]>
 	</fx:Script>
 	

@@ -4,8 +4,38 @@
 <p><b>create-time：</b>2012-6-10</p>
 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx">
-	<s:Label/>
-</s:Group>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   height="30"
+				   width="147"
+				   cornerRadius="3"
+				   borderVisible="false">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hubo.workflow.util.Global;
+		]]>
+		
+	</fx:Script>
+	
+	<s:backgroundFill>
+		<s:LinearGradient rotation="90">
+			<s:GradientEntry color="#F3F3F3"/>
+			<s:GradientEntry color="#E4E4E3"/>
+		</s:LinearGradient>
+	</s:backgroundFill>
+	
+	<mx:LinkButton icon="{Global.LAYERS_TOP}" verticalCenter="0" left="5" paddingLeft="2" paddingRight="2"/>
+	
+	<mx:LinkButton icon="{Global.LAYERS_MIDDLE}" verticalCenter="0" left="26" paddingLeft="2" paddingRight="2"/>
+	
+	<mx:LinkButton icon="{Global.LAYERS_BOTTOM}" verticalCenter="0" left="48" paddingLeft="2" paddingRight="2"/>
+	
+	<mx:LinkButton icon="{Global.LAYERS_LEFT}" verticalCenter="0" left="76" paddingLeft="2" paddingRight="2"/>
+	
+	<mx:LinkButton icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"/>
+	
+	<mx:LinkButton icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"/>
+	
+</s:BorderContainer>
