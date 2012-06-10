@@ -8,7 +8,7 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:components="com.hubo.workflow.components.*"
-		 initialize="initializeHandler(event)"
+		 creationComplete="creationComplete(event)"
 		 width="100%"
 		 height="122"
 		 horizontalCenter="0"
@@ -65,7 +65,7 @@
 			
 			
 
-			protected function initializeHandler(event:FlexEvent):void
+			protected function creationComplete(event:FlexEvent):void
 			{
 				this.initEvent()
 			}
@@ -74,7 +74,7 @@
 			{
 				for(var i:int=0, num:int=menuGroup.numElements; i<num; i++)
 				{
-					this.getElementAt(i).addEventListener(MouseEvent.CLICK,clickMenuHandler,false,0,true);
+					menuGroup.getElementAt(i).addEventListener(MouseEvent.CLICK,clickMenuHandler,false,0,true);
 				}
 			}
 			
