@@ -96,9 +96,7 @@
 						break;
 				}
 			}
-			
-		
-			
+
 			/**
 			 * 开始画线
 			 */
@@ -273,6 +271,9 @@
 
 		]]>
 	</fx:Script> 
+	
+	<mx:UIComponent
+	
 	<mx:UIComponent id="grid" width="100%" height="100%"/>
 	
 	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0" skinClass="com.hubo.workflow.skin.Scroller_skin">
