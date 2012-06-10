@@ -197,6 +197,11 @@ package com.hubo.workflow.ui.child
 			point.y+=this.width * 0.5;
 			return point;
 		}
+		
+		public function point():Point
+		{
+			return UIUtil.getUiAbsolutePosition(this);
+		}
 
 		protected function mouseHandler(event:Event):void
 		{
@@ -225,10 +230,10 @@ package com.hubo.workflow.ui.child
 			}
 		}
 		
-		public function removeSelectedState():void
+		public function selectedState(selected:Boolean):void
 		{
-			this.selected = false;
-			tagImg.filters = [];
+			this.selected = selected;
+			selected ? tagImg.filters=[Global.glowFilter(7,7,0x141CB9)] : tagImg.filters = [];
 		}
 		
 		protected function configToolsClickHandler(event:DynamicEvent):void
