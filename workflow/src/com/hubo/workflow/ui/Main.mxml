@@ -77,7 +77,6 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						trace("MouseEvent.CLICK");
 						drawRectMark ? null  : this.removeElementNodeState();
 						drawRectMark  = false;
 						break;
@@ -89,8 +88,6 @@
 					case MouseEvent.MOUSE_UP:
 						bgRectPoint = null;
 						bgRect.graphics.clear();
-						
-						trace("MouseEvent.MOUSE_UP");
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
@@ -130,10 +127,6 @@
 						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
 						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
 						trace("");
-						
-						//bgRectPoint.x=309  y=313
-						//stage.x=115  y=185
-						//elementNode.x=186  y=215
 					}
 				}
 			}
