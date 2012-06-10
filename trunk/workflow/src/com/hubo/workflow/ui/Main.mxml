@@ -92,11 +92,18 @@
 						bgRect.graphics.beginFill(0x3399FF, 0.1);
 						bgRect.graphics.lineStyle(1,0x3399FF);
 						bgRect.graphics.drawRect(bgRectPoint.x,bgRectPoint.y,dx,dy);
+						
+						this.locationElementNodes();
 						break;
 					
 					default:
 						break;
 				}
+			}
+			
+			private function locationElementNodes():void
+			{
+				
 			}
 			
 			protected function clickTopNavigationMenuHandler(event:ClickTopNavMenuEvent):void
