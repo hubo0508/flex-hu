@@ -14,6 +14,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.ui.child.ConfigTools;
@@ -25,9 +26,17 @@
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
 			
+			/**
+			 * 对创建元素节点进行计数 
+			 */
 			private var countnode:int = 1;
 			
 			private var thisLine:ElementLine;
+			
+			/**
+			 * 是否显示网络
+			 */
+			private var gridMark:Boolean = true;
 			
 			private function init():void 
 			{
@@ -42,10 +51,10 @@
 				workflowGroup.addEventListener(MouseEvent.CLICK,  drawLineHandler,false,0,true);  
 				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true); 
 				iconTools.addEventListener(CreateElementNodeEvent.CREATE_ELEMENT_NODE,createElementNodeHandler,false,0,true);
-				topNavigation.addEventListener(TopNavigation.CLICK_NAV_MENU,clickTopNavigationMenuHandler,false,0,true);
+				topNavigation.addEventListener(ClickTopNavMenuEvent.CLICK_NAV_MENU,clickTopNavigationMenuHandler,false,0,true);
 			}
 			
-			protected function clickTopNavigationMenuHandler(event:DynamicEvent):void
+			protected function clickTopNavigationMenuHandler(event:ClickTopNavMenuEvent):void
 			{
 				switch(event.name)
 				{
@@ -56,6 +65,16 @@
 						break;
 					
 					case TopNavigation.GRID :
+						if(event.selected && gridMark == false)
+						{
+							Global.drawBackgroundGrid(grid,grid.width,grid.height);
+							gridMark = true;
+						}
+						if(event.selected == false && gridMark)
+						{
+							grid.graphics.clear();
+							gridMark = false;
+						}
 						break;
 					
 					case TopNavigation.LOG :
@@ -179,7 +198,10 @@
 			override protected function updateDisplayList(w:Number, h:Number):void
 			{
 				super.updateDisplayList(w,h);
-				Global.drawBackgroundGrid(grid,w,h);
+				if(gridMark)
+				{
+					Global.drawBackgroundGrid(grid,w,h);
+				}
 			}
 			
 			/**
@@ -248,7 +270,7 @@
 	
 	
 	
-	<mx:UIComponent id="grid"/>
+	<mx:UIComponent id="grid" width="100%" height="100%"/>
 	
 	<s:Group id="workflowGroup" width="100%" height="100%"/>
 	

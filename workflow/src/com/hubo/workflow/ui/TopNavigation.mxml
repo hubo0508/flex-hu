@@ -15,18 +15,17 @@
 		 top="0">
 	
 	<fx:Metadata>
-		[Event(name="clickNavMenu",type="mx.events.DynamicEvent")]
+		[Event(name="clickNavMenu",type="com.hubo.workflow.event.ClickNavMenuEvent")]
 	</fx:Metadata>
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.skin.CheckBoxSkin;
 			import com.hubo.workflow.util.Global;
 			
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
-			
-			public static const CLICK_NAV_MENU:String = "clickNavMenu";
 			
 			/**
 			 * 日志
@@ -81,9 +80,11 @@
 			protected function clickMenuHandler(event:MouseEvent):void
 			{
 				var button:Button = event.currentTarget as Button;
-				
-				var dye:DynamicEvent = new DynamicEvent(CLICK_NAV_MENU);
+
+				var dye:ClickTopNavMenuEvent = new ClickTopNavMenuEvent(ClickTopNavMenuEvent.CLICK_NAV_MENU);
 				dye.name = button.type;
+				var checkbox:CheckBox = button.getCheckBox();
+				checkbox ? dye.selected = checkbox.selected : null;
 				this.dispatchEvent(dye);
 			}
 			
@@ -143,7 +144,7 @@
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="缩放" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
 		<components:Button type="{TopNavigation.GRID}" name="网格"  width="74" height="27" checkboxClick="true">
-			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
+			<s:CheckBox selected="true"  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
 		<components:Button type="{TopNavigation.LOG}" name="日志"  width="74" height="27" checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="日志" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>	 	
