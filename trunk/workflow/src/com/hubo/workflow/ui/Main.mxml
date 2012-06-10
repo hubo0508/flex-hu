@@ -24,9 +24,13 @@
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
 			
+			import mx.controls.Image;
+			import mx.controls.LinkButton;
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
+			
+			import spark.primitives.BitmapImage;
 			
 			/**
 			 * 对创建元素节点进行计数 
@@ -39,6 +43,8 @@
 			 * 是否显示网络
 			 */
 			private var gridMark:Boolean = true;
+			
+			private var bgRectPoint:Point;
 			
 			private function init():void 
 			{
@@ -54,6 +60,42 @@
 				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true); 
 				iconTools.addEventListener(CreateElementNodeEvent.CREATE_ELEMENT_NODE,createElementNodeHandler,false,0,true);
 				topNavigation.addEventListener(ClickTopNavMenuEvent.CLICK_NAV_MENU,clickTopNavigationMenuHandler,false,0,true);
+				
+				this.addEventListener(MouseEvent.MOUSE_DOWN, mainviewMouseHandler, false, 0, true);
+				this.addEventListener(MouseEvent.MOUSE_UP, mainviewMouseHandler, false, 0, true);
+				this.addEventListener(MouseEvent.MOUSE_MOVE, mainviewMouseHandler, false, 0, true);
+			}
+			
+			protected function mainviewMouseHandler(event:MouseEvent):void
+			{
+				if(event.target is Image || event.target is BitmapImage || event.target is LinkButton) return;
+				
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_DOWN :
+						bgRectPoint = new Point(this.stage.mouseX,this.stage.mouseY);
+						break;
+					
+					case MouseEvent.MOUSE_UP:
+						bgRectPoint = null;
+						bgRect.graphics.clear();
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						if(bgRectPoint == null)break;
+						
+						var dx:Number = stage.mouseX - bgRectPoint.x;
+						var dy:Number = stage.mouseY - bgRectPoint.y;
+						
+						bgRect.graphics.clear();
+						bgRect.graphics.beginFill(0x3399FF, 0.1);
+						bgRect.graphics.lineStyle(1,0x3399FF);
+						bgRect.graphics.drawRect(bgRectPoint.x,bgRectPoint.y,dx,dy);
+						break;
+					
+					default:
+						break;
+				}
 			}
 			
 			protected function clickTopNavigationMenuHandler(event:ClickTopNavMenuEvent):void
@@ -272,22 +314,28 @@
 		]]>
 	</fx:Script> 
 	
-	<mx:UIComponent
-	
+	<!--画背景网格线-->
 	<mx:UIComponent id="grid" width="100%" height="100%"/>
 	
+	<!--元素节点容器-->
 	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0" skinClass="com.hubo.workflow.skin.Scroller_skin">
 		<s:Group id="workflowGroup" width="100%" minHeight="0" minWidth="0"  top="122" bottom="23"  height="100%"/>
 	</s:Scroller>
 	
+	<!--画背景矩形-->
+	<mx:UIComponent id="bgRect" width="100%" height="100%"/>
+	
+	<!--元素组件-->
 	<child:IconTools id="iconTools"/>
 	
 	<!--
 	<child:Junit id="junit" left="0" bottom="0"/>
 	<child:Config/>--> 
 	
+	<!--标题栏-->
 	<ui:TopNavigation id="topNavigation"/>
 	
+	<!--日志输出栏-->
 	<ui:BottomNavigation id="bottomNavigation"/>
 
 </s:Group>
