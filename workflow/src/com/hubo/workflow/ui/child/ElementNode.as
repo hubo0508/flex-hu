@@ -28,7 +28,7 @@ package com.hubo.workflow.ui.child
 	/**
 	 * 元素节点
 	 */
-	public class ElementNode extends Group implements IWorkFlow
+	public class ElementNode extends Group
 	{
 		/**
 		 * 元素节点名字
@@ -95,11 +95,6 @@ package com.hubo.workflow.ui.child
 		 */
 		public function clear():void
 		{
-			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
-			{
-				var elementLine:ElementLine = linesCollection[i];
-				elementLine.removeQuote();
-			}
 			this.removeQuote();			
 			this.configTools = null;
 			this.showConfigToolsTimer = null;	
@@ -111,9 +106,26 @@ package com.hubo.workflow.ui.child
 		/**
 		 * 引用关系删除
 		 */
-		public function removeQuote():void
+		public function removeQuote(elementLine:ElementLine = null):Boolean
 		{
-			this.linesCollection = null;
+			if(elementLine == null)
+			{
+				this.linesCollection = null;
+			}
+			else
+			{
+				for(var i:int=0, num:int=linesCollection.length; i<num; i++)
+				{
+					var linepro:LineProperties = linesCollection[i];
+					if(linepro.elementLine == elementLine)
+					{
+						linesCollection.splice(i, 1);
+						return true;
+					}
+				}
+			}
+			
+			return false;
 		}
 
 		/**
@@ -214,9 +226,10 @@ package com.hubo.workflow.ui.child
 
 				case ConfigTools.NODE_DELETE:
 					this.removeConfigTools();
-					this.configTools=null;
-					this.linesCollection=null;
+					this.removeQuoteLines();
+					this.clear();
 					(parent as Object).removeElement(this);
+					
 					break;
 
 				case ConfigTools.NODE_CONNECT:
@@ -235,6 +248,16 @@ package com.hubo.workflow.ui.child
 
 				default:
 					break;
+			}
+		}
+		
+		private function removeQuoteLines():void
+		{
+			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
+			{
+				var linepro:LineProperties = linesCollection[i];
+				linepro.elementLine.removeQuote();
+				Object(parent).removeElement(linepro.elementLine);
 			}
 		}
 
@@ -257,6 +280,8 @@ package com.hubo.workflow.ui.child
 
 		private function removeConfigTools():void
 		{
+			if(!configTools)return;
+			
 			//TweenLite.tweenTo(tool, .3, {alpha: 0, onComplete:function():void{
 			PopUpManager.removePopUp(configTools);
 			configTools.markPopUp = false;
@@ -294,7 +319,7 @@ package com.hubo.workflow.ui.child
 		{
 			if (removeConfigToolsTimer == null)
 			{
-				removeConfigToolsTimer=new Timer(50, 1);
+				removeConfigToolsTimer=new Timer(80, 1);
 			}
 
 			removeConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
@@ -439,6 +464,10 @@ package com.hubo.workflow.ui.child
 		 */
 		public function addAssociatedLines(elementLine:ElementLine, arrowsMark:Boolean):void
 		{
+			if(this.linesCollection == null)
+			{
+				linesCollection = [];
+			}
 			linesCollection.push(new LineProperties(elementLine, arrowsMark));
 		}
 
