@@ -1,4 +1,4 @@
-package com.hubo.workflow.core
+package com.hubo.workflow.ui.child
 {
 	import com.hubo.workflow.util.Global;
 	

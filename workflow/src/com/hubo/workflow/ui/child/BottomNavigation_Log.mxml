@@ -24,7 +24,8 @@
 			
 			public function showOrHide():void
 			{
-				bottom == 23 ? new TweenLite(this, .5, {bottom: -94}) : new TweenLite(this, .5, {bottom: 23});
+				//bottom == 23 ? new TweenLite(this, .5, {bottom: -94}) : new TweenLite(this, .5, {bottom: 23});
+				bottom == 23 ? bottom=-94 : bottom=23;
 			}
 		]]>
 	</fx:Script>
