@@ -219,11 +219,11 @@
 	
 	<s:Group id="workflowGroup" width="100%" height="100%"/>
 	
-	<!--
-	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
 	
+	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
+	<!--
 	<child:Junit id="junit" left="0" bottom="0"/>
-	<child:Config/>-->
+	<child:Config/>--> 
 	
 	<ui:TopNavigation/>
 	

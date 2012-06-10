@@ -22,7 +22,7 @@
 	</fx:Script>
 
 	
-	<child:BottomNavigation_Log id="navlog" bottom="23"/>
+	<child:BottomNavigation_Log id="navlog" bottom="-94"/>
 	
 	<child:BottomNavigation_Title id="navtitle" click="navtitleClickHandler(event)" bottom="0"/>
 	
