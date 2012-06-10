@@ -37,9 +37,9 @@
 			<s:HorizontalLayout/>
 		</s:layout>
 		<s:BitmapImage source="{Global.LOG_ERROR}"/>
-		<s:Label text="10"/>
+		<s:Label text="0"/>
 		<s:BitmapImage source="{Global.LOG_UNCERTAIN}"/>
-		<s:Label text="1"/>
+		<s:Label text="0"/>
 	</s:Group>
 	
 </s:Group>
