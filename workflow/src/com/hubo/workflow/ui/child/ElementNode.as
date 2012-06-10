@@ -1,5 +1,7 @@
 package com.hubo.workflow.ui.child
 {
+	import com.hubo.workflow.IWorkFlow;
+	import com.hubo.workflow.core.LineProperties;
 	import com.hubo.workflow.event.CreateElementLineEvent;
 	import com.hubo.workflow.util.Global;
 	import com.hubo.workflow.util.PopUpUtil;
@@ -20,14 +22,13 @@ package com.hubo.workflow.ui.child
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
-	import com.hubo.workflow.core.LineProperties;
 
 	[Event(name="createElementLine", type="com.hubo.workflow.event.CreateElementLineEvent")]
 
 	/**
 	 * 元素节点
 	 */
-	public class ElementNode extends Group
+	public class ElementNode extends Group implements IWorkFlow
 	{
 		/**
 		 * 元素节点名字
@@ -87,6 +88,32 @@ package com.hubo.workflow.ui.child
 			this.setSize(w, h);
 			this.nodeName=nodeName;
 			this.init(url);
+		}
+		
+		/**
+		 * 清除内存
+		 */
+		public function clear():void
+		{
+			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
+			{
+				var elementLine:ElementLine = linesCollection[i];
+				elementLine.removeQuote();
+			}
+			this.removeQuote();			
+			this.configTools = null;
+			this.showConfigToolsTimer = null;	
+			this.removeConfigToolsTimer = null;
+			this.tagText = null;
+			this.tagImg = null;
+		}
+		
+		/**
+		 * 引用关系删除
+		 */
+		public function removeQuote():void
+		{
+			this.linesCollection = null;
 		}
 
 		/**

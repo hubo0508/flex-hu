@@ -1,5 +1,6 @@
 package com.hubo.workflow.ui.child
 {
+	import com.hubo.workflow.IWorkFlow;
 	import com.hubo.workflow.util.Global;
 	
 	import flash.events.MouseEvent;
@@ -12,7 +13,7 @@ package com.hubo.workflow.ui.child
 	/**
 	 * 带箭头线条
 	 */
-	public class ElementLine extends UIComponent
+	public class ElementLine extends UIComponent implements IWorkFlow
 	{
 
 		/**
@@ -50,13 +51,6 @@ package com.hubo.workflow.ui.child
 		 */
 		private var nodeCollection:Array=[];
 		
-		public function clear():void
-		{
-			this.nodeCollection = null;
-			this.startPoint = null;
-			this.endPoint = null;
-		}
-		
 		public function addAssociatedElementNode(elementNode:ElementNode):void
 		{
 			this.nodeCollection.push(elementNode);
@@ -65,6 +59,29 @@ package com.hubo.workflow.ui.child
 		public function getAssociatedElementNode():Array
 		{
 			return nodeCollection;
+		}
+				
+		/**
+		 * 清除内存
+		 */
+		public function clear():void
+		{
+			for(var i:int=0, num:int=nodeCollection.length; i<num; i++)
+			{
+				var elementNode:ElementNode = nodeCollection[i];
+				elementNode.removeQuote();
+			}
+			this.removeQuote();			
+			this.startPoint = null;	
+			this.endPoint = null;
+		}
+		
+		/**
+		 * 引用关系删除
+		 */
+		public function removeQuote():void
+		{
+			this.nodeCollection = null;
 		}
 
 		public function ElementLine()
