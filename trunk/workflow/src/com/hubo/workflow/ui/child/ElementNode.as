@@ -1,6 +1,7 @@
 package com.hubo.workflow.ui.child
 {
 	import com.hubo.workflow.IWorkFlow;
+	import com.hubo.workflow.components.NodeImage;
 	import com.hubo.workflow.core.LineProperties;
 	import com.hubo.workflow.event.CreateElementLineEvent;
 	import com.hubo.workflow.util.Global;
@@ -31,6 +32,11 @@ package com.hubo.workflow.ui.child
 	public class ElementNode extends  Group
 	{
 		/**
+		 * 是否选中
+		 */
+		public var selected:Boolean = false;
+		
+		/**
 		 * 元素节点名字
 		 */
 		private var nodeName:String;
@@ -48,7 +54,7 @@ package com.hubo.workflow.ui.child
 		/**
 		 * 标签图片
 		 */
-		private var tagImg:Image;
+		private var tagImg:NodeImage;
 
 		/**
 		 * 标签文本
@@ -135,6 +141,7 @@ package com.hubo.workflow.ui.child
 		 */
 		private function init(url:Object):void
 		{
+			this.addEventListener(MouseEvent.CLICK,mouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.ROLL_OUT, mouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.ROLL_OVER, mouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler, false, 0, true);
@@ -199,21 +206,29 @@ package com.hubo.workflow.ui.child
 			switch (event.type)
 			{
 				case MouseEvent.ROLL_OUT:
-					tagImg.filters=[];
-//					if(this.configTools.markPopUp)
-//					{
-						this.startRemoveConfigToolsTimer();
-//					}
+					this.selected ? null : tagImg.filters=[];
+					this.startRemoveConfigToolsTimer();
 					break;
 
 				case MouseEvent.ROLL_OVER:
-					tagImg.filters=[Global.glowFilter()];
+					this.selected ? null : tagImg.filters=[Global.glowFilter()];
 					this.showConfigTools();
+					break;
+				
+				case MouseEvent.CLICK:
+					this.selected = true;
+					tagImg.filters=[Global.glowFilter(7,7,0x141CB9)];
 					break;
 
 				default:
 					break;
 			}
+		}
+		
+		public function removeSelectedState():void
+		{
+			this.selected = false;
+			tagImg.filters = [];
 		}
 		
 		protected function configToolsClickHandler(event:DynamicEvent):void
@@ -530,7 +545,7 @@ package com.hubo.workflow.ui.child
 		{
 			if (tagImg == null)
 			{
-				tagImg=new Image();
+				tagImg=new NodeImage();
 			}
 
 			tagImg.horizontalCenter=0;

@@ -14,6 +14,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.components.NodeImage;
 			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
@@ -68,7 +69,7 @@
 			
 			protected function mainviewMouseHandler(event:MouseEvent):void
 			{
-				if(event.target is Image || event.target is BitmapImage || event.target is LinkButton) return;
+				if(event.target is NodeImage || event.target is LinkButton) return;
 				
 				switch(event.type)
 				{
@@ -193,6 +194,7 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
+						event.target is NodeImage ? null : this.removeElementNodeState();
 						//结束当前画线，鼠标必须单击某个元素节点，否则删除当前线
 						if(event.target is Group && event.currentTarget is Group)
 						{
@@ -210,6 +212,21 @@
 					
 					default :
 						break;
+				}
+			}
+			
+			/**
+			 * 删除选中的元素节点
+			 */
+			private function removeElementNodeState():void
+			{
+				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				{
+					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					if(elementNode && elementNode.selected)
+					{
+						elementNode.removeSelectedState();
+					}
 				}
 			}
 			
