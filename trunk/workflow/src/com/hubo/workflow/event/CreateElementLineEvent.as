@@ -1,6 +1,6 @@
 package com.hubo.workflow.event
 {
-	import com.hubo.workflow.core.ElementLine;
+	import com.hubo.workflow.ui.child.ElementLine;
 	
 	import flash.events.Event;
 	

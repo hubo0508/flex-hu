@@ -1,5 +1,6 @@
 package com.hubo.workflow.core
 {
+	import com.hubo.workflow.ui.child.ElementLine;
 
 	/**
 	 * 线条属性类

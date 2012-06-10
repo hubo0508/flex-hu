@@ -14,8 +14,8 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.hubo.workflow.core.ElementLine;
-			import com.hubo.workflow.core.ElementNode;
+			import com.hubo.workflow.ui.child.ElementLine;
+			import com.hubo.workflow.ui.child.ElementNode;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.ui.child.ConfigTools;

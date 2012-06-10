@@ -15,7 +15,6 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.TooTip;
-			import com.hubo.workflow.core.ElementNode;
 			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.util.Global;

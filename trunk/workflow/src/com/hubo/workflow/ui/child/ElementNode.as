@@ -1,8 +1,6 @@
-package com.hubo.workflow.core
+package com.hubo.workflow.ui.child
 {
 	import com.hubo.workflow.event.CreateElementLineEvent;
-	import com.hubo.workflow.ui.child.ConfigNodeWindown;
-	import com.hubo.workflow.ui.child.ConfigTools;
 	import com.hubo.workflow.util.Global;
 	import com.hubo.workflow.util.PopUpUtil;
 	import com.hubo.workflow.util.UIUtil;
@@ -22,6 +20,7 @@ package com.hubo.workflow.core
 	
 	import spark.components.BorderContainer;
 	import spark.components.Group;
+	import com.hubo.workflow.core.LineProperties;
 
 	[Event(name="createElementLine", type="com.hubo.workflow.event.CreateElementLineEvent")]
 
