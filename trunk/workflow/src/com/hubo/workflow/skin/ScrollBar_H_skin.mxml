@@ -16,16 +16,16 @@
         <s:State name="inactive" />
     </s:states>
 	
-	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="assets.skin.ScrollBarBg" />
+	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="com.hubo.workflow.skin.ScrollBarBg" />
 	
-    <s:Button id="track" left="0" right="0" focusEnabled="false"	  skinClass="assets.skin.ScrollBarTrack_H_skin"/>
-    <s:Button id="thumb"  focusEnabled="false" visible.inactive="false"   skinClass="assets.skin.ScrollBarThumb_H_skin" />
+    <s:Button id="track" left="0" right="0" focusEnabled="false"	  skinClass="com.hubo.workflow.skin.ScrollBarTrack_H_skin"/>
+    <s:Button id="thumb"  focusEnabled="false" visible.inactive="false"   skinClass="com.hubo.workflow.skin.ScrollBarThumb_H_skin" />
 
 	<!-- <s:Button id="decrementButton" left="0"
               focusEnabled="false" enabled.inactive="false"
-              skinClass="assets.skin.ScrollBarLeftButton_H_skin" />
+              skinClass="com.hubo.workflow.skin.ScrollBarLeftButton_H_skin" />
     <s:Button id="incrementButton" right="0"
               focusEnabled="false" enabled.inactive="false"
-              skinClass="assets.skin.ScrollBarRightButton_H_skin" />
+              skinClass="com.hubo.workflow.skin.ScrollBarRightButton_H_skin" />
 	-->
 </s:Skin>
