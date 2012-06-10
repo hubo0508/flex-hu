@@ -51,7 +51,7 @@
 	
 	<s:Label maxDisplayedLines="1" maxWidth="210" bottom="12" fontSize="18" color="#DA2323" text="请假审批流程" fontFamily="宋体" left="10" fontWeight="bold"/>
 	
-	<s:Group width="100%" bottom="6" left="240">
+	<s:Group width="100%" bottom="7" left="240">
 		<s:layout>
 			<s:HorizontalLayout/>
 		</s:layout>
@@ -64,16 +64,16 @@
 		<components:Button  name="验证"  width="74" height="27">
 			<s:Label text="验证" horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
-		<components:Button  name="对齐"  width="74" height="27">
+		<components:Button  name="对齐"  width="74" height="27" checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="对齐"  skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button  name="缩放"  width="74" height="27">
+		<components:Button  name="缩放"  width="74" height="27" checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="缩放" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button  name="网格"  width="74" height="27">
+		<components:Button  name="网格"  width="74" height="27" checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button  name="日志"  width="74" height="27">
+		<components:Button  name="日志"  width="74" height="27" checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="日志" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>	 	
 		</components:Button>
 	</s:Group>
