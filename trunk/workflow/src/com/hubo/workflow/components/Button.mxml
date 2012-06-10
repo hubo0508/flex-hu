@@ -36,6 +36,8 @@
 			private var overColor:Array = [0xF5F5F5,0xEAE9E9];
 			
 			public var checkboxClick:Boolean = false;
+
+			public var type:String;
 			
 			public static const CHECKBOX_CLICK:String ="checkboxClick";
 			
