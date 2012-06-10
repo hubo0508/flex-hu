@@ -43,7 +43,7 @@
         <s:State name="inactive" />
     </s:states>
 	
-	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="assets.skin.ScrollBarBg" />
+	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="com.hubo.workflow.skin.ScrollBarBg" />
 	
 	<!--
 	<s:Rect id="bg" width="100%" height="100%" visible="false" >
@@ -77,13 +77,13 @@
 	</s:Line>
 	-->
 	
-    <s:Button id="track" top="0" bottom="0" focusEnabled="false" skinClass="assets.skin.ScrollBarTrack_V_skin" />
+    <s:Button id="track" top="0" bottom="0" focusEnabled="false" skinClass="com.hubo.workflow.skin.ScrollBarTrack_V_skin" />
     
-	<s:Button id="thumb" focusEnabled="false" visible.inactive="false" skinClass="assets.skin.ScrollBarThumb_V_skin" />
+	<s:Button id="thumb" focusEnabled="false" visible.inactive="false" skinClass="com.hubo.workflow.skin.ScrollBarThumb_V_skin" />
    
 	<!--
-	<s:Button id="decrementButton" top="0" enabled.inactive="false" focusEnabled="false"  skinClass="assets.skin.ScrollBarUpButton_V_skin" />
+	<s:Button id="decrementButton" top="0" enabled.inactive="false" focusEnabled="false"  skinClass="com.hubo.workflow.skin.ScrollBarUpButton_V_skin" />
    
-	<s:Button id="incrementButton" bottom="0" enabled.inactive="false" focusEnabled="false" skinClass="assets.skin.ScrollBarDownButton_V_skin" />
+	<s:Button id="incrementButton" bottom="0" enabled.inactive="false" focusEnabled="false" skinClass="com.hubo.workflow.skin.ScrollBarDownButton_V_skin" />
 	-->
 </s:Skin>
