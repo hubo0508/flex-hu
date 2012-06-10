@@ -53,6 +53,10 @@ package com.hubo.workflow.ui.child
 		
 		public function addAssociatedElementNode(elementNode:ElementNode):void
 		{
+			if(this.nodeCollection == null)
+			{
+				nodeCollection = [];
+			}
 			this.nodeCollection.push(elementNode);
 		}
 		
@@ -66,11 +70,6 @@ package com.hubo.workflow.ui.child
 		 */
 		public function clear():void
 		{
-			for(var i:int=0, num:int=nodeCollection.length; i<num; i++)
-			{
-				var elementNode:ElementNode = nodeCollection[i];
-				elementNode.removeQuote();
-			}
 			this.removeQuote();			
 			this.startPoint = null;	
 			this.endPoint = null;
@@ -81,7 +80,15 @@ package com.hubo.workflow.ui.child
 		 */
 		public function removeQuote():void
 		{
-			this.nodeCollection = null;
+			for(var i:int=0, num:int=nodeCollection.length; i<num; i++)
+			{
+				if(nodeCollection[i].removeQuote(this))
+				{
+					break;
+				}
+			}
+			
+			nodeCollection = null;
 		}
 
 		public function ElementLine()
