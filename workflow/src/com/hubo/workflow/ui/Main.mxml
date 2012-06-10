@@ -103,7 +103,19 @@
 			
 			private function locationElementNodes():void
 			{
-				
+				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				{
+					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					if(elementNode)
+					{
+						var point:Point = elementNode.point();
+						(point.x >bgRectPoint.x && point.x <stage.mouseX) && (point.y > bgRectPoint.y && point.y < stage.mouseY) ? elementNode.selectedState(true) : elementNode.selectedState(false);
+						trace("bgRectPoint.x="+bgRectPoint.x + "  y="+bgRectPoint.y);
+						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
+						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
+						trace("");
+					}
+				}
 			}
 			
 			protected function clickTopNavigationMenuHandler(event:ClickTopNavMenuEvent):void
@@ -232,7 +244,7 @@
 					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
 					if(elementNode && elementNode.selected)
 					{
-						elementNode.removeSelectedState();
+						elementNode.selectedState(false);
 					}
 				}
 			}
