@@ -225,6 +225,6 @@
 	<!--<child:Junit id="junit" left="0" bottom="0"/>
 	<child:Config/>-->
 	
-	<child:Navigation/>
+	<child:TopNavigation/>
 
 </s:Group>
