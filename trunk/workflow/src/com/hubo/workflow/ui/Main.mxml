@@ -17,10 +17,12 @@
 			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
+			import com.hubo.workflow.ui.child.AlignmentTools;
 			import com.hubo.workflow.ui.child.ConfigTools;
 			import com.hubo.workflow.ui.child.ElementLine;
 			import com.hubo.workflow.ui.child.ElementNode;
 			import com.hubo.workflow.util.Global;
+			import com.hubo.workflow.util.UIUtil;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
@@ -94,6 +96,8 @@
 						break;
 				}
 			}
+			
+		
 			
 			/**
 			 * 开始画线
@@ -203,6 +207,8 @@
 					Global.drawBackgroundGrid(grid,w,h);
 				}
 			}
+			
+	
 			
 			/**
 			 * 点击级件（IconTools）工具栏时，创建元素节点
