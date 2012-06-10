@@ -32,7 +32,25 @@
 			private function init():void 
 			{
 				this.initEventListener();
+				
+				ExternalInterface.addCallback("rightClick", handleRightClick);
 			}
+			private function handleRightClick():void
+			{
+				var objects:Array=systemManager.getObjectsUnderPoint(new Point(mouseX, mouseY));
+				if (objects.length > 0)
+				{
+					var object:Object=objects[objects.length - 1];
+					var relatedObject:InteractiveObject;
+					if (object is InteractiveObject)
+						relatedObject=object as InteractiveObject;
+					else if (object.parent && object.parent is InteractiveObject)
+						relatedObject=object.parent;
+					var event:MouseEvent=new MouseEvent(MouseEvent.DOUBLE_CLICK, true, false, mouseX, mouseY, relatedObject);
+					object.dispatchEvent(event);
+				}
+			}
+
 			
 			/**
 			 * 初始事件监听
