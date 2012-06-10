@@ -28,7 +28,7 @@ package com.hubo.workflow.ui.child
 	/**
 	 * 元素节点
 	 */
-	public class ElementNode extends Group
+	public class ElementNode extends  Group
 	{
 		/**
 		 * 元素节点名字
@@ -82,7 +82,7 @@ package com.hubo.workflow.ui.child
 		 * @param nodeName:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:Object, w:Number=48, h:Number=70)
+		public function ElementNode(location:Point, nodeName:String, url:Object, w:Number=50, h:Number=67)
 		{
 			this.setLocation(location);
 			this.setSize(w, h);
@@ -520,7 +520,7 @@ package com.hubo.workflow.ui.child
 			}
 			tagText.text=text;
 			tagText.horizontalCenter=0;
-			tagText.bottom=2;
+			tagText.bottom=0;
 		}
 
 		/**
