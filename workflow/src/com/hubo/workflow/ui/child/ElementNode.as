@@ -221,7 +221,9 @@ package com.hubo.workflow.ui.child
 			switch (event.name)
 			{
 				case ConfigTools.NODE_ATTRIBUTES:
-					PopUpUtil.messageWindow(new ConfigNodeWindown(), this, false);
+					var configWindown:ConfigWindown = new ConfigWindown();
+					configWindown.title = this.nodeName+" " +event.label;
+					PopUpUtil.messageWindow(configWindown, this, false);
 					break;
 
 				case ConfigTools.NODE_DELETE:

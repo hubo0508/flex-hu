@@ -38,6 +38,7 @@
 				var button:LinkButton = event.currentTarget as LinkButton;
 				var dye:DynamicEvent = new DynamicEvent(DYE_CLICK);
 				dye.name = button.name;
+				dye.label = button.label;
 				
 				this.dispatchEvent(dye);
 			}
