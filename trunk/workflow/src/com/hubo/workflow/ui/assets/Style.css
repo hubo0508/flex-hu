@@ -26,9 +26,9 @@ mx|TabNavigator
 mx|TabBar
 {
 	
-	firstButtonStyleName: "tabStyle";
+	/*firstButtonStyleName: "tabStyle";*/
 	tabStyleName: "tabStyle";
-	lastButtonStyleName: "tabStyle";
+	/*lastButtonStyleName: "tabStyle";*/
 	color: #4C5F6C;
 	selectedTabTextStyleName: tabBarSelectedTabText;
 	
