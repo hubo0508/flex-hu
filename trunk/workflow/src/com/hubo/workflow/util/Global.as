@@ -49,6 +49,12 @@ package com.hubo.workflow.util
 		[Embed(source="com/hubo/workflow/ui/assets/connect.png")]		
 		public static const CONNECT:Class;
  
+		
+		[Embed(source="com/hubo/workflow/ui/assets/logClose.png")]		
+		public static const LOG_ERROR:Class;
+		
+		[Embed(source="com/hubo/workflow/ui/assets/logUncertain.png")]		
+		public static const LOG_UNCERTAIN:Class;
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
 		
