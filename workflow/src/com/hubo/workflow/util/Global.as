@@ -78,13 +78,13 @@ package com.hubo.workflow.util
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
 		
-		public static function glowFilter():spark.filters.GlowFilter
+		public static function glowFilter(blurX:int=5, blurY:int=6, color:uint=0xFF7000):spark.filters.GlowFilter
 		{
 			var glow:spark.filters.GlowFilter=new spark.filters.GlowFilter();
-			glow.blurX=5;
-			glow.blurY=5;
+			glow.blurX=blurX;
+			glow.blurY=blurY;
 			glow.alpha=1;
-			glow.color=0xFF7000;
+			glow.color=color;
 			glow.knockout=false;
 			glow.quality=1;
 			glow.strength=1;
