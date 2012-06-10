@@ -65,6 +65,7 @@
 				this.addEventListener(MouseEvent.MOUSE_DOWN, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.MOUSE_UP, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.MOUSE_MOVE, mainviewMouseHandler, false, 0, true);
+				this.addEventListener(MouseEvent.CLICK,mainviewMouseHandler,false,0,true);
 			}
 			
 			protected function mainviewMouseHandler(event:MouseEvent):void
@@ -73,6 +74,10 @@
 				
 				switch(event.type)
 				{
+					case MouseEvent.CLICK :
+						this.removeElementNodeState();
+						break;
+					
 					case MouseEvent.MOUSE_DOWN :
 						bgRectPoint = new Point(this.stage.mouseX,this.stage.mouseY);
 						break;
@@ -109,11 +114,19 @@
 					if(elementNode)
 					{
 						var point:Point = elementNode.point();
-						(point.x >bgRectPoint.x && point.x <stage.mouseX) && (point.y > bgRectPoint.y && point.y < stage.mouseY) ? elementNode.selectedState(true) : elementNode.selectedState(false);
+						((point.x >bgRectPoint.x && point.x <stage.mouseX) && (point.y > bgRectPoint.y && point.y < stage.mouseY))
+						||
+						((point.x > stage.mouseX && point.x < bgRectPoint.x) && (point.y > stage.mouseY && point.y < bgRectPoint.y))
+						? elementNode.selectedState(true) : elementNode.selectedState(false);
+						
 						trace("bgRectPoint.x="+bgRectPoint.x + "  y="+bgRectPoint.y);
 						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
 						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
 						trace("");
+						
+						//bgRectPoint.x=309  y=313
+						//stage.x=115  y=185
+						//elementNode.x=186  y=215
 					}
 				}
 			}
@@ -213,7 +226,6 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						event.target is NodeImage ? null : this.removeElementNodeState();
 						//结束当前画线，鼠标必须单击某个元素节点，否则删除当前线
 						if(event.target is Group && event.currentTarget is Group)
 						{
@@ -244,6 +256,7 @@
 					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
 					if(elementNode && elementNode.selected)
 					{
+						trace("xx");
 						elementNode.selectedState(false);
 					}
 				}
