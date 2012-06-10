@@ -18,6 +18,11 @@
 			{
 				this.navlog.showOrHide();
 			}
+			
+			public function showOrHide():void
+			{
+				this.navlog.showOrHide();
+			}
 		]]>
 	</fx:Script>
 

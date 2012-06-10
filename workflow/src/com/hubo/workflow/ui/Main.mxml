@@ -14,11 +14,11 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.hubo.workflow.ui.child.ElementLine;
-			import com.hubo.workflow.ui.child.ElementNode;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
 			import com.hubo.workflow.ui.child.ConfigTools;
+			import com.hubo.workflow.ui.child.ElementLine;
+			import com.hubo.workflow.ui.child.ElementNode;
 			import com.hubo.workflow.util.Global;
 			
 			import mx.core.IVisualElement;
@@ -32,25 +32,7 @@
 			private function init():void 
 			{
 				this.initEventListener();
-				
-				ExternalInterface.addCallback("rightClick", handleRightClick);
 			}
-			private function handleRightClick():void
-			{
-				var objects:Array=systemManager.getObjectsUnderPoint(new Point(mouseX, mouseY));
-				if (objects.length > 0)
-				{
-					var object:Object=objects[objects.length - 1];
-					var relatedObject:InteractiveObject;
-					if (object is InteractiveObject)
-						relatedObject=object as InteractiveObject;
-					else if (object.parent && object.parent is InteractiveObject)
-						relatedObject=object.parent;
-					var event:MouseEvent=new MouseEvent(MouseEvent.DOUBLE_CLICK, true, false, mouseX, mouseY, relatedObject);
-					object.dispatchEvent(event);
-				}
-			}
-
 			
 			/**
 			 * 初始事件监听
@@ -58,7 +40,40 @@
 			private function initEventListener():void
 			{
 				workflowGroup.addEventListener(MouseEvent.CLICK,  drawLineHandler,false,0,true);  
-				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true);  
+				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true); 
+				iconTools.addEventListener(CreateElementNodeEvent.CREATE_ELEMENT_NODE,createElementNodeHandler,false,0,true);
+				topNavigation.addEventListener(TopNavigation.CLICK_NAV_MENU,clickTopNavigationMenuHandler,false,0,true);
+			}
+			
+			protected function clickTopNavigationMenuHandler(event:DynamicEvent):void
+			{
+				switch(event.name)
+				{
+					case TopNavigation.ALIGNMENT :
+						break;
+					
+					case TopNavigation.CANCEL :
+						break;
+					
+					case TopNavigation.GRID :
+						break;
+					
+					case TopNavigation.LOG :
+						bottomNavigation.showOrHide();
+						break;
+					
+					case TopNavigation.SAVE :
+						break;
+					
+					case TopNavigation.VERIFICATION :
+						break;
+					
+					case TopNavigation.ZOOM :
+						break;
+					
+					default:
+						break;
+				}
 			}
 			
 			/**
@@ -237,14 +252,14 @@
 	
 	<s:Group id="workflowGroup" width="100%" height="100%"/>
 	
+	<child:IconTools id="iconTools"/>
 	
-	<child:IconTools createElementNode="createElementNodeHandler(event)"/>
 	<!--
 	<child:Junit id="junit" left="0" bottom="0"/>
 	<child:Config/>--> 
 	
-	<ui:TopNavigation/>
+	<ui:TopNavigation id="topNavigation"/>
 	
-	<ui:BottomNavigation/>
+	<ui:BottomNavigation id="bottomNavigation"/>
 
 </s:Group>
