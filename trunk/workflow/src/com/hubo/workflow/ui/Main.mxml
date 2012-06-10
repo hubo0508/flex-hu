@@ -47,7 +47,7 @@
 			
 			private var bgRectPoint:Point;
 			
-			private var invertSelectionMark:Boolean = false;
+			private var drawRectMark:Boolean = false;
 			
 			private function init():void 
 			{
@@ -77,7 +77,9 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						invertSelectionMark == false ? this.removeElementNodeState() : null;
+						trace("MouseEvent.CLICK");
+						drawRectMark ? null  : this.removeElementNodeState();
+						drawRectMark  = false;
 						break;
 					
 					case MouseEvent.MOUSE_DOWN :
@@ -87,6 +89,8 @@
 					case MouseEvent.MOUSE_UP:
 						bgRectPoint = null;
 						bgRect.graphics.clear();
+						
+						trace("MouseEvent.MOUSE_UP");
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
@@ -119,8 +123,9 @@
 						var invertSelection:Boolean = (point.x > stage.mouseX && point.x < bgRectPoint.x) && (point.y > stage.mouseY && point.y < bgRectPoint.y);
 						var isSelected:Boolean = (point.x >bgRectPoint.x && point.x <stage.mouseX) && (point.y > bgRectPoint.y && point.y < stage.mouseY);
 						invertSelection ||	isSelected ? elementNode.selectedState(true) : elementNode.selectedState(false);
-						invertSelection ? invertSelectionMark = true : false;
+						invertSelection ? drawRectMark = true : null;
 						
+						trace("invertSelection = " + invertSelection);
 						trace("bgRectPoint.x="+bgRectPoint.x + "  y="+bgRectPoint.y);
 						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
 						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
