@@ -87,8 +87,8 @@
 				switch(event.name)
 				{
 					case AlignmentTools.LAYERS_TOP :
-						var point:Point = workflowGroup.getFirstElementNode(WorkflowContent.LAYERS_TOP);
-						workflowGroup.updateAllPointX(point.x);
+						var point:Point = workflowGroup.getFirstElementNode(WorkflowContent.HORIZONTAL);
+						workflowGroup.updateAllHorizontalPoint(point.y);
 						break;
 					
 					case AlignmentTools.LAYERS_CENTER :
@@ -113,40 +113,44 @@
 			
 			protected function mainviewMouseHandler(event:MouseEvent):void
 			{
-				if(event.target is NodeImage || event.target is LinkButton) return;
+				trace(event.target);
+				//if(event.target is NodeImage || event.target is LinkButton) return;
 				
-				switch(event.type)
+				if(event.target is WorkflowContent || UIUtil.getID(event.target) == "bgRect")
 				{
-					case MouseEvent.CLICK :
-						drawRectMark ? null  : this.removeElementNodeState();
-						drawRectMark  = false;
-						break;
-					
-					case MouseEvent.MOUSE_DOWN :
-						drawBgRectPoint = new Point(this.stage.mouseX,this.stage.mouseY);
-						break;
-					
-					case MouseEvent.MOUSE_UP:
-						drawBgRectPoint = null;
-						bgRect.graphics.clear();
-						break;
-					
-					case MouseEvent.MOUSE_MOVE :
-						if(drawBgRectPoint == null)break;
+					switch(event.type)
+					{
+						case MouseEvent.CLICK :
+							drawRectMark ? null  : this.removeElementNodeState();
+							drawRectMark  = false;
+							break;
 						
-						var dx:Number = stage.mouseX - drawBgRectPoint.x;
-						var dy:Number = stage.mouseY - drawBgRectPoint.y;
+						case MouseEvent.MOUSE_DOWN :
+							drawBgRectPoint = new Point(this.stage.mouseX,this.stage.mouseY);
+							break;
 						
-						bgRect.graphics.clear();
-						bgRect.graphics.beginFill(0x3399FF, 0.1);
-						bgRect.graphics.lineStyle(1,0x3399FF);
-						bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
+						case MouseEvent.MOUSE_UP:
+							drawBgRectPoint = null;
+							bgRect.graphics.clear();
+							break;
 						
-						this.locationElementNodes();
-						break;
-					
-					default:
-						break;
+						case MouseEvent.MOUSE_MOVE :
+							if(drawBgRectPoint == null)break;
+							
+							var dx:Number = stage.mouseX - drawBgRectPoint.x;
+							var dy:Number = stage.mouseY - drawBgRectPoint.y;
+							
+							bgRect.graphics.clear();
+							bgRect.graphics.beginFill(0x3399FF, 0.1);
+							bgRect.graphics.lineStyle(1,0x3399FF);
+							bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
+							
+							this.locationElementNodes();
+							break;
+						
+						default:
+							break;
+					}
 				}
 			}
 			
@@ -263,7 +267,6 @@
 			 */
 			protected function drawLineHandler(event:MouseEvent):void
 			{
-				//this.junit.writeLog(new Point(this.stage.mouseX, this.stage.mouseY));
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :

@@ -86,6 +86,7 @@
 			
 			protected function clickAlignmentToolsHandler(event:DynamicEvent):void
 			{
+				this.hideAlignmentTools();
 				this.dispatchEvent(event);
 			}
 
@@ -137,6 +138,11 @@
 			}
 			
 			protected function alignmentToolsOutsideHandler(event:FlexMouseEvent):void
+			{
+				this.hideAlignmentTools();
+			}
+			
+			private function hideAlignmentTools():void
 			{
 				PopUpManager.removePopUp(alignmentTools);
 				var thisButton:Button = getButtonMenuByType(TopNavigation.ALIGNMENT);

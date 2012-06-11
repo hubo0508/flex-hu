@@ -28,6 +28,7 @@
 			
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			
 			public static const LAYERS_TOP:String = "LAYERS_TOP";
 			public static const LAYERS_MIDDLE:String = "LAYERS_MIDDLE";
