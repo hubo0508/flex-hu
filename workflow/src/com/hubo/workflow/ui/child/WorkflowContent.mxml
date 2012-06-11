@@ -17,21 +17,21 @@
 	<fx:Script>
 		<![CDATA[
 			
-			public static const LAYERS_TOP:String = "layersTop";
+			public static const HORIZONTAL:String = "HORIZONTAL";
 			
-			public static const LAYERS_LEFT:String = "layersLeft";
+			public static const VERTICAL:String = "VERTICAL";
 			
 			/**
 			 * 更新所有元素节点X坐标
 			 */
-			public function updateAllPointX(x:Number):void
+			public function updateAllHorizontalPoint(y:Number):void
 			{
 				for(var i:int=0, num:int=numElements; i<num; i++)
 				{
 					var node:ElementNode = getElementAt(i) as ElementNode;
-					if(node && node.selected)
+					if(node && node.selected && node.y != y)
 					{
-						node.x = x;
+						node.y = y;
 						node.refreshLine();
 					}
 				}
@@ -46,15 +46,15 @@
 				for(var i:int=0, num:int=numElements; i<num; i++)
 				{
 					var elementNode:ElementNode = getElementAt(i) as ElementNode;
-					if(elementNode && topnode == null)
+					if(elementNode && topnode)
 					{
 						switch(type)
 						{
-							case LAYERS_TOP :
+							case HORIZONTAL :
 								topnode = elementNode.x < topnode.x ? elementNode :  topnode;                          
 								break;
 							
-							case LAYERS_LEFT : 
+							case VERTICAL : 
 								topnode = elementNode.y < topnode.y ? topnode :  elementNode;             
 								break;
 							
@@ -64,7 +64,7 @@
 					}
 					else
 					{
-						topnode = elementNode;
+						elementNode ? topnode = elementNode : null;
 					}
 				}
 				
