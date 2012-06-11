@@ -7,14 +7,55 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   creationComplete="creationComplete(event)"
 				   height="30"
 				   width="147"
 				   cornerRadius="3"
 				   borderVisible="false">
 	
+	<fx:Metadata>
+		[Event(name="clickAlignmentTools",type="mx.events.DynamicEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.components.Button;
 			import com.hubo.workflow.util.Global;
+			
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			
+			public static const LAYERS_TOP:String = "LAYERS_TOP";
+			public static const LAYERS_MIDDLE:String = "LAYERS_MIDDLE";
+			public static const LAYERS_BOTTOM:String = "LAYERS_BOTTOM";
+			
+			public static const LAYERS_LEFT:String = "LAYERS_LEFT";
+			public static const LAYERS_CENTER:String = "LAYERS_CENTER";
+			public static const LAYERS_RIGHT:String = "LAYERS_RIGHT";
+			
+			public static const CLICK_ALIGNMENT_TOOLS:String = "clickAlignmentTools";
+			
+			protected function creationComplete(event:FlexEvent):void
+			{
+				this.initEvent()
+			}
+			
+			private function initEvent():void
+			{
+				for(var i:int=0, num:int=this.numElements; i<num; i++)
+				{
+					this.getElementAt(i).addEventListener(MouseEvent.CLICK,clickMenuHandler,false,0,true);
+				}
+			}
+			
+			protected function clickMenuHandler(event:MouseEvent):void
+			{
+				var button:Button = event.currentTarget as LinkButton;
+				
+				var dye:DynamicEvent = new DynamicEvent(CLICK_ALIGNMENT_TOOLS);
+				dye.name = button.name;
+				this.dispatchEvent(dye);
+			}
 		]]>
 		
 	</fx:Script>
@@ -26,16 +67,16 @@
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
-	<mx:LinkButton icon="{Global.LAYERS_TOP}" verticalCenter="0" left="5" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_TOP}" icon="{Global.LAYERS_TOP}" verticalCenter="0" left="5" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton icon="{Global.LAYERS_MIDDLE}" verticalCenter="0" left="26" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_MIDDLE}" icon="{Global.LAYERS_MIDDLE}" verticalCenter="0" left="26" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton icon="{Global.LAYERS_BOTTOM}" verticalCenter="0" left="48" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_BOTTOM}" icon="{Global.LAYERS_BOTTOM}" verticalCenter="0" left="48" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton icon="{Global.LAYERS_LEFT}" verticalCenter="0" left="76" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_LEFT}" icon="{Global.LAYERS_LEFT}" verticalCenter="0" left="76" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_CENTER}" icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton name="{LAYERS_RIGHT}" icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"/>
 	
 </s:BorderContainer>
