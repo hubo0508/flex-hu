@@ -50,7 +50,7 @@
 			
 			protected function clickMenuHandler(event:MouseEvent):void
 			{
-				var button:Button = event.currentTarget as LinkButton;
+				var button:LinkButton = event.currentTarget as LinkButton;
 				
 				var dye:DynamicEvent = new DynamicEvent(CLICK_ALIGNMENT_TOOLS);
 				dye.name = button.name;
