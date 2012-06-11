@@ -106,6 +106,7 @@
 				if(itemList == null)
 				{
 					itemList = new ListContainer();				
+					//itemList.canceledRadio = true;
 					itemList.boxType = "radioButton";
 					itemList.addEventListener(UseEvent.ITEM_LIST_CLICK,settingItemListClickHandler,false,0,true);
 					itemList.initItem(menuData);
