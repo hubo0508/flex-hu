@@ -50,6 +50,12 @@
 			private var _boxType:String = "checkBox";
 			
 			/**
+			 * 当属性boxType值为radioButton时，设置当前属性canceledRadio值为true时，容器中可以取消所有选择，反之至少选择一项列表。
+			 * 默认值为false。
+			 */
+			private var _canceledRadio:Boolean = false;
+			
+			/**
 			 * <p>初始列表项</p>
 			 * 
 			 * @param data:ArrayConllection 要查看的数据集
@@ -78,7 +84,7 @@
 			 * 
 			 * 1、【MouseEvent.ROLL_OUT】控制列表项的背景颜色是否可见。</br>
 			 * 2、【MouseEvent.ROLL_OVER】控制列表项的背景颜色是否可见，更新列表项背景颜色的坐标位置。</br>
-			 * 3、【MouseEvent.CLICK】切换列表项的CheckBox状态，true||false。</br>
+			 * 3、【MouseEvent.CLICK】切换列表项的CheckBox状态，true||false。两种状态切换的业务逻辑处理</br>
 			 */
 			protected function instanceItemMouseHandler(event:MouseEvent):void
 			{
@@ -100,19 +106,20 @@
 						if(event.target is MoreGroup)
 						{
 							checkbox = getBox(event.currentTarget as MoreGroup);
-//							if(checkbox && getLastSelectedBoxIndex() == checkbox.id  && checkbox.selected)
-//							{
-//								break;
-//							}
-							if(checkbox)
-							{
+//							if(canceledRadio )
+//							{ 
 								checkbox.selected = !checkbox.selected;
-							}	
+//							}
 						}
 						else
 						{
 							checkbox= event.target as CheckBox;
 						}
+						
+//						if(canceledRadio == false && checkbox.selected)
+//						{ 
+//							break;
+//						}
 						
 						if(checkbox && boxType == "radioButton")
 						{
@@ -323,6 +330,23 @@
 			public function set boxType(value:String):void
 			{
 				_boxType = value;
+			}
+
+			/**
+			 * 当属性boxType值为radioButton时，设置当前属性canceledRadio值为true时，容器中可以取消所有选择，反之至少选择一项列表。
+			 * 默认值为false。
+			 */
+			public function get canceledRadio():Boolean
+			{
+				return _canceledRadio;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set canceledRadio(value:Boolean):void
+			{
+				_canceledRadio = value;
 			}
 
 			

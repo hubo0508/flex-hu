@@ -15,6 +15,8 @@ package com.printingoffice.framework.event
 		
 		public var data:Object;
 		
+		public var selected:Boolean;
+		
 		public function UseEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
