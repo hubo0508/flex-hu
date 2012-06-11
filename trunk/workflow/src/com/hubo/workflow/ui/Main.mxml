@@ -84,15 +84,11 @@
 			 */
 			protected function clickAlignmentToolsHandler(event:DynamicEvent):void
 			{
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
-				{
-					//var elementNode:
-				}
-				
 				switch(event.name)
 				{
 					case AlignmentTools.LAYERS_TOP :
-						
+						var point:Point = workflowGroup.getFirstElementNode(WorkflowContent.LAYERS_TOP);
+						workflowGroup.updateAllPointX(point.x);
 						break;
 					
 					case AlignmentTools.LAYERS_CENTER :
@@ -228,7 +224,7 @@
 				
 				thisLine = event.line;
 				
-				var index:int = getElementNodeIndexBySID(event.upElementNodeSID);
+				var index:int = workflowGroup.getElementNodeIndexBySID(event.upElementNodeSID);
 				this.workflowGroup.setElementIndex(event.line,index);
 			}
 			
@@ -351,44 +347,6 @@
 				workflowGroup.addElement(node);
 				
 				this.countnode ++;
-			}
-			
-			/**
-			 * 根据SID在容器中查找元素节点
-			 */
-			private function getElementNodeBySID(sid:int):ElementNode
-			{
-				var ele:ElementNode;
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
-				{
-					var node:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
-					if(node && node.SID == sid)
-					{
-						ele = node;
-						break;
-					}
-				}
-				
-				return ele;
-			}
-			
-			/**
-			 * 根据SID在容器中查找元素节点的索引值 
-			 */
-			private function getElementNodeIndexBySID(sid:int):int
-			{
-				var index:int;
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
-				{
-					var node:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
-					if(node && node.SID == sid)
-					{
-						index = i;
-						break;
-					}
-				}
-				
-				return index;
 			}
 			
 			/**

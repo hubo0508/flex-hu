@@ -195,8 +195,8 @@ package com.hubo.workflow.ui.child
 		public function centerPoint():Point
 		{
 			var point:Point=UIUtil.getUiAbsolutePosition(this);
-			point.x+=this.width * 0.5;
-			point.y+=this.width * 0.5;
+			point.x+=this.enWidth * 0.5;
+			point.y+=this.enWidth * 0.5;
 			return point;
 		}
 		
