@@ -65,8 +65,8 @@
 			 */
 			private function initEventListener():void
 			{
-				workflowGroup.addEventListener(MouseEvent.CLICK,  drawLineHandler,false,0,true);  
-				workflowGroup.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true); 
+				workflowContent.addEventListener(MouseEvent.CLICK,  drawLineHandler,false,0,true);  
+				workflowContent.addEventListener(MouseEvent.MOUSE_MOVE,  drawLineHandler,false,0,true); 
 				
 				iconTools.addEventListener(CreateElementNodeEvent.CREATE_ELEMENT_NODE,createElementNodeHandler,false,0,true);
 				
@@ -87,8 +87,8 @@
 				switch(event.name)
 				{
 					case AlignmentTools.LAYERS_TOP :
-						var point:Point = workflowGroup.getFirstElementNode(WorkflowContent.HORIZONTAL);
-						workflowGroup.updateAllHorizontalPoint(point.y);
+						var point:Point = workflowContent.getFirstElementNode(WorkflowContent.HORIZONTAL);
+						workflowContent.updateAllHorizontalPoint(point.y);
 						break;
 					
 					case AlignmentTools.LAYERS_CENTER :
@@ -156,9 +156,9 @@
 			
 			private function locationElementNodes():void
 			{
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				for(var i:int=0, num:int=workflowContent.numElements; i<num; i++)
 				{
-					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					var elementNode:ElementNode = workflowContent.getElementAt(i) as ElementNode;
 					if(elementNode)
 					{
 						var point:Point = elementNode.point();
@@ -222,14 +222,14 @@
 			 */
 			protected function createElementLineHandler(event:CreateElementLineEvent):void
 			{
-				this.workflowGroup.addElement(event.line);
+				this.workflowContent.addElement(event.line);
 				event.line.setEndPoint(stageMousePoint());
 				event.line.draw();
 				
 				thisLine = event.line;
 				
-				var index:int = workflowGroup.getElementNodeIndexBySID(event.upElementNodeSID);
-				this.workflowGroup.setElementIndex(event.line,index);
+				var index:int = workflowContent.getElementNodeIndexBySID(event.upElementNodeSID);
+				this.workflowContent.setElementIndex(event.line,index);
 			}
 			
 			/**
@@ -295,9 +295,9 @@
 			 */
 			private function removeElementNodeState():void
 			{
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				for(var i:int=0, num:int=workflowContent.numElements; i<num; i++)
 				{
-					var elementNode:ElementNode = workflowGroup.getElementAt(i) as ElementNode;
+					var elementNode:ElementNode = workflowContent.getElementAt(i) as ElementNode;
 					if(elementNode && elementNode.selected)
 					{
 						trace("xx");
@@ -315,12 +315,12 @@
 			{
 				if(this.thisLine == null)return;
 				
-				for(var i:int=0, num:int=workflowGroup.numElements; i<num; i++)
+				for(var i:int=0, num:int=workflowContent.numElements; i<num; i++)
 				{
-					var line:ElementLine = workflowGroup.getElementAt(i) as ElementLine;
+					var line:ElementLine = workflowContent.getElementAt(i) as ElementLine;
 					if(line && line == this.thisLine)
 					{
-							workflowGroup.removeElement(line);
+							workflowContent.removeElement(line);
 							line.clear();
 							this.stopDrawLine();
 							break;
@@ -347,7 +347,7 @@
 				node.addEventListener(MouseEvent.CLICK,elementNodeHandler,false,0,true);
 				node.addEventListener(MouseEvent.ROLL_OVER,elementNodeHandler,false,0,true);
 				node.SID = this.countnode;
-				workflowGroup.addElement(node);
+				workflowContent.addElement(node);
 				
 				this.countnode ++;
 			}
@@ -368,8 +368,8 @@
 	
 	<!--元素节点容器-->
 	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0" skinClass="com.hubo.workflow.skin.Scroller_skin">
-		<!--<s:Group id="workflowGroup" width="100%" minHeight="0" minWidth="0"  top="122" bottom="23"  height="100%"/>-->
-		<child:WorkflowContent id="workflowGroup"/>
+		<!--<s:Group id="workflowContent" width="100%" minHeight="0" minWidth="0"  top="122" bottom="23"  height="100%"/>-->
+		<child:WorkflowContent id="workflowContent"/>
 	</s:Scroller>
 	
 	<!--画背景矩形-->
