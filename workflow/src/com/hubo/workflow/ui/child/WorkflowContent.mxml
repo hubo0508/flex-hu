@@ -14,4 +14,102 @@
 		 bottom="23"
 		 height="100%">
 	
+	<fx:Script>
+		<![CDATA[
+			
+			public static const LAYERS_TOP:String = "layersTop";
+			
+			public static const LAYERS_LEFT:String = "layersLeft";
+			
+			/**
+			 * 更新所有元素节点X坐标
+			 */
+			public function updateAllPointX(x:Number):void
+			{
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var node:ElementNode = getElementAt(i) as ElementNode;
+					if(node && node.selected)
+					{
+						node.x = x;
+						node.refreshLine();
+					}
+				}
+			}
+			
+			/**
+			 * 取得容器中，顺序从左到右的第一个元素节点
+			 */
+			public function getFirstElementNode(type:String):Point
+			{
+				var topnode:ElementNode = null;
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var elementNode:ElementNode = getElementAt(i) as ElementNode;
+					if(elementNode && topnode == null)
+					{
+						switch(type)
+						{
+							case LAYERS_TOP :
+								topnode = elementNode.x < topnode.x ? elementNode :  topnode;                          
+								break;
+							
+							case LAYERS_LEFT : 
+								topnode = elementNode.y < topnode.y ? topnode :  elementNode;             
+								break;
+							
+							default:
+								break;
+						}
+					}
+					else
+					{
+						topnode = elementNode;
+					}
+				}
+				
+				return new Point(topnode.x,topnode.y);
+			}
+			
+			/**
+			 * 根据SID在容器中查找元素节点
+			 */
+			public function getElementNodeBySID(sid:int):ElementNode
+			{
+				var ele:ElementNode;
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var node:ElementNode = getElementAt(i) as ElementNode;
+					if(node && node.SID == sid)
+					{
+						ele = node;
+						break;
+					}
+				}
+				
+				return ele;
+			}
+			
+			/**
+			 * 根据SID在容器中查找元素节点的索引值 
+			 */
+			public function getElementNodeIndexBySID(sid:int):int
+			{
+				var index:int;
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var node:ElementNode = getElementAt(i) as ElementNode;
+					if(node && node.SID == sid)
+					{
+						index = i;
+						break;
+					}
+				}
+				
+				return index;
+			}
+			
+		]]>
+	</fx:Script>
+	
 </s:Group>
