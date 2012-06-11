@@ -80,18 +80,20 @@ package com.hubo.workflow.ui.child
 		 * 缓存移动前坐标
 		 */
 		private var cachePoint:Point = new Point();
+		
+		private var enHeight:Number = 67;
+		
+		private var enWidth:Number = 50;
 
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
-		 * @param w:Number 元素节点宽度
-		 * @param h:Number 元素节点高度
 		 * @param nodeName:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:Object, w:Number=50, h:Number=67)
+		public function ElementNode(location:Point, nodeName:String, url:Object)
 		{
 			this.setLocation(location);
-			this.setSize(w, h);
+			this.setSize(enWidth, enHeight);
 			this.nodeName=nodeName;
 			this.init(url);
 		}
@@ -379,7 +381,6 @@ package com.hubo.workflow.ui.child
 
 				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
-					//this.refreshArrow();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
@@ -433,8 +434,6 @@ package com.hubo.workflow.ui.child
 			
 			return point;
 		}
-		
-	
 
 		/**
 		 * 重新加载线条
@@ -447,36 +446,16 @@ package com.hubo.workflow.ui.child
 				var line:ElementLine=linepro.elementLine;
 				if(line)
 				{
-					trace("***  ture：开始线条,无箭头  |   "+linepro.arrowsMark);
-					
-					if(linepro.arrowsMark)
-					{
-						line.setStartPoint(centerPoint()) ;
-					}
+					linepro.arrowsMark ? line.setStartPoint(centerPoint()) : null;
 					
 					var nodesCollection:Array = line.getAssociatedElementNode();
 					for (var k:int=0, len2:int=nodesCollection.length; k < len2; k++)
 					{
-						var elementNode:ElementNode = nodesCollection[k];
-						//当前移动判断是开始节点还是结束节点
-						//移动目标为开始节点，将所有相关联的结束节点坐标更新
-						//移动目标为结束节点，所有相关联的开始节点不更新坐标，只更新当前移动坐标点
-						//trace(elementNode.nodeName+" SID=" + elementNode.SID + "  this.SID="+this.SID+"  " + linepro.arrowsMark);
-						if(elementNode.SID != this.SID && linepro.arrowsMark == true)
-						{
-							line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(), elementNode));
-						}
-						else
-						{
-							line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(),elementNode));
-						}
+						line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(),nodesCollection[k]));
 						line.draw();
 					}
 					
-					if(nodesCollection == null || nodesCollection.length ==0)
-					{
-						line.draw();
-					}
+					(nodesCollection == null || nodesCollection.length ==0) ? line.draw() : null;
 				}
 			}
 		}
@@ -536,7 +515,7 @@ package com.hubo.workflow.ui.child
 			if (tagText == null)
 			{
 				tagText=new Label
-				tagText.maxWidth=48;
+				tagText.maxWidth = this.enWidth;
 			}
 			tagText.text=text;
 			tagText.horizontalCenter=0;

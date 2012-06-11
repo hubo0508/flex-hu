@@ -80,7 +80,13 @@
 				{
 					alignmentTools = new AlignmentTools();
 					alignmentTools.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,alignmentToolsOutsideHandler,false,0,true);
+					alignmentTools.addEventListener(AlignmentTools.CLICK_ALIGNMENT_TOOLS,clickAlignmentToolsHandler,false,0,true);
 				}
+			}
+			
+			protected function clickAlignmentToolsHandler(event:DynamicEvent):void
+			{
+				this.dispatchEvent(event);
 			}
 
 			protected function creationComplete(event:FlexEvent):void

@@ -13,6 +13,10 @@
 				   cornerRadius="3"
 				   borderVisible="false">
 	
+	<!--
+		对齐窗体
+	-->
+	
 	<fx:Metadata>
 		[Event(name="clickAlignmentTools",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
