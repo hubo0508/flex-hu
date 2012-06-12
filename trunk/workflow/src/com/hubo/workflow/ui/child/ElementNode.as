@@ -16,6 +16,7 @@ package com.hubo.workflow.ui.child
 	
 	import mx.controls.Image;
 	import mx.controls.Label;
+	import mx.core.UIComponent;
 	import mx.events.DynamicEvent;
 	import mx.events.FlexEvent;
 	import mx.events.MoveEvent;
@@ -214,7 +215,7 @@ package com.hubo.workflow.ui.child
 			{
 				case MouseEvent.ROLL_OUT:
 					this.selected ? null : tagImg.filters=[];
-					this.startRemoveConfigToolsTimer();
+					this.removeConfigTools();
 					break;
 
 				case MouseEvent.ROLL_OVER:
@@ -249,7 +250,7 @@ package com.hubo.workflow.ui.child
 					break;
 
 				case ConfigTools.NODE_DELETE:
-					this.removeConfigTools();
+					this.hideConfigTools();
 					this.removeQuoteLines();
 					this.clear();
 					(parent as Object).removeElement(this);
@@ -257,7 +258,7 @@ package com.hubo.workflow.ui.child
 					break;
 
 				case ConfigTools.NODE_CONNECT:
-					this.removeConfigTools();
+					this.hideConfigTools();
 
 					var elementLine:ElementLine=new ElementLine();
 					elementLine.setStartPoint(this.centerPoint());
@@ -290,7 +291,7 @@ package com.hubo.workflow.ui.child
 			switch (event.type)
 			{
 				case MouseEvent.ROLL_OUT:
-					removeConfigTools();
+					hideConfigTools();
 					break;
 
 				case MouseEvent.ROLL_OVER:
@@ -302,70 +303,48 @@ package com.hubo.workflow.ui.child
 			}
 		}
 
-		private function removeConfigTools():void
+		private function hideConfigTools():void
 		{
 			if(!configTools)return;
 			
-			//TweenLite.tweenTo(tool, .3, {alpha: 0, onComplete:function():void{
 			PopUpManager.removePopUp(configTools);
 			configTools.markPopUp = false;
-			//}});
 		}
 
 		private function showConfigTools():void
 		{
-			startShowConfigToolsTimer();
-		}
-		
-		private function startShowConfigToolsTimer():void
-		{
-//			if (showConfigToolsTimer == null)
-//			{
-//				showConfigToolsTimer=new Timer(500, 1);
-//			}
-//			
-//			showConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
-//			{
-				var point:Point=UIUtil.getUiAbsolutePosition(this);
-				configTools.x=point.x + this.width + 5;
-				configTools.y=point.y + this.height * 0.5 - 10;
-				//tool.setStyle("alpha",0.8);
+			var thisUI:UIComponent = this;
+			showConfigToolsTimer == null ? showConfigToolsTimer=new Timer(300, 1) : null;
+			showConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+			{
+				var point:Point=UIUtil.getUiAbsolutePosition(thisUI);
+				configTools.x=point.x + width + 5;
+				configTools.y=point.y + height * 0.5 - 10;
 				
-				PopUpManager.addPopUp(configTools, UIUtil.getApplication(this), false);
+				PopUpManager.addPopUp(configTools, UIUtil.getApplication(thisUI), false);
 				configTools.markPopUp = true;
 				
-//				stopTimer(showConfigToolsTimer);
-//			}, false, 0, true);
-//			showConfigToolsTimer.start();
+				stopTimer(showConfigToolsTimer);
+			}, false, 0, true);
+			showConfigToolsTimer.start();
 		}
 
-		private function startRemoveConfigToolsTimer():void
+		private function removeConfigTools():void
 		{
-			if (removeConfigToolsTimer == null)
-			{
-				removeConfigToolsTimer=new Timer(80, 1);
-			}
-
+			removeConfigToolsTimer == null ? removeConfigToolsTimer=new Timer(80, 1) : null;
 			removeConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
-				removeConfigTools();
-
-				removeConfigToolsTimer.stop();
+				hideConfigTools();
+				stopTimer(removeConfigToolsTimer);
+				stopTimer(showConfigToolsTimer);
 			}, false, 0, true);
 			removeConfigToolsTimer.start();
 		}
 
 		private function stopTimer(timer:Timer):void
 		{
-			if (timer && timer.running)
-			{
-				timer.stop();
-			}
-
-			if (timer)
-			{
-				timer=null;
-			}
+			(timer && timer.running) ? timer.stop() : null;
+			timer ? timer=null : null;
 		}
 
 		/**
