@@ -197,7 +197,7 @@ package com.hubo.workflow.ui.child
 		{
 			var point:Point=UIUtil.getUiAbsolutePosition(this);
 			point.x+=this.enWidth * 0.5;
-			point.y+=this.enWidth * 0.5;
+			point.y+=this.enHeight * 0.5;
 			return point;
 		}
 		

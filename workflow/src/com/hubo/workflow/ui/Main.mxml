@@ -93,12 +93,14 @@
 						break;
 					
 					case AlignmentTools.LAYERS_CENTER :
+						//var point:Point = workflowContent.getFirstElementNode(WorkflowContent.HORIZONTAL);
 						break;
 					
 					case AlignmentTools.LAYERS_BOTTOM :
 						break;
 					
 					case AlignmentTools.LAYERS_LEFT :
+						
 						break;
 					
 					case AlignmentTools.LAYERS_MIDDLE :
