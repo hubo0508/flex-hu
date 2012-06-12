@@ -40,7 +40,7 @@ package com.hubo.workflow.ui.child
 		/**
 		 * 元素节点名字
 		 */
-		private var nodeName:String;
+		private var text:String;
 
 		/**
 		 * 存储当前元素节点所关联的线条集合
@@ -85,58 +85,20 @@ package com.hubo.workflow.ui.child
 		private var enHeight:Number = 67;
 		
 		private var enWidth:Number = 50;
-
+		
 		/**
 		 * @param location:Point 元素节点最新X,Y坐标
-		 * @param nodeName:String 元素节点名字
+		 * @param text:String 元素节点名字
 		 * @param url:String 标签图片路径
 		 */
-		public function ElementNode(location:Point, nodeName:String, url:Object)
+		public function ElementNode(location:Point, text:String, url:Object)
 		{
 			this.setLocation(location);
 			this.setSize(enWidth, enHeight);
-			this.nodeName=nodeName;
+			this.text=text;
 			this.init(url);
 		}
 		
-		/**
-		 * 清除内存
-		 */
-		public function clear():void
-		{
-			this.removeQuote();			
-			this.configTools = null;
-			this.showConfigToolsTimer = null;	
-			this.removeConfigToolsTimer = null;
-			this.tagText = null;
-			this.tagImg = null;
-		}
-		
-		/**
-		 * 引用关系删除
-		 */
-		public function removeQuote(elementLine:ElementLine = null):Boolean
-		{
-			if(elementLine == null)
-			{
-				this.linesCollection = null;
-			}
-			else
-			{
-				for(var i:int=0, num:int=linesCollection.length; i<num; i++)
-				{
-					var linepro:LineProperties = linesCollection[i];
-					if(linepro.elementLine == elementLine)
-					{
-						linesCollection.splice(i, 1);
-						return true;
-					}
-				}
-			}
-			
-			return false;
-		}
-
 		/**
 		 * 初始化
 		 *
@@ -152,7 +114,7 @@ package com.hubo.workflow.ui.child
 			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE,createionCompleteHandler,false,0,true);
 
-			this.initTagtext(this.nodeName);
+			this.initTagtext(text);
 			this.addElement(tagText);
 
 			this.initTagImg(url);
@@ -245,7 +207,7 @@ package com.hubo.workflow.ui.child
 			{
 				case ConfigTools.NODE_ATTRIBUTES:
 					var configWindown:ConfigWindown = new ConfigWindown();
-					configWindown.title = this.nodeName+" " +event.label;
+					configWindown.title = this.text+" " +event.label;
 					PopUpUtil.messageWindow(configWindown, this, false);
 					break;
 
@@ -254,7 +216,6 @@ package com.hubo.workflow.ui.child
 					this.removeQuoteLines();
 					this.clear();
 					(parent as Object).removeElement(this);
-					
 					break;
 
 				case ConfigTools.NODE_CONNECT:
@@ -276,6 +237,9 @@ package com.hubo.workflow.ui.child
 			}
 		}
 		
+		/**
+		 * 删除当前节点有关的线条。ElementNode 与 ElementLine 的相互引用都将清除，以避免内存泄露
+		 */
 		private function removeQuoteLines():void
 		{
 			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
@@ -286,6 +250,9 @@ package com.hubo.workflow.ui.child
 			}
 		}
 
+		/**
+		 * 配置工具栏鼠标事件
+		 */
 		protected function configToolsMouseHandler(event:MouseEvent):void
 		{
 			switch (event.type)
@@ -295,14 +262,17 @@ package com.hubo.workflow.ui.child
 					break;
 
 				case MouseEvent.ROLL_OVER:
-					this.stopTimer(this.removeConfigToolsTimer);
+					Global.stopTimer(this.removeConfigToolsTimer);
 					break;
 
 				default:
 					break;
 			}
 		}
-
+		
+		/**
+		 * 从顶级容器中删除配置工具栏
+		 */
 		private function hideConfigTools():void
 		{
 			if(!configTools)return;
@@ -310,7 +280,10 @@ package com.hubo.workflow.ui.child
 			PopUpManager.removePopUp(configTools);
 			configTools.markPopUp = false;
 		}
-
+		
+		/**
+		 * 显示配置工具栏
+		 */
 		private function showConfigTools():void
 		{
 			var thisUI:UIComponent = this;
@@ -324,27 +297,26 @@ package com.hubo.workflow.ui.child
 				PopUpManager.addPopUp(configTools, UIUtil.getApplication(thisUI), false);
 				configTools.markPopUp = true;
 				
-				stopTimer(showConfigToolsTimer);
+				Global.stopTimer(showConfigToolsTimer);
 			}, false, 0, true);
+			
 			showConfigToolsTimer.start();
 		}
-
+		
+		/**
+		 * 删除配置工具栏
+		 */
 		private function removeConfigTools():void
 		{
 			removeConfigToolsTimer == null ? removeConfigToolsTimer=new Timer(80, 1) : null;
 			removeConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
 				hideConfigTools();
-				stopTimer(removeConfigToolsTimer);
-				stopTimer(showConfigToolsTimer);
+				Global.stopTimer(removeConfigToolsTimer);
+				Global.stopTimer(showConfigToolsTimer);
 			}, false, 0, true);
+			
 			removeConfigToolsTimer.start();
-		}
-
-		private function stopTimer(timer:Timer):void
-		{
-			(timer && timer.running) ? timer.stop() : null;
-			timer ? timer=null : null;
 		}
 
 		/**
@@ -382,27 +354,27 @@ package com.hubo.workflow.ui.child
 		public function refreshArrow(data:Array=null):void
 		{
 			data == null ? data = this.linesCollection : data;
-			
 			for (var i:int=0, len:int=data.length; i<len; i++)
 			{
-				var linePro:LineProperties=data[i];
-				var line:ElementLine=linePro.elementLine;
-				
+				var linepro:LineProperties=data[i];
+				var line:ElementLine=linepro.elementLine;
 				//flase：结束线条,有箭头
-				if (line && linePro.arrowsMark == false)
+				if (line && linepro.arrowsMark == false)
 				{
-					trace("***  flase：结束线条,有箭头  |   "+linePro.arrowsMark);
 					line.setEndPoint(arrowPoint(line));
 					line.draw();
 				}
 			}
 		}
 		
-		private function arrowPoint(elementLine:ElementLine):Point
+		/**
+		 * 取得箭头坐标
+		 */
+		private function arrowPoint(line:ElementLine):Point
 		{
 			//ody = odist/dist*dy  \  odx = odist/dist*dx
-			var dx:Number = elementLine.getStartPoint().x - elementLine.getEndPoint().x;
-			var dy:Number = elementLine.getStartPoint().y - elementLine.getEndPoint().y;
+			var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
+			var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
 			var dist:Number=Math.sqrt(dx * dx + dy * dy);
 			var ody:Number = this.width*0.5/dist*dy;
 			var odx:Number = this.width*0.5/dist*dx;
@@ -444,10 +416,7 @@ package com.hubo.workflow.ui.child
 		 */
 		public function addAssociatedLines(elementLine:ElementLine, arrowsMark:Boolean):void
 		{
-			if(this.linesCollection == null)
-			{
-				linesCollection = [];
-			}
+			linesCollection ? null: linesCollection = [] ;
 			linesCollection.push(new LineProperties(elementLine, arrowsMark));
 		}
 
@@ -456,18 +425,10 @@ package com.hubo.workflow.ui.child
 		 */
 		public function setLocation(point:Point):void
 		{
-			if (point == null)
-				return;
-
-			if (this.x != point.x)
-			{
-				this.x=point.x;
-			}
-
-			if (this.y != point.y)
-			{
-				this.y=point.y;
-			}
+			if (point == null)return;
+			
+			x != point.x ? x=point.x : null;
+			y != point.y ? y=point.y : null;
 		}
 
 		/**
@@ -475,15 +436,8 @@ package com.hubo.workflow.ui.child
 		 */
 		public function setSize(w:Number, h:Number):void
 		{
-			if (this.width != w)
-			{
-				this.width=w;
-			}
-
-			if (this.height != h)
-			{
-				this.height=h;
-			}
+			width != w ? width=w : null;
+			height != h ? height=h : null;
 		}
 
 		/**
@@ -514,6 +468,45 @@ package com.hubo.workflow.ui.child
 			tagImg.horizontalCenter=0;
 			tagImg.source=url;
 		}
+		
+		/**
+		 * 清除内存
+		 */
+		public function clear():void
+		{
+			this.removeQuote();			
+			this.configTools = null;
+			this.showConfigToolsTimer = null;	
+			this.removeConfigToolsTimer = null;
+			this.tagText = null;
+			this.tagImg = null;
+		}
+		
+		/**
+		 * 引用关系删除
+		 */
+		public function removeQuote(elementLine:ElementLine = null):Boolean
+		{
+			if(elementLine == null)
+			{
+				this.linesCollection = null;
+			}
+			else
+			{
+				for(var i:int=0, num:int=linesCollection.length; i<num; i++)
+				{
+					var linepro:LineProperties = linesCollection[i];
+					if(linepro.elementLine == elementLine)
+					{
+						linesCollection.splice(i, 1);
+						return true;
+					}
+				}
+			}
+			
+			return false;
+		}
+
 		
 	}
 }
