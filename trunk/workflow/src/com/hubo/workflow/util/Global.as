@@ -4,6 +4,7 @@ package com.hubo.workflow.util
 	
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import flash.utils.Timer;
 	
 	import mx.core.UIComponent;
 	
@@ -79,6 +80,12 @@ package com.hubo.workflow.util
 		//对齐 end
 
 		public static const CLOSE:String="com/hubo/workflow/ui/assets/close.png";
+		
+		public static function stopTimer(timer:Timer):void
+		{
+			(timer && timer.running) ? timer.stop() : null;
+			timer ? timer=null : null;
+		}
 		
 		public static function glowFilter(blurX:int=5, blurY:int=6, color:uint=0xFF7000):spark.filters.GlowFilter
 		{
