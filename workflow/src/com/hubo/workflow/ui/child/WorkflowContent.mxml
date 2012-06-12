@@ -131,6 +131,21 @@
 				return index;
 			}
 			
+			/**
+			 * 删除状态
+			 */
+			public function removeSlectedState():void
+			{
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var elementNode:ElementNode = getElementAt(i) as ElementNode;
+					if(elementNode && elementNode.selected)
+					{
+						elementNode.selectedState(false);
+					}
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	
