@@ -167,8 +167,12 @@
 					if(elementNode)
 					{
 						var point:Point = elementNode.point();
+						//右下角 => 左上角  
 						var invertSelection:Boolean = (point.x > stage.mouseX && point.x < drawBgRectPoint.x) && (point.y > stage.mouseY && point.y < drawBgRectPoint.y);
+						//左上角 => 右下角
 						var isSelected:Boolean = (point.x >drawBgRectPoint.x && point.x <stage.mouseX) && (point.y > drawBgRectPoint.y && point.y < stage.mouseY);
+						
+						//设置选择状态
 						invertSelection ||	isSelected ? elementNode.selectedState(true) : elementNode.selectedState(false);
 						invertSelection ? drawRectMark = true : null;
 						
