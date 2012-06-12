@@ -197,7 +197,7 @@ package com.hubo.workflow.ui.child
 		{
 			var point:Point=UIUtil.getUiAbsolutePosition(this);
 			point.x+=this.enWidth * 0.5;
-			point.y+=this.enHeight * 0.5;
+			point.y+=this.enWidth * 0.5;
 			return point;
 		}
 		
@@ -314,7 +314,7 @@ package com.hubo.workflow.ui.child
 		private function showConfigTools():void
 		{
 			var thisUI:UIComponent = this;
-			showConfigToolsTimer == null ? showConfigToolsTimer=new Timer(300, 1) : null;
+			showConfigToolsTimer == null ? showConfigToolsTimer=new Timer(400, 1) : null;
 			showConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
 				var point:Point=UIUtil.getUiAbsolutePosition(thisUI);
