@@ -8,9 +8,10 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:child="com.hubo.workflow.ui.child.*"
+		 xmlns:ui="com.hubo.workflow.ui.*"
 		 creationComplete="creationComplete()"
 		 width="100%"
-		 height="100%" xmlns:ui="com.hubo.workflow.ui.*">
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
