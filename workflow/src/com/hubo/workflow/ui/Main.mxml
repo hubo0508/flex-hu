@@ -360,11 +360,11 @@
 	<mx:UIComponent id="grid" width="100%" height="100%"/>
 	
 	<!--元素节点容器-->
-	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0" skinClass="com.hubo.workflow.skin.Scroller_skin">
+	<s:Scroller width="100%" height="100%" minWidth="0" minHeight="0" >
 		<!--<s:Group id="workflowContent" width="100%" minHeight="0" minWidth="0"  top="122" bottom="23"  height="100%"/>-->
 		<child:WorkflowContent id="workflowContent"/>
 	</s:Scroller>
-	
+	 
 	<!--画背景矩形-->
 	<mx:UIComponent id="bgRect" width="100%" height="100%"/>
 	

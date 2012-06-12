@@ -8,6 +8,10 @@ s|Application{
 	fontFamily:"宋体";
 } 
 
+s|Scroller{
+	skin-class:ClassReference("com.hubo.workflow.skin.Scroller_skin");
+}
+
 mx|TabNavigator
 {
 	tabHeight: 25;
