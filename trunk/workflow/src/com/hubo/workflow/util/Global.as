@@ -20,6 +20,8 @@ package com.hubo.workflow.util
 		{
 		}
 		
+		public static const bwMatrix:Array = [0.2225, 0.7169, 0.0606, 0, 0,0.2225, 0.7169, 0.0606, 0, 0,0.2225, 0.7169, 0.0606, 0, 0,0, 0, 0, 1, 0]; 
+		
 		public static const BG_GRID_WH:int = 15;
 		
 		[Embed(source="com/hubo/workflow/ui/assets/log.png")]		
