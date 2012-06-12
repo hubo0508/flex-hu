@@ -114,6 +114,7 @@
 							var point:Point=UIUtil.getUiAbsolutePosition(button);
 							alignmentTools.x=point.x;
 							alignmentTools.y=point.y + button.height + 3;
+							alignmentTools.parentPoint = UIUtil.getUiAbsolutePosition(button);
 							
 							PopUpManager.addPopUp(alignmentTools, UIUtil.getApplication(this), false);
 						}

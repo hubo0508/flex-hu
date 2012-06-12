@@ -24,8 +24,11 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.Button;
+			import com.hubo.workflow.components.TooTip;
 			import com.hubo.workflow.util.Global;
+			import com.hubo.workflow.util.UIUtil;
 			
+			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
@@ -40,6 +43,19 @@
 			
 			public static const CLICK_ALIGNMENT_TOOLS:String = "clickAlignmentTools";
 			
+			/**
+			 * 消息提示容器【内部使用】
+			 */
+			private var tootip:TooTip;
+			
+			public var parentPoint:Point = new Point(0,0);
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				tootip ? null : tootip = new TooTip("");
+			}
+			
 			protected function creationComplete(event:FlexEvent):void
 			{
 				this.initEvent()
@@ -49,17 +65,38 @@
 			{
 				for(var i:int=0, num:int=this.numElements; i<num; i++)
 				{
-					this.getElementAt(i).addEventListener(MouseEvent.CLICK,clickMenuHandler,false,0,true);
+					var button:IVisualElement = this.getElementAt(i);
+					button.addEventListener(MouseEvent.CLICK,buttonMouseHandler,false,0,true);
+					button.addEventListener(MouseEvent.ROLL_OUT,buttonMouseHandler,false,0,true);
+					button.addEventListener(MouseEvent.ROLL_OVER,buttonMouseHandler,false,0,true);
 				}
 			}
 			
-			protected function clickMenuHandler(event:MouseEvent):void
+			protected function buttonMouseHandler(event:MouseEvent):void
 			{
 				var button:LinkButton = event.currentTarget as LinkButton;
-				
-				var dye:DynamicEvent = new DynamicEvent(CLICK_ALIGNMENT_TOOLS);
-				dye.name = button.name;
-				this.dispatchEvent(dye);
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						var dye:DynamicEvent = new DynamicEvent(CLICK_ALIGNMENT_TOOLS);
+						dye.name = button.name;
+						this.dispatchEvent(dye);
+						break;
+
+					case MouseEvent.ROLL_OUT :
+						PopUpManager.removePopUp(tootip);
+						break;
+
+					case MouseEvent.ROLL_OVER :
+						tootip.x = parentPoint.x + button.left-button.width+3;
+						tootip.y = parentPoint.y + this.height*2+10;
+						tootip.text = button.id;
+						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+						break;
+					
+					default:
+						break;
+				}
 			}
 		]]>
 		
@@ -72,16 +109,16 @@
 		</s:LinearGradient>
 	</s:backgroundFill>
 	
-	<mx:LinkButton name="{LAYERS_TOP}" icon="{Global.LAYERS_TOP}" verticalCenter="0" left="5" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="顶对齐" name="{LAYERS_TOP}" icon="{Global.LAYERS_TOP}" verticalCenter="0" left="5" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton name="{LAYERS_MIDDLE}" icon="{Global.LAYERS_MIDDLE}" verticalCenter="0" left="26" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="垂直中齐" name="{LAYERS_MIDDLE}" icon="{Global.LAYERS_MIDDLE}" verticalCenter="0" left="26" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton name="{LAYERS_BOTTOM}" icon="{Global.LAYERS_BOTTOM}" verticalCenter="0" left="48" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="底对齐" name="{LAYERS_BOTTOM}" icon="{Global.LAYERS_BOTTOM}" verticalCenter="0" left="48" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton name="{LAYERS_LEFT}" icon="{Global.LAYERS_LEFT}" verticalCenter="0" left="76" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="左对齐" name="{LAYERS_LEFT}" icon="{Global.LAYERS_LEFT}" verticalCenter="0" left="76" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton name="{LAYERS_CENTER}" icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="水平中齐" name="{LAYERS_CENTER}" icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"/>
 	
-	<mx:LinkButton name="{LAYERS_RIGHT}" icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"/>
+	<mx:LinkButton  id="右对齐" name="{LAYERS_RIGHT}" icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"/>
 	
 </s:BorderContainer>
