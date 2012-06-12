@@ -22,9 +22,9 @@
 			public static const VERTICAL:String = "VERTICAL";
 			
 			/**
-			 * 更新所有元素节点X坐标
+			 * 更新所有元素节点Y坐标
 			 */
-			public function updateAllHorizontalPoint(y:Number):void
+			public function updateAllHorizontalPointY(y:Number):void
 			{
 				for(var i:int=0, num:int=numElements; i<num; i++)
 				{
@@ -32,6 +32,22 @@
 					if(node && node.selected && node.y != y)
 					{
 						node.y = y;
+						node.refreshLine();
+					}
+				}
+			}
+			
+			/**
+			 * 更新所有元素节点X坐标
+			 */
+			public function updateAllHorizontalPointX(x:Number):void
+			{
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var node:ElementNode = getElementAt(i) as ElementNode;
+					if(node && node.selected && node.x != x)
+					{
+						node.x = x;
 						node.refreshLine();
 					}
 				}
