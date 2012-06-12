@@ -118,15 +118,12 @@
 			
 			protected function mainviewMouseHandler(event:MouseEvent):void
 			{
-				trace(event.target);
-				//if(event.target is NodeImage || event.target is LinkButton) return;
-				
 				if(event.target is WorkflowContent || UIUtil.getID(event.target) == "bgRect")
 				{
 					switch(event.type)
 					{
 						case MouseEvent.CLICK :
-							drawRectMark ? null  : this.removeElementNodeState();
+							drawRectMark ? null  : workflowContent.removeSlectedState();
 							drawRectMark  = false;
 							break;
 						
@@ -209,7 +206,10 @@
 						break;
 					
 					case TopNavigation.LOG :
+						trace("iconTools.bottom is " + iconTools.bottom);
 						bottomNavigation.showOrHide();
+						trace("iconTools.bottom is " + iconTools.bottom);
+						trace("");
 						break;
 					
 					case TopNavigation.SAVE :
@@ -296,22 +296,6 @@
 					
 					default :
 						break;
-				}
-			}
-			
-			/**
-			 * 删除选中的元素节点
-			 */
-			private function removeElementNodeState():void
-			{
-				for(var i:int=0, num:int=workflowContent.numElements; i<num; i++)
-				{
-					var elementNode:ElementNode = workflowContent.getElementAt(i) as ElementNode;
-					if(elementNode && elementNode.selected)
-					{
-						trace("xx");
-						elementNode.selectedState(false);
-					}
 				}
 			}
 			
