@@ -124,7 +124,6 @@
 	<mx:LinkButton enabled="false"  id="水平中齐" name="{LAYERS_CENTER}" icon="{Global.LAYERS_CENTER}" verticalCenter="0" left="97" paddingLeft="2" paddingRight="2"
 				   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
 	
-	<mx:LinkButton enabled="false"  id="右对齐" name="{LAYERS_RIGHT}" icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"
-				   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
+	<mx:LinkButton enabled="true"  id="右对齐" name="{LAYERS_RIGHT}" icon="{Global.LAYERS_RIGHT}" verticalCenter="0" left="120" paddingLeft="2" paddingRight="2"  />
 	
 </s:BorderContainer>

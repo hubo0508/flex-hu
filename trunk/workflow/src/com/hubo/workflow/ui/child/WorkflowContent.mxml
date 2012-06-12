@@ -21,6 +21,10 @@
 			
 			public static const VERTICAL:String = "VERTICAL";
 			
+			public static const FIRST_ELEMENT:String = "firstElement";
+			
+			public static const LAST_ELEMENT:String = "lastElement";
+			
 			/**
 			 * 更新所有元素节点Y坐标
 			 */
@@ -56,7 +60,7 @@
 			/**
 			 * 取得容器中，顺序从左到右的第一个元素节点
 			 */
-			public function getFirstElementNode(type:String):Point
+			public function getNodePointBy(layersType:String, type:String):Point
 			{
 				var topnode:ElementNode = null;
 				for(var i:int=0, num:int=numElements; i<num; i++)
@@ -64,14 +68,16 @@
 					var elementNode:ElementNode = getElementAt(i) as ElementNode;
 					if(elementNode && topnode)
 					{
-						switch(type)
+						switch(layersType)
 						{
 							case HORIZONTAL :
-								topnode = elementNode.x < topnode.x ? elementNode :  topnode;                          
+								FIRST_ELEMENT == type ? topnode = elementNode.x < topnode.x ? 
+								elementNode :  topnode  :  topnode = elementNode.x > topnode.x ? elementNode :  topnode;  
 								break;
 							
 							case VERTICAL : 
-								topnode = elementNode.y < topnode.y ? topnode :  elementNode;             
+								FIRST_ELEMENT == type ? topnode = elementNode.y < topnode.y ? 
+								topnode :  elementNode : topnode = elementNode.y > topnode.y ? topnode :  elementNode;
 								break;
 							
 							default:

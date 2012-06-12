@@ -88,7 +88,7 @@
 				switch(event.name)
 				{
 					case AlignmentTools.LAYERS_TOP :
-						var point:Point = workflowContent.getFirstElementNode(WorkflowContent.HORIZONTAL);
+						var point:Point = workflowContent.getNodePointBy(WorkflowContent.HORIZONTAL,WorkflowContent.FIRST_ELEMENT);
 						workflowContent.updateAllHorizontalPointY(point.y);
 						break;
 					
@@ -99,7 +99,7 @@
 						break;
 					
 					case AlignmentTools.LAYERS_LEFT :
-						var point2:Point = workflowContent.getFirstElementNode(WorkflowContent.HORIZONTAL);
+						var point2:Point = workflowContent.getNodePointBy(WorkflowContent.HORIZONTAL, WorkflowContent.FIRST_ELEMENT);
 						workflowContent.updateAllHorizontalPointX(point2.x);
 						break;
 					
@@ -107,6 +107,8 @@
 						break;
 					
 					case AlignmentTools.LAYERS_RIGHT :
+						var point3:Point = workflowContent.getNodePointBy(WorkflowContent.HORIZONTAL, WorkflowContent.LAST_ELEMENT);
+						workflowContent.updateAllHorizontalPointX(point3.x);
 						break;
 					
 					default:
