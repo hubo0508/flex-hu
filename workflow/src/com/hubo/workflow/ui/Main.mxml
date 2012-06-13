@@ -205,10 +205,13 @@
 						var invertSelection:Boolean = (point.x > stage.mouseX && point.x < drawBgRectPoint.x) && (point.y > stage.mouseY && point.y < drawBgRectPoint.y);
 						//左上角 => 右下角
 						var isSelected:Boolean = (point.x >drawBgRectPoint.x && point.x <stage.mouseX) && (point.y > drawBgRectPoint.y && point.y < stage.mouseY);
-						
+						//右上角 => 左下角
+						var right2:Boolean = (point.x < drawBgRectPoint.x && point.x > stage.mouseX) && (point.y > drawBgRectPoint.y && point.y < stage.mouseY)
+						//左下角 => 右上角
+						var left2:Boolean = (point.x > drawBgRectPoint.x && point.x < stage.mouseX) && (point.y < drawBgRectPoint.y && point.y > stage.mouseY)
 						//设置选择状态
-						invertSelection ||	isSelected ? elementNode.selectedState(true) : elementNode.selectedState(false);
-						invertSelection ? drawRectMark = true : null;
+						invertSelection ||	isSelected || right2 || left2 ? elementNode.selectedState(true) : elementNode.selectedState(false);
+						invertSelection || right2 || left2 ? drawRectMark = true : null;
 						
 						trace("invertSelection = " + invertSelection);
 						trace("drawBgRectPoint.x="+drawBgRectPoint.x + "  y="+drawBgRectPoint.y);
