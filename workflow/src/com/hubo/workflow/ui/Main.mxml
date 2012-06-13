@@ -16,6 +16,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.NodeImage;
+			import com.hubo.workflow.components.graphic.Round;
 			import com.hubo.workflow.event.ClickTopNavMenuEvent;
 			import com.hubo.workflow.event.CreateElementLineEvent;
 			import com.hubo.workflow.event.CreateElementNodeEvent;
@@ -56,6 +57,8 @@
 			 */
 			private var drawRectMark:Boolean = false;
 			
+			public var round:Round;
+			
 			private function creationComplete():void 
 			{
 				this.initEventListener();
@@ -78,6 +81,39 @@
 				this.addEventListener(MouseEvent.MOUSE_UP, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.MOUSE_MOVE, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.CLICK,mainviewMouseHandler,false,0,true);
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(round == null)
+				{
+					round = new Round();
+					round.visible = false;
+					round.addEventListener(MouseEvent.CLICK,roundClickHandler,false,0,true);
+					
+					this.addElement(round);
+				}
+			}
+			
+			protected function roundClickHandler(event:MouseEvent):void
+			{
+				var r:Round = event.currentTarget as Round;
+				var node:ElementNode = workflowContent.getElementNodeBySID(r.SID);
+				stopDragRound(r,node);
+			}
+			
+			public function stopDragRound(round:Round, node:ElementNode):void
+			{
+				if(node.x != round.x || node.y != round.y)
+				{
+					node.x = round.x;
+					node.y = round.y;
+					node.refreshLine();
+				}
+				round.visible = false;
+				round.stopDrag();
 			}
 			
 			/**
@@ -246,14 +282,23 @@
 			 */
 			protected function elementNodeHandler(event:MouseEvent):void
 			{
+				var node:ElementNode = event.currentTarget as ElementNode;
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OVER :
-						this.drawLastLine(event.currentTarget as ElementNode, this.thisLine);
+						this.drawLastLine(node, this.thisLine);
 						break;
 					
 					case MouseEvent.CLICK :
-						this.drawLastLine(event.currentTarget as ElementNode,this.thisLine);
+						this.drawLastLine(node,this.thisLine);
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						round.x = node.x;
+						round.y = node.y;
+						round.visible = true;
+						round.SID = node.SID;
+						round.startDrag();
 						break;
 					
 					default:
@@ -339,6 +384,7 @@
 				node.addEventListener(CreateElementLineEvent.CREATE_ELEMENT_LINE, createElementLineHandler,false,0,true);
 				node.addEventListener(MouseEvent.CLICK,elementNodeHandler,false,0,true);
 				node.addEventListener(MouseEvent.ROLL_OVER,elementNodeHandler,false,0,true);
+				node.addEventListener(MouseEvent.MOUSE_DOWN, elementNodeHandler, false, 0, true);
 				node.SID = this.countnode;
 				workflowContent.addElement(node);
 				
