@@ -284,7 +284,7 @@ package com.hubo.workflow.util
 			{
 				id = obj.id.toString();	
 			}catch(e:*){
-				trace("  :: UIUtil ::  "+e);
+				//trace("  :: UIUtil ::  "+e);
 			}
 			
 			return id;
