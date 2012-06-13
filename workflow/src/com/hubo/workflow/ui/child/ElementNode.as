@@ -332,16 +332,17 @@ package com.hubo.workflow.ui.child
 
 				case MouseEvent.MOUSE_UP:
 					this.stopDrag();
+					this.refreshLine();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
-					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
-					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
-					{
-						this.refreshLine();
-					}
-					this.updateCachePoint();
-					break;
+//					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
+//					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
+//					{
+//						this.refreshLine();
+//					}
+//					this.updateCachePoint();
+					break; 
 
 				default:
 					break;
