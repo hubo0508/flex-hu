@@ -80,6 +80,8 @@ package com.hubo.workflow.ui.child
 		 */
 		public function removeQuote():void
 		{
+			if(nodeCollection == null) return;
+			
 			for(var i:int=0, num:int=nodeCollection.length; i<num; i++)
 			{
 				if(nodeCollection[i].removeQuote(this))

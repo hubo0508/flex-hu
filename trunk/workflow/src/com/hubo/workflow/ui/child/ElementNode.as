@@ -109,9 +109,9 @@ package com.hubo.workflow.ui.child
 			this.addEventListener(MouseEvent.CLICK,mouseHandler,false,0,true);
 			this.addEventListener(MouseEvent.ROLL_OUT, mouseHandler, false, 0, true);
 			this.addEventListener(MouseEvent.ROLL_OVER, mouseHandler, false, 0, true);
-			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler, false, 0, true);
-			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler, false, 0, true);
-			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
+//			this.addEventListener(MouseEvent.MOUSE_DOWN, tagMouseHandler, false, 0, true);
+//			this.addEventListener(MouseEvent.MOUSE_UP, tagMouseHandler, false, 0, true);
+//			this.addEventListener(MouseEvent.MOUSE_MOVE, tagMouseHandler, false, 0, true);
 			this.addEventListener(FlexEvent.CREATION_COMPLETE,createionCompleteHandler,false,0,true);
 
 			this.initTagtext(text);
@@ -242,6 +242,8 @@ package com.hubo.workflow.ui.child
 		 */
 		private function removeQuoteLines():void
 		{
+			if(linesCollection == null) return;
+			
 			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
 			{
 				var linepro:LineProperties = linesCollection[i];
@@ -327,22 +329,22 @@ package com.hubo.workflow.ui.child
 			switch (event.type)
 			{
 				case MouseEvent.MOUSE_DOWN:
-					//this.startDrag();
+					this.startDrag();
 					break;
 
 				case MouseEvent.MOUSE_UP:
-					trace("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-					//this.stopDrag();
-					//this.refreshLine();
+					trace("MouseEvent.MOUSE_UP");
+					this.stopDrag();
+					this.refreshLine();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:
-//					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
-//					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
-//					{
-//						this.refreshLine();
-//					}
-//					this.updateCachePoint();
+					var thisPoint:Point = UIUtil.getUiAbsolutePosition(this);
+					if(this.cachePoint.x != thisPoint.x || this.cachePoint.y != thisPoint.y)
+					{
+						this.refreshLine();
+					}
+					this.updateCachePoint();
 					break; 
 
 				default:
