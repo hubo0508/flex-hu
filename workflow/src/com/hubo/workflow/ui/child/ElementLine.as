@@ -84,10 +84,9 @@ package com.hubo.workflow.ui.child
 			
 			for(var i:int=0, num:int=nodeCollection.length; i<num; i++)
 			{
-				if(nodeCollection[i].removeQuote(this))
-				{
-					break;
-				}
+				var node:ElementNode = nodeCollection[i] as ElementNode;
+				trace("刪除線條中引用的節點："+node.text);
+				node.removeQuote(this);
 			}
 			
 			nodeCollection = null;

@@ -40,7 +40,7 @@ package com.hubo.workflow.ui.child
 		/**
 		 * 元素节点名字
 		 */
-		private var text:String;
+		public var text:String;
 
 		/**
 		 * 存储当前元素节点所关联的线条集合
@@ -212,6 +212,7 @@ package com.hubo.workflow.ui.child
 					break;
 
 				case ConfigTools.NODE_DELETE:
+					trace("開始刪除："+this.text +" 節點， 關聯線條："+this.linesCollection.length);
 					this.hideConfigTools();
 					this.removeQuoteLines();
 					this.clear();
@@ -246,7 +247,8 @@ package com.hubo.workflow.ui.child
 			
 			for(var i:int=0, num:int=linesCollection.length; i<num; i++)
 			{
-				var linepro:LineProperties = linesCollection[i];
+				trace("節點："+this.text +" 的第："+(i+1)+"  條線");
+				var linepro:LineProperties = linesCollection[0] as LineProperties;
 				linepro.elementLine.removeQuote();
 				Object(parent).removeElement(linepro.elementLine);
 			}
@@ -289,7 +291,7 @@ package com.hubo.workflow.ui.child
 		private function showConfigTools():void
 		{
 			var thisUI:UIComponent = this;
-			showConfigToolsTimer == null ? showConfigToolsTimer=new Timer(400, 1) : null;
+			showConfigToolsTimer == null ? showConfigToolsTimer=new Timer(300, 1) : null;
 			showConfigToolsTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 			{
 				var point:Point=UIUtil.getUiAbsolutePosition(thisUI);
@@ -333,7 +335,6 @@ package com.hubo.workflow.ui.child
 					break;
 
 				case MouseEvent.MOUSE_UP:
-					trace("MouseEvent.MOUSE_UP");
 					this.stopDrag();
 					this.refreshLine();
 					break;
@@ -511,6 +512,5 @@ package com.hubo.workflow.ui.child
 			return false;
 		}
 
-		
 	}
 }
