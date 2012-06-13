@@ -61,7 +61,7 @@
 	<s:Rect  id="bg" top="0" height="38" width="100%">
 		<s:fill>
 			<s:SolidColor color="#DFDFDF"/>
-		</s:fill>
+		</s:fill> 
 	</s:Rect>		
 	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" top="5">
 		<s:stroke>
