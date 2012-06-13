@@ -81,6 +81,26 @@
 				this.addEventListener(MouseEvent.MOUSE_UP, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.MOUSE_MOVE, mainviewMouseHandler, false, 0, true);
 				this.addEventListener(MouseEvent.CLICK,mainviewMouseHandler,false,0,true);
+
+				this.parentApplication.addEventListener(MouseEvent.MOUSE_UP,applicationMouseUpHandler,false,0,true);
+			}
+			
+			private function applicationMouseUpHandler(event:MouseEvent):void
+			{
+				if(round.visible == false)
+				{
+					return;	
+				}
+				var node:ElementNode = workflowContent.getElementNodeBySID(this.round.SID);
+				if(node.x != round.x || node.y != round.y)
+				{
+					node.x = round.x;
+					node.y = round.y;
+					node.refreshLine();
+				}
+				round.visible = false;
+				round.SID = -1;
+				round.stopDrag();
 			}
 			
 			override protected function createChildren():void
@@ -91,29 +111,9 @@
 				{
 					round = new Round();
 					round.visible = false;
-					round.addEventListener(MouseEvent.CLICK,roundClickHandler,false,0,true);
 					
 					this.addElement(round);
 				}
-			}
-			
-			protected function roundClickHandler(event:MouseEvent):void
-			{
-				var r:Round = event.currentTarget as Round;
-				var node:ElementNode = workflowContent.getElementNodeBySID(r.SID);
-				stopDragRound(r,node);
-			}
-			
-			public function stopDragRound(round:Round, node:ElementNode):void
-			{
-				if(node.x != round.x || node.y != round.y)
-				{
-					node.x = round.x;
-					node.y = round.y;
-					node.refreshLine();
-				}
-				round.visible = false;
-				round.stopDrag();
 			}
 			
 			/**
@@ -170,6 +170,7 @@
 						case MouseEvent.MOUSE_UP:
 							drawBgRectPoint = null;
 							bgRect.graphics.clear();
+							trace("MouseEvent.MOUSE_UP");
 							break;
 						
 						case MouseEvent.MOUSE_MOVE :
