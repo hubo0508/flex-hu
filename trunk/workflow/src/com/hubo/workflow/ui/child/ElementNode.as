@@ -327,12 +327,13 @@ package com.hubo.workflow.ui.child
 			switch (event.type)
 			{
 				case MouseEvent.MOUSE_DOWN:
-					this.startDrag();
+					//this.startDrag();
 					break;
 
 				case MouseEvent.MOUSE_UP:
-					this.stopDrag();
-					this.refreshLine();
+					trace("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+					//this.stopDrag();
+					//this.refreshLine();
 					break;
 
 				case MouseEvent.MOUSE_MOVE:

@@ -25,6 +25,21 @@
 			
 			public static const LAST_ELEMENT:String = "lastElement";
 			
+			public function selectedCount():int
+			{
+				var count:int = 1;
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var node:ElementNode = getElementAt(i) as ElementNode;
+					if(node && node.selected)
+					{
+						count++;
+					}
+				}
+				
+				return count;
+			}
+			
 			/**
 			 * 更新所有元素节点Y坐标
 			 */
