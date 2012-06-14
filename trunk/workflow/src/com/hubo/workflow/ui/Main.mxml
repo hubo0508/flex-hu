@@ -33,6 +33,7 @@
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
 			
+			import spark.components.Label;
 			import spark.primitives.BitmapImage;
 			
 			/**
@@ -246,10 +247,7 @@
 						break;
 					
 					case TopNavigation.LOG :
-						trace("iconTools.bottom is " + iconTools.bottom);
 						bottomNavigation.showOrHide();
-						trace("iconTools.bottom is " + iconTools.bottom);
-						trace("");
 						break;
 					
 					case TopNavigation.SAVE :
@@ -317,7 +315,28 @@
 				elementNode.addAssociatedLines(elementLine,false);
 				elementNode.refreshArrow();
 				elementLine.addAssociatedElementNode(elementNode);
+				
+				//initLineLabel(thisLine);
+				
 				this.stopDrawLine();
+			}
+			
+			private function initLineLabel(line:ElementLine):void
+			{
+				var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
+				var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
+				var dist:Number=Math.sqrt(dx * dx + dy * dy);
+				var odx:Number = dx*0.5;
+				var ody:Number = odx/dx*dy;
+				
+				var node:ElementNode = line.getAssociatedElementNode()[0] as ElementNode;
+				
+				var label:Label = line.getLabel();
+				label.text = "测试线条";
+				label.x = node.centerPoint().x - odx;
+				label.y = node.centerPoint().y - ody;
+				
+				workflowContent.addElement(label);
 			}
 			
 			/**
