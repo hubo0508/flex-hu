@@ -249,8 +249,11 @@ package com.hubo.workflow.ui.child
 			{
 				trace("節點："+this.text +" 的第："+(i+1)+"  條線");
 				var linepro:LineProperties = linesCollection[0] as LineProperties;
-				linepro.elementLine.removeQuote();
-				Object(parent).removeElement(linepro.elementLine);
+				if(linepro)
+				{
+					linepro.elementLine.removeQuote();
+					Object(parent).removeElement(linepro.elementLine);
+				}
 			}
 		}
 
@@ -409,11 +412,25 @@ package com.hubo.workflow.ui.child
 					{
 						line.setEndPoint(Global.arrowPointWidth(line.getStartPoint(),nodesCollection[k]));
 						line.draw();
+						
+						//this.refreshLineLabel(line);
 					}
 					
 					(nodesCollection == null || nodesCollection.length ==0) ? line.draw() : null;
 				}
 			}
+		}
+		
+		private function refreshLineLabel(line:ElementLine):void
+		{
+			var dx:Number = line.getStartPoint().x - line.getEndPoint().x;
+			var dy:Number = line.getStartPoint().y - line.getEndPoint().y;
+			var dist:Number=Math.sqrt(dx * dx + dy * dy);
+			var odx:Number = dx*0.5;
+			var ody:Number = odx/dx*dy;
+			
+			line.getLabel().x = this.centerPoint().x - odx;
+			line.getLabel().y = this.centerPoint().y - ody;
 		}
 
 		/**
@@ -423,6 +440,11 @@ package com.hubo.workflow.ui.child
 		{
 			linesCollection ? null: linesCollection = [] ;
 			linesCollection.push(new LineProperties(elementLine, arrowsMark));
+		}
+		
+		public function getAssociatedLines():Array
+		{
+			return linesCollection;
 		}
 
 		/**

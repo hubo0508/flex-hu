@@ -8,12 +8,14 @@ package com.hubo.workflow.ui.child
 	
 	import mx.core.UIComponent;
 	
+	import spark.components.Group;
+	import spark.components.Label;
 	import spark.filters.GlowFilter;
 
 	/**
 	 * 带箭头线条
 	 */
-	public class ElementLine extends UIComponent implements IWorkFlow
+	public class ElementLine extends UIComponent 
 	{
 
 		/**
@@ -46,10 +48,28 @@ package com.hubo.workflow.ui.child
 		 */
 		private var radius:uint = 8;
 		
+		private var label:Label;
+		
 		/**
-		 * 存储当前元素节点所关联的元素节点集合
+		 * 存储当前元素节点所关联的元素节点集合a
 		 */
 		private var nodeCollection:Array=[];
+		
+		public function getLabel():Label
+		{
+			return label;
+		}
+		
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			
+			if(label == null)
+			{
+				label= new Label();
+				label.maxWidth = 50;
+			}
+		}
 		
 		public function addAssociatedElementNode(elementNode:ElementNode):void
 		{
