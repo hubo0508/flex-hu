@@ -41,26 +41,26 @@ mx|TabBar
 }
 
 .tabStyle {
-	disabledSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_disabledSkin.png",
+	disabledSkin: Embed(source="/com/hubo/workflow/assets/Tab_disabledSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	downSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_downSkin.png",
+	downSkin: Embed(source="/com/hubo/workflow/assets/Tab_downSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	overSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_overSkin.png",
+	overSkin: Embed(source="/com/hubo/workflow/assets/Tab_overSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	selectedDisabledSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_disabledSkin.png",
+	selectedDisabledSkin: Embed(source="/com/hubo/workflow/assets/TabSelected_disabledSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	selectedDownSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+	selectedDownSkin: Embed(source="/com/hubo/workflow/assets/TabSelected_upSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	selectedOverSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+	selectedOverSkin: Embed(source="/com/hubo/workflow/assets/TabSelected_upSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	selectedUpSkin: Embed(source="/com/hubo/workflow/ui/assets/TabSelected_upSkin.png",
+	selectedUpSkin: Embed(source="/com/hubo/workflow/assets/TabSelected_upSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
-	upSkin: Embed(source="/com/hubo/workflow/ui/assets/Tab_upSkin.png",
+	upSkin: Embed(source="/com/hubo/workflow/assets/Tab_upSkin.png",
 		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="49", scaleGridBottom="20");
 	
 	tabHeight:45;
 	
-	/* focusSkin: Embed(source="/com/hubo/workflow/ui/assets/textBoxFocus.png",
+	/* focusSkin: Embed(source="/com/hubo/workflow/assets/textBoxFocus.png",
 	scaleGridLeft="5", scaleGridTop="5", scaleGridRight="10", scaleGridBottom="10"); */
 	
 }
