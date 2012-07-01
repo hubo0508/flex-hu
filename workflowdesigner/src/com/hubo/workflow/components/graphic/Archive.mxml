@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-11</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Graphic xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   name="VectorFig"
+		   rollOver="rollHandler(event)"
+		   rollOut="rollHandler(event)">
+
+	<!--
+		 归档图标
+	-->
+
+	<fx:Script>
+		<![CDATA[
+			import mx.graphics.SolidColor;
+			
+			public var rollMask:Boolean=false;
+
+			[Bindable]
+			public var originalColor:uint=0xA0A0A0;
+
+			[Bindable]
+			public var overColor:uint=0x585858;
+
+			[Bindable]
+			private var sc:SolidColor;
+
+			protected function rollHandler(event:MouseEvent):void
+			{
+				if (!rollMask)
+					return;
+
+				this.changeBgColor(event.type);
+			}
+
+			public function changeBgColor(type:String):void
+			{
+				switch (type)
+				{
+					case MouseEvent.ROLL_OUT:
+						this.sc.color=originalColor;
+						break;
+
+					case MouseEvent.ROLL_OVER:
+						this.sc.color=overColor;
+						break;
+
+					default:
+						break;
+				}
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if (!sc)
+				{
+					sc=new SolidColor();
+					sc.color=originalColor;
+				}
+			}
+		]]>
+	</fx:Script>
+
+	<s:Path fill="{sc}" data="M 1.557 12.165 L 1.557 1.493 L 3.527 1.493 L 3.527 6.769 L 10.584 6.769 L 10.584 1.493 L 11.211 1.493 L 12.681 2.866 L 12.681 5.075 L 14.238 5.075 L 14.238 2.235 L 11.844 0 L 0 0 L 0 13.66 L 8.815 13.66 L 7.386 12.165 L 1.557 12.165 Z M 7.468 1.493 L 9.026 1.493 L 9.026 5.274 L 7.468 5.274 L 7.468 1.493 Z" winding="nonZero" x="0.43" y="0.313" />
+	<s:Path fill="{sc}" data="M 6.568 3.924 L 6.568 0 L 3.178 0 L 3.178 3.924 L 0 3.924 L 4.873 9.019 L 9.746 3.924 L 6.568 3.924 Z" winding="nonZero" x="8.171" y="6.701" />
+</s:Graphic>
