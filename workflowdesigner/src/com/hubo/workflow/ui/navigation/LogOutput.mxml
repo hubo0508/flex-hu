@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:child="com.hubo.workflow.ui.child.*"
+		 xmlns:navigation="com.hubo.workflow.ui.navigation.*"
+		 width="100%"
+		 horizontalCenter="0"
+		 bottom="0">
+	
+	<fx:Script>
+		<![CDATA[
+			protected function navtitleClickHandler(event:MouseEvent):void
+			{
+				this.navlog.showOrHide();
+			}
+			
+			public function showOrHide():void
+			{
+				this.navlog.showOrHide();
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<navigation:LogOutputLog id="navlog" bottom="-94"/>
+	
+	<navigation:LogOutputTitle id="navtitle" click="navtitleClickHandler(event)" bottom="0"/>
+	
+</s:Group>
