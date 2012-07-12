@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-7-12</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 rollOut="handler(event)"
+		 rollOver="handler(event)"
+		 mouseDown="handler(event)"
+		 mouseUp="handler(event)"
+		 click="handler(event)"
+		 height="37"
+		 minWidth="85">
+	
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+
+	<fx:Script>
+		<![CDATA[
+			protected function handler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						break;
+					
+					default:
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Rect   height="100%" width="100%" bottom="0" horizontalCenter="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+	</s:Rect>	
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="#EFEDEC" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" top="0">
+		<s:stroke>
+			<s:SolidColorStroke color="#EFEDEC" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+</s:Group>
