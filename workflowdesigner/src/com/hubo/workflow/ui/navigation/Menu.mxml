@@ -12,7 +12,7 @@
 		 top="88">
 	
 	<s:HGroup width="100%" gap="0">
-		<components:MenuButton text="请假审批流程" texttype="title" width="225" bgevent="false"/>
+		<components:MenuButton text="请假审批流程" texttype="title" width="225" isBgEvent="false"/>
 		<components:Separator/>
 		<components:MenuButton text="立即保存"/>
 		<components:Separator/>
@@ -20,17 +20,17 @@
 		<components:Separator/>
 		<components:MenuButton text="验证"/>
 		<components:Separator/>
-		<components:MenuButton text="对齐"/>
+		<components:MenuButton text="对齐" isDropDownMenu="true"/>
 		<components:Separator/>
-		<components:MenuButton text="缩放"/>
+		<components:MenuButton text="缩放" isDropDownMenu="true"/>
 		<components:Separator/>
 		<components:MenuButton text="网格"/>
 		<components:Separator/>
 		<components:MenuButton text="日志"/>
 		<components:Separator/>
-		<components:MenuButton text="节点" textcolor="0xDA2323"/>
+		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true"/>
 		<components:Separator/>
-		<components:MenuButton width="100%" bgevent="false"/>
+		<components:MenuButton width="100%" isBgEvent="false"/>
 	</s:HGroup>
 	
 </s:Group>

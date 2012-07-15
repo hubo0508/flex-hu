@@ -13,7 +13,7 @@
 		 mouseUp="handler(event)"
 		 click="handler(event)"
 		 height="37"
-		 minWidth="85">
+		 minWidth="85" xmlns:graphic="com.hubo.workflow.components.graphic.*">
 	
 	<s:layout>
 		<s:BasicLayout/>
@@ -21,11 +21,18 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.components.graphic.Triangle;
+			
 			import mx.controls.Alert;
 			
+			import spark.components.HGroup;
 			import spark.components.Label;
 			
 			private var textTag:Label;
+			
+			private var dropDownMenu:HGroup;
+			
+			private var triangle:Triangle;
 			
 			private var _text:String;
 			
@@ -33,17 +40,32 @@
 			
 			private var _textcolor:uint;
 			
-			private var _bgevent:Boolean = true;
+			private var _isBgEvent:Boolean = true;
 			
+			private var _isDropDownMenu:Boolean = false;
+		
 			override protected function createChildren():void
 			{
 				super.createChildren();
 				
-				if(text && textTag == null)
+				if(text && textTag == null && isDropDownMenu == false)
 				{
 					textTag = new Label();
 					
 					this.addElement(textTag);
+				}
+
+				if(text && textTag == null && isDropDownMenu)
+				{
+					textTag = new Label();
+					
+					triangle = new Triangle();
+					
+					dropDownMenu = new HGroup();
+					
+					dropDownMenu.addElement(textTag);
+					dropDownMenu.addElement(triangle);
+					this.addElement(dropDownMenu);
 				}
 			}
 			
@@ -53,13 +75,12 @@
 				
 				if(textTag)
 				{
-					
-					textTag.maxDisplayedLines = 1;
 					textTag.text = this.text;
-					textTag.verticalCenter = 0;
+					textTag.maxDisplayedLines = 1;
 					
-					if(texttype == "title")
+					if(texttype == "title" && isDropDownMenu == false)
 					{
+						textTag.verticalCenter = 0;
 						textTag.maxWidth = this.width-15;
 						textTag.setStyle("fontSize", 18);
 						textTag.setStyle("color", 0xDA2323);
@@ -67,12 +88,25 @@
 						textTag.left = 10;
 					}
 					
-					if(texttype == "text")
+					if(texttype == "text" && isDropDownMenu == false)
 					{
+						textTag.verticalCenter = 0;
 						textTag.setStyle("fontSize", 12);
 						textcolor.toString()=="0" ? null : textTag.setStyle("color", textcolor);
 						textTag.setStyle("fontFamily", "宋体");
 						textTag.horizontalCenter = 0;
+					}
+					
+					if(texttype == "text" && isDropDownMenu && dropDownMenu)
+					{
+						dropDownMenu.horizontalCenter = 0;
+						dropDownMenu.verticalCenter = 0;
+						dropDownMenu.gap = 12;
+						dropDownMenu.verticalAlign = "middle";
+						
+						textTag.maxDisplayedLines = 1;
+						textTag.setStyle("fontSize", 12);
+						textTag.setStyle("fontFamily", "宋体");
 					}
 				}
 			}
@@ -114,7 +148,7 @@
 			protected function changeState(type:String):void
 			{
 				
-				if(bgevent == false)return;
+				if(isBgEvent == false)return;
 				
 				switch(type)
 				{
@@ -181,14 +215,24 @@
 				_textcolor = value;
 			}
 
-			public function get bgevent():Boolean
+			public function get isBgEvent():Boolean
 			{
-				return _bgevent;
+				return _isBgEvent;
 			}
 
-			public function set bgevent(value:Boolean):void
+			public function set isBgEvent(value:Boolean):void
 			{
-				_bgevent = value;
+				_isBgEvent = value;
+			}
+
+			public function get isDropDownMenu():Boolean
+			{
+				return _isDropDownMenu;
+			}
+
+			public function set isDropDownMenu(value:Boolean):void
+			{
+				_isDropDownMenu = value;
 			}
 
 
@@ -227,4 +271,10 @@
 	
 	<!--<s:Label maxDisplayedLines="1" maxWidth="210"  fontSize="18" color="#DA2323" text="请假审批流程" fontFamily="微软雅黑,黑体" left="10" verticalCenter="0"/>-->
 	<!--<s:Label maxDisplayedLines="1" fontSize="12"  text="立即保存" fontFamily="宋体"  horizontalCenter="0" verticalCenter="0"/>-->
+	<!--
+	<s:HGroup horizontalCenter="0" verticalCenter="0" gap="8" verticalAlign="middle">
+		<s:Label maxDisplayedLines="1"  fontSize="12" text="立即保存" fontFamily="宋体"/>
+		<graphic:Triangle/>
+	</s:HGroup>
+	-->
 </s:Group>
