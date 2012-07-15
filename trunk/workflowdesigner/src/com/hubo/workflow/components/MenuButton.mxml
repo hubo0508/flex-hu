@@ -21,11 +21,15 @@
 
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			
 			import spark.components.Label;
 			
 			private var _text:String;
 			
 			private var _texttype:String = "text";
+			
+			private var _textcolor:uint;
 			
 			private var textTag:Label;
 			
@@ -33,7 +37,7 @@
 			{
 				super.createChildren();
 				
-				if(textTag == null)
+				if(text && textTag == null)
 				{
 					textTag = new Label();
 					
@@ -62,10 +66,11 @@
 					
 					if(texttype == "text")
 					{
-						
+						textTag.setStyle("fontSize", 12);
+						textcolor.toString()=="0" ? null : textTag.setStyle("color", textcolor);
+						textTag.setStyle("fontFamily", "宋体");
+						textTag.horizontalCenter = 0;
 					}
-					
-					
 				}
 			}
 			
@@ -114,6 +119,16 @@
 				_texttype = value;
 			}
 
+			public function get textcolor():uint
+			{
+				return _textcolor;
+			}
+
+			public function set textcolor(value:uint):void
+			{
+				_textcolor = value;
+			}
+
 
 		]]>
 	</fx:Script>
@@ -147,5 +162,5 @@
 	</s:Line>
 	
 	<!--<s:Label maxDisplayedLines="1" maxWidth="210"  fontSize="18" color="#DA2323" text="请假审批流程" fontFamily="微软雅黑,黑体" left="10" verticalCenter="0"/>-->
-	
+	<!--<s:Label maxDisplayedLines="1" fontSize="12"  text="立即保存" fontFamily="宋体"  horizontalCenter="0" verticalCenter="0"/>-->
 </s:Group>
