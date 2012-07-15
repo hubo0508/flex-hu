@@ -3,10 +3,15 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ui="com.hubo.workflow.ui.*"
-			   xmlns:workflow="com.workflow.*">
+			   xmlns:workflow="com.workflow.*" xmlns:components="com.hubo.workflow.components.*">
 	
 	<fx:Style source="com/hubo/workflow/assets/Style.css"/>
 	
-	<ui:Main/>
+	<!--<ui:Main/>-->
+	
+	<s:HGroup top="100" width="100%" gap="0">
+		<components:MenuButton text="请假审批流程" texttype="title" width="225"/>
+		<components:Separator/>
+	</s:HGroup>
 	
 </s:Application>

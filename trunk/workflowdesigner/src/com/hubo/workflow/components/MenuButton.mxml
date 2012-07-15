@@ -7,7 +7,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 rollOut="handler(event)"
+		 rollOut="handler(event)" 
 		 rollOver="handler(event)"
 		 mouseDown="handler(event)"
 		 mouseUp="handler(event)"
@@ -21,6 +21,54 @@
 
 	<fx:Script>
 		<![CDATA[
+			import spark.components.Label;
+			
+			private var _text:String;
+			
+			private var _texttype:String = "text";
+			
+			private var textTag:Label;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(textTag == null)
+				{
+					textTag = new Label();
+					
+					this.addElement(textTag);
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+				if(textTag){
+					
+					textTag.maxDisplayedLines = 1;
+					textTag.text = this.text;
+					textTag.verticalCenter = 0;
+					
+					if(texttype == "title")
+					{
+						textTag.maxWidth = this.width-15;
+						textTag.setStyle("fontSize", 18);
+						textTag.setStyle("color", 0xDA2323);
+						textTag.setStyle("fontFamily", "微软雅黑,黑体");
+						textTag.left = 10;
+					}
+					
+					if(texttype == "text")
+					{
+						
+					}
+					
+					
+				}
+			}
+			
 			protected function handler(event:MouseEvent):void
 			{
 				switch(event.type)
@@ -44,6 +92,29 @@
 						break;
 				}
 			}
+
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				_text = value;
+			}
+
+			public function get texttype():String
+			{
+				return _texttype;
+			}
+
+			[Inspectable(category="String", enumeration="text,title", defaultValue="text")]
+			public function set texttype(value:String):void
+			{
+				_texttype = value;
+			}
+
+
 		]]>
 	</fx:Script>
 	
@@ -54,20 +125,27 @@
 		<s:State name="disabled" />
 	</s:states>
 	
+	<!--背景-->
 	<s:Rect   height="100%" width="100%" bottom="0" horizontalCenter="0">
 		<s:fill>
 			<s:SolidColor color="#FFFFFF"/>
 		</s:fill>
 	</s:Rect>	
+	
+	<!--bottom-->
 	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" bottom="0">
 		<s:stroke>
 			<s:SolidColorStroke color="#EFEDEC" weight="1" caps="square"/>
 		</s:stroke>
 	</s:Line>
+	
+	<!--top-->
 	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" top="0">
 		<s:stroke>
 			<s:SolidColorStroke color="#EFEDEC" weight="1" caps="square"/>
 		</s:stroke>
 	</s:Line>
+	
+	<!--<s:Label maxDisplayedLines="1" maxWidth="210"  fontSize="18" color="#DA2323" text="请假审批流程" fontFamily="微软雅黑,黑体" left="10" verticalCenter="0"/>-->
 	
 </s:Group>
