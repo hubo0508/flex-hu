@@ -11,47 +11,8 @@
 		 width="100%"
 		 top="88">
 	
-	<fx:Script>
-		<![CDATA[
-			/**
-			 * 日志
-			 */
-			public static const LOG:String = "log";
-			
-			/**
-			 * 网格
-			 */
-			public static const GRID:String = "grid";
-			
-			/**
-			 * 缩放
-			 */
-			public static const ZOOM:String = "zoom";
-			
-			/**
-			 * 对齐
-			 */			
-			public static const ALIGNMENT:String = "alignment";
-			
-			/**
-			 * 验证
-			 */
-			public static const VERIFICATION:String = "verification";
-			
-			/**
-			 * 舍弃
-			 */
-			public static const CANCEL:String = "cancel";
-			
-			/**
-			 * 立即保存
-			 */
-			public static const SAVE:String = "save";
-		]]>
-	</fx:Script>
-	
 	<s:HGroup width="100%" gap="0">
-		<components:MenuButton text="请假审批流程" texttype="title" width="225"/>
+		<components:MenuButton text="请假审批流程" texttype="title" width="225" bgevent="false"/>
 		<components:Separator/>
 		<components:MenuButton text="立即保存"/>
 		<components:Separator/>
@@ -69,7 +30,7 @@
 		<components:Separator/>
 		<components:MenuButton text="节点" textcolor="0xDA2323"/>
 		<components:Separator/>
-		<components:MenuButton width="100%"/>
+		<components:MenuButton width="100%" bgevent="false"/>
 	</s:HGroup>
 	
 </s:Group>

@@ -25,13 +25,15 @@
 			
 			import spark.components.Label;
 			
+			private var textTag:Label;
+			
 			private var _text:String;
 			
 			private var _texttype:String = "text";
 			
 			private var _textcolor:uint;
 			
-			private var textTag:Label;
+			private var _bgevent:Boolean = true;
 			
 			override protected function createChildren():void
 			{
@@ -49,7 +51,8 @@
 			{
 				super.commitProperties();
 				
-				if(textTag){
+				if(textTag)
+				{
 					
 					textTag.maxDisplayedLines = 1;
 					textTag.text = this.text;
@@ -76,6 +79,8 @@
 			
 			protected function handler(event:MouseEvent):void
 			{
+				this.changeState(event.type);
+				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
@@ -97,6 +102,53 @@
 						break;
 				}
 			}
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//public
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//protected
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function changeState(type:String):void
+			{
+				
+				if(bgevent == false)return;
+				
+				switch(type)
+				{
+					case MouseEvent.ROLL_OUT :
+						this.currentState = "default";
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						this.currentState = "over";
+						break;
+					
+					case MouseEvent.CLICK :
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						break;
+					
+					default:
+						this.currentState = "default";
+						break;
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//private
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// get and set
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			public function get text():String
 			{
@@ -129,13 +181,25 @@
 				_textcolor = value;
 			}
 
+			public function get bgevent():Boolean
+			{
+				return _bgevent;
+			}
+
+			public function set bgevent(value:Boolean):void
+			{
+				_bgevent = value;
+			}
+
 
 		]]>
 	</fx:Script>
 	
 	<s:states>
+		<s:State name="default"/>
 		<s:State name="up" />
 		<s:State name="over" />
+		<s:State name="out" />
 		<s:State name="down" />
 		<s:State name="disabled" />
 	</s:states>
@@ -143,7 +207,7 @@
 	<!--背景-->
 	<s:Rect   height="100%" width="100%" bottom="0" horizontalCenter="0">
 		<s:fill>
-			<s:SolidColor color="#FFFFFF"/>
+			<s:SolidColor color.default="#FFFFFF" color.over="#ECECEC" />
 		</s:fill>
 	</s:Rect>	
 	

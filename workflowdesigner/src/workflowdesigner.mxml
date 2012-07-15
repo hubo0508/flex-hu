@@ -6,9 +6,9 @@
 			   xmlns:workflow="com.workflow.*"
 			   xmlns:components="com.hubo.workflow.components.*"
 			   xmlns:navigation="com.hubo.workflow.ui.navigation.*">
-	
+
 	<fx:Style source="com/hubo/workflow/assets/Style.css"/>
-	
+
 	<ui:Main/>
 
 </s:Application>
