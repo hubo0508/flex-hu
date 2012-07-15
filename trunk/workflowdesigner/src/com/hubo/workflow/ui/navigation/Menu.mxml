@@ -9,8 +9,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:components="com.hubo.workflow.components.*"
 		 width="100%"
-		 top="80"
-		 height="42">
+		 top="88">
 	
 	<fx:Script>
 		<![CDATA[
@@ -51,7 +50,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:HGroup top="88" width="100%" gap="0">
+	<s:HGroup width="100%" gap="0">
 		<components:MenuButton text="请假审批流程" texttype="title" width="225"/>
 		<components:Separator/>
 		<components:MenuButton text="立即保存"/>
