@@ -51,49 +51,26 @@
 		]]>
 	</fx:Script>
 	
-	<s:filters>
-		<flash.filters:DropShadowFilter id='dropShadowFilter' xmlns:flash.filters='flash.filters.*' 
-										angle='90' blurX='2' blurY='2' distance='2' alpha='0.17' color='#000000' 
-										knockout='false' quality='1' strength='1' inner='false' hideObject='false'/>
-	</s:filters>
-	
-	<s:Rect  id="bg2" height="100%" width="100%" bottom="0" horizontalCenter="0">
-		<s:fill>
-			<s:SolidColor color="#FFFFFF"/>
-		</s:fill>
-	</s:Rect>	
-	
-	<s:Label maxDisplayedLines="1" maxWidth="210" bottom="8" fontSize="18" color="#DB2F2F" 
-			 text="请假审批流程" fontFamily="微软雅黑,黑体" left="10" />
-
-	<s:Group id="menuGroup" width="100%" bottom="7" left="240">
-		<s:layout>
-			<s:HorizontalLayout/>
-		</s:layout>
-		<components:Button type="{SAVE}"  name="立即保存"  >
-			<s:Label text="立即保存" horizontalCenter="0" verticalCenter="0"/>
-		</components:Button>
-		<components:Button type="{CANCEL}"  name="舍弃"  >
-			<s:Label text="舍弃" horizontalCenter="0" verticalCenter="0"/>
-		</components:Button>
-		<components:Button type="{VERIFICATION}" name="验证"  >
-			<s:Label text="验证" horizontalCenter="0" verticalCenter="0"/>
-		</components:Button>
-		<components:Button type="{ALIGNMENT}" name="对齐"   checkboxClick="true">
-			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="对齐"  skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
-		</components:Button>
-		<components:Button type="{ZOOM}" name="缩放"   checkboxClick="true">
-			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="缩放" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
-		</components:Button>
-		<components:Button type="{GRID}" name="网格"   checkboxClick="true">
-			<s:CheckBox selected="true"  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
-		</components:Button>
-		<components:Button type="{LOG}" name="日志"   checkboxClick="true">
-			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="日志" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>	 	
-		</components:Button>
-		<components:Button type="{VERIFICATION}" name="节点"  >
-			<s:Label text="节点" color="#E80E18"  horizontalCenter="0" verticalCenter="0"/>
-		</components:Button>
-	</s:Group>
+	<s:HGroup top="88" width="100%" gap="0">
+		<components:MenuButton text="请假审批流程" texttype="title" width="225"/>
+		<components:Separator/>
+		<components:MenuButton text="立即保存"/>
+		<components:Separator/>
+		<components:MenuButton text="舍弃"/>
+		<components:Separator/>
+		<components:MenuButton text="验证"/>
+		<components:Separator/>
+		<components:MenuButton text="对齐"/>
+		<components:Separator/>
+		<components:MenuButton text="缩放"/>
+		<components:Separator/>
+		<components:MenuButton text="网格"/>
+		<components:Separator/>
+		<components:MenuButton text="日志"/>
+		<components:Separator/>
+		<components:MenuButton text="节点" textcolor="0xDA2323"/>
+		<components:Separator/>
+		<components:MenuButton width="100%"/>
+	</s:HGroup>
 	
 </s:Group>
