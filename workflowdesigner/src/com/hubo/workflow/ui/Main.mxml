@@ -9,11 +9,11 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:navigation="com.hubo.workflow.ui.navigation.*"
 		 width="100%"
-		 height="100%">
+		 height="100%" xmlns:bak="com.hubo.workflow.ui.navigation.bak.*">
 	
 	<navigation:Head/>
 	
-	<navigation:Menu/>
+	<bak:Menu/>
 	
 	<navigation:LogOutput/>
 

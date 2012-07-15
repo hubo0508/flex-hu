@@ -14,8 +14,8 @@
 	</fx:Script>
 	
 	<s:Line xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" top="80">
-		<s:stroke>
-			<s:SolidColorStroke color="#E5E5E5" weight="1" caps="square"/>
+		<s:stroke><!--E5E5E5-->
+			<s:SolidColorStroke color="#D9BD95" weight="1" caps="square"/>
 		</s:stroke>
 	</s:Line>
 	

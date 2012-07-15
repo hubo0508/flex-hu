@@ -3,32 +3,12 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ui="com.hubo.workflow.ui.*"
-			   xmlns:workflow="com.workflow.*" xmlns:components="com.hubo.workflow.components.*">
+			   xmlns:workflow="com.workflow.*"
+			   xmlns:components="com.hubo.workflow.components.*"
+			   xmlns:navigation="com.hubo.workflow.ui.navigation.*">
 	
 	<fx:Style source="com/hubo/workflow/assets/Style.css"/>
 	
-	<!--<ui:Main/>-->
-	
-	<s:HGroup top="100" width="100%" gap="0">
-		<components:MenuButton text="请假审批流程" texttype="title" width="225"/>
-		<components:Separator/>
-		<components:MenuButton text="立即保存"/>
-		<components:Separator/>
-		<components:MenuButton text="舍弃"/>
-		<components:Separator/>
-		<components:MenuButton text="验证"/>
-		<components:Separator/>
-		<components:MenuButton text="对齐"/>
-		<components:Separator/>
-		<components:MenuButton text="缩放"/>
-		<components:Separator/>
-		<components:MenuButton text="网格"/>
-		<components:Separator/>
-		<components:MenuButton text="日志"/>
-		<components:Separator/>
-		<components:MenuButton text="节点" textcolor="0xDA2323"/>
-		<components:Separator/>
-		<components:MenuButton width="100%"/>
-	</s:HGroup>
-	
+	<ui:Main/>
+
 </s:Application>
