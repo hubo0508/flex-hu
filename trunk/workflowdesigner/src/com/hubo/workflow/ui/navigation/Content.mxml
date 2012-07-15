@@ -16,6 +16,4 @@
 		<s:BasicLayout/>
 	</s:layout>
 
-	<graphic:Triangle top="100" left="100"/>
-
 </s:Group>
