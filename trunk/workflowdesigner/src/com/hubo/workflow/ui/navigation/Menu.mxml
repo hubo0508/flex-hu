@@ -70,26 +70,29 @@
 		<s:layout>
 			<s:HorizontalLayout/>
 		</s:layout>
-		<components:Button type="{SAVE}"  name="立即保存"  width="74" height="27">
+		<components:Button type="{SAVE}"  name="立即保存"  >
 			<s:Label text="立即保存" horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
-		<components:Button type="{CANCEL}"  name="舍弃"  width="74" height="27">
+		<components:Button type="{CANCEL}"  name="舍弃"  >
 			<s:Label text="舍弃" horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
-		<components:Button type="{VERIFICATION}" name="验证"  width="74" height="27">
+		<components:Button type="{VERIFICATION}" name="验证"  >
 			<s:Label text="验证" horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
-		<components:Button type="{ALIGNMENT}" name="对齐"  width="74" height="27" checkboxClick="true">
+		<components:Button type="{ALIGNMENT}" name="对齐"   checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="对齐"  skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button type="{ZOOM}" name="缩放"  width="74" height="27" checkboxClick="true">
+		<components:Button type="{ZOOM}" name="缩放"   checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="缩放" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button type="{GRID}" name="网格"  width="74" height="27" checkboxClick="true">
+		<components:Button type="{GRID}" name="网格"   checkboxClick="true">
 			<s:CheckBox selected="true"  verticalCenter="0" horizontalCenter="0" label="网格" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>		
 		</components:Button>
-		<components:Button type="{LOG}" name="日志"  width="74" height="27" checkboxClick="true">
+		<components:Button type="{LOG}" name="日志"   checkboxClick="true">
 			<s:CheckBox  verticalCenter="0" horizontalCenter="0" label="日志" skinClass="com.hubo.workflow.skin.CheckBoxSkin"/>	 	
+		</components:Button>
+		<components:Button type="{VERIFICATION}" name="节点"  >
+			<s:Label text="节点" color="#E80E18"  horizontalCenter="0" verticalCenter="0"/>
 		</components:Button>
 	</s:Group>
 	

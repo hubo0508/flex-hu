@@ -31,6 +31,15 @@
 					case MouseEvent.ROLL_OVER :
 						break;
 					
+					case MouseEvent.CLICK :
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						break;
+					
 					default:
 						break;
 				}
