@@ -4,7 +4,7 @@ package com.hubo.workflow.util
 	import flash.display.Graphics;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-	
+
 	import mx.controls.Alert;
 	import mx.core.IChildList;
 	import mx.core.IFlexDisplayObject;
@@ -12,12 +12,12 @@ package com.hubo.workflow.util
 	import mx.core.UIComponent;
 	import mx.managers.ISystemManager;
 	import mx.managers.PopUpManager;
-	
+
 	import spark.components.Application;
 	import spark.components.BorderContainer;
 	import spark.components.SkinnableContainer;
 	import spark.filters.DropShadowFilter;
-	
+
 	/**
 	 * <p>
 	 *     <b>HUBO 2012-2-9  /  hubo.0508ⓐgmail.com</br>com.printingoffice.util.UIUtil.as</b>
@@ -25,70 +25,70 @@ package com.hubo.workflow.util
 	 */
 	public class UIUtil extends EventDispatcher
 	{
-		
-		public static const PUSH:String = "push";
-		
-		public static const REMOVE:String = "remove";
-		
-		public static const NEWVALUE:String = "newvalue";
-		
-		private static var  instanceDropShadow:DropShadowFilter;
-		
+
+		public static const PUSH:String="push";
+
+		public static const REMOVE:String="remove";
+
+		public static const NEWVALUE:String="newvalue";
+
+		private static var instanceDropShadow:DropShadowFilter;
+
 		public function UIUtil()
 		{
 		}
-		
 
-		
+
+
 		public static function getSkinBC():SkinnableContainer
 		{
 			return new SkinnableContainer();
 		}
-			
+
 		public static function getInstanceDropShadow():DropShadowFilter
 		{
-			if(!instanceDropShadow)
-			{ 
-				instanceDropShadow = new DropShadowFilter(); 
-				instanceDropShadow.angle = 45;
-				instanceDropShadow.blurX = 4;
-				instanceDropShadow.blurY = 4;
-				instanceDropShadow.distance = 0;
-				instanceDropShadow.alpha = 0.4;
-				instanceDropShadow.color = 0x000000;
-				instanceDropShadow.knockout = false;
-				instanceDropShadow.quality = 1;
-				instanceDropShadow.strength =1;
-				instanceDropShadow.inner = false;
-				instanceDropShadow.hideObject = false;
-			} 
-			
-			return instanceDropShadow; 
+			if (!instanceDropShadow)
+			{
+				instanceDropShadow=new DropShadowFilter();
+				instanceDropShadow.angle=45;
+				instanceDropShadow.blurX=4;
+				instanceDropShadow.blurY=4;
+				instanceDropShadow.distance=0;
+				instanceDropShadow.alpha=0.4;
+				instanceDropShadow.color=0x000000;
+				instanceDropShadow.knockout=false;
+				instanceDropShadow.quality=1;
+				instanceDropShadow.strength=1;
+				instanceDropShadow.inner=false;
+				instanceDropShadow.hideObject=false;
+			}
+
+			return instanceDropShadow;
 		}
-		
+
 		public static function getWindown(SID:String, UIObj:UIComponent):UIComponent
 		{
 			var systemManager:ISystemManager=UIObj.systemManager;
-			var ichildList:IChildList = systemManager.rawChildren;
+			var ichildList:IChildList=systemManager.rawChildren;
 			for (var i:int=0; i < ichildList.numChildren; i++)
 			{
-				var obj:Object = ichildList.getChildAt(i);			
-				if(getID(obj) == SID)
+				var obj:Object=ichildList.getChildAt(i);
+				if (getID(obj) == SID)
 				{
 					return obj as UIComponent;
 				}
 			}
 			return null;
 		}
-		
+
 		public static function isExistWindown(SID:String, UIObj:UIComponent):Boolean
 		{
 			var systemManager:ISystemManager=UIObj.systemManager;
-			var ichildList:IChildList = systemManager.rawChildren;
+			var ichildList:IChildList=systemManager.rawChildren;
 			for (var i:int=0; i < ichildList.numChildren; i++)
 			{
-				var obj:Object = ichildList.getChildAt(i);			
-				if(getID(obj) == SID)
+				var obj:Object=ichildList.getChildAt(i);
+				if (getID(obj) == SID)
 				{
 					return true;
 					break;
@@ -99,61 +99,65 @@ package com.hubo.workflow.util
 
 		/**
 		 * 删除上一个弹出窗口
-		 * 
+		 *
 		 * @param SID:String 弹出窗口对象ID
 		 * @param UIObj:UICompontent 弹出窗口当前所在页面
 		 */
-		public static function beforeDeletingTheWindow(SID:String,UIObj:UIComponent):void
-		{				
+		public static function beforeDeletingTheWindow(SID:String, UIObj:UIComponent):void
+		{
 			//Save SID
-			var SID_Arr:Array = [];
-			
+			var SID_Arr:Array=[];
+
 			//Query SID
 			var systemManager:ISystemManager=UIObj.systemManager;
-			var ichildList:IChildList = systemManager.rawChildren;
-			for (var i:int=0; i < ichildList.numChildren; i++)
-			{
-				var obj:Object = ichildList.getChildAt(i);			
-				
-				try
-				{
-					if(obj.id == SID)
-					{
-						SID_Arr.push(i); 
-					}
-				}
-				catch(e:*){trace(e)}					
-			}
-			
-			if(SID_Arr.length <= 1) return;
-			
-			//Remove
-			SID_Arr.pop();
-			for(var j:int=0; j < SID_Arr.length; j++)
-			{
-				PopUpManager.removePopUp(ichildList.getChildAt(SID_Arr[j]) as IFlexDisplayObject);
-			}
-		}
-		
-		public static function removeAllWindow(displayObject:UIComponent):void
-		{
-			var systemManager:ISystemManager=displayObject.systemManager;
-			
 			var ichildList:IChildList=systemManager.rawChildren;
 			for (var i:int=0; i < ichildList.numChildren; i++)
 			{
 				var obj:Object=ichildList.getChildAt(i);
-				trace(i+" content = " + obj);
+
+				try
+				{
+					if (obj.id == SID)
+					{
+						SID_Arr.push(i);
+					}
+				}
+				catch (e:*)
+				{
+					trace(e)
+				}
+			}
+
+			if (SID_Arr.length <= 1)
+				return;
+
+			//Remove
+			SID_Arr.pop();
+			for (var j:int=0; j < SID_Arr.length; j++)
+			{
+				PopUpManager.removePopUp(ichildList.getChildAt(SID_Arr[j]) as IFlexDisplayObject);
+			}
+		}
+
+		public static function removeAllWindow(displayObject:UIComponent):void
+		{
+			var systemManager:ISystemManager=displayObject.systemManager;
+
+			var ichildList:IChildList=systemManager.rawChildren;
+			for (var i:int=0; i < ichildList.numChildren; i++)
+			{
+				var obj:Object=ichildList.getChildAt(i);
+				trace(i + " content = " + obj);
 				if (obj == "mouseCatcher" || obj == "cursorHolder" || obj is Alert || obj == "modalWindow" || obj is Application)
 				{
 				}
 				else
-				{	
+				{
 					PopUpManager.removePopUp(obj as IFlexDisplayObject);
 				}
 			}
 		}
-		
+
 		/**
 		 * 改变选择行数据存储缓存
 		 *
@@ -161,7 +165,7 @@ package com.hubo.workflow.util
 		 * @param type:String 类型 【remove、push、newvalue】
 		 * @param values:Array 新值
 		 */
-		private function changeArrayValue(values:Array,rowIndex:int, type:String=PUSH):void
+		private function changeArrayValue(values:Array, rowIndex:int, type:String=PUSH):void
 		{
 //			switch(type)
 //			{
@@ -197,8 +201,8 @@ package com.hubo.workflow.util
 //					break;
 //			}
 		}
-		
-		public static function drawBackgroup(color:uint, g:Graphics, w:Number, h:Number,alpha:Number=1):void
+
+		public static function drawBackgroup(color:uint, g:Graphics, w:Number, h:Number, alpha:Number=1):void
 		{
 			if (color != 0)
 			{
@@ -207,23 +211,23 @@ package com.hubo.workflow.util
 				g.endFill();
 			}
 		}
-		
+
 		public static function drawBorder(sides:Array, g:Graphics, w:Number, h:Number):void
 		{
 			if (sides.left == "left")
 			{
 				g.moveTo(-1, 0);
-				g.lineTo(-1, h+1);
+				g.lineTo(-1, h + 1);
 			}
 			if (sides.right == "right")
 			{
 				g.moveTo(w, 0);
-				g.lineTo(w, h+1);
+				g.lineTo(w, h + 1);
 			}
 			if (sides.top == "top")
 			{
 				g.moveTo(-1, -1);
-				g.lineTo(w+1, -1);
+				g.lineTo(w + 1, -1);
 			}
 			if (sides.bottom == 'bottom')
 			{
@@ -231,17 +235,17 @@ package com.hubo.workflow.util
 				g.lineTo(w, h);
 			}
 		}
-		
+
 		public static function lineSides(value:String):Array
 		{
 			value=value == "all" ? "left right bottom top" : value;
-			
+
 			var arr:Array=[];
 			value=trim(value);
 			if (value)
 			{
 				var sidesArr:Array=value.split(" ");
-				
+
 				var i:int=0, len:int=sidesArr.length;
 				for (i; i < len; i++)
 				{
@@ -266,7 +270,7 @@ package com.hubo.workflow.util
 			}
 			return arr;
 		}
-		
+
 		public static function trim(str:String):String
 		{
 			if (str == null)
@@ -275,33 +279,37 @@ package com.hubo.workflow.util
 			}
 			return str.replace(/^\s*|\s*$/g, "").split(" ").join(" ").replace(new RegExp("\\s{2,}", "g"), " ");
 		}
-		
+
 		public static function getID(obj:Object):String
 		{
-			var id:String = "";
-			
+			var id:String="";
+
 			try
 			{
-				id = obj.id.toString();	
-			}catch(e:*){
+				id=obj.id.toString();
+			}
+			catch (e:*)
+			{
 				//trace("  :: UIUtil ::  "+e);
 			}
-			
+
 			return id;
 		}
 
-		
+
 		public static function getName(obj:Object):String
 		{
-			var name:String = "";
-			
+			var name:String="";
+
 			try
 			{
-				name = obj.name.toString();	
-			}catch(e:*){
-				trace("  :: UIUtil ::  "+e);
+				name=obj.name.toString();
 			}
-			
+			catch (e:*)
+			{
+				trace("  :: UIUtil ::  " + e);
+			}
+
 			return name;
 		}
 
@@ -309,7 +317,7 @@ package com.hubo.workflow.util
 		{
 			return currentUI.parentApplication as DisplayObject == null ? currentUI as DisplayObject : currentUI.parentApplication as DisplayObject;
 		}
-		
+
 		public static function getUiAbsolutePosition(ui:UIComponent):Point
 		{
 			var point:Point=new Point();
@@ -319,24 +327,24 @@ package com.hubo.workflow.util
 			do
 			{
 				var parent:DisplayObject=temp.parent;
-				if(parent == null || parent is Application)
+				if (parent == null || parent is Application)
 				{
-					break;	
+					break;
 				}
 				point.x+=parent.x;
 				point.y+=parent.y;
 				temp=parent;
-				
+
 			} while (true)
-			
+
 			return point;
 		}
-		
-		public static function setContainerVisible(value:Boolean,scroller:IVisualElement):void
+
+		public static function setContainerVisible(value:Boolean, scroller:IVisualElement):void
 		{
-			if(scroller.visible != value)
+			if (scroller.visible != value)
 			{
-				scroller.visible = value;
+				scroller.visible=value;
 			}
 		}
 	}
