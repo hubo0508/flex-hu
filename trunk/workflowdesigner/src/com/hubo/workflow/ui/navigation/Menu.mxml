@@ -11,8 +11,53 @@
 		 width="100%"
 		 top="88">
 	
-	<s:HGroup width="100%" gap="0">
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				this.initEvent();
+			}
+		
+			private function initEvent():void
+			{
+				for(var i:int=0, num:int=hgroup.numElements; i<num; i++)
+				{
+					var menubutton:IVisualElement = hgroup.getElementAt(i);
+					if(menubutton is MenuButton)
+					{
+						menubutton.addEventListener(MouseEvent.ROLL_OVER, menuButtonRollHandler,false,0,true);
+						menubutton.addEventListener(MouseEvent.ROLL_OUT, menuButtonRollHandler,false,0,true);
+					}
+				}
+			}
+			
+			protected function  menuButtonRollHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" gap="0" id="hgroup">
 		<components:MenuButton text="请假审批流程" texttype="title" width="225" isBgEvent="false"/>
+		<components:Separator/>
+		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true"/>
 		<components:Separator/>
 		<components:MenuButton text="立即保存"/>
 		<components:Separator/>
@@ -27,8 +72,6 @@
 		<components:MenuButton text="网格"/>
 		<components:Separator/>
 		<components:MenuButton text="日志"/>
-		<components:Separator/>
-		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true"/>
 		<components:Separator/>
 		<components:MenuButton width="100%" isBgEvent="false"/>
 	</s:HGroup>
