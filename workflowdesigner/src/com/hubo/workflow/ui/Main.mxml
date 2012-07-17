@@ -13,7 +13,9 @@
 	
 	<navigation:Head/>
 	
-	<navigation:Menu/>
+	<navigation:Menu id="menu"/>
+	
+	<navigation:SecondaryMenu id="secondaryMenu" />
 	
 	<navigation:Content/>
 	
