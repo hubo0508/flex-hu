@@ -8,8 +8,6 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:graphic="com.hubo.workflow.components.graphic.*"
-		 useHandCursor="true"
-		 buttonMode="true"
 		 rollOut="handler(event)"
 		 rollOver="handler(event)"
 		 mouseDown="handler(event)"
@@ -75,6 +73,12 @@
 			override protected function commitProperties():void
 			{
 				super.commitProperties();
+				
+				if(isBgEvent)
+				{
+					useHandCursor=true;
+					buttonMode=true;	
+				}
 				
 				if(textTag)
 				{
