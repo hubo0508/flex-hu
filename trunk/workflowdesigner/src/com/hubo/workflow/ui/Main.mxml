@@ -10,12 +10,35 @@
 		 xmlns:navigation="com.hubo.workflow.ui.navigation.*"
 		 width="100%"
 		 height="100%" >
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DynamicEvent;
+
+			protected function rollMenuHandler(event:DynamicEvent):void
+			{
+				switch(event.rolltype)
+				{
+					case MouseEvent.ROLL_OUT :
+
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+
+						break;
+					
+					default:
+						break;
+				}
+			}
+
+		]]>
+	</fx:Script>
 	
 	<navigation:Head/>
 	
 	<navigation:SecondaryMenu id="secondaryMenu" />
 	
-	<navigation:Menu id="menu"/>
+	<navigation:Menu id="menu" rollMenu="rollMenuHandler(event)"/>
 	
 	<navigation:Content/>
 	

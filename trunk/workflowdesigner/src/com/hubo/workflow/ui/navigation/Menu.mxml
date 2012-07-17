@@ -11,10 +11,15 @@
 		 width="100%"
 		 top="88">
 	
+	<fx:Metadata>
+		[Event(name="rollMenu",type="mx.events.DynamicEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
+			import mx.events.DynamicEvent;
 			
 			override protected function createChildren():void
 			{
@@ -41,14 +46,24 @@
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
+						this.dispatchMenuEvent(MouseEvent.ROLL_OUT);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						this.dispatchMenuEvent(MouseEvent.ROLL_OVER);
 						break;
 					
 					default:
 						break;
 				}
+			}
+
+			private function dispatchMenuEvent(type:String):void
+			{
+				var dye:DynamicEvent = new DynamicEvent("rollMenu");
+				dye.rolltype = type;
+				
+				this.dispatchEvent(dye);
 			}
 			
 		]]>
