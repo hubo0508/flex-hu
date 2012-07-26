@@ -14,7 +14,7 @@
 		<s:State name="disabled" />
 	</s:states>
 	
-	<s:Rect id="bg" top="0" bottom="0" left="0" width="8" minHeight="24" height="100%">
+	<s:Rect id="bg" top="0" bottom="0" left="0" width="12" minHeight="24" height="100%">
 		<s:fill>
 			<s:SolidColor color="0xCDCDCD" color.down="#7A7A7A" color.over="0x959595"/>
 		</s:fill>
