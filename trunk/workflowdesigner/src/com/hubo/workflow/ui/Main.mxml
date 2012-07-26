@@ -7,23 +7,42 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:navigation="com.hubo.workflow.ui.navigation.*"
+		 xmlns:navigation="com.hubo.workflow.ui.navigation.*" 
+		 initialize="initializeHandler(event)"
 		 width="100%"
 		 height="100%" >
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.core.TweenLite;
+			import com.hubo.workflow.util.Global;
+			
 			import mx.events.DynamicEvent;
-
-			protected function rollMenuHandler(event:DynamicEvent):void
+			import mx.events.FlexEvent;
+			
+			private var secondaryMenuTimer:Timer;
+			
+			protected function initializeHandler(event:FlexEvent):void
 			{
-				switch(event.rolltype)
+				this.initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				this.menu.addEventListener("rollMenu",rollMenuHandler,false,0,true);
+				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OUT,secondaryMenuHandler,false,0,true);
+				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OVER,secondaryMenuHandler,false,0,true);
+			}
+			
+			protected function secondaryMenuHandler(event:MouseEvent):void
+			{
+				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-
+						this.hideSecondaryMenu(secondaryMenu);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-
+						Global.stopTimer(secondaryMenuTimer);
 						break;
 					
 					default:
@@ -31,6 +50,42 @@
 				}
 			}
 
+			protected function rollMenuHandler(event:DynamicEvent):void
+			{
+				switch(event.rolltype)
+				{
+					case MouseEvent.ROLL_OUT :
+						this.hideSecondaryMenu(secondaryMenu);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						this.showSecondaryMenu(secondaryMenu);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showSecondaryMenu(sm:SecondaryMenu):void
+			{
+				Global.stopTimer(secondaryMenuTimer);
+				sm.top = 100;
+				new TweenLite(sm, .2, {top: 125});
+			}
+			
+			private function hideSecondaryMenu(sm:SecondaryMenu):void
+			{
+				Global.stopTimer(secondaryMenuTimer);
+				secondaryMenuTimer = new Timer(80, 1);
+				secondaryMenuTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+				{
+					new TweenLite(secondaryMenu, .3, {top:87});
+					Global.stopTimer(secondaryMenuTimer);
+				}, false, 0, true);
+				
+				secondaryMenuTimer.start();
+			}
 		]]>
 	</fx:Script>
 	
@@ -38,7 +93,7 @@
 	
 	<navigation:SecondaryMenu id="secondaryMenu" />
 	
-	<navigation:Menu id="menu" rollMenu="rollMenuHandler(event)"/>
+	<navigation:Menu id="menu" />
 	
 	<navigation:Content/>
 	

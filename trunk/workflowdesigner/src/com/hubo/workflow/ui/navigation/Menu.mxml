@@ -43,14 +43,16 @@
 			
 			protected function  menuButtonRollHandler(event:MouseEvent):void
 			{
+				var menubutton:MenuButton = event.currentTarget as MenuButton;
+				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OUT);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, menubutton.isBgEvent);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OVER);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, menubutton.isBgEvent);
 						break;
 					
 					default:
@@ -58,8 +60,10 @@
 				}
 			}
 
-			private function dispatchMenuEvent(type:String):void
+			private function dispatchMenuEvent(type:String, isBgEvent:Boolean):void
 			{
+				if(!isBgEvent)return;
+				
 				var dye:DynamicEvent = new DynamicEvent("rollMenu");
 				dye.rolltype = type;
 				
