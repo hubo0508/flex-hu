@@ -28,12 +28,15 @@
 				this.initEvent();
 			}
 			
+			/**
+			 * 初始事件监听
+			 */
 			private function initEvent():void
 			{
 				for(var i:int=0, num:int=hgroup.numElements; i<num; i++)
 				{
-					var mButton:IVisualElement = hgroup.getElementAt(i);
-					if(mButton is MenuButton)
+					var mButton:MenuButton = hgroup.getElementAt(i) as MenuButton;
+					if(mButton && mButton.isBgEvent)
 					{
 						mButton.addEventListener(MouseEvent.ROLL_OVER, mButtonRollHandler,false,0,true);
 						mButton.addEventListener(MouseEvent.ROLL_OUT, mButtonRollHandler,false,0,true);
@@ -41,6 +44,9 @@
 				}
 			}
 			
+			/**
+			 * 一级菜单鼠标事件,MouseEvent.ROLL_OUT与MouseEvent.ROLL_OVER
+			 */
 			protected function  mButtonRollHandler(event:MouseEvent):void
 			{
 				var mButton:MenuButton = event.currentTarget as MenuButton;
@@ -48,21 +54,24 @@
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton.isBgEvent, mButton.text);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton.isDropDownMenu, mButton.text);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton.isBgEvent, mButton.text);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton.isDropDownMenu, mButton.text);
 						break;
 					
 					default:
 						break;
 				}
 			}
-
-			private function dispatchMenuEvent(type:String, isBgEvent:Boolean, text:String):void
+			
+			/**
+			 * 
+			 */
+			private function dispatchMenuEvent(type:String, isDropDownMenu:Boolean, text:String):void
 			{
-				if(!isBgEvent)return;
+				if(!isDropDownMenu)return;
 				
 				var dye:DynamicEvent = new DynamicEvent("rollMenu");
 				dye.rolltype = type;
@@ -71,6 +80,12 @@
 				this.dispatchEvent(dye);
 			}
 			
+			/**
+			 * 标识指定｛text｝一级菜单，的二级菜单当前状态是否可见
+			 * 
+			 * @param text:String 一级菜单名称
+			 * @param mark:Boolean 状态可见标识：true可见，false不可见
+			 */
 			public function hasShownToMenu(text:String, mark:Boolean):void
 			{
 				var mButton:MenuButton = getMenuButtonByText(text);
