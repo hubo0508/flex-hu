@@ -36,19 +36,44 @@
 			
 			private var triangle:Triangle;
 			
+			/**
+			 * 菜单显示名称
+			 */
 			private var _text:String;
 			
+			/**
+			 * 菜单容器，文字显示类型
+			 */
 			private var _texttype:String = "text";
 			
+			/**
+			 * 菜单显示名称颜色
+			 */
 			private var _textcolor:uint;
 			
+			/**
+			 * 菜单容器，是否具备背景颜色
+			 */
 			private var _isBgEvent:Boolean = true;
 			
+			/**
+			 * 菜单容器，是否具有二级菜单标识。当值为true，容器中会自动创建标识“三角形”
+			 */
 			private var _isDropDownMenu:Boolean = false;
 			
 			private var bgTimer:Timer;
 			
+			/**
+			 * 菜单容器，所关联的二级菜单在某种特定触发情况下是否为可见状态
+			 */
 			private var _hasShownToMenu:Boolean = false;
+			
+			/**
+			 * <p>设定鼠标在移出或移过按钮组件时，是否改变内部组件的颜色值</p>
+			 * 
+			 * 当内部组件为VectorFig或其属性name=="VectorFig"时，其本身的值为true才会生效
+			 */
+			private var _triangleOver:Boolean = false;
 		
 			override protected function createChildren():void
 			{
