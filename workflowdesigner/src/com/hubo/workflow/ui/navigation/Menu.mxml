@@ -27,32 +27,32 @@
 				
 				this.initEvent();
 			}
-		
+			
 			private function initEvent():void
 			{
 				for(var i:int=0, num:int=hgroup.numElements; i<num; i++)
 				{
-					var menubutton:IVisualElement = hgroup.getElementAt(i);
-					if(menubutton is MenuButton)
+					var mButton:IVisualElement = hgroup.getElementAt(i);
+					if(mButton is MenuButton)
 					{
-						menubutton.addEventListener(MouseEvent.ROLL_OVER, menuButtonRollHandler,false,0,true);
-						menubutton.addEventListener(MouseEvent.ROLL_OUT, menuButtonRollHandler,false,0,true);
+						mButton.addEventListener(MouseEvent.ROLL_OVER, mButtonRollHandler,false,0,true);
+						mButton.addEventListener(MouseEvent.ROLL_OUT, mButtonRollHandler,false,0,true);
 					}
 				}
 			}
 			
-			protected function  menuButtonRollHandler(event:MouseEvent):void
+			protected function  mButtonRollHandler(event:MouseEvent):void
 			{
-				var menubutton:MenuButton = event.currentTarget as MenuButton;
+				var mButton:MenuButton = event.currentTarget as MenuButton;
 				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, menubutton.isBgEvent);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton.isBgEvent, mButton.text);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, menubutton.isBgEvent);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton.isBgEvent, mButton.text);
 						break;
 					
 					default:
@@ -60,16 +60,68 @@
 				}
 			}
 
-			private function dispatchMenuEvent(type:String, isBgEvent:Boolean):void
+			private function dispatchMenuEvent(type:String, isBgEvent:Boolean, text:String):void
 			{
 				if(!isBgEvent)return;
 				
 				var dye:DynamicEvent = new DynamicEvent("rollMenu");
 				dye.rolltype = type;
+				dye.text = text;
 				
 				this.dispatchEvent(dye);
 			}
 			
+			public function hasShownToMenu(text:String, mark:Boolean):void
+			{
+				var mButton:MenuButton = getMenuButtonByText(text);
+				mButton.hasShownToMenu = mark;
+			}
+			
+			/**
+			 * 添加菜单对象(MenuButton)样式
+			 */
+			public function addedBgStyle(text:String):void
+			{
+				var mButton:MenuButton = getMenuButtonByText(text);
+				mButton.addedBgStyle();
+			}
+			
+			public function stopMenuTimer(text:String):void
+			{
+				var mButton:MenuButton = getMenuButtonByText(text);
+				mButton.addedBgStyle();
+			}
+			
+			/**
+			 * 删除菜单对象(MenuButton)样式
+			 */
+			public function removeBgStyle(text:String):void
+			{
+				var mButton:MenuButton = getMenuButtonByText(text);
+				mButton.removeBgStyle();
+			}
+			
+			/**
+			 * 根据文本取得菜单对象(MenuButton)
+			 */
+			public function getMenuButtonByText(text:String):MenuButton
+			{
+				var returnvalue:MenuButton;
+				for(var i:int=0, num:int=hgroup.numElements; i<num; i++)
+				{
+					if(hgroup.getElementAt(i) is MenuButton)
+					{
+						var mButton:MenuButton = hgroup.getElementAt(i) as MenuButton;
+						if(mButton.text == text)
+						{
+							returnvalue = mButton;
+							break;
+						}
+					}
+				}
+				
+				return returnvalue;
+			}
 		]]>
 	</fx:Script>
 	

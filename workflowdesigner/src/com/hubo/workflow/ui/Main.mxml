@@ -21,11 +21,16 @@
 			
 			private var secondaryMenuTimer:Timer;
 			
+			private var currentMenuText:String;
+			
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				this.initEvent();
 			}
 			
+			/**
+			 * 初始化事件监听
+			 */
 			private function initEvent():void
 			{
 				this.menu.addEventListener("rollMenu",rollMenuHandler,false,0,true);
@@ -33,33 +38,21 @@
 				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OVER,secondaryMenuHandler,false,0,true);
 			}
 			
+			/**
+			 * 二级菜单MouseEvent.ROLL_OUT与MouseEvent.ROLL_OVER事件
+			 */
 			protected function secondaryMenuHandler(event:MouseEvent):void
 			{
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
 						this.hideSecondaryMenu(secondaryMenu);
+						this.menu.removeBgStyle(currentMenuText);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						Global.stopTimer(secondaryMenuTimer);
-						break;
-					
-					default:
-						break;
-				}
-			}
-
-			protected function rollMenuHandler(event:DynamicEvent):void
-			{
-				switch(event.rolltype)
-				{
-					case MouseEvent.ROLL_OUT :
-						this.hideSecondaryMenu(secondaryMenu);
-						break;
-					
-					case MouseEvent.ROLL_OVER :
-						this.showSecondaryMenu(secondaryMenu);
+						this.menu.stopMenuTimer(currentMenuText);
 						break;
 					
 					default:
@@ -67,6 +60,34 @@
 				}
 			}
 			
+			/**
+			 * 一级菜单MouseEvent.ROLL_OUT与MouseEvent.ROLL_OVER事件
+			 */
+			protected function rollMenuHandler(event:DynamicEvent):void
+			{
+				this.currentMenuText = event.text;
+				
+				switch(event.rolltype)
+				{
+					case MouseEvent.ROLL_OUT :
+						this.hideSecondaryMenu(secondaryMenu);
+						this.menu.hasShownToMenu(this.currentMenuText, false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						this.showSecondaryMenu(secondaryMenu);
+						this.menu.addedBgStyle(currentMenuText);
+						this.menu.hasShownToMenu(this.currentMenuText, true);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			/**
+			 * 显示二级菜单
+			 */
 			private function showSecondaryMenu(sm:SecondaryMenu):void
 			{
 				Global.stopTimer(secondaryMenuTimer);
@@ -74,6 +95,9 @@
 				new TweenLite(sm, .2, {top: 125});
 			}
 			
+			/**
+			 * 隐藏二级菜单
+			 */
 			private function hideSecondaryMenu(sm:SecondaryMenu):void
 			{
 				Global.stopTimer(secondaryMenuTimer);
