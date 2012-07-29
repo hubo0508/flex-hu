@@ -54,10 +54,18 @@
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
+						if(mButton.triangleOver && mButton.isDropDownMenu)
+						{
+							mButton.setTriangleRolloutColor(mButton.triangleOriginalColor);
+						}
 						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton.isDropDownMenu, mButton.text);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						if(mButton.triangleOver && mButton.isDropDownMenu)
+						{
+							mButton.setTriangleRolloverColor(mButton.triangleOverColor);
+						}
 						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton.isDropDownMenu, mButton.text);
 						break;
 					
@@ -117,7 +125,7 @@
 			}
 			
 			/**
-			 * 根据文本取得菜单对象(MenuButton)
+			 * 根据菜单显示名称，取得菜单对象(MenuButton)
 			 */
 			public function getMenuButtonByText(text:String):MenuButton
 			{
@@ -151,9 +159,9 @@
 		<components:Separator/>
 		<components:MenuButton text="验证"/>
 		<components:Separator/>
-		<components:MenuButton text="对齐" isDropDownMenu="true"/>
+		<components:MenuButton text="对齐" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
-		<components:MenuButton text="缩放" isDropDownMenu="true"/>
+		<components:MenuButton text="缩放" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
 		<components:MenuButton text="网格"/>
 		<components:Separator/>
