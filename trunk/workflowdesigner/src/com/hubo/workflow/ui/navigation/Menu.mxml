@@ -17,9 +17,12 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
+			
+			private var cacheSecondaryMenu:Array = [];
 			
 			override protected function createChildren():void
 			{
