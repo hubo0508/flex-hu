@@ -151,7 +151,7 @@
 	<s:HGroup width="100%" gap="0" id="hgroup">
 		<components:MenuButton text="请假审批流程" texttype="title" width="225" isBgEvent="false"/>
 		<components:Separator/>
-		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true"/>
+		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
 		<components:MenuButton text="立即保存"/>
 		<components:Separator/>
