@@ -74,6 +74,10 @@
 			 * 当内部组件为VectorFig或其属性name=="VectorFig"时，其本身的值为true才会生效
 			 */
 			private var _triangleOver:Boolean = false;
+			
+			private var _triangleOriginalColor:uint=0xA0A0A0;
+			
+			private var _triangleOverColor:uint=0xE40000;
 		
 			override protected function createChildren():void
 			{
@@ -134,7 +138,7 @@
 						textTag.horizontalCenter = 0;
 					}
 					
-					if(texttype == "text" && isDropDownMenu && dropDownMenu)
+					if(texttype == "text" && isDropDownMenu && dropDownMenu && triangle)
 					{
 						dropDownMenu.horizontalCenter = 0;
 						dropDownMenu.verticalCenter = 0;
@@ -145,6 +149,8 @@
 						textTag.setStyle("fontSize", 12);
 						textcolor.toString()=="0" ? null : textTag.setStyle("color", textcolor);
 						textTag.setStyle("fontFamily", "宋体");
+						
+						triangle.rollMask = true;
 					}
 				}
 			}
@@ -194,6 +200,28 @@
 				}, false, 0, true);
 				
 				bgTimer.start();
+			}
+			
+			/**
+			 * 菜单容器鼠标移入时，该变三角形颜色
+			 */
+			public function setTriangleRolloverColor(color:uint):void
+			{
+				if(!triangle)return;
+				
+				triangle.overColor = color;
+				triangle.changeBgColor(MouseEvent.ROLL_OVER);
+			}
+			
+			/**
+			 * 菜单容器鼠标移出时，该变三角形颜色
+			 */
+			public function setTriangleRolloutColor(color:uint):void
+			{
+				if(!triangle)return;
+				
+				triangle.originalColor = color;
+				triangle.changeBgColor(MouseEvent.ROLL_OUT);
 			}
 			
 			public function addedBgStyle():void
@@ -271,6 +299,36 @@
 			public function set hasShownToMenu(value:Boolean):void
 			{
 				_hasShownToMenu = value;
+			}
+
+			public function get triangleOver():Boolean
+			{
+				return _triangleOver;
+			}
+
+			public function set triangleOver(value:Boolean):void
+			{
+				_triangleOver = value;
+			}
+
+			public function get triangleOriginalColor():uint
+			{
+				return _triangleOriginalColor;
+			}
+
+			public function set triangleOriginalColor(value:uint):void
+			{
+				_triangleOriginalColor = value;
+			}
+
+			public function get triangleOverColor():uint
+			{
+				return _triangleOverColor;
+			}
+
+			public function set triangleOverColor(value:uint):void
+			{
+				_triangleOverColor = value;
 			}
 
 

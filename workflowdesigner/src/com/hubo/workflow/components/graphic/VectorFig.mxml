@@ -6,14 +6,12 @@
 -->
 <s:Graphic xmlns:fx="http://ns.adobe.com/mxml/2009"
 		   xmlns:s="library://ns.adobe.com/flex/spark"
-		   xmlns:mx="library://ns.adobe.com/flex/mx"
-		   rollOver="rollHandler(event)"
-		   rollOut="rollHandler(event)">
+		   xmlns:mx="library://ns.adobe.com/flex/mx">
 
 	<fx:Script>
 		<![CDATA[
 			import mx.graphics.SolidColor;
-
+			
 			public var rollMask:Boolean=false;
 
 			[Bindable]public var originalColor:uint=0xFF0000;
@@ -23,14 +21,6 @@
 			[Bindable]public var path:String;
 
 			[Bindable]private var sc:SolidColor;
-
-			protected function rollHandler(event:MouseEvent):void
-			{
-				if (!rollMask)
-					return;
-
-				this.changeBgColor(event.type);
-			}
 
 			public function changeBgColor(type:String):void
 			{
