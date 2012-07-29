@@ -23,6 +23,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.graphic.Triangle;
+			import com.hubo.workflow.util.Global;
 			
 			import mx.controls.Alert;
 			
@@ -44,6 +45,10 @@
 			private var _isBgEvent:Boolean = true;
 			
 			private var _isDropDownMenu:Boolean = false;
+			
+			private var bgTimer:Timer;
+			
+			private var _hasShownToMenu:Boolean = false;
 		
 			override protected function createChildren():void
 			{
@@ -122,46 +127,17 @@
 			protected function handler(event:MouseEvent):void
 			{
 				this.changeState(event.type);
-				
-				switch(event.type)
-				{
-					case MouseEvent.ROLL_OUT :
-						break;
-					
-					case MouseEvent.ROLL_OVER :
-						break;
-					
-					case MouseEvent.CLICK :
-						break;
-					
-					case MouseEvent.MOUSE_UP :
-						break;
-					
-					case MouseEvent.MOUSE_DOWN :
-						break;
-					
-					default:
-						break;
-				}
 			}
-			
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			//public
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			//protected
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			
 			protected function changeState(type:String):void
 			{
-				
 				if(isBgEvent == false)return;
 				
 				switch(type)
 				{
 					case MouseEvent.ROLL_OUT :
-						this.currentState = "default";
+						trace("MenuButton："+MouseEvent.ROLL_OUT );
+						this.hideBg();
 						break;
 					
 					case MouseEvent.ROLL_OVER :
@@ -178,15 +154,34 @@
 						break;
 					
 					default:
-						this.currentState = "default";
 						break;
 				}
 			}
 			
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			//private
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			private function hideBg():void
+			{
+				Global.stopTimer(bgTimer);
+				bgTimer = new Timer(20, 1);
+				bgTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
+				{
+					currentState = "default";
+					Global.stopTimer(bgTimer);
+				}, false, 0, true);
+				
+				bgTimer.start();
+			}
 			
+			public function addedBgStyle():void
+			{
+				this.currentState = "over";
+				Global.stopTimer(bgTimer);
+			}
+			
+			public function removeBgStyle():void
+			{
+				this.currentState = "default";
+				Global.stopTimer(bgTimer);
+			}
 			
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			// get and set
@@ -241,6 +236,16 @@
 			public function set isDropDownMenu(value:Boolean):void
 			{
 				_isDropDownMenu = value;
+			}
+
+			public function get hasShownToMenu():Boolean
+			{
+				return _hasShownToMenu;
+			}
+
+			public function set hasShownToMenu(value:Boolean):void
+			{
+				_hasShownToMenu = value;
 			}
 
 
