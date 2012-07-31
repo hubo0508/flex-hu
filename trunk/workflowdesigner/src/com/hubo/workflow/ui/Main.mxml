@@ -17,6 +17,7 @@
 			import com.hubo.workflow.components.MenuButton;
 			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.ui.navigation.child.AlignmentTools;
+			import com.hubo.workflow.ui.navigation.child.NodeTools;
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
 			
@@ -173,6 +174,15 @@
 								break;
 							
 							case Menu.NODE :
+								if(cacheSecondaryMenu[Menu.NODE] == undefined)
+								{
+									var node:NodeTools = new NodeTools();
+									node.id = Menu.NODE;
+									node.verticalCenter = 0;
+									node.x = dye.x;
+									cacheSecondaryMenu[Menu.NODE] = node;
+								}
+								secondaryMenu.addContent(cacheSecondaryMenu[Menu.NODE]);
 								break;
 							
 							case Menu.ZOOM:
