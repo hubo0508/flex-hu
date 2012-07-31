@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-7-31</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="400"
+		 xmlns:graphic="com.hubo.workflow.components.graphic.*">
+	
+	<graphic:Ellipse verticalCenter="0"/>
+	<graphic:ToolsStart verticalCenter="0" left="7"/>
+	
+	<graphic:Ellipse verticalCenter="0" left="30"/>
+	<graphic:ToolsPersion verticalCenter="0" left="37"/>
+	
+	<graphic:Ellipse verticalCenter="0" left="60"/>
+	<graphic:ToolsEnd verticalCenter="0" left="66"/>
+	
+</s:Group>
