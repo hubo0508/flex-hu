@@ -242,12 +242,14 @@
 			
 			public function addedBgStyle():void
 			{
+				this.setTriangleRolloverColor(triangleOverColor);
 				this.currentState = "over";
 				Global.stopTimer(bgTimer);
 			}
 			
 			public function removeBgStyle():void
 			{
+				this.setTriangleRolloverColor(triangleOriginalColor);
 				this.currentState = "default";
 				Global.stopTimer(bgTimer);
 			}
