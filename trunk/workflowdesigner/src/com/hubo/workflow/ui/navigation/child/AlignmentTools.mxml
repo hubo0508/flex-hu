@@ -7,7 +7,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="creationComplete(event)">
+		 creationComplete="creationComplete(event)"
+		 width="145">
 
 	<fx:Metadata>
 		[Event(name="clickAlignmentTools",type="mx.events.DynamicEvent")]
@@ -19,12 +20,12 @@
 			import com.hubo.workflow.components.TooTip;
 			import com.hubo.workflow.util.Global;
 			import com.hubo.workflow.util.UIUtil;
-
+			
 			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
-
+			
 			import spark.filters.ColorMatrixFilter;
 
 			public static const LAYERS_TOP:String="LAYERS_TOP";
@@ -42,8 +43,6 @@
 			 */
 			private var tootip:TooTip;
 
-			public var parentPoint:Point=new Point(0, 0);
-
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -52,7 +51,7 @@
 
 			protected function creationComplete(event:FlexEvent):void
 			{
-				this.initEvent()
+				this.initEvent();
 			}
 
 			private function initEvent():void
@@ -82,9 +81,10 @@
 						break;
 
 					case MouseEvent.ROLL_OVER:
-						tootip.x=parentPoint.x + button.left - button.width + 3;
-						tootip.y=parentPoint.y + this.height * 2 + 10;
-						tootip.text=button.id;
+						var point:Point = UIUtil.getUiAbsolutePosition(button);
+						tootip.x = point.x - button.width*0.5 - 4;
+						tootip.y = point.y + 35;
+						tootip.text = button.id;
 						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 						break;
 
@@ -96,59 +96,16 @@
 
 	</fx:Script>
 
-	<mx:LinkButton id="顶对齐"
-				   name="{LAYERS_TOP}"
-				   icon="{Global.LAYERS_TOP}"
-				   verticalCenter="0"
-				   left="5"
-				   paddingLeft="2"
-				   paddingRight="2"/>
+	<mx:LinkButton id="顶对齐"   name="{LAYERS_TOP}"	   icon="{Global.LAYERS_TOP}"   verticalCenter="0"   left="5"	   paddingLeft="2"   paddingRight="2"/>
 
-	<mx:LinkButton enabled="false"
-				   id="垂直中齐"
-				   name="{LAYERS_MIDDLE}"
-				   icon="{Global.LAYERS_MIDDLE}"
-				   verticalCenter="0"
-				   left="26"
-				   paddingLeft="2"
-				   paddingRight="2"
-				   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
+	<mx:LinkButton enabled="false"   id="垂直中齐"   name="{LAYERS_MIDDLE}"   icon="{Global.LAYERS_MIDDLE}"   verticalCenter="0"   left="26"   paddingLeft="2"   paddingRight="2"   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
 
-	<mx:LinkButton enabled="false"
-				   id="底对齐"
-				   name="{LAYERS_BOTTOM}"
-				   icon="{Global.LAYERS_BOTTOM}"
-				   verticalCenter="0"
-				   left="48"
-				   paddingLeft="2"
-				   paddingRight="2"
-				   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
+	<mx:LinkButton enabled="false"   id="底对齐"   name="{LAYERS_BOTTOM}"   icon="{Global.LAYERS_BOTTOM}"  verticalCenter="0"   left="48"   paddingLeft="2"  paddingRight="2"  filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
 
-	<mx:LinkButton id="左对齐"
-				   name="{LAYERS_LEFT}"
-				   icon="{Global.LAYERS_LEFT}"
-				   verticalCenter="0"
-				   left="76"
-				   paddingLeft="2"
-				   paddingRight="2"/>
+	<mx:LinkButton id="左对齐"   name="{LAYERS_LEFT}"   icon="{Global.LAYERS_LEFT}"   verticalCenter="0"   left="76"   paddingLeft="2"	   paddingRight="2"/>
 
-	<mx:LinkButton enabled="false"
-				   id="水平中齐"
-				   name="{LAYERS_CENTER}"
-				   icon="{Global.LAYERS_CENTER}"
-				   verticalCenter="0"
-				   left="97"
-				   paddingLeft="2"
-				   paddingRight="2"
-				   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
+	<mx:LinkButton enabled="false"   id="水平中齐"   name="{LAYERS_CENTER}"   icon="{Global.LAYERS_CENTER}"   verticalCenter="0"   left="97"   paddingLeft="2"   paddingRight="2"   filters="{[new ColorMatrixFilter(Global.bwMatrix)]}"/>
 
-	<mx:LinkButton enabled="true"
-				   id="右对齐"
-				   name="{LAYERS_RIGHT}"
-				   icon="{Global.LAYERS_RIGHT}"
-				   verticalCenter="0"
-				   left="120"
-				   paddingLeft="2"
-				   paddingRight="2"/>
+	<mx:LinkButton enabled="true"  id="右对齐"   name="{LAYERS_RIGHT}"   icon="{Global.LAYERS_RIGHT}"   verticalCenter="0"   left="120"  paddingLeft="2"   paddingRight="2"/>
 
 </s:Group>
