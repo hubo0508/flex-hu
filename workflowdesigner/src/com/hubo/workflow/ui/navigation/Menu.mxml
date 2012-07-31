@@ -11,8 +11,13 @@
 		 width="100%"
 		 top="88">
 	
+	<!-- 
+	菜单对象容器
+	-->
+	
 	<fx:Metadata>
-		[Event(name="rollMenu",type="mx.events.DynamicEvent")]
+		[Event(name="rollMenuLevel",type="mx.events.DynamicEvent")]
+		[Event(name="clickMenuLevel",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
 	
 	<fx:Script>
@@ -21,9 +26,22 @@
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
+
+			public static const ROLL_MENU_LEVEL:String = "rollMenuLevel";
+			public static const CLICK_MENU_LEVEL:String = "clickMenuLevel";
 			
-			private var cacheSecondaryMenu:Array = [];
+			public static const LOG:String = "log";//日志
+			public static const GRID:String = "grid";//网格
+			public static const ZOOM:String = "zoom";//缩放
+			public static const ALIGNMENT:String = "alignment";//对齐
+			public static const VERIFICATION:String = "verification";//验证
+			public static const CANCEL:String = "cancel";//舍弃
+			public static const SAVE:String = "save";//立即保存
+			public static const NODE:String = "node";//节点
 			
+			/**
+			 * 初始化创建对象
+			 */
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -43,8 +61,20 @@
 					{
 						mButton.addEventListener(MouseEvent.ROLL_OVER, mButtonRollHandler,false,0,true);
 						mButton.addEventListener(MouseEvent.ROLL_OUT, mButtonRollHandler,false,0,true);
+						mButton.addEventListener(MouseEvent.CLICK,mButtonClickHandler,false,0,true);
 					}
 				}
+			}
+			
+			protected function mButtonClickHandler(event:MouseEvent):void
+			{
+				var mButton:MenuButton = event.currentTarget as MenuButton;
+				
+				var dye:DynamicEvent = new DynamicEvent(CLICK_MENU_LEVEL);
+				dye.text = mButton.text;
+				dye.menutype = mButton.menutype;
+				
+				this.dispatchEvent(dye);
 			}
 			
 			/**
@@ -61,7 +91,7 @@
 						{
 							mButton.setTriangleRolloutColor(mButton.triangleOriginalColor);
 						}
-						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton.isDropDownMenu, mButton.text);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OUT, mButton);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
@@ -69,7 +99,7 @@
 						{
 							mButton.setTriangleRolloverColor(mButton.triangleOverColor);
 						}
-						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton.isDropDownMenu, mButton.text);
+						this.dispatchMenuEvent(MouseEvent.ROLL_OVER, mButton);
 						break;
 					
 					default:
@@ -77,16 +107,18 @@
 				}
 			}
 			
-			/**
-			 * 
-			 */
-			private function dispatchMenuEvent(type:String, isDropDownMenu:Boolean, text:String):void
+			private function dispatchMenuEvent(type:String,mButton:MenuButton):void
 			{
-				if(!isDropDownMenu)return;
+				if(!mButton.isDropDownMenu)return;
 				
-				var dye:DynamicEvent = new DynamicEvent("rollMenu");
+				var dye:DynamicEvent = new DynamicEvent(ROLL_MENU_LEVEL);
 				dye.rolltype = type;
-				dye.text = text;
+				dye.text = mButton.text;
+				dye.menutype = mButton.menutype;
+				dye.x = mButton.x;
+				dye.y = mButton.y;
+				dye.width = mButton.width;
+				dye.menubuttonwidth = mButton.width;
 				
 				this.dispatchEvent(dye);
 			}
@@ -154,21 +186,21 @@
 	<s:HGroup width="100%" gap="0" id="hgroup">
 		<components:MenuButton text="请假审批流程" texttype="title" width="225" isBgEvent="false"/>
 		<components:Separator/>
-		<components:MenuButton text="节点" textcolor="0xDA2323" isDropDownMenu="true" triangleOver="true"/>
+		<components:MenuButton menutype="{NODE}" text="节点" textcolor="0xDA2323" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
-		<components:MenuButton text="立即保存"/>
+		<components:MenuButton menutype="{SAVE}" text="立即保存"/>
 		<components:Separator/>
-		<components:MenuButton text="舍弃"/>
+		<components:MenuButton menutype="{CANCEL}" text="舍弃"/>
 		<components:Separator/>
-		<components:MenuButton text="验证"/>
+		<components:MenuButton menutype="{VERIFICATION}" text="验证"/>
 		<components:Separator/>
-		<components:MenuButton text="对齐" isDropDownMenu="true" triangleOver="true"/>
+		<components:MenuButton menutype="{ALIGNMENT}" text="对齐" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
-		<components:MenuButton text="缩放" isDropDownMenu="true" triangleOver="true"/>
+		<components:MenuButton menutype="{ZOOM}" text="缩放" isDropDownMenu="true" triangleOver="true"/>
 		<components:Separator/>
-		<components:MenuButton text="网格"/>
+		<components:MenuButton menutype="{GRID}" text="网格"/>
 		<components:Separator/>
-		<components:MenuButton text="日志"/>
+		<components:MenuButton menutype="{LOG}" text="日志"/>
 		<components:Separator/>
 		<components:MenuButton width="100%" isBgEvent="false"/>
 	</s:HGroup>

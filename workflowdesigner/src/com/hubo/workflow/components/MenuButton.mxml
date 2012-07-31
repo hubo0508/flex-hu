@@ -75,10 +75,21 @@
 			 */
 			private var _triangleOver:Boolean = false;
 			
+			/**
+			 * 三角形默认颜色
+			 */
 			private var _triangleOriginalColor:uint=0xA0A0A0;
 			
+			/**
+			 * 三角形移入颜色
+			 */
 			private var _triangleOverColor:uint=0xE40000;
-		
+			
+			private var _menutype:String;
+			
+			/**
+			 * 初始化创建对象
+			 */
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -104,6 +115,9 @@
 				}
 			}
 			
+			/**
+			 * 初始化更新属性
+			 */
 			override protected function commitProperties():void
 			{
 				super.commitProperties();
@@ -155,6 +169,9 @@
 				}
 			}
 			
+			/**
+			 * 当前菜单对象容器相关事件。
+			 */
 			protected function handler(event:MouseEvent):void
 			{
 				this.changeState(event.type);
@@ -167,7 +184,6 @@
 				switch(type)
 				{
 					case MouseEvent.ROLL_OUT :
-						trace("MenuButton："+MouseEvent.ROLL_OUT );
 						this.hideBg();
 						break;
 					
@@ -329,6 +345,16 @@
 			public function set triangleOverColor(value:uint):void
 			{
 				_triangleOverColor = value;
+			}
+
+			public function get menutype():String
+			{
+				return _menutype;
+			}
+
+			public function set menutype(value:String):void
+			{
+				_menutype = value;
 			}
 
 
