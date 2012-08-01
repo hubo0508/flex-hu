@@ -16,11 +16,12 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			
 			import spark.primitives.Path;
 			
-			public function addIcon(icon:Path):void
+			public function addIcon(icon:IVisualElement):void
 			{
 				this.addElementAt(icon,2);
 			}

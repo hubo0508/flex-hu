@@ -97,12 +97,12 @@
 		<graphic:IconStart verticalCenter="0" horizontalCenter="2"/>
 	</components:NodeGroup>
 	
-	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="20" >
+	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="18" >
 		<graphic:Ellipse />
 		<graphic:IconPersion verticalCenter="0" horizontalCenter="0"/>
 	</components:NodeGroup>
 	
-	<components:NodeGroup id="结束" name="{END}">
+	<components:NodeGroup id="结束" name="{END}" graphicHeight="20" graphicWidth="20" graphicTop="18">
 		<graphic:Ellipse />
 		<graphic:IconEnd  horizontalCenter="0" verticalCenter="0"/>
 	</components:NodeGroup>
