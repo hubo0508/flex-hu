@@ -66,6 +66,12 @@
 				this.menu.addEventListener(Menu.CLICK_MENU_LEVEL, clickMenuHandler,false,0,true);
 				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OUT,secondaryMenuHandler,false,0,true);
 				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OVER,secondaryMenuHandler,false,0,true);
+				this.content.addEventListener(MouseEvent.CLICK,contentClickHandler,false,0,true);
+			}
+			
+			protected function contentClickHandler(event:MouseEvent):void
+			{
+				
 			}
 			
 			protected function clickMenuHandler(event:DynamicEvent):void

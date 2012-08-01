@@ -8,14 +8,13 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:graphic="com.hubo.workflow.components.graphic.*"
+		 xmlns:components="com.hubo.workflow.components.*"
 		 top="125"
 		 bottom="23"
-		 width="100%" xmlns:components="com.hubo.workflow.components.*">
+		 width="100%">
 
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	
-	<components:Node horizontalCenter="0" verticalCenter="0"/>
 	
 </s:Group>
