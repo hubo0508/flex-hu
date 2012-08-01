@@ -183,7 +183,7 @@
 							node.id = Menu.NODE;
 							node.verticalCenter = 0;
 							node.x = dye.x;
-							node.addEventListener(NodeTools.CLICK_NODE,clickNodeHandler,false,0,true);
+							node.addEventListener(NodeTools.CLICK_NODE,clickNodeToolsHandler,false,0,true);
 							cacheSecondaryMenu[Menu.NODE] = node;
 						}
 						secondaryMenu.addContent(cacheSecondaryMenu[Menu.NODE]);
@@ -222,7 +222,7 @@
 				secondaryMenuTimer.start();
 			}
 			
-			protected function clickNodeHandler(dye:DynamicEvent):void
+			protected function clickNodeToolsHandler(dye:DynamicEvent):void
 			{
 				var node:Node = new Node();
 				var icon:Object = null;				
@@ -268,7 +268,7 @@
 		]]>
 	</fx:Script>
 	
-	<navigation:Head/>
+	<navigation:Head id="head"/>
 	
 	<navigation:SecondaryMenu id="secondaryMenu" />
 	
@@ -276,6 +276,6 @@
 	
 	<navigation:Content id="content"/>
 	
-	<navigation:LogOutput/>
+	<navigation:LogOutput id="log"/>
 
 </s:Group>
