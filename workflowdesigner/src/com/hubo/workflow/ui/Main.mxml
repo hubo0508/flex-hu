@@ -124,7 +124,6 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						trace("secondaryMenuHandler="+MouseEvent.ROLL_OVER);
 						Global.stopTimer(secondaryMenuTimer);
 						this.menu.stopMenuTimer(currentMenuText);
 						break;
@@ -236,6 +235,9 @@
 				secondaryMenuTimer.start();
 			}
 			
+			/**
+			 * 点击二级菜单中的，节点图标
+			 */
 			protected function clickNodeToolsHandler(dye:DynamicEvent):void
 			{
 				var node:Node = new Node();
@@ -283,7 +285,6 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						trace("nodeHandler -- click");
 						node.selectedvisible(true);
 						break;
 					
@@ -315,8 +316,6 @@
 	<navigation:SecondaryMenu id="secondaryMenu" />
 	
 	<navigation:Menu id="menu" />
-	
-	
 	
 	<navigation:LogOutput id="log"/>
 
