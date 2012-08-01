@@ -155,44 +155,44 @@
 					secondaryMenu.removeContent();
 				}
 				
+				switch(dye.menutype)
+				{
+					case Menu.ALIGNMENT :
+						if(cacheSecondaryMenu[Menu.ALIGNMENT] == undefined)
+						{
+							var alignment:AlignmentTools = new AlignmentTools();
+							alignment.id = Menu.ALIGNMENT;
+							alignment.verticalCenter = 0;
+							alignment.x = dye.x - alignment.width*0.5 + dye.menubuttonwidth*0.5;
+							cacheSecondaryMenu[Menu.ALIGNMENT] = alignment;
+						}
+						secondaryMenu.addContent(cacheSecondaryMenu[Menu.ALIGNMENT]);
+						break;
+					
+					case Menu.NODE :
+						if(cacheSecondaryMenu[Menu.NODE] == undefined)
+						{
+							var node:NodeTools = new NodeTools();
+							node.id = Menu.NODE;
+							node.verticalCenter = 0;
+							node.x = dye.x;
+							node.addEventListener(NodeTools.CLICK_NODE,clickNodeHandler,false,0,true);
+							cacheSecondaryMenu[Menu.NODE] = node;
+						}
+						secondaryMenu.addContent(cacheSecondaryMenu[Menu.NODE]);
+						break;
+					
+					case Menu.ZOOM:
+						break;
+					
+					default:
+						break;
+				}
+				
 				Global.stopTimer(secondaryMenuTimer);
 				sm.top = 100;
-				new TweenLite(sm, .2, {top: 125, onComplete:function():void
-					{
-						switch(dye.menutype)
-						{
-							case Menu.ALIGNMENT :
-								if(cacheSecondaryMenu[Menu.ALIGNMENT] == undefined)
-								{
-									var alignment:AlignmentTools = new AlignmentTools();
-									alignment.id = Menu.ALIGNMENT;
-									alignment.verticalCenter = 0;
-									alignment.x = dye.x - alignment.width*0.5 + dye.menubuttonwidth*0.5;
-									cacheSecondaryMenu[Menu.ALIGNMENT] = alignment;
-								}
-								secondaryMenu.addContent(cacheSecondaryMenu[Menu.ALIGNMENT]);
-								break;
-							
-							case Menu.NODE :
-								if(cacheSecondaryMenu[Menu.NODE] == undefined)
-								{
-									var node:NodeTools = new NodeTools();
-									node.id = Menu.NODE;
-									node.verticalCenter = 0;
-									node.x = dye.x;
-									cacheSecondaryMenu[Menu.NODE] = node;
-								}
-								secondaryMenu.addContent(cacheSecondaryMenu[Menu.NODE]);
-								break;
-							
-							case Menu.ZOOM:
-								break;
-							
-							default:
-								break;
-						}
-					}
-				});
+				//new TweenLite(sm, .2, {top: 125, onComplete:function():void{}});
+				new TweenLite(sm, .2, {top: 125});
 			}
 			
 			/**
@@ -213,6 +213,25 @@
 				}, false, 0, true);
 				
 				secondaryMenuTimer.start();
+			}
+			
+			protected function clickNodeHandler(dye:DynamicEvent):void
+			{
+				Alert.show(dye.name);
+				switch(dye.name)
+				{
+					case NodeTools.START :
+						break;
+					
+					case NodeTools.PERSION :
+						break;
+					
+					case NodeTools.END :
+						break;
+					
+					default:
+						break;
+				}
 			}
 		]]>
 	</fx:Script>
