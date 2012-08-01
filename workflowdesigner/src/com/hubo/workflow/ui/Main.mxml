@@ -8,7 +8,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:navigation="com.hubo.workflow.ui.navigation.*" 
-		 initialize="initializeHandler(event)"
+		 initialize="initializeHandler(event)" 
+		 creationComplete="creationComplete(event)"
 		 width="100%"
 		 height="100%" >
 	
@@ -30,6 +31,7 @@
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			
+			import spark.components.Label;
 			import spark.primitives.Path;
 			import spark.skins.spark.BorderContainerSkin;
 			
@@ -55,6 +57,11 @@
 			 */
 			protected function initializeHandler(event:FlexEvent):void
 			{
+				
+			}
+			
+			protected function creationComplete(event:FlexEvent):void
+			{
 				this.initEvent();
 			}
 			
@@ -65,16 +72,61 @@
 			{
 				this.menu.addEventListener(Menu.ROLL_MENU_LEVEL,rollMenuHandler,false,0,true);
 				this.menu.addEventListener(Menu.CLICK_MENU_LEVEL, clickMenuHandler,false,0,true);
+				
 				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OUT,secondaryMenuHandler,false,0,true);
 				this.secondaryMenu.addEventListener(MouseEvent.ROLL_OVER,secondaryMenuHandler,false,0,true);
-				this.content.addEventListener(MouseEvent.CLICK,contentClickHandler,false,0,true);
+				
+				this.content.addEventListener(MouseEvent.CLICK,contentHandler,false,0,true);
+				
 			}
 			
-			protected function contentClickHandler(event:MouseEvent):void
+			public function keyboardHandler(event:KeyboardEvent):void
 			{
-				if(!(event.target is Node))
+				trace(event.keyCode);
+				
+				switch(event.type)
 				{
-					this.content.cleanSelectedAll()
+					case KeyboardEvent.KEY_DOWN :
+						break;
+					
+					case KeyboardEvent.KEY_UP :
+						switch(event.keyCode)
+						{
+							case 39 ://右 
+								break;
+							
+							case 38 ://上 
+								break;
+							
+							case 40 ://下  
+								break;
+							
+							case 37 ://左 
+								break;
+							
+							default:
+								break;
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function contentHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						if(!(event.target is Node) && !(event.target is Label))
+						{
+							this.content.cleanSelectedAll()
+						}
+						break;
+					
+					default:
+						break;
 				}
 			}
 			
