@@ -16,6 +16,8 @@
 		<![CDATA[
 			import com.hubo.workflow.components.MenuButton;
 			import com.hubo.workflow.components.Node;
+			import com.hubo.workflow.components.graphic.IconEnd;
+			import com.hubo.workflow.components.graphic.IconPersion;
 			import com.hubo.workflow.components.graphic.IconStart;
 			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.ui.navigation.child.AlignmentTools;
@@ -24,8 +26,11 @@
 			import com.hubo.workflow.util.UIUtil;
 			
 			import mx.controls.Alert;
+			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			
+			import spark.primitives.Path;
 			
 			/**
 			 * 二级菜单显示，或消失计时器
@@ -219,29 +224,36 @@
 			
 			protected function clickNodeHandler(dye:DynamicEvent):void
 			{
+				var node:Node = new Node();
+				var icon:Object = null;				
 				switch(dye.name)
 				{
 					case NodeTools.START :
-						var nodestart:Node = new Node();
-						var start:IconStart = new IconStart();
-						start.width = dye.graphicWidth;
-						start.height = dye.graphicHeight;
-						start.top = dye.graphicTop;
-						start.horizontalCenter = dye.graphicHorizontalCenter;
-						
-						nodestart.addIcon(start);
-						
-						content.addElement(nodestart);
+						icon = new IconStart();
 						break;
 					
 					case NodeTools.PERSION :
+						icon = new IconPersion();
 						break;
 					
 					case NodeTools.END :
+						icon = new IconEnd();
 						break;
 					
 					default:
 						break;
+				}
+				
+				if(icon)
+				{
+					icon.width = dye.graphicWidth;
+					icon.height = dye.graphicHeight;
+					icon.top = dye.graphicTop;
+					icon.horizontalCenter = dye.graphicHorizontalCenter;
+					
+					node.addIcon(icon as IVisualElement);
+					
+					content.addElement(node);
 				}
 			}
 		]]>
