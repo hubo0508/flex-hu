@@ -15,14 +15,9 @@
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void
 			{
 				//this.stage.addEventListener(KeyboardEvent.KEY_DOWN,keyboardHandler,false,0,true);
-				this.stage.addEventListener(KeyboardEvent.KEY_UP,keyboardHandler,false,0,true);
+				this.stage.addEventListener(KeyboardEvent.KEY_UP,main.keyboardHandler,false,0,true);
 			}
 			
-			protected function keyboardHandler(event:KeyboardEvent):void
-			{
-				main.keyboardHandler(event);				
-			}
-
 		]]>
 	</fx:Script>
 
