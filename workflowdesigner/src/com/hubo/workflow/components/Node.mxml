@@ -26,6 +26,15 @@
 				this.addElementAt(icon,2);
 			}
 			
+			public function selected(value:Boolean):void
+			{
+				if(value != nodeSelected.visible)
+				{
+					nodeSelected.visible = value;					
+				}
+			}
+			
+			
 		]]>
 	</fx:Script>
 	
