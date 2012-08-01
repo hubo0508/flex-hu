@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-8-1</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 useHandCursor="true"
+		 buttonMode="true">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _graphicWidth:Number = 24;
+			
+			private var _graphicHeight:Number = 24;
+			
+			private var _graphicTop:Number = 16;
+			
+			private var _graphicHorizontalCenter:Number = 0;
+			
+			public function get graphicWidth():Number
+			{
+				return _graphicWidth;
+			}
+
+			public function set graphicWidth(value:Number):void
+			{
+				_graphicWidth = value;
+			}
+
+			public function get graphicHeight():Number
+			{
+				return _graphicHeight;
+			}
+
+			public function set graphicHeight(value:Number):void
+			{
+				_graphicHeight = value;
+			}
+
+			public function get graphicTop():Number
+			{
+				return _graphicTop;
+			}
+
+			public function set graphicTop(value:Number):void
+			{
+				_graphicTop = value;
+			}
+
+			public function get graphicHorizontalCenter():Number
+			{
+				return _graphicHorizontalCenter;
+			}
+
+			public function set graphicHorizontalCenter(value:Number):void
+			{
+				_graphicHorizontalCenter = value;
+			}
+
+
+		]]>
+	</fx:Script>
+</s:Group>

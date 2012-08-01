@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-8-1</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="80"
+		 height="80">
+	
+	<s:Rect height="74" width="74" x="3" y="3">
+		<s:stroke>
+			<s:SolidColorStroke color="#8698F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+
+	<s:Rect height="5" width="5" left="0" top="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" horizontalCenter="0" top="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" right="0" top="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" verticalCenter="0" left="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" verticalCenter="0" right="0" width="5">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" left="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" horizontalCenter="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+	<s:Rect height="5" width="5" right="0" bottom="0">
+		<s:fill>
+			<s:SolidColor color="#FFFFFF"/>
+		</s:fill>
+		<s:stroke>
+			<s:SolidColorStroke color="#8598F7"  weight="1"/>
+		</s:stroke>
+	</s:Rect>
+	
+</s:Group>

@@ -4,19 +4,107 @@
 <p><b>create-time：</b>2012-7-31</p>
 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="400"
-		 xmlns:graphic="com.hubo.workflow.components.graphic.*">
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:graphic="com.hubo.workflow.components.graphic.*"
+		  initialize="initializeHandler(event)"
+		  width="400" xmlns:components="com.hubo.workflow.components.*">
 	
-	<graphic:Ellipse verticalCenter="0"/>
-	<graphic:ToolsStart verticalCenter="0" left="7"/>
+	<fx:Script>
+		<![CDATA[
+			import com.hubo.workflow.components.TooTip;
+			import com.hubo.workflow.util.UIUtil;
+			
+			import mx.core.IVisualElement;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			public static const CLICK_NODE:String="clickNode";
+			
+			public static const START:String = "start";
+			public static const PERSION:String = "persion";
+			public static const END:String = "end";
+			
+			/**
+			 * 消息提示容器【内部使用】
+			 */
+			private var tootip:TooTip;
+
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				this.intiEvent();
+			}
+			
+			private function intiEvent():void
+			{
+				for(var i:int=0, num:int=this.numElements; i<num; i++)
+				{
+					var node:IVisualElement=this.getElementAt(i);
+					node.addEventListener(MouseEvent.CLICK, nodeMouseHandler, false, 0, true);
+					node.addEventListener(MouseEvent.ROLL_OUT, nodeMouseHandler, false, 0, true);
+					node.addEventListener(MouseEvent.ROLL_OVER, nodeMouseHandler, false, 0, true);
+				}
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				tootip ? null : tootip=new TooTip("");
+			}
+			
+			protected function nodeMouseHandler(event:MouseEvent):void
+			{
+				var group:NodeGroup=event.currentTarget as NodeGroup;
+				switch (event.type)
+				{
+					case MouseEvent.CLICK:
+						var dye:DynamicEvent=new DynamicEvent(CLICK_NODE);
+						dye.name=group.name;
+						dye.text = group.id;
+						dye.graphicWidth = group.graphicWidth;
+						dye.graphicHeight = group.graphicHeight
+						dye.graphicTop = group.graphicTop;
+						dye.graphicHorizontalCenter = group.graphicHorizontalCenter;
+						
+						this.dispatchEvent(dye);
+						break;
+
+					case MouseEvent.ROLL_OUT:
+						PopUpManager.removePopUp(tootip);
+						break;
+
+					case MouseEvent.ROLL_OVER:
+						var point:Point = UIUtil.getUiAbsolutePosition(group);
+						tootip.x = point.x - group.width*0.5;
+						tootip.y = point.y + 35;
+						tootip.text = group.id;
+						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+						break;
+					
+					default:
+						break;
+				}
+			}
+
+		]]>
+		
+	</fx:Script>
 	
-	<graphic:Ellipse verticalCenter="0" left="30"/>
-	<graphic:ToolsPersion verticalCenter="0" left="37"/>
+	<components:NodeGroup id="开始" name="{START}"  graphicHorizontalCenter="4">
+		<graphic:Ellipse />
+		<graphic:ToolsStart verticalCenter="0" horizontalCenter="2"/>
+	</components:NodeGroup>
 	
-	<graphic:Ellipse verticalCenter="0" left="60"/>
-	<graphic:ToolsEnd verticalCenter="0" left="66"/>
+	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="20" >
+		<graphic:Ellipse />
+		<graphic:ToolsPersion verticalCenter="0" horizontalCenter="0"/>
+	</components:NodeGroup>
 	
-</s:Group>
+	<components:NodeGroup id="结束" name="{END}">
+		<graphic:Ellipse />
+		<graphic:ToolsEnd  horizontalCenter="0" verticalCenter="0"/>
+	</components:NodeGroup>
+	
+</s:HGroup>

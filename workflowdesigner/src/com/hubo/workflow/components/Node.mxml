@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<p><b>auth：</b>HUBO</p>
+<p><b>create-time：</b>2012-8-1</p>
+<p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:graphic="com.hubo.workflow.components.graphic.*"
+		 xmlns:components="com.hubo.workflow.components.*"
+		 useHandCursor="true"
+		 buttonMode="true"
+		 width="80"
+		 height="80">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			
+			
+		]]>
+	</fx:Script>
+	
+	<components:NodeSelected id="nodeSelected" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	
+	<graphic:Ellipse width="42" height="42" horizontalCenter="0" top="8"/>
+	
+	<graphic:ToolsStart horizontalCenter="4" top="16" width="24" height="24"/> 
+	
+	<s:Label text="标准结构模块" maxWidth="77" toolTip="标准结构模块构模块"  maxDisplayedLines="1" horizontalCenter="0" top="57" fontSize="12"/>
+	
+	<s:Rect height="80" width="80" >
+		<s:fill>
+			<s:SolidColor color="#FFFFFF" alpha="0"/>
+		</s:fill>
+	</s:Rect>
+	
+</s:Group>
