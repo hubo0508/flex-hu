@@ -272,6 +272,8 @@
 					node.addEventListener(MouseEvent.CLICK,nodeHandler,false,0,true);
 					node.addEventListener(MouseEvent.ROLL_OUT,nodeHandler,false,0,true);
 					node.addEventListener(MouseEvent.ROLL_OVER,nodeHandler,false,0,true);
+					node.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
+					node.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
 				}
 			}
 			
@@ -289,6 +291,14 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						node.startDrag();
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						node.stopDrag();
 						break;
 					
 					default:
