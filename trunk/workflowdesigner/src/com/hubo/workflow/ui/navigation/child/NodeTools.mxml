@@ -97,7 +97,7 @@
 		<graphic:IconStart verticalCenter="0" horizontalCenter="2"/>
 	</components:NodeGroup>
 	
-	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="18" >
+	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="16" >
 		<graphic:Ellipse />
 		<graphic:IconPersion verticalCenter="0" horizontalCenter="0"/>
 	</components:NodeGroup>
