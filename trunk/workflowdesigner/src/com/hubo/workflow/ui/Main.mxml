@@ -71,7 +71,7 @@
 			
 			protected function contentClickHandler(event:MouseEvent):void
 			{
-				
+				this.content.cleanSelectedAll();
 			}
 			
 			protected function clickMenuHandler(event:DynamicEvent):void
@@ -269,7 +269,22 @@
 			
 			protected function nodeHandler(event:MouseEvent):void
 			{
-				
+				var node:Node = event.currentTarget as Node;
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						node.selected(true);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						break;
+					
+					default:
+						break;
+				}
 			}
 		]]>
 	</fx:Script>

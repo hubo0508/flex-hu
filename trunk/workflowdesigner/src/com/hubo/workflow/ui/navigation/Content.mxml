@@ -12,6 +12,25 @@
 		 top="125"
 		 bottom="23"
 		 width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.hubo.workflow.components.Node;
+			
+			public function cleanSelectedAll():void
+			{
+				for(var i:int=0,num:int=this.numElements; i<num; i++)
+				{
+					var node:Node = this.getElementAt(i) as Node;
+					if(node)
+					{
+						node.selected(false);
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
 
 	<s:layout>
 		<s:BasicLayout/>
