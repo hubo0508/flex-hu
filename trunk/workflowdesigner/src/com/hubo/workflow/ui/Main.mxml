@@ -254,7 +254,16 @@
 					node.addIcon(icon as IVisualElement);
 					
 					content.addElement(node);
+					
+					node.addEventListener(MouseEvent.CLICK,nodeHandler,false,0,true);
+					node.addEventListener(MouseEvent.ROLL_OUT,nodeHandler,false,0,true);
+					node.addEventListener(MouseEvent.ROLL_OVER,nodeHandler,false,0,true);
 				}
+			}
+			
+			protected function nodeHandler(event:MouseEvent):void
+			{
+				
 			}
 		]]>
 	</fx:Script>
