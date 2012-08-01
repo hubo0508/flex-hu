@@ -15,6 +15,8 @@
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.MenuButton;
+			import com.hubo.workflow.components.Node;
+			import com.hubo.workflow.components.graphic.IconStart;
 			import com.hubo.workflow.core.TweenLite;
 			import com.hubo.workflow.ui.navigation.child.AlignmentTools;
 			import com.hubo.workflow.ui.navigation.child.NodeTools;
@@ -217,10 +219,19 @@
 			
 			protected function clickNodeHandler(dye:DynamicEvent):void
 			{
-				Alert.show(dye.name);
 				switch(dye.name)
 				{
 					case NodeTools.START :
+						var nodestart:Node = new Node();
+						var start:IconStart = new IconStart();
+						start.width = dye.graphicWidth;
+						start.height = dye.graphicHeight;
+						start.top = dye.graphicTop;
+						start.horizontalCenter = dye.graphicHorizontalCenter;
+						
+						nodestart.addIcon(start);
+						
+						content.addElement(nodestart);
 						break;
 					
 					case NodeTools.PERSION :
@@ -242,7 +253,7 @@
 	
 	<navigation:Menu id="menu" />
 	
-	<navigation:Content/>
+	<navigation:Content id="content"/>
 	
 	<navigation:LogOutput/>
 
