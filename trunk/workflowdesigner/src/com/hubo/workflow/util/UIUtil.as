@@ -4,15 +4,16 @@ package com.hubo.workflow.util
 	import flash.display.Graphics;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
-
+	
 	import mx.controls.Alert;
 	import mx.core.IChildList;
 	import mx.core.IFlexDisplayObject;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
+	import mx.formatters.DateFormatter;
 	import mx.managers.ISystemManager;
 	import mx.managers.PopUpManager;
-
+	
 	import spark.components.Application;
 	import spark.components.BorderContainer;
 	import spark.components.SkinnableContainer;
@@ -38,6 +39,22 @@ package com.hubo.workflow.util
 		{
 		}
 
+		private static var myDateFormatter:DateFormatter=new DateFormatter();
+		
+		
+		public static function convert(date:Date,formatString:String = "YYYY-MM-DD JJ:NN:SS"):String
+		{
+			myDateFormatter.formatString=formatString;
+			
+			return myDateFormatter.format(date);
+		}
+		
+		public static function addOneDay(day:int, mydate:Date):Date
+		{
+			var returnDate:Date = new Date(mydate.time);
+			returnDate['date'] += day;
+			return returnDate;    
+		}
 
 
 		public static function getSkinBC():SkinnableContainer
