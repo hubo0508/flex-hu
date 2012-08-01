@@ -94,17 +94,17 @@
 	
 	<components:NodeGroup id="开始" name="{START}"  graphicHorizontalCenter="4">
 		<graphic:Ellipse />
-		<graphic:ToolsStart verticalCenter="0" horizontalCenter="2"/>
+		<graphic:IconStart verticalCenter="0" horizontalCenter="2"/>
 	</components:NodeGroup>
 	
 	<components:NodeGroup id="审批" name="{PERSION}" graphicWidth="20" >
 		<graphic:Ellipse />
-		<graphic:ToolsPersion verticalCenter="0" horizontalCenter="0"/>
+		<graphic:IconPersion verticalCenter="0" horizontalCenter="0"/>
 	</components:NodeGroup>
 	
 	<components:NodeGroup id="结束" name="{END}">
 		<graphic:Ellipse />
-		<graphic:ToolsEnd  horizontalCenter="0" verticalCenter="0"/>
+		<graphic:IconEnd  horizontalCenter="0" verticalCenter="0"/>
 	</components:NodeGroup>
 	
 </s:HGroup>

@@ -16,8 +16,14 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.DynamicEvent;
 			
+			import spark.primitives.Path;
 			
+			public function addIcon(icon:Path):void
+			{
+				this.addElementAt(icon,2);
+			}
 			
 		]]>
 	</fx:Script>
@@ -26,7 +32,7 @@
 	
 	<graphic:Ellipse width="42" height="42" horizontalCenter="0" top="8"/>
 	
-	<graphic:ToolsStart horizontalCenter="4" top="16" width="24" height="24"/> 
+	<!--<graphic:ToolsStart horizontalCenter="4" top="16" width="24" height="24"/> -->
 	
 	<s:Label text="标准结构模块" maxWidth="77" toolTip="标准结构模块构模块"  maxDisplayedLines="1" horizontalCenter="0" top="57" fontSize="12"/>
 	
