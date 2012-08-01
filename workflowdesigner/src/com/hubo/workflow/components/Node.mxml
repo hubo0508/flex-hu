@@ -26,8 +26,9 @@
 				this.addElementAt(icon,2);
 			}
 			
-			public function selected(value:Boolean):void
+			public function selectedvisible(value:Boolean):void
 			{
+				trace("selectedvisible -- value="+value+"    nodeSelected.visible="+nodeSelected.visible);
 				if(value != nodeSelected.visible)
 				{
 					nodeSelected.visible = value;					

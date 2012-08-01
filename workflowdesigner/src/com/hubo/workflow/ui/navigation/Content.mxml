@@ -5,18 +5,19 @@
 	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
 -->
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:graphic="com.hubo.workflow.components.graphic.*"
-		 xmlns:components="com.hubo.workflow.components.*"
-		 top="125"
-		 bottom="23"
-		 width="100%">
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:graphic="com.hubo.workflow.components.graphic.*"
+				   xmlns:components="com.hubo.workflow.components.*"
+				   name="content"
+				   top="125"
+				   bottom="23"
+				   width="100%">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.hubo.workflow.components.Node;
-			
+			 
 			public function cleanSelectedAll():void
 			{
 				for(var i:int=0,num:int=this.numElements; i<num; i++)
@@ -24,7 +25,7 @@
 					var node:Node = this.getElementAt(i) as Node;
 					if(node)
 					{
-						node.selected(false);
+						node.selectedvisible(false);
 					}
 				}
 			}
