@@ -32,16 +32,28 @@
 			
 			public function removeSelected():void
 			{
+				var selectedNode:Array =  getSelectedNode();
+				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
+				{
+					this.removeElement(selectedNode[i]);
+				}
+			}
+			
+			public function getSelectedNode():Array
+			{
+				var selectedNode:Array = [];
 				for(var i:int=0,num:int=this.numElements; i<num; i++)
 				{
 					var node:Node = this.getElementAt(i) as Node;
 					if(node && node.selected())
 					{
-						this.removeElement(node);
+						selectedNode[i] = node;
 					}
 				}
+				
+				return selectedNode;
 			}
-			
+				
 		]]>
 	</fx:Script>
 

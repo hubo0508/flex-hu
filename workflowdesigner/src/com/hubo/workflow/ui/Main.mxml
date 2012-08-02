@@ -30,6 +30,7 @@
 			
 			import mx.controls.Alert;
 			import mx.core.IVisualElement;
+			import mx.effects.Zoom;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			
@@ -59,6 +60,8 @@
 			
 			private var tempNode:Node;
 			
+			private var zoom:Zoom;
+			
 			/**
 			 * 系统初始化调用
 			 */
@@ -86,6 +89,30 @@
 				this.content.addEventListener(MouseEvent.CLICK,contentHandler,false,0,true);
 				this.content.addEventListener(MouseEvent.MOUSE_MOVE,contentHandler,false,0,true);
 				
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(!zoom)
+				{
+					zoom = new Zoom();			
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+				if(zoom)
+				{
+					zoom.zoomWidthTo	= 1;
+					zoom.zoomHeightTo	= 1;
+					zoom.zoomWidthFrom	= 0.5;
+					zoom.zoomHeightFrom	= 0.5;
+					zoom.duration	= 500;
+				}
 			}
 			
 			public function keyboardHandler(event:KeyboardEvent):void
@@ -147,7 +174,11 @@
 							tempNode.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
 
-							new TweenLite(tempNode, .3, {scaleX:1,scaleY:1});
+							//new TweenLite(tempNode, .3, {scaleX:1,scaleY:1});
+							
+							zoom.originX = this.tempNode.x;
+							zoom.originY = this.tempNode.y;
+							zoom.play([tempNode]);
 							
 							tempNode = null;
 						}
