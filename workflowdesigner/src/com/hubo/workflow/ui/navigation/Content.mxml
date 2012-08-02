@@ -20,7 +20,6 @@
 			 
 			public function cleanSelectedAll():void
 			{
-				trace("content.cleanSelectedAll()");
 				for(var i:int=0,num:int=this.numElements; i<num; i++)
 				{
 					var node:Node = this.getElementAt(i) as Node;
