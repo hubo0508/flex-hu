@@ -30,7 +30,6 @@
 			
 			public function selectedvisible(value:Boolean):void
 			{
-				trace("selectedvisible -- value="+value+"    nodeSelected.visible="+nodeSelected.visible);
 				if(value != nodeSelected.visible)
 				{
 					nodeSelected.visible = value;					
