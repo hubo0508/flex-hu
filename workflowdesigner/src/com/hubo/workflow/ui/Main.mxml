@@ -45,6 +45,9 @@
 			 */
 			private var currentMenuText:String;
 			
+			/**
+			 * 鼠标移入一级菜单对象时，将菜单ID赋予当前变量
+			 */
 			private var currentMenuId:String;
 			
 			/**
@@ -82,8 +85,6 @@
 			
 			public function keyboardHandler(event:KeyboardEvent):void
 			{
-				trace(event.keyCode);
-				
 				switch(event.type)
 				{
 					case KeyboardEvent.KEY_DOWN :
@@ -92,7 +93,13 @@
 					case KeyboardEvent.KEY_UP :
 						switch(event.keyCode)
 						{
-							case 39 ://右 
+							case Keyboard.ESCAPE:
+								break;
+							
+							case Keyboard.DELETE:
+								this.content.removeSelected();
+								
+							case Keyboard.RIGHT ://右 
 								break;
 							
 							case 38 ://上 
@@ -101,7 +108,7 @@
 							case 40 ://下  
 								break;
 							
-							case 37 ://左 
+							case Keyboard.LEFT ://左 
 								break;
 							
 							default:

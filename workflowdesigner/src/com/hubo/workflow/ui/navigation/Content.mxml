@@ -30,6 +30,18 @@
 				}
 			}
 			
+			public function removeSelected():void
+			{
+				for(var i:int=0,num:int=this.numElements; i<num; i++)
+				{
+					var node:Node = this.getElementAt(i) as Node;
+					if(node && node.selected())
+					{
+						this.removeElement(node);
+					}
+				}
+			}
+			
 		]]>
 	</fx:Script>
 
