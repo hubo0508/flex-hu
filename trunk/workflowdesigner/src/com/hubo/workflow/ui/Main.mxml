@@ -270,13 +270,6 @@
 						var left2:Boolean = (point.x > drawBgRectPoint.x && point.x < stage.mouseX) && (point.y < drawBgRectPoint.y && point.y > stage.mouseY)
 						//设置选择状态
 						invertSelection ||	isSelected || right2 || left2 ? node.selectedvisible(true) : node.selectedvisible(false);
-						//invertSelection || right2 || left2 ? drawRectMark = true : null;
-						
-//						trace("invertSelection = " + invertSelection);
-//						trace("drawBgRectPoint.x="+drawBgRectPoint.x + "  y="+drawBgRectPoint.y);
-//						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
-//						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
-//						trace("");
 					}
 				}
 			}
