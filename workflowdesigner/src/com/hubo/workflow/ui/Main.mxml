@@ -109,9 +109,9 @@
 				{
 					zoom.zoomWidthTo	= 1;
 					zoom.zoomHeightTo	= 1;
-					zoom.zoomWidthFrom	= 0.5;
-					zoom.zoomHeightFrom	= 0.5;
-					zoom.duration	= 500;
+					//zoom.zoomWidthFrom	= 0.5;
+					//zoom.zoomHeightFrom	= 0.5;
+					zoom.duration	= 200;
 				}
 			}
 			
@@ -173,11 +173,12 @@
 							tempNode.addEventListener(MouseEvent.ROLL_OVER,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
-
-							//new TweenLite(tempNode, .3, {scaleX:1,scaleY:1});
 							
-							zoom.originX = this.tempNode.x;
-							zoom.originY = this.tempNode.y;
+							trace("click="+this.content.mouseX+","+this.content.mouseY);
+							trace("click,node="+this.tempNode.x+","+this.tempNode.y);
+							
+							//zoom.originX = event.stageX;
+							//zoom.originY = event.stageY;
 							zoom.play([tempNode]);
 							
 							tempNode = null;
@@ -190,6 +191,11 @@
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
+						if(tempNode)
+						{
+							trace("move="+this.content.mouseX+","+this.content.mouseY);
+							trace("move,node="+this.tempNode.x+","+this.tempNode.y);
+						}
 						tempNode ? changeTempNodeXY() : null;
 						break;
 					
@@ -429,6 +435,7 @@
 					
 					case MouseEvent.MOUSE_UP :
 						node.stopDrag();
+						trace("MOUSE_UP="+node.x+","+node.y);
 						break;
 					
 					default:
