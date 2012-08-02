@@ -11,7 +11,7 @@
 		 initialize="initializeHandler(event)" 
 		 creationComplete="creationComplete(event)"
 		 width="100%"
-		 height="100%" >
+		 height="100%" > 
 	
 	<fx:Script>
 		<![CDATA[
@@ -100,6 +100,10 @@
 				this.content.addEventListener(MouseEvent.MOUSE_MOVE,contentHandler,false,0,true);
 				this.content.addEventListener(MouseEvent.MOUSE_DOWN,contentHandler,false,0,true);
 				this.content.addEventListener(MouseEvent.MOUSE_UP,contentHandler,false,0,true);
+				
+				this.addEventListener(MouseEvent.MOUSE_MOVE,mainHandler,false,0,true);
+				this.addEventListener(MouseEvent.MOUSE_DOWN,mainHandler,false,0,true);
+				this.addEventListener(MouseEvent.MOUSE_UP,mainHandler,false,0,true);
 			}
 			
 			override protected function createChildren():void
@@ -172,6 +176,38 @@
 				}
 			}
 			
+			protected function mainHandler(event:MouseEvent):void
+			{
+				event.stageY <= Number(content.top) || (event.stageY >= height-Number(content.bottom)-2) ? null : this.drawBox(event);
+			}
+			
+			private function drawBox(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_DOWN :
+						drawBgRectPoint = new Point(content.mouseX,content.mouseY);
+						break;
+					
+					case MouseEvent.MOUSE_UP:
+						this.stopDrawSelectionBox();
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						if((drawBgRectPoint == null || event.target is Node) && nodeDragMark)
+						{
+							break;
+						}
+						
+						this.drawSelectionBox();
+						this.locationNodes();
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
 			/**
 			 * 节点容器事件处理
 			 */
@@ -179,16 +215,12 @@
 			{
 				switch(event.type)
 				{
-					case MouseEvent.CLICK :
-						break;
-					
 					case MouseEvent.MOUSE_DOWN :
 						if(!(event.target is Node) && !(event.target is Label) && !tempNode)
 						{
 							this.content.cleanSelectedAll();
 						}
 						
-						drawBgRectPoint = new Point(content.mouseX,content.mouseY);
 						break;
 					
 					case MouseEvent.MOUSE_UP:
@@ -206,19 +238,10 @@
 							tempNode = null;
 						}
 						
-						this.stopDrawSelectionBox();
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
 						tempNode ? changeTempNodeXY() : null;
-						
-						if((drawBgRectPoint == null || event.target is Node) && nodeDragMark)
-						{
-							break;
-						}
-						
-						this.drawSelectionBox();
-						this.locationNodes();
 						break;
 					
 					default:
@@ -530,10 +553,10 @@
 	
 	<navigation:Head id="head"/>
 	
-	<mx:UIComponent id="bgRect"  top="125"	bottom="23"	width="100%"/>
-	
 	<navigation:Content id="content"/>
 	
+	<mx:UIComponent id="bgRect"  top="125"	bottom="23"	width="100%"/>
+
 	<navigation:SecondaryMenu id="secondaryMenu" />
 	
 	<navigation:Menu id="menu" />
