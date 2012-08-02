@@ -21,6 +21,8 @@
 			
 			import spark.primitives.Path;
 			
+			private var _text:String;
+			
 			public function addIcon(icon:IVisualElement):void
 			{
 				this.addElementAt(icon,2);
@@ -35,6 +37,24 @@
 				}
 			}
 			
+			public function selected():Boolean
+			{
+				return nodeSelected.visible;
+			}
+
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				_text = value;
+				
+				label.text = value;
+				label.toolTip = value;
+			}
+			
 			
 		]]>
 	</fx:Script>
@@ -45,7 +65,7 @@
 	
 	<!--<graphic:ToolsStart horizontalCenter="4" top="16" width="24" height="24"/> -->
 	
-	<s:Label text="标准结构模块" maxWidth="77" toolTip="标准结构模块构模块"  maxDisplayedLines="1" horizontalCenter="0" top="57" fontSize="12"/>
+	<s:Label id="label" maxWidth="77" maxDisplayedLines="1" horizontalCenter="0" top="57" fontSize="12"/>
 	
 	<s:Rect height="80" width="80" >
 		<s:fill>
