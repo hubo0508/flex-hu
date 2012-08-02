@@ -169,7 +169,18 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						if(!(event.target is Node) && !(event.target is Label) && !tempNode)
+						{
+							this.content.cleanSelectedAll();
+						}
 						
+						drawBgRectPoint = new Point(content.mouseX,content.mouseY);
+						break;
+					
+					case MouseEvent.MOUSE_UP:
 						if(tempNode && event.target is Node)
 						{
 							tempNode.selectedvisible(true);
@@ -180,24 +191,10 @@
 							tempNode.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
 							
-							//zoom.originX = event.stageX;
-							//zoom.originY = event.stageY;
 							zoom.play([tempNode]);
-							
 							tempNode = null;
 						}
 						
-						if(!(event.target is Node) && !(event.target is Label) && !tempNode && !drawBgRectPoint)
-						{
-							this.content.cleanSelectedAll();
-						}
-						break;
-					
-					case MouseEvent.MOUSE_DOWN :
-						drawBgRectPoint = new Point(content.mouseX,content.mouseY);
-						break;
-					
-					case MouseEvent.MOUSE_UP:
 						drawBgRectPoint = null;
 						bgRect.graphics.clear();
 						break;
@@ -205,7 +202,7 @@
 					case MouseEvent.MOUSE_MOVE :
 						tempNode ? changeTempNodeXY() : null;
 						
-						if(drawBgRectPoint == null)break;
+						if(drawBgRectPoint == null || event.target is Node)break;
 						
 						var dx:Number = content.mouseX - drawBgRectPoint.x;
 						var dy:Number = content.mouseY - drawBgRectPoint.y;
