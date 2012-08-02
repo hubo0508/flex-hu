@@ -67,6 +67,9 @@
 			 */
 			private var drawBgRectPoint:Point;
 			
+			/**
+			 * 当前选中节点是否处于拖动状态。 
+			 */
 			private var nodeDragMark:Boolean = false;
 			
 			/**
@@ -123,6 +126,9 @@
 				}
 			}
 			
+			/**
+			 * 键盘监听事件
+			 */
 			public function keyboardHandler(event:KeyboardEvent):void
 			{
 				switch(event.type)
@@ -166,6 +172,9 @@
 				}
 			}
 			
+			/**
+			 * 节点容器事件处理
+			 */
 			protected function contentHandler(event:MouseEvent):void
 			{
 				switch(event.type)
@@ -197,30 +206,19 @@
 							tempNode = null;
 						}
 						
-						drawBgRectPoint = null;
-						bgRect.graphics.clear();
+						this.stopDrawSelectionBox();
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
 						tempNode ? changeTempNodeXY() : null;
 						
-						trace(drawBgRectPoint + "   event.target="+event.target+"  event.currentTarget="+event.currentTarget);
 						if((drawBgRectPoint == null || event.target is Node) && nodeDragMark)
 						{
 							break;
 						}
 						
-						trace("move");
-						
-						var dx:Number = content.mouseX - drawBgRectPoint.x;
-						var dy:Number = content.mouseY - drawBgRectPoint.y;
-						
-						bgRect.graphics.clear();
-						bgRect.graphics.beginFill(0x3399FF, 0.1);
-						bgRect.graphics.lineStyle(1,0x3399FF);
-						bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
-						
-						locationNodes();
+						this.drawSelectionBox();
+						this.locationNodes();
 						break;
 					
 					default:
@@ -228,6 +226,9 @@
 				}
 			}
 			
+			/**
+			 * 定位节点
+			 */
 			private function locationNodes():void
 			{
 				for(var i:int=0, num:int=content.numElements; i<num; i++)
@@ -455,15 +456,6 @@
 				}
 			}
 			
-			private function changeTempNodeXY():void
-			{
-				if(tempNode)
-				{
-					tempNode.x = this.content.mouseX-20;
-					tempNode.y = this.content.mouseY-15;
-				}
-			}
-			
 			protected function nodeHandler(event:MouseEvent):void
 			{
 				var node:Node = event.currentTarget as Node;
@@ -493,6 +485,45 @@
 					default:
 						break;
 				}
+			}
+			
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//------private------//
+			///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			/**
+			 * 更新节点坐标
+			 */
+			private function changeTempNodeXY():void
+			{
+				if(tempNode)
+				{
+					tempNode.x = this.content.mouseX-20;
+					tempNode.y = this.content.mouseY-15;
+				}
+			}
+			
+			/**
+			 * 停止画背景选择框
+			 */
+			private function stopDrawSelectionBox():void
+			{
+				drawBgRectPoint = null;
+				bgRect.graphics.clear();
+			}
+			
+			/**
+			 * 开始画背景选择框
+			 */
+			private function drawSelectionBox():void
+			{
+				var dx:Number = content.mouseX - drawBgRectPoint.x;
+				var dy:Number = content.mouseY - drawBgRectPoint.y;
+				
+				bgRect.graphics.clear();
+				bgRect.graphics.beginFill(0x3399FF, 0.1);
+				bgRect.graphics.lineStyle(1,0x3399FF);
+				bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
 			}
 		]]>
 	</fx:Script>
