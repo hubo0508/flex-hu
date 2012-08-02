@@ -63,6 +63,11 @@
 			private var zoom:Zoom;
 			
 			/**
+			 * 鼠标点击舞台不松开，拖动鼠标时，记录第一次点击的
+			 */
+			private var drawBgRectPoint:Point;
+			
+			/**
 			 * 系统初始化调用
 			 */
 			protected function initializeHandler(event:FlexEvent):void
@@ -88,7 +93,8 @@
 				
 				this.content.addEventListener(MouseEvent.CLICK,contentHandler,false,0,true);
 				this.content.addEventListener(MouseEvent.MOUSE_MOVE,contentHandler,false,0,true);
-				
+				this.content.addEventListener(MouseEvent.MOUSE_DOWN,contentHandler,false,0,true);
+				this.content.addEventListener(MouseEvent.MOUSE_UP,contentHandler,false,0,true);
 			}
 			
 			override protected function createChildren():void
@@ -174,9 +180,6 @@
 							tempNode.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
 							
-							trace("click="+this.content.mouseX+","+this.content.mouseY);
-							trace("click,node="+this.tempNode.x+","+this.tempNode.y);
-							
 							//zoom.originX = event.stageX;
 							//zoom.originY = event.stageY;
 							zoom.play([tempNode]);
@@ -184,19 +187,35 @@
 							tempNode = null;
 						}
 						
-						if(!(event.target is Node) && !(event.target is Label) && !tempNode)
+						if(!(event.target is Node) && !(event.target is Label) && !tempNode && !drawBgRectPoint)
 						{
 							this.content.cleanSelectedAll();
 						}
 						break;
 					
+					case MouseEvent.MOUSE_DOWN :
+						drawBgRectPoint = new Point(content.mouseX,content.mouseY);
+						break;
+					
+					case MouseEvent.MOUSE_UP:
+						drawBgRectPoint = null;
+						bgRect.graphics.clear();
+						break;
+					
 					case MouseEvent.MOUSE_MOVE :
-						if(tempNode)
-						{
-							trace("move="+this.content.mouseX+","+this.content.mouseY);
-							trace("move,node="+this.tempNode.x+","+this.tempNode.y);
-						}
 						tempNode ? changeTempNodeXY() : null;
+						
+						if(drawBgRectPoint == null)break;
+						
+						var dx:Number = content.mouseX - drawBgRectPoint.x;
+						var dy:Number = content.mouseY - drawBgRectPoint.y;
+						
+						bgRect.graphics.clear();
+						bgRect.graphics.beginFill(0x3399FF, 0.1);
+						bgRect.graphics.lineStyle(1,0x3399FF);
+						bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
+						
+						//this.locationElementNodes();
 						break;
 					
 					default:
@@ -348,14 +367,12 @@
 			{
 				Global.stopTimer(secondaryMenuTimer);
 				secondaryMenuTimer = new Timer(80, 1);
-				trace("hideSecondaryMenu=S="+UIUtil.convert(new Date()));
 				secondaryMenuTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void
 				{
 					secondaryMenu.removeContent();
 					//new TweenLite(secondaryMenu, .3, {top:87});
 					secondaryMenu.top = 87;
 					Global.stopTimer(secondaryMenuTimer);
-					trace("hideSecondaryMenu=E="+UIUtil.convert(new Date()));
 				}, false, 0, true);
 				
 				secondaryMenuTimer.start();
@@ -435,7 +452,6 @@
 					
 					case MouseEvent.MOUSE_UP :
 						node.stopDrag();
-						trace("MOUSE_UP="+node.x+","+node.y);
 						break;
 					
 					default:
@@ -446,6 +462,8 @@
 	</fx:Script>
 	
 	<navigation:Head id="head"/>
+	
+	<mx:UIComponent id="bgRect"  top="125"	bottom="23"	width="100%"/>
 	
 	<navigation:Content id="content"/>
 	
