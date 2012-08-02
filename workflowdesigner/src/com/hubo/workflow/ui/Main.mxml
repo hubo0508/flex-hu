@@ -146,8 +146,9 @@
 							tempNode.addEventListener(MouseEvent.ROLL_OVER,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_DOWN,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.MOUSE_UP,nodeHandler,false,0,true);
+
+							new TweenLite(tempNode, .3, {scaleX:1,scaleY:1});
 							
-							this.content.addElement(tempNode);
 							tempNode = null;
 						}
 						
@@ -328,7 +329,6 @@
 			 */
 			protected function clickNodeToolsHandler(dye:DynamicEvent):void
 			{
-				
 				tempNode = new Node();
 				var icon:Object = null;				
 				switch(dye.name)
@@ -356,9 +356,12 @@
 					icon.top = dye.graphicTop;
 					icon.horizontalCenter = dye.graphicHorizontalCenter;
 					
-					tempNode.addIcon(icon as IVisualElement);
-					
+					tempNode.text = dye.text;
 					changeTempNodeXY();
+					tempNode.scaleX = 0.5;
+					tempNode.scaleY = 0.5;
+					
+					tempNode.addIcon(icon as IVisualElement);
 					
 					content.addElement(tempNode);
 				}
@@ -368,8 +371,8 @@
 			{
 				if(tempNode)
 				{
-					tempNode.x = this.content.mouseX-40;
-					tempNode.y = this.content.mouseY-30;
+					tempNode.x = this.content.mouseX-20;
+					tempNode.y = this.content.mouseY-15;
 				}
 			}
 			
