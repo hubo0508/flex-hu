@@ -3,18 +3,16 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:mx="library://ns.adobe.com/flex/mx"
 			   xmlns:ui="com.hubo.workflow.ui.*"
-			   xmlns:workflow="com.workflow.*"
-			   xmlns:components="com.hubo.workflow.components.*"
-			   xmlns:navigation="com.hubo.workflow.ui.navigation.*" applicationComplete="application1_applicationCompleteHandler(event)">
+			   applicationComplete="applicationCompleteHandler(event)">
 
 	<fx:Style source="com/hubo/workflow/assets/Style.css"/>
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
 
-			protected function application1_applicationCompleteHandler(event:FlexEvent):void
+			protected function applicationCompleteHandler(event:FlexEvent):void
 			{
-				//this.stage.addEventListener(KeyboardEvent.KEY_DOWN,keyboardHandler,false,0,true);
 				this.stage.addEventListener(KeyboardEvent.KEY_UP,main.keyboardHandler,false,0,true);
 			}
 			
