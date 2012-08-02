@@ -67,6 +67,8 @@
 			 */
 			private var drawBgRectPoint:Point;
 			
+			private var nodeDragMark:Boolean = false;
+			
 			/**
 			 * 系统初始化调用
 			 */
@@ -202,7 +204,13 @@
 					case MouseEvent.MOUSE_MOVE :
 						tempNode ? changeTempNodeXY() : null;
 						
-						if(drawBgRectPoint == null || event.target is Node)break;
+						trace(drawBgRectPoint + "   event.target="+event.target+"  event.currentTarget="+event.currentTarget);
+						if((drawBgRectPoint == null || event.target is Node) && nodeDragMark)
+						{
+							break;
+						}
+						
+						trace("move");
 						
 						var dx:Number = content.mouseX - drawBgRectPoint.x;
 						var dy:Number = content.mouseY - drawBgRectPoint.y;
@@ -212,11 +220,40 @@
 						bgRect.graphics.lineStyle(1,0x3399FF);
 						bgRect.graphics.drawRect(drawBgRectPoint.x,drawBgRectPoint.y,dx,dy);
 						
-						//this.locationElementNodes();
+						locationNodes();
 						break;
 					
 					default:
 						break;
+				}
+			}
+			
+			private function locationNodes():void
+			{
+				for(var i:int=0, num:int=content.numElements; i<num; i++)
+				{
+					var node:Node = content.getElementAt(i) as Node;
+					if(node)
+					{
+						var point:Point = node.centerPoint();
+						//右下角 => 左上角  
+						var invertSelection:Boolean = (point.x > stage.mouseX && point.x < drawBgRectPoint.x) && (point.y > stage.mouseY && point.y < drawBgRectPoint.y);
+						//左上角 => 右下角
+						var isSelected:Boolean = (point.x >drawBgRectPoint.x && point.x <stage.mouseX) && (point.y > drawBgRectPoint.y && point.y < stage.mouseY);
+						//右上角 => 左下角
+						var right2:Boolean = (point.x < drawBgRectPoint.x && point.x > stage.mouseX) && (point.y > drawBgRectPoint.y && point.y < stage.mouseY)
+						//左下角 => 右上角
+						var left2:Boolean = (point.x > drawBgRectPoint.x && point.x < stage.mouseX) && (point.y < drawBgRectPoint.y && point.y > stage.mouseY)
+						//设置选择状态
+						invertSelection ||	isSelected || right2 || left2 ? node.selectedvisible(true) : node.selectedvisible(false);
+						//invertSelection || right2 || left2 ? drawRectMark = true : null;
+						
+//						trace("invertSelection = " + invertSelection);
+//						trace("drawBgRectPoint.x="+drawBgRectPoint.x + "  y="+drawBgRectPoint.y);
+//						trace("stage.x="+stage.mouseX+"  y="+stage.mouseY);
+//						trace("elementNode.x="+elementNode.point().x + "  y="+elementNode.point().y);
+//						trace("");
+					}
 				}
 			}
 			
@@ -445,10 +482,12 @@
 					case MouseEvent.MOUSE_DOWN :
 						node.selectedvisible(true);
 						node.startDrag();
+						nodeDragMark = true;
 						break;
 					
 					case MouseEvent.MOUSE_UP :
 						node.stopDrag();
+						nodeDragMark = false;
 						break;
 					
 					default:

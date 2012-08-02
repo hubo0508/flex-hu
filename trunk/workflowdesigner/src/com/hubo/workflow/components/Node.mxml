@@ -16,6 +16,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.hubo.workflow.util.UIUtil;
+			
 			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
 			
@@ -34,6 +36,14 @@
 				{
 					nodeSelected.visible = value;					
 				}
+			}
+			
+			public function centerPoint():Point
+			{
+				var point:Point = UIUtil.getUiAbsolutePosition(this);
+				point.x += 40;
+				point.y += 40;
+				return point;
 			}
 			
 			public function selected():Boolean
