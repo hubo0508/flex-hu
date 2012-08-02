@@ -147,22 +147,22 @@
 							break;
 						
 						case Keyboard.DELETE:
-							this.content.removeSelected();
+							this.content.removeSelectedAll();
 
 						case Keyboard.RIGHT:
-							this.content.moveXY(event.keyCode);
+							this.content.moveSelectedAllWidthKeyboard(event.keyCode);
 							break;
 						
 						case Keyboard.UP:
-							this.content.moveXY(event.keyCode);
+							this.content.moveSelectedAllWidthKeyboard(event.keyCode);
 							break;
 						
 						case Keyboard.DOWN:
-							this.content.moveXY(event.keyCode);
+							this.content.moveSelectedAllWidthKeyboard(event.keyCode);
 							break;
 						
 						case Keyboard.LEFT:
-							this.content.moveXY(event.keyCode);
+							this.content.moveSelectedAllWidthKeyboard(event.keyCode);
 							break;
 						
 						default:
@@ -490,6 +490,11 @@
 					case MouseEvent.MOUSE_UP :
 						node.stopDrag();
 						nodeDragMark = false;
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						trace("node move");
+						this.content.moveSelectedAllWidthDrag(node.x,node.y);
 						break;
 					
 					default:

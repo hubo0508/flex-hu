@@ -27,7 +27,7 @@
 				}
 			}
 			
-			public function removeSelected():void
+			public function removeSelectedAll():void
 			{
 				var selectedNode:Array =  getSelectedNode();
 				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
@@ -36,7 +36,21 @@
 				}
 			}
 			
-			public function moveXY(code:uint):void
+			public function moveSelectedAllWidthDrag(x:Number, y:Number):void
+			{
+				var selectedNode:Array =  getSelectedNode();
+				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
+				{
+					var node:Node = selectedNode[i] as Node;
+					if(node && node.selected())
+					{
+						node.x != x ? node.x = x : null;
+						node.y != y ? node.y = y : null;
+					}
+				}
+			}
+			
+			public function moveSelectedAllWidthKeyboard(code:uint):void
 			{
 				var selectedNode:Array =  getSelectedNode();
 				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
