@@ -13,7 +13,7 @@
 
 			protected function applicationCompleteHandler(event:FlexEvent):void
 			{
-				this.stage.addEventListener(KeyboardEvent.KEY_UP,main.keyboardHandler,false,0,true);
+				this.stage.addEventListener(KeyboardEvent.KEY_DOWN,main.keyboardHandler,false,0,true);
 			}
 			
 		]]>

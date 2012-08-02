@@ -36,6 +36,36 @@
 				}
 			}
 			
+			public function moveXY(code:uint):void
+			{
+				var selectedNode:Array =  getSelectedNode();
+				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
+				{
+					var node:Node = selectedNode[i];
+					switch(code)
+					{
+						case Keyboard.RIGHT:
+							node.x += 2;
+							break;
+						
+						case Keyboard.UP:
+							node.y -= 2;
+							break;
+						
+						case Keyboard.DOWN:
+							node.y += 2;
+							break;
+						
+						case Keyboard.LEFT:
+							node.x -= 2;
+							break;
+						
+						default:
+							break;
+					}
+				}
+			}
+			
 			public function getSelectedNode():Array
 			{
 				var selectedNode:Array = [];

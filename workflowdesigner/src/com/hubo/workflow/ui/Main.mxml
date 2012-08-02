@@ -135,45 +135,39 @@
 			 */
 			public function keyboardHandler(event:KeyboardEvent):void
 			{
-				switch(event.type)
-				{
-					case KeyboardEvent.KEY_DOWN :
-						break;
-					
-					case KeyboardEvent.KEY_UP :
-						switch(event.keyCode)
-						{
-							case Keyboard.ESCAPE:
-								if(tempNode)
-								{
-									this.content.removeElement(tempNode);
-									tempNode = null;
-								}
-								break;
-							
-							case Keyboard.DELETE:
-								this.content.removeSelected();
-								
-							case Keyboard.RIGHT ://右 
-								break;
-							
-							case 38 ://上 
-								break;
-							
-							case 40 ://下  
-								break;
-							
-							case Keyboard.LEFT ://左 
-								break;
-							
-							default:
-								break;
-						}
-						break;
-					
-					default:
-						break;
-				}
+					switch(event.keyCode)
+					{
+						case Keyboard.ESCAPE:
+							if(tempNode)
+							{
+								this.content.removeElement(tempNode);
+								tempNode = null;
+							}
+							this.content.cleanSelectedAll();
+							break;
+						
+						case Keyboard.DELETE:
+							this.content.removeSelected();
+
+						case Keyboard.RIGHT:
+							this.content.moveXY(event.keyCode);
+							break;
+						
+						case Keyboard.UP:
+							this.content.moveXY(event.keyCode);
+							break;
+						
+						case Keyboard.DOWN:
+							this.content.moveXY(event.keyCode);
+							break;
+						
+						case Keyboard.LEFT:
+							this.content.moveXY(event.keyCode);
+							break;
+						
+						default:
+							break;
+					}
 			}
 			
 			protected function mainHandler(event:MouseEvent):void
@@ -194,7 +188,7 @@
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
-						if((drawBgRectPoint == null || event.target is Node) && nodeDragMark)
+						if(((drawBgRectPoint == null || event.target is Node) && nodeDragMark) || drawBgRectPoint == null)
 						{
 							break;
 						}
