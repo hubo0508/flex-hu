@@ -44,8 +44,8 @@
 					var node:Node = selectedNode[i] as Node;
 					if(node && node.selected())
 					{
-						node.x != x ? node.x = x : null;
-						node.y != y ? node.y = y : null;
+						node.x != x ? node.x += x : null;
+						node.y != y ? node.y += y : null;
 					}
 				}
 			}
