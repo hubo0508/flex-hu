@@ -241,6 +241,15 @@
 					
 					case MouseEvent.MOUSE_MOVE :
 						tempNode ? changeTempNodeXY() : null;
+						
+						if(event.target is Node && nodeDragMark)
+						{
+							var node:Node = event.target as Node;
+							var centerPoint:Point = new Point(node.x+node.width*0.5, node.y+node.height*0.5);
+							var dx:Number = content.mouseX - centerPoint.x;
+							var dy:Number = content.mouseY - centerPoint.y;
+							this.content.moveSelectedAllWidthDrag(dx, dy);	
+						}
 						break;
 					
 					default:
@@ -488,18 +497,12 @@
 					
 					case MouseEvent.MOUSE_DOWN :
 						node.selectedvisible(true);
-						node.startDrag();
+						//node.startDrag();
 						nodeDragMark = true;
-						
-						var dx:Number = content.mouseX - node.x;
-						var dy:Number = content.mouseY - node.y;
-						//this.content.moveSelectedAllWidthDrag(this.content.mouseX-dx,this.content.mouseY-dy);	
-						//trace(dx+","+dy);
-						//node.x = this.content.mouseX
 						break;
 					
 					case MouseEvent.MOUSE_UP :
-						node.stopDrag();
+						//node.stopDrag();
 						nodeDragMark = false;
 						break;
 					
