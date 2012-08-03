@@ -18,15 +18,21 @@
 		<![CDATA[
 			import com.hubo.workflow.components.Node;
 			 
+			/**
+			 * 清除所有选择状态节点
+			 */
 			public function cleanSelectedAll():void
 			{
 				for(var i:int=0,num:int=this.numElements; i<num; i++)
 				{
 					var node:Node = this.getElementAt(i) as Node;
-					node ? node.selectedvisible(false) : null;
+					node ? node.selected = false: null;
 				}
 			}
 			
+			/**
+			 * 删除所有选择状态节点
+			 */
 			public function removeSelectedAll():void
 			{
 				var selectedNode:Array =  selectedNode();
@@ -36,13 +42,16 @@
 				}
 			}
 			
+			/**
+			 * 鼠标移动所有选择状态节点
+			 */
 			public function moveSelectedAllWidthDrag(x:Number, y:Number):void
 			{
 				var selectedNode:Array =  selectedNode();
 				for(var i:int=0,num:int=selectedNode.length; i<num; i++)
 				{
 					var node:Node = selectedNode[i] as Node;
-					if(node && node.selected())
+					if(node && node.selected)
 					{
 						node.x != x ? node.x += x : null;
 						node.y != y ? node.y += y : null;
@@ -50,6 +59,9 @@
 				}
 			}
 			
+			/**
+			 * 键盘移动所有选择状态节点
+			 */
 			public function moveSelectedAllWidthKeyboard(code:uint):void
 			{
 				var selectedNode:Array =  selectedNode();
@@ -80,13 +92,16 @@
 				}
 			}
 			
+			/**
+			 * 取得所有选择状态节点
+			 */
 			public function selectedNode():Array
 			{
 				var selectedNode:Array = [];
 				for(var i:int=0,num:int=this.numElements; i<num; i++)
 				{
 					var node:Node = this.getElementAt(i) as Node;
-					if(node && node.selected())
+					if(node && node.selected)
 					{
 						selectedNode[i] = node;
 					}
@@ -97,9 +112,4 @@
 				
 		]]>
 	</fx:Script>
-
-	<s:layout>
-		<s:BasicLayout/>
-	</s:layout>
-	
 </s:Group>
