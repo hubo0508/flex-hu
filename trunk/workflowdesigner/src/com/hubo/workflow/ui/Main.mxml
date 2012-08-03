@@ -225,7 +225,7 @@
 					case MouseEvent.MOUSE_UP:
 						if(tempNode && event.target is Node)
 						{
-							tempNode.selectedvisible(true);
+							tempNode.selected=true;
 							
 							tempNode.addEventListener(MouseEvent.CLICK,nodeHandler,false,0,true);
 							tempNode.addEventListener(MouseEvent.ROLL_OUT,nodeHandler,false,0,true);
@@ -277,7 +277,7 @@
 						//左下角 => 右上角
 						var left2:Boolean = (point.x > drawBgRectPoint.x && point.x < stage.mouseX) && (point.y < drawBgRectPoint.y && point.y > stage.mouseY)
 						//设置选择状态
-						invertSelection ||	isSelected || right2 || left2 ? node.selectedvisible(true) : node.selectedvisible(false);
+						invertSelection ||	isSelected || right2 || left2 ? node.selected=true : node.selected=false;
 					}
 				}
 			}
@@ -490,19 +490,19 @@
 						break;
 					
 					case MouseEvent.ROLL_OUT :
+						node.selectedMark ? node.selected=true : node.selected=false;
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						node.setAlpha(0.5);
 						break;
 					
 					case MouseEvent.MOUSE_DOWN :
-						node.selectedvisible(true);
-						//node.startDrag();
+						node.selected = true;
 						nodeDragMark = true;
 						break;
 					
 					case MouseEvent.MOUSE_UP :
-						//node.stopDrag();
 						nodeDragMark = false;
 						break;
 					

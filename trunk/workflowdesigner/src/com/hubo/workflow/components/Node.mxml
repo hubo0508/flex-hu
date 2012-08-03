@@ -23,19 +23,49 @@
 			
 			import spark.primitives.Path;
 			
+			/**
+			 * 显示文本
+			 */
 			private var _text:String;
 			
+			private var _selectedMark:Boolean = false;
+			
+			public function setAlpha(value:Number):void
+			{
+				nodeSelected.rectAlpha = value;
+			}
+			
+			/**
+			 * 添加节点图标
+			 */
 			public function addIcon(icon:IVisualElement):void
 			{
 				this.addElementAt(icon,2);
 			}
 			
-			public function selectedvisible(value:Boolean):void
+			/**
+			 * 设置选择中状态
+			 */
+			public function set selected(value:Boolean):void
 			{
-				if(value != nodeSelected.visible)
+				if(value)
 				{
-					nodeSelected.visible = value;					
+					nodeSelected.rectAlpha = 1;
+					this.selectedMark = true;
 				}
+				else
+				{
+					nodeSelected.rectAlpha = 0;
+					this.selectedMark = false;
+				}
+			}
+			
+			/**
+			 * 取得选择中状态
+			 */
+			public function get selected():Boolean
+			{
+				return nodeSelected.rectAlpha == 1 ? true : false;
 			}
 			
 			public function centerPoint():Point
@@ -44,11 +74,6 @@
 				point.x += 40;
 				point.y += 40;
 				return point;
-			}
-			
-			public function selected():Boolean
-			{
-				return nodeSelected.visible;
 			}
 
 			public function get text():String
@@ -63,12 +88,21 @@
 				label.text = value;
 				label.toolTip = value;
 			}
-			
-			
+
+			public function get selectedMark():Boolean
+			{
+				return _selectedMark;
+			}
+
+			public function set selectedMark(value:Boolean):void
+			{
+				_selectedMark = value;
+			}
+
 		]]>
 	</fx:Script>
 	
-	<components:NodeSelected id="nodeSelected" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	<components:NodeSelected id="nodeSelected" visible="true" rectAlpha="0" horizontalCenter="0" verticalCenter="0"/>
 	
 	<graphic:Ellipse width="42" height="42" horizontalCenter="0" top="8"/>
 	
