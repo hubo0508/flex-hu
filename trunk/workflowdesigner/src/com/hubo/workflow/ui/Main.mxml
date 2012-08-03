@@ -172,7 +172,12 @@
 			
 			protected function mainHandler(event:MouseEvent):void
 			{
-				event.stageY <= Number(content.top) || (event.stageY >= height-Number(content.bottom)-2) ? null : this.drawBox(event);
+				if(event.stageY <= Number(content.top) || (event.stageY >= height-Number(content.bottom)-2))
+				{
+					return;
+				}
+				
+				drawBox(event);
 			}
 			
 			private function drawBox(event:MouseEvent):void
@@ -485,6 +490,12 @@
 						node.selectedvisible(true);
 						node.startDrag();
 						nodeDragMark = true;
+						
+						var dx:Number = content.mouseX - node.x;
+						var dy:Number = content.mouseY - node.y;
+						//this.content.moveSelectedAllWidthDrag(this.content.mouseX-dx,this.content.mouseY-dy);	
+						//trace(dx+","+dy);
+						//node.x = this.content.mouseX
 						break;
 					
 					case MouseEvent.MOUSE_UP :
@@ -493,8 +504,6 @@
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
-						trace("node move");
-						this.content.moveSelectedAllWidthDrag(node.x,node.y);
 						break;
 					
 					default:
