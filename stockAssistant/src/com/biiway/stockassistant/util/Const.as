@@ -23,5 +23,10 @@ package com.biiway.stockassistant.util
 		public static const LOGIN_MEASURE:Array = [395,295];
 		
 		public static const CONTENT_MEASURE:Array = [1138,700];
+		
+		public static const BCOLOR_WHILT:uint = 0xFFFFFF;
+		public static const BCOLOR_GRAY:uint  = 0xB6BABF;
+		public static const COLOR_RED:uint = 0xFF0000;
+		public static const COLOR_BLACK:uint = 0x000000;
 	}
 }
