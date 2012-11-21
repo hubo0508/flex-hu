@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   borderVisible="false">
+	
+	<s:filters>
+		<flash.filters:DropShadowFilter id='dropShadowFilter' xmlns:flash.filters='flash.filters.*' 
+										angle='90'
+										blurX='10' blurY='10'
+										distance='0'
+										alpha='0.7' color='#000000' 
+										knockout='false' quality='1'
+										strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	
+</s:BorderContainer>
