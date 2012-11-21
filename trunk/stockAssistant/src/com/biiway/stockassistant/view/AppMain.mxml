@@ -11,6 +11,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.event.LoginEvent;
+			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.view.navigation.Navigation;
 			
@@ -39,6 +40,7 @@
 			{
 				if("admin" == event.username && "123" == event.password)
 				{
+					navigation.message(event.username);
 					//login.message("正确！",true);
 					display();
 				}
@@ -56,9 +58,43 @@
 			
 			}
 			
+			/**
+			 * 用户点击菜单时，需要实现某些业务规则，请在本函数实现
+			 * 
+			 * @param text:String 当前菜单项显示名称
+			 * @param data:Object 当前菜单项整个数据对象源
+			 */
+			public function menuOperational(text:String, data:Object):void
+			{
+				
+			}
+			
 			///////////////////////////////////////////////////////////////////////////////////////////
 			//++以下代码开发者不需要关心++//
 			///////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function menuEventHandler(event:MenuEvent):void
+			{
+				menuOperational(event.text, event.data);
+				
+				switch(event.data["type"])
+				{
+					case "XG" :
+						break;
+					
+					case "NY" :
+						break;
+					
+					case "HY" :
+						break;
+					
+					case "BZ" :
+						break;
+					
+					default:
+						break;
+				}
+			}
 			
 			protected function logoutEventHandler(event:Event):void
 			{
@@ -104,15 +140,20 @@
 		]]>
 	</fx:Script>
 	
-	<!--
-		
-	-->
-	
 	<login:Login id="login" loginEvent="loginHandler(event)"/>
 	
 	<navigation:Content id="content">
 		<navigation:ContentDropShadow/>
-		<navigation:Navigation logoutEvent="logoutEventHandler(event)"/>
+		<navigation:Navigation id="navigation" logoutEvent="logoutEventHandler(event)" menuEvent="menuEventHandler(event)">
+			<navigation:menudata>
+				<fx:Array>
+					<fx:Object type="XG" text="选股" selected="true"/>
+					<fx:Object type="NY" text="收益分析"/>
+					<fx:Object type="HY" text="会员管理"/>
+					<fx:Object type="BZ" text="帮助"/>
+				</fx:Array>
+			</navigation:menudata>
+		</navigation:Navigation>
 	</navigation:Content>
 	
 </s:Group>

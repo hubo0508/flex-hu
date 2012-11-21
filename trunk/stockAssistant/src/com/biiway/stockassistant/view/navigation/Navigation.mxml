@@ -2,24 +2,43 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:navigation="com.biiway.stockassistant.view.navigation.*"
+		 xmlns:components="com.biiway.stockassistant.view.navigation.components.*"
 		 initialize="initializeHandler(event)"
+		 creationComplete="creationCompleteHandler(event)"
 		 height="70">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.view.navigation.components.MenuContainer;
 			
+			import mx.controls.Menu;
 			import mx.events.FlexEvent;
 			
 			import spark.components.WindowedApplication;
 			
 			[Bindable]private var maxrestoreicon:Class = Const.MAX;
 			
+			private var initializeMark:Boolean = false;
+			
 			public static const LOGOUTEVENT:String = "logoutEvent";
 			
+			private var mdata:Object;
+			
+			private var _menudatafiled:String = "text";
+
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				this.initEvent();
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				initializeMark = true;
+				
+				createMenuItemAndDisplay();	
 			}
 			
 			private function initEvent():void
@@ -85,6 +104,147 @@
 				}
 			}
 			
+			private function createMenuItemAndDisplay():void
+			{
+				if(mdata == null)
+					return;
+				
+				if(mdata is Array)
+				{
+					var num:int = mdata.length;
+					for(var i:int=0; i<num; i++)
+					{
+						var menustr:String = mdata[i][menudatafiled];
+						var selected:String = mdata[i]["selected"];
+						
+						var menuContainer:MenuContainer = createMenuContainer(menustr);
+						menuContainer.data = mdata[i];
+						
+						menuContainer.addEventListener(MouseEvent.CLICK,menuContainerHandler,false,0,true);
+						menuContainer.addEventListener(MouseEvent.ROLL_OUT,menuContainerHandler,false,0,true);
+						menuContainer.addEventListener(MouseEvent.ROLL_OVER,menuContainerHandler,false,0,true);
+
+						if(selected != null && selected == "true")
+						{
+							menuContainer.bgColor(true);
+							menuContainer.selected = true;
+						}
+						else
+						{
+							menuContainer.bgColor(false);
+						}
+						
+						menugroup.addElement(menuContainer);
+					}
+				}
+				
+				menugroup.validateNow();
+				updateMeasureAndLayout();
+			}
+			
+			private function menuContainerSelected(value:Boolean,menuContainer:MenuContainer, type:String = null):void
+			{
+				if(value)
+				{
+					menuContainer.bgColor(true);
+					type == null ? menuContainer.selected = true : null;
+				}
+				else
+				{ 
+					menuContainer.bgColor(false);
+					type == null ? menuContainer.selected = false : null;
+				}
+			}
+			
+			protected function menuContainerHandler(event:MouseEvent):void
+			{
+				var mc:MenuContainer = event.currentTarget as MenuContainer;
+				switch(event.type)
+				{
+					case MouseEvent.CLICK : 
+						
+						var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
+						menuEvent.data = mc.data;
+						menuEvent.text = mc.data[menudatafiled];
+						
+						this.dispatchEvent(menuEvent);
+						
+						if(mc.selected)return;
+						
+						var num:int = menugroup.numElements;
+						for(var i:int=0; i<num; i++)
+						{
+							var m:MenuContainer = menugroup.getElementAt(i) as MenuContainer;	
+							if(m.selected)
+							{
+								menuContainerSelected(false,m);
+								break;
+							}
+						}
+						menuContainerSelected(true,mc);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						mc.selected ? null : menuContainerSelected(false,mc,"style");
+						mc.textcolor = Const.COLOR_BLACK;
+						break; 
+					
+					case MouseEvent.ROLL_OVER :
+						mc.selected ? null : menuContainerSelected(true,mc,"style");
+						mc.textcolor = Const.COLOR_RED;
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function updateMeasureAndLayout():void
+			{
+				var mcX:Number = 0;
+				
+				var num:int = menugroup.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var mc:MenuContainer = menugroup.getElementAt(i) as MenuContainer;
+					if(mc)
+					{
+						mc.x = mcX;
+						mcX += mc.width + 12;
+					}
+				}
+			}
+			
+			private function createMenuContainer(value:String):MenuContainer
+			{
+				var menuContainer:MenuContainer = new MenuContainer();
+				menuContainer.text = value;
+				
+				return menuContainer;
+			}
+			
+			/////////////////////////////////////////////////////////////////////////////////////
+			//公开函数 start//
+			/////////////////////////////////////////////////////////////////////////////////////
+			
+			public function set menudata(data:Object):void
+			{
+				this.mdata = data;
+				
+				if(initializeMark)
+				{
+					createMenuItemAndDisplay();
+				}
+			}
+
+			/**
+			 * 更新当前显示帐号信息
+			 */
+			public function message(account:String):void
+			{
+				messagetext.text = "欢迎您，"+account;
+			}
+			
 			/**
 			 * 更新窗口尺寸大小
 			 */
@@ -109,6 +269,11 @@
 						break;
 				}
 			}
+			
+			/////////////////////////////////////////////////////////////////////////////////////
+			//公开函数 end//
+			/////////////////////////////////////////////////////////////////////////////////////
+
 			
 			protected function minHandler(event:MouseEvent):void
 			{
@@ -159,11 +324,26 @@
 					bi.visible = visible;	
 				}
 			}
+			
+			public function get menudatafiled():String
+			{
+				return _menudatafiled;
+			}
+			
+			/**
+			 * 默认值为：text
+			 */
+			public function set menudatafiled(value:String):void
+			{
+				_menudatafiled = value;
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<fx:Metadata>
 		[Event(name="logoutEvent",type="flash.events.Event")]
+		[Event(name="menuEvent",type="com.biiway.stockassistant.event.MenuEvent")]
 	</fx:Metadata>
 
 	<s:BitmapImage x="0" y="0" width="100%" height="49" source="@Embed('assets/image/navigationBackground.png')"/>
@@ -173,8 +353,17 @@
 	<!--标题头-->
 	<s:Group id="nativeGroup" name="{NativeWindowDisplayState.NORMAL}" left="0" right="0" top="0" height="40" doubleClickEnabled="true" useHandCursor="true" buttonMode="true"/>
 	
+	<s:Line bottom="0" width="100%" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xB6BABF" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
 	<s:Label id="logoutbtn" right="120" top="7" color="#FF0000" fontSize="13" fontWeight="normal" text="注销"/>
 	<s:Label id="messagetext" right="165" top="7" fontSize="13" text="欢迎您，15828019062"/>	
+	
+	<!--菜单项-->
+	<s:Group id="menugroup" left="80" bottom="0" width="100%" />
 	
 	<!--标题头>最小按钮-->
 	<s:Group id="minbg" right="69" top="0" width="27" height="25" useHandCursor="true" buttonMode="true"/>
