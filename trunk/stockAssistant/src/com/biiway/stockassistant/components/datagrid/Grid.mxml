@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-18</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:datagrid="com.printingoffice.framework.components.datagrid.*"
+		  initialize="initializeHandler(event)"
+		  gap="0"
+		  width="100%">
+	
+	<fx:Metadata>
+		[Event(name="gridEvent",type="com.printingoffice.framework.event.GridEvent")]
+		[Event(name="iconRollEvent",type="com.printingoffice.framework.event.GridEvent")]
+	</fx:Metadata>
+
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.graphic.CurrentLinePrompt;
+			import com.biiway.stockassistant.event.GridEvent;
+			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Image;
+			import mx.effects.Glow;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			
+			import spark.components.CheckBox;
+			import spark.components.VGroup;
+			import spark.filters.BevelFilter;
+			import spark.filters.DropShadowFilter;
+			import spark.filters.GlowFilter;
+			import spark.layouts.HorizontalLayout;
+			
+			/**
+			 * 选择框类型，只有当第一列中设置显示列为“BOX”时，方可生效.defaultValue="checkbox"
+			 */
+			private var _selectType:String = "checkbox"
+
+			/**
+			 * 显示数据源
+			 */
+			private var _dataProvider:ArrayCollection;
+			
+			/**
+			 * 显示列字段
+			 */
+			private var _displayColumn:Array;
+
+			/**
+			 * 显示列字段宽度
+			 */
+			private var _displayColumnWidth:Array;
+			
+			/**
+			 * 选中行背景颜色，defautl:0xFFFFCC
+			 */
+			private var _selectedColor:uint = 0xFFFFCC;
+			
+			/**
+			 * 默认行背景颜色，defautl:0xFFFFFF
+			 */
+			private var _defaultColor:uint = 0xFFFFFF;
+			
+			//0xF3F3F3
+			private var _unfinishedColor:uint = 0xF3F3F3;
+			
+			/**
+			 * 鼠标移动行背景颜色，defautl:0xE8F6EA
+			 */
+			private var overColor:uint = 0xE8F6EA;
+			
+			private static const SELECTED:String = "selected";
+			
+			private static const NOT_SELECTED:String = "notSelected";
+			
+			private var currentLinePrompt:CurrentLinePrompt;
+			
+			private var _cellHeight:int = 40;
+			
+			private var _bgColorField:String = "bgColorStatus";
+			
+			private var _statusField:String = "statusIcon";
+			
+			private var _selectedItem:Array;
+			
+			/**
+			 * 容器内部使用，存储选择行的索引值
+			 */
+			private var selectedRowsIndex:Array;
+			
+			private var scrolldelta:int;
+			
+			/**
+			 * 提示行信息
+			 */
+			private var _promptVisible:Boolean = true;
+			
+		
+
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				this.addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true);
+			}
+			
+			/**
+			 * 重写verticalScrollPosition属性，当值更改时，将值x2
+			 */
+			override public function set verticalScrollPosition(value:Number):void 
+			{
+				value =  (value - scrolldelta) <= 0 ? 0 : (value - scrolldelta);
+				super.verticalScrollPosition = value;	
+			}
+			
+			/**
+			 * 当鼠标滚轮滚动到 InteractiveObject 实例上时分派。如果目标为文本字段，则作为默认行为，该文本会滚动。
+			 */
+			protected function mouseWheelHandler(event:MouseEvent):void
+			{
+				scrolldelta = event.delta;
+			}
+			
+			/**
+			 * <p>继续父组件createChildren()函数</p>
+			 * 
+			 * 1、根据属性displayColumn个数初始化列数。</br>
+			 * 2、初始化当前行状态容器。</br>
+			 * 
+			 * @see com.printingoffice.framework.components.graphic.CurrentLinePrompt
+			 */
+			override protected function createChildren():void
+			{
+				super.createChildren();
+
+				this.initColumn();
+				
+				if(promptVisible && !currentLinePrompt)
+				{
+					currentLinePrompt = new CurrentLinePrompt();
+					currentLinePrompt.visible = false;
+					currentLinePrompt.includeInLayout = false;
+					
+					this.addElement(currentLinePrompt);
+				}
+			}
+			
+			/**
+			 * <p>根据属性值displayColumn的长度初始列数</p>
+			 */
+			protected function initColumn():void
+			{
+				if (displayColumn == null || displayColumn.length == 0)
+					return;
+
+				var len:int=displayColumn.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var column:Column=new Column();
+					column.name=displayColumn[i];
+					column.gap=0;
+					
+					var columnWidth:int=int(displayColumnWidth[i]);
+					if (columnWidth == 0)
+					{
+						column.percentWidth=100;
+					}
+					else
+					{
+						column.width = columnWidth;
+					}
+
+					this.addElement(column);
+				}
+			}
+			
+			/**
+			 * 将数据源添加到每个单元格中
+			 */
+			protected function dataToColumns():void
+			{
+				var len:int=dataProvider.length;
+				for (var i:int=0; i < len; i++)
+				{
+					var item:Object = dataProvider.getItemAt(i);
+					this.displayDataToCell(item,i);
+				}
+			}
+			
+			/**
+			 * <p>将数据以行【item】的形式添加到指定行【rowIndex】的每个单元格中</p>
+			 * 
+			 * 注：</br>
+			 * 1、单元格背景颜色默认为白色。当行数据源中定义有动态属性【bgColorField】的值时，其值等于0时，填充颜色为动态属性【unfinishedColor】的值，则为白色。</br>
+			 * 2、本容器的背景颜色填充封装过于简单，根据该软件业务来进行的简单判断。如要做成通用，应在取背景颜色值由开发人员自己定义业务规则。</br>
+			 * 3、若要通用，请更改此处代码：if((cell.labelOrBox == Cell.LABEL || cell.labelOrBox == Cell.BOX) && item[bgColorField].toString() == "0")
+			 * 
+			 * @param item:Object 行数据
+			 * @param rowIndex:int 行索引
+			 */
+			protected function displayDataToCell(item:Object, rowIndex:int):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:Column = this.getElementAt(i) as Column;
+					if(column)
+					{
+						var cell:Cell = column.getElementAt(rowIndex) as Cell;
+						initCellValue(cell,item,column.name);
+						initCellBgColor(cell,item);
+					}
+				}
+			}
+			
+			/**
+			 * <p>初始化单元格背景颜色</p>
+			 * 
+			 * 注：</br>
+			 * 1、只有Cell单元格的类型为  Cell.LABEL || Cell.BOX || Cell.ICON 之一，且所指定的数据源中动态属性【bgColorField】取得的值=="0"时，
+			 * 单元格的背景颜色值为【unfinishedColor】，否则为默认颜色白色。</br>
+			 * 2、函数中的0值代表所有接件未完成的状态。</br>
+			 * 
+			 * @param cell:Cell 目标单元格
+			 * @param item:Object 单行数据源
+			 */
+			public function initCellBgColor(cell:Cell, item:Object):void
+			{
+				try
+				{
+					if((cell.cellType == Cell.LABEL || cell.cellType == Cell.BOX || cell.cellType == Cell.ICON) 
+						&& item[bgColorField].toString() == "0")
+					{
+						cell.backgroupColor = unfinishedColor;
+						cell.constColor = unfinishedColor;
+					}
+				}catch(e:*){
+					trace(e);
+				}		
+			}
+			
+			/**
+			 * <p>初始化单元格值</p>
+			 * 
+			 * 注：对于每个单元格容器中都存储有当前行的数据源，属性值为：com.printingoffice.framework.components.datagrid.Cell.data
+			 * 
+			 * @param cell:Cell 目标单元格
+			 * @param item:Object 单行数据源
+			 * @param field:String 目标单元格以取值key
+			 */
+			protected function initCellValue(cell:Cell, item:Object, field:String):void
+			{
+				if(cell == null) return;
+				
+				cell.data = item;
+				
+				switch(cell.cellType)
+				{
+					case Cell.LABEL :
+						cell.text = item[field];
+						break;
+					
+					case Cell.ICON :
+						var hlayout:HorizontalLayout = new HorizontalLayout();
+						hlayout.verticalAlign = "middle";
+						cell.layout = hlayout;
+						
+						initCellIcon(cell,item[field] as Array);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function initCellIcon(cell:Cell, icons:Array):void
+			{
+				if(icons == null || icons.length == 0)return;
+				
+				var len:int = icons.length;
+				for(var i:int=0; i<len; i++)
+				{
+					var singleIconDesc:Array = Const.getStatePath(icons[i]);
+					
+					var img:Image = new Image();
+					img.source = singleIconDesc["path"];
+					img.toolTip = singleIconDesc["tootip"];
+					img.name =  singleIconDesc["path"];
+					img.alpha = 0.5;
+					img.addEventListener(MouseEvent.ROLL_OUT,iconImgRollHandler,false,0,true);
+					img.addEventListener(MouseEvent.ROLL_OVER,iconImgRollHandler,false,0,true);
+					
+					cell.addElement(img);
+				}
+			}
+			
+			protected function iconImgRollHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						img.filters = null;
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						img.filters = [getShadowFilter()];
+						break;
+					
+					default:
+						break;
+				}
+				
+				var gridEvent:GridEvent = new GridEvent(GridEvent.ICON_ROLL_EVENT);
+				gridEvent.point = UIUtil.getUiAbsolutePosition(img);
+
+				this.dispatchEvent(gridEvent);
+			}
+			
+			private function getIconBevelFilter():spark.filters.BevelFilter
+			{
+				var filter:spark.filters.BevelFilter = new spark.filters.BevelFilter();
+				filter.angle = 45;
+				filter.blurX = 10;
+				filter.blurY =10;
+				filter.distance = 4;
+				filter.highlightAlpha = 0.5;
+				filter.highlightColor = 0xffffff;
+				filter.knockout = false;
+				filter.quality = 1;
+				filter.shadowAlpha  = 0.3;
+				filter.shadowColor = 0x000000;
+				filter.strength = 1;
+				filter.type = 'inner';
+				
+				return filter;
+			}
+			
+			private function getIconGlowFilter():spark.filters.GlowFilter
+			{
+				var glowFiter:spark.filters.GlowFilter = new spark.filters.GlowFilter();
+				glowFiter.blurX = 6;
+				glowFiter.blurY = 6;
+				glowFiter.color = 0x0000ff;
+				glowFiter.strength = 1;
+				glowFiter.inner = false;
+				
+				return glowFiter;
+			}
+			
+			private function getShadowFilter():spark.filters.DropShadowFilter
+			{
+				var filter:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
+				filter.angle = 45;
+				filter.blurX = 5;
+				filter.blurY = 5;
+				filter.distance = 3;
+				filter.alpha = 0.4;
+				filter.color = 0x000000;
+				filter.knockout = false;
+				filter.quality = 0;
+				filter.strength = 1;
+				filter.inner = false;
+				filter.hideObject = false;
+				
+				return filter;
+			}
+
+		
+			/**
+			 * 
+			 */
+			protected function initOrDelCellContainerl():void
+			{
+				if (dataProvider == null || dataProvider.length == 0)
+					return;
+
+				var len:int=dataProvider.length;
+				var firstColumnRows:int=getFirstColumnRows();
+
+				var initMark:Boolean = false;
+				if (firstColumnRows == 0)
+				{
+					createCellContainer();
+					initMark = true;
+				}
+				
+				if(firstColumnRows > len)
+				{
+					removeCellContainer(firstColumnRows - len);
+				}
+				
+				if(!initMark && firstColumnRows < len)
+				{
+					additionalCellContainer(len - firstColumnRows);
+				}
+				
+				clearSelectedOrValue();
+			}
+			
+			private function clearSelectedOrValue():void
+			{
+				var rows:int = getFirstColumnRows();
+				
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:Column = this.getElementAt(i) as Column;
+					if(column)
+					{
+						for(var k:int=0; k<rows; k++)
+						{
+							var cell:Cell = column.getElementAt(i) as Cell;
+							cell.clearSelectedOrValue();
+							cell.backgroupColor = defaultColor;
+							cell.constColor = defaultColor;
+							cell.invalidateDisplayList();
+						}
+					}
+				}
+			}
+			
+			private function additionalCellContainer(additionalNum:int):void
+			{
+				var rows:int = this.getFirstColumnRows();
+				
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:Column=this.getElementAt(i) as Column;
+					if(column)
+					{
+						for(var k:int=0; k<additionalNum; k++)
+						{
+							column.addElement(getCell(column.name, rows+k));
+						}
+					}
+				}
+			}
+			
+			private function removeCellContainer(removeRows:int):void
+			{
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:Column=this.getElementAt(i) as Column;
+					if(column)
+					{
+						for(var k:int=0; k<removeRows; k++)
+						{
+							column.removeElementAt(k);
+						}
+					}					
+				}
+			}
+
+			private function createCellContainer():void
+			{
+				var len:int=dataProvider.length;
+				var num:int=this.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var column:Column=this.getElementAt(i) as Column;
+					if(column)
+					{
+						for (var k:int=0; k < len; k++)
+						{
+							column.addElement(getCell(column.name, k));
+						}
+					}
+				}
+			}
+
+			public function getCell(type:String,rowsIndex:int):Cell
+			{
+				var cell:Cell=new Cell();
+				if(type == statusField)
+				{
+					cell.cellType = Cell.ICON;
+				}
+				else
+				{
+					cell.cellType= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
+				}
+				cell.percentWidth=100;
+				cell.height = cellHeight;
+				cell.id = rowsIndex.toString();				
+				cell.backgroupColor = defaultColor;
+				cell.constColor = defaultColor;
+				cell.addEventListener(MouseEvent.ROLL_OUT,cellRollHandler,false,0,true);
+				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
+				cell.addEventListener(Cell.BOX_CLICK,boxClickHandler,false,0,true);
+				
+				if(cell.cellType == Cell.BOX)
+				{
+					cell.addEventListener(MouseEvent.CLICK,boxCellClickHandler,false,0,true);
+				}
+				
+				return cell;
+			}
+			
+			protected function boxCellClickHandler(event:MouseEvent):void
+			{
+				if(event.target is CheckBox)return;
+				
+				var cell:Cell = event.currentTarget as Cell;
+				var box:CheckBox = cell.getElementAt(0) as CheckBox;
+				
+				box.selected = !box.selected;
+				
+				changeBgColor( int(cell.id), box.selected ? SELECTED : NOT_SELECTED) ;
+			}
+			
+			/**
+			 * 点击行前复选框，
+			 */
+			protected function boxClickHandler(dye:DynamicEvent):void
+			{
+				var selected:Boolean = Boolean(dye.selected);
+				var rowsIndex:int = int(dye.rowsIndex);
+				
+				changeBgColor(rowsIndex, selected ? SELECTED : NOT_SELECTED) ;
+			}
+			
+			protected function cellRollHandler(event:MouseEvent):void
+			{
+				var cell:Cell = event.currentTarget as Cell;
+				var rowsIndex:int = int(cell.id);
+				
+				changeCurrentLinePrompt(rowsIndex,event.type);
+				
+				//changeTextColor(int(cell.id),event.type);
+				
+				changeBgColor(rowsIndex, event.type) ;
+			}
+			
+			public function changeTextColor(rowsIndex:int, type:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:Column = this.getElementAt(i) as Column;
+					if(column && column.name != Cell.BOX)
+					{
+						var cell:Cell = column.getElementAt(rowsIndex) as Cell;
+						switch(type)
+						{
+							case MouseEvent.ROLL_OUT :
+								cell.textColor = Const.BLACK_COLOR;
+								break;
+							
+							case MouseEvent.ROLL_OVER :
+								cell.textColor = Const.GREEN_COLOR;
+								break;
+							
+							default:
+								break;
+						}
+					}
+				}				
+			}
+			
+			public function changeCurrentLinePrompt(rowsIndex:int, type:String):void
+			{
+				switch(type)
+				{
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						if(promptVisible && currentLinePrompt)
+						{
+							if(currentLinePrompt.visible == false)
+							{
+								currentLinePrompt.visible = true;
+							}						
+							currentLinePrompt.move(5,(rowsIndex)*cellHeight+10);
+						}
+						
+						//TweenLite.tweenTo(currentLinePrompt,0.3,{x:5,y:(rowsIndex)*cellHeight+22});
+						break;
+					
+					default:
+						break;
+				}
+				
+			}
+			
+			public function changeBgColor(rowsIndex:int, type:String):void
+			{
+				var num:int = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var column:Column = this.getElementAt(i) as Column;
+					if(column)
+					{
+						var targetCell:Cell = column.getElementAt(rowsIndex) as Cell;
+						if(targetCell)
+						{
+							if(type == MouseEvent.ROLL_OUT || type == NOT_SELECTED)
+							{
+								if(targetCell.name == SELECTED && type != NOT_SELECTED)
+								{
+									targetCell.backgroupColor = selectedColor;
+								}
+								else
+								{
+									targetCell.backgroupColor = targetCell.constColor;
+									targetCell.name = "";
+								}							
+							}
+							
+							if(type == MouseEvent.ROLL_OVER)
+							{
+								targetCell.backgroupColor = overColor;
+							}
+							
+							if(type == SELECTED)
+							{
+								targetCell.backgroupColor = selectedColor;
+								targetCell.name = SELECTED;
+							}
+							
+							targetCell.invalidateDisplayList();
+						}
+					}					
+				}
+			}
+
+			private function getFirstColumnRows():int
+			{
+				var firstColumn:Column=this.getElementAt(1) as Column;
+
+				return firstColumn.numElements;
+			}
+
+			public function get dataProvider():ArrayCollection
+			{
+				return _dataProvider;
+			}
+
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider=value;
+
+				initOrDelCellContainerl();
+				dataToColumns();
+			}
+
+			/**
+			 * 单元格默认颜色(0xFFFFFF)
+			 */
+			public function get defaultColor():uint
+			{
+				return _defaultColor;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set defaultColor(value:uint):void
+			{
+				_defaultColor = value;
+			}
+
+			/**
+			 * 单元格选中颜色(0x1C8D34)
+			 */
+			public function get selectedColor():uint
+			{
+				return _selectedColor;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set selectedColor(value:uint):void
+			{
+				_selectedColor = value;
+			}
+
+			/**
+			 * 显示列数字段
+			 */
+			public function get displayColumn():Array
+			{
+				return _displayColumn;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set displayColumn(value:Array):void
+			{
+				_displayColumn = value;
+			}
+
+			/**
+			 * 显示列数字段完度</br>
+			 * 如为0则表示为100% 宽度
+			 */
+			public function get displayColumnWidth():Array
+			{
+				return _displayColumnWidth;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set displayColumnWidth(value:Array):void
+			{
+				_displayColumnWidth = value;
+			}
+
+			public function get unfinishedColor():uint
+			{
+				return _unfinishedColor;
+			}
+
+			public function set unfinishedColor(value:uint):void
+			{
+				_unfinishedColor = value;
+			}
+
+			public function get cellHeight():int
+			{
+				return _cellHeight;
+			}
+
+			public function set cellHeight(value:int):void
+			{
+				_cellHeight = value;
+			}
+
+			/**
+			 * 单元格背景色状态; 1:未完成，0已完成
+			 */
+			public function get bgColorField():String
+			{
+				return _bgColorField;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set bgColorField(value:String):void
+			{
+				_bgColorField = value;
+			}
+
+			/**
+			 * 存储Grid列表选中数据
+			 */
+			public function get selectedItem():Array
+			{
+				return _selectedItem;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set selectedItem(value:Array):void
+			{
+				_selectedItem = value;
+			}
+
+			/**
+			 * 状态图标字段
+			 */
+			public function get statusField():String
+			{
+				return _statusField;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set statusField(value:String):void
+			{
+				_statusField = value;
+			}
+			
+			
+			[Inspectable(category="String", enumeration="checkbox,radio", defaultValue="checkbox")]
+			
+			/**
+			 * 选择框类型，只有当第一列中设置显示列为“BOX”时，方可生效。defaultValue="checkbox"
+			 */
+			public function get selectType():String
+			{
+				return _selectType;
+			}
+			
+			/**
+			 * @private
+			 */
+			public function set selectType(value:String):void
+			{
+				_selectType = value;
+			}
+			
+			[Inspectable(category="Boolean", enumeration="true,false", defaultValue="true")]
+
+
+			/**
+			 * 提示行信息,defaultValue="true"
+			 */
+			public function get promptVisible():Boolean
+			{
+				return _promptVisible;
+			}
+			
+			/**
+			 * @private
+			 */
+			public function set promptVisible(value:Boolean):void
+			{
+				_promptVisible = value;
+			}
+			
+		]]>
+	</fx:Script>
+
+</s:HGroup>
