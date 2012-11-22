@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-9</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  xmlns:components="com.printingoffice.framework.components.*"
+					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
+					  xmlns:datagrid="com.biiway.stockassistant.components.datagrid.*"
+					  creationComplete="creationCompleteHandler(event)"
+					  backgroundColor="#FFFFFF">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			public static const CLOSE_EVENT:String = "closeSearchList";
+			
+			/**
+			 * 搜索类型窗体
+			 */
+//			private var searchTypeList:SearchTypeList;
+			
+			/**
+			 * 存储x,y坐标，由使用组件输入值
+			 */
+			public var currentPoint:Point;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
+				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				
+				grid.dataProvider = acc;					
+			}
+			
+			/**
+			 * 点击关闭按钮，抛出事件
+			 */
+			protected function closeClickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event(CLOSE_EVENT));
+			}
+
+			/**
+			 * <p>点击类型列表按钮，弹出搜索类型窗体</p>
+			 * 
+			 * 注：创建与使用【搜索类型窗体】缓存侧略，【搜索类型窗体】只在第一次初始时创建，当第二调用或显示【搜索类型窗体】时，不再初始化，直接使用缓存。
+			 */
+			protected function searchListClickHandler(event:MouseEvent):void
+			{
+//				if(searchTypeList == null)
+//				{
+//					searchTypeList = new SearchTypeList();
+//					searchTypeList.x = this.currentPoint.x + searchListBtn.x;
+//					searchTypeList.y = this.currentPoint.y + searchListBtn.y;
+//					searchTypeList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+//					searchTypeList.addEventListener(Const.CHOOSE_TYPE,chooseTypeHandler,false,0,true);
+//				}
+
+//				PopUpManager.addPopUp(searchTypeList, UIUtil.getApplication(this), false);	
+			}
+			
+			/**
+			 * 在弹出【搜索类型窗体】组件中，选择类型并确认，事件捕获到该方法
+			 */
+			protected function chooseTypeHandler(event:DynamicEvent):void
+			{
+				var selectItem:Object = event.data;
+//				searchText.text = selectItem.type;
+//				searchListBtn.name = selectItem.type;
+				
+				//PopUpManager.removePopUp(searchTypeList);
+			}
+			
+			/**
+			 * 当用户在使用 PopUpManager 打开的某个组件外部单击时，从该组件分派。
+			 */
+			protected function mouseDownOutsideHandler(event:Event):void
+			{				
+				//PopUpManager.removePopUp(searchTypeList);
+			} 
+
+		]]>
+	</fx:Script>
+
+	<s:filters> 
+		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+							 alpha='0.4' color='#000000'  knockout='false' quality='1'
+							 strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin" click="closeClickHandler(event)"  width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
+
+	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="55">
+		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="['BOX','names','times']" displayColumnWidth="[37,180,80]" width="100%"/>
+	</s:Scroller>
+	
+	<s:Button right="10" bottom="10" width="72" height="29" skinClass="assets.skin.SearchBtnSkin"/>
+	
+</s:SkinnableContainer>

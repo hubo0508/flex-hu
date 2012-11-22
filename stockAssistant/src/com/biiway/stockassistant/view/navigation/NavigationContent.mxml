@@ -26,16 +26,44 @@
 			
 			private function updateChildrenScale(w:Number, h:Number):void
 			{
+				var navigationHeight:Number = 0;
+				
 				var num:int = this.numElements;
 				for(var i:int=0; i<num; i++)
 				{
-					var ele:IVisualElement = this.getElementAt(i);
-					if(ele is ContentDropShadow){
-						updateContentDropShadowProperty(w,h,ele);
-					}else if(ele is Navigation){
-						updateNavigationProperty(w,h,ele);
+					var ele:IVisualElement=this.getElementAt(i);
+					if (ele is ContentDropShadow)
+					{
+						updateContentDropShadowProperty(w, h, ele);
+					}
+					else if (ele is Navigation)
+					{
+						updateNavigationProperty(w, h, ele);
+						navigationHeight=ele.height;
+					}
+					else if (ele is ChildrenContent)
+					{
+						updateContentProperty(navigationHeight, w, h, ele);
 					}
 				}
+			}
+			
+			private function updateContentProperty(navigationHeight:Number, w:Number, h:Number, ele:IVisualElement):void
+			{
+				var gap:Number = Const.GAP_SHADOW*2;
+				var newWidth:Number = w - gap;
+				var newHeight:Number = h - navigationHeight;
+				
+				ele.width  == newWidth  ? null : ele.width  = newWidth;
+				//ele.height == newHeight ? null : ele.height = newHeight;
+				if(ele.height != newHeight && ele.height != 0)
+				{
+					ele.top = 0;
+					ele.bottom=0;
+				}
+				
+				ele.x == Const.GAP_SHADOW ? null : ele.x = Const.GAP_SHADOW;
+				ele.y == (Const.GAP_SHADOW + navigationHeight) ? null : ele.y = (Const.GAP_SHADOW + navigationHeight);
 			}
 			
 			private function updateNavigationProperty(w:Number, h:Number,ele:IVisualElement):void

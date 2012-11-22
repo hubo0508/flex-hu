@@ -5,6 +5,7 @@
 		 xmlns:login="com.biiway.stockassistant.view.login.*"
 		 xmlns:navigation="com.biiway.stockassistant.view.navigation.*"
 		 xmlns:components="com.biiway.stockassistant.components.*"
+		 xmlns:selectedstock="com.biiway.stockassistant.view.selectedstock.*" creationComplete="creationCompleteHandler(event)"
 		 width="{Const.LOGIN_MEASURE[0]}"
 		 height="{Const.LOGIN_MEASURE[1]}">
 	
@@ -14,14 +15,22 @@
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.view.navigation.Navigation;
+			import com.biiway.stockassistant.view.selectedstock.SelectedStock;
 			
 			import mx.controls.Alert;
+			import mx.events.FlexEvent;
 			
 			import spark.components.WindowedApplication;
 			
 			///////////////////////////////////////////////////////////////////////////////////////////
 			//++以下代码需要开发者实现与后台交互++//
 			///////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+//				navigation.message("xxxxxxxxxxx");
+//				display();
+			}
 			
 			/**
 			 * 点击“登录”按钮触发。
@@ -79,16 +88,19 @@
 				
 				switch(event.data["type"])
 				{
-					case "XG" :
+					case "selectedstock" :
+						var selectedStock:SelectedStock = new SelectedStock();
+						
+						content.addElement(selectedStock);
 						break;
 					
-					case "NY" :
+					case "incomeanalysis" :
 						break;
 					
-					case "HY" :
+					case "member" :
 						break;
 					
-					case "BZ" :
+					case "help" :
 						break;
 					
 					default:
@@ -107,7 +119,7 @@
 				if(mark)
 				{
 					login.visible = false;
-					content.visible = true;
+					navigationContent.visible = true;
 					
 					this.width  == Const.CONTENT_MEASURE[0] ? null : width  = Const.CONTENT_MEASURE[0];
 					this.height == Const.CONTENT_MEASURE[1] ? null : height = Const.CONTENT_MEASURE[1];
@@ -115,7 +127,7 @@
 				else
 				{
 					login.visible = true;
-					content.visible = false;
+					navigationContent.visible = false;
 					
 					this.width  == Const.LOGIN_MEASURE[0] ? null : width  = Const.LOGIN_MEASURE[0];
 					this.height == Const.LOGIN_MEASURE[1] ? null : height = Const.LOGIN_MEASURE[1];
@@ -137,23 +149,26 @@
 				(app as Object).windowCentered();
 			}
 			
+		
+			
 		]]>
 	</fx:Script>
 	
 	<login:Login id="login" loginEvent="loginHandler(event)"/>
 	
-	<navigation:Content id="content">
+	<navigation:NavigationContent id="navigationContent">
 		<navigation:ContentDropShadow/>
 		<navigation:Navigation id="navigation" logoutEvent="logoutEventHandler(event)" menuEvent="menuEventHandler(event)">
 			<navigation:menudata>
 				<fx:Array>
-					<fx:Object type="XG" text="选股" selected="true"/>
-					<fx:Object type="NY" text="收益分析"/>
-					<fx:Object type="HY" text="会员管理"/>
-					<fx:Object type="BZ" text="帮助"/>
+					<fx:Object type="selectedstock" text="选股" selected="true"/>
+					<fx:Object type="incomeanalysis" text="收益分析"/>
+					<fx:Object type="member" text="会员管理"/>
+					<fx:Object type="help" text="帮助"/>
 				</fx:Array>
 			</navigation:menudata>
 		</navigation:Navigation>
-	</navigation:Content>
+		<navigation:ChildrenContent id="content"/>
+	</navigation:NavigationContent>
 	
 </s:Group>
