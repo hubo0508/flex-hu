@@ -5,21 +5,22 @@
 	<fx:Metadata>
 		[HostComponent("spark.components.Button")]
 	</fx:Metadata>
+	
 	<s:states>
 		<s:State name="up" />
 		<s:State name="over" />
 		<s:State name="down" />
 		<s:State name="disabled" />
 	</s:states>
-	<s:Rect id="bg" top="2" height="8" minWidth="24" width="100%">
+	
+	
+
+	<s:Rect id="bg" top="0" height="8" minWidth="24" width="100%">
 		<s:fill>
-			<s:SolidColor color="#FFFFFF" color.down="#dddddd" />
+			<s:SolidColor color="0xCDCDCD" color.down="#7A7A7A" color.over="0x959595"/>
 		</s:fill>
-		<s:filters>
-			<s:DropShadowFilter alpha="0.8" color="#000000" quality="2" distance="0"/>
-		</s:filters>
 	</s:Rect>
-	<s:HGroup top="4" height="8" gap="3" horizontalCenter="0">
+	<!--<s:HGroup top="4" height="8" gap="3" horizontalCenter="0">
 		<s:Ellipse width="4" height="4">
 			<s:fill>
 				<s:SolidColor color="#a6dcf5"/>
@@ -38,5 +39,5 @@
 		<s:filters>
 			<s:DropShadowFilter alpha="1" color="#000000" blurX="2" blurY="2" quality="2" distance="0" inner="true"/>
 		</s:filters>
-	</s:HGroup>
+	</s:HGroup>-->
 </s:Skin>

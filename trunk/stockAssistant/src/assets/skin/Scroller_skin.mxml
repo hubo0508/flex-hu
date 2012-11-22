@@ -21,5 +21,5 @@
 		]]>
 	</fx:Script>
     <s:VScrollBar id="verticalScrollBar" visible="false" skinClass="assets.skin.ScrollBar_V_skin" minHeight="25" useHandCursor="true" buttonMode="true"/>
-    <s:HScrollBar id="horizontalScrollBar" visible="false" skinClass="assets.skin.ScrollBar_H_skin" minWidth="25"/>
+    <s:HScrollBar id="horizontalScrollBar" visible="false" skinClass="assets.skin.ScrollBar_H_skin" minWidth="25" useHandCursor="true" buttonMode="true"/>
 </s:Skin>
