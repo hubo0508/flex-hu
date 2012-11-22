@@ -70,6 +70,13 @@
 		</s:stroke>
 	</s:Rect>
     
-	<mx:Image source="assets/image/search-btn.png" verticalCenter.up="0" horizontalCenter.up="0"/>
+	<!--<mx:Image source="assets/image/search-btn.png" verticalCenter.up="0" horizontalCenter.up="0"/>-->
+	<s:Label id="labelDisplay"
+			 textAlign="center"
+			 verticalAlign="middle"
+			 maxDisplayedLines="1"
+			 horizontalCenter="0" verticalCenter="0"
+			 left="10" right="10" top="2" bottom="2">
+	</s:Label>
     
 </s:SparkSkin>

@@ -43,7 +43,7 @@
         <s:State name="inactive" />
     </s:states>
 	
-	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="assets.skin.ScrollBarBGV" />
+	<s:Button id="bg" width="100%" height="100%" visible="true"  focusEnabled="false" skinClass="assets.skin.ScrollBarBg" />
 	
 	<!--
 	<s:Rect id="bg" width="100%" height="100%" visible="false" >
