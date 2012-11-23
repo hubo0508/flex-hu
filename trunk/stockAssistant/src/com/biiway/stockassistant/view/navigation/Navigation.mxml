@@ -120,16 +120,16 @@
 						var menuContainer:MenuContainer = createMenuContainer(menustr);
 						menuContainer.data = mdata[i];
 						
-						menuContainer.addEventListener(MouseEvent.CLICK,menuContainerHandler,false,0,true);
-						menuContainer.addEventListener(MouseEvent.ROLL_OUT,menuContainerHandler,false,0,true);
-						menuContainer.addEventListener(MouseEvent.ROLL_OVER,menuContainerHandler,false,0,true);
+						menuContainer.addEventListener(MouseEvent.CLICK,menuItemHandler,false,0,true);
+						menuContainer.addEventListener(MouseEvent.ROLL_OUT,menuItemHandler,false,0,true);
+						menuContainer.addEventListener(MouseEvent.ROLL_OVER,menuItemHandler,false,0,true);
 
 						if(selected != null && selected == "true")
 						{
 							menuContainer.bgColor(true);
 							menuContainer.selected = true;
 							
-							laodMenuContainer(menuContainer.data);
+							loadMenuContainer(menuContainer.data);
 						}
 						else
 						{
@@ -144,7 +144,7 @@
 				updateMeasureAndLayout();
 			}
 			
-			private function menuContainerSelected(value:Boolean,menuContainer:MenuContainer, type:String = null):void
+			private function menuItemSelected(value:Boolean,menuContainer:MenuContainer, type:String = null):void
 			{
 				if(value)
 				{
@@ -158,7 +158,7 @@
 				}
 			}
 			
-			private function laodMenuContainer(data:Object):void
+			private function loadMenuContainer(data:Object):void
 			{
 				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
 				menuEvent.data = data;
@@ -167,43 +167,46 @@
 				this.dispatchEvent(menuEvent);
 			}
 			
-			protected function menuContainerHandler(event:MouseEvent):void
+			protected function menuItemHandler(event:MouseEvent):void
 			{
 				var mc:MenuContainer = event.currentTarget as MenuContainer;
 				switch(event.type)
 				{
 					case MouseEvent.CLICK : 
-						
-						laodMenuContainer(mc.data);
-						
+						loadMenuContainer(mc.data);
 						if(mc.selected)return;
-						
-						var num:int = menugroup.numElements;
-						for(var i:int=0; i<num; i++)
-						{
-							var m:MenuContainer = menugroup.getElementAt(i) as MenuContainer;	
-							if(m.selected)
-							{
-								menuContainerSelected(false,m);
-								break;
-							}
-						}
-						menuContainerSelected(true,mc);
+						menuItemSelected(false,getSelectedMenuContainer());
+						menuItemSelected(true,mc);
 						break;
 					
 					case MouseEvent.ROLL_OUT :
-						mc.selected ? null : menuContainerSelected(false,mc,"style");
+						mc.selected ? null : menuItemSelected(false,mc,"style");
 						mc.textcolor = Const.COLOR_BLACK;
 						break; 
 					
 					case MouseEvent.ROLL_OVER :
-						mc.selected ? null : menuContainerSelected(true,mc,"style");
+						mc.selected ? null : menuItemSelected(true,mc,"style");
 						mc.textcolor = Const.COLOR_RED;
 						break;
 					
 					default:
 						break;
 				}
+			}
+			
+			private function getSelectedMenuContainer():MenuContainer
+			{
+				var num:int = menugroup.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var m:MenuContainer = menugroup.getElementAt(i) as MenuContainer;	
+					if(m.selected)
+					{
+						return m;
+					}
+				}
+				
+				return null;
 			}
 			
 			private function updateMeasureAndLayout():void
