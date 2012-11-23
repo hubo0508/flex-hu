@@ -11,8 +11,10 @@
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
 			import com.biiway.stockassistant.components.datagrid.CellEvent;
+			import com.biiway.stockassistant.event.SearchToolsEvent;
 			import com.biiway.stockassistant.util.UIUtil;
 			
+			import mx.collections.ArrayCollection;
 			import mx.core.IFlexDisplayObject;
 			import mx.core.IVisualElement;
 			import mx.events.DynamicEvent;
@@ -21,6 +23,8 @@
 			import mx.managers.PopUpManager;
 			
 			private var tootip:TooTip;
+			
+			private var searchWindow:SearchWindow;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -37,14 +41,19 @@
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
 			}
 			
-			protected function cellHandler(event:CellEvent):void
+			public function set dataProvider(value:ArrayCollection):void
 			{
-				searchinput.text = event.selected ? event.data["names"] : null; 
+				searchWindow.dataProvider = value;
 			}
 			
 			///////////////////////////////////////////////////////////////////////////////////////////
 			//++以下代码开发者不需要关心++//
 			///////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function cellHandler(event:CellEvent):void
+			{
+				searchinput.text = event.selected ? event.data["names"] : null; 
+			}
 			
 			protected function searchinputHandler(event:FocusEvent):void
 			{
@@ -75,24 +84,29 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						var searchWindow:SearchWindow = new SearchWindow();	
-						searchWindow.width = searchTextBC.width;
-						searchWindow.height = 315;
-						searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-						searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
-						searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
+						if(searchWindow == null)
+						{
+							searchWindow = new SearchWindow();	
+							searchWindow.width = searchTextBC.width;
+							searchWindow.height = 315;
+							searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+							searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
+							searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
+							
+							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
+							point.y += searchTextBC.height;
+							searchWindow.x = point.x;
+							searchWindow.y = point.y+1;
+							searchWindow.parentPoint = point;
+						}
 
-						var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
-						point.y += searchTextBC.height;
-						searchWindow.x = point.x;
-						searchWindow.y = point.y+1;
-						searchWindow.parentPoint = point;
-						
 						setDetailedWindowImgVisible(false);
 						
 						searchTextBC.setStyle("borderColor",0x4D90FE);
 						
-						PopUpManager.addPopUp(searchWindow, UIUtil.getApplication(this), false);				
+						PopUpManager.addPopUp(searchWindow, UIUtil.getApplication(this), false);
+						
+						dispatchEvent(new SearchToolsEvent(SearchToolsEvent.CLICKEVENT));
 						break;
 					
 					case MouseEvent.MOUSE_OVER:
@@ -136,6 +150,10 @@
 				setDetailedWindowImgVisible(true);
 				
 				PopUpManager.removePopUp(displayObject);
+				
+				var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CLOSEEVENT);
+				searchToolsEvent.searchtext = searchinput.text;
+				dispatchEvent(searchToolsEvent);
 			}
 			
 			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
@@ -172,6 +190,11 @@
 			
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="loginEvent",type="com.biiway.stockassistant.event.LoginEvent")]
+		[Event(name="closeEvent",type="com.biiway.stockassistant.event.LoginEvent")]
+	</fx:Metadata>
 	
 	<s:Rect left="0.5" right="0.5" top="0" height="63">
 		<s:fill>

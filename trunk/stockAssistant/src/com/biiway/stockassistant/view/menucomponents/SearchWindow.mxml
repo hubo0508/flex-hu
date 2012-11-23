@@ -46,26 +46,31 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				
-				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
-				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				
-				grid.dataProvider = acc;					
+//				
+//				var acc:ArrayCollection = new ArrayCollection();
+//				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+//				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+//				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+//				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+//				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+//				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
+//				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
+//				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+//				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+//				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
+//				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
+//				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+//				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+//				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
+//				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+//				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+//				
+//				grid.dataProvider = acc;					
+			}
+			
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				grid.dataProvider = value;	
 			}
 			
 			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
