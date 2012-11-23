@@ -14,9 +14,9 @@ package com.biiway.stockassistant.event
 		
 		public var datetype:String;
 		
-		public var startdate:Date;
+		public var startdate:String;
 		
-		public var enddate:Date;
+		public var enddate:String;
 		
 		public function SearchToolsEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
