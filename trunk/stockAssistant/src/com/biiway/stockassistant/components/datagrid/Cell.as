@@ -5,9 +5,11 @@ package com.biiway.stockassistant.components.datagrid
 	import com.biiway.stockassistant.util.UIUtil;
 	
 	import flash.display.Graphics;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.events.DynamicEvent;
+	import mx.events.FlexEvent;
 	import mx.graphics.SolidColor;
 	import mx.managers.CursorManager;
 	
@@ -27,9 +29,6 @@ package com.biiway.stockassistant.components.datagrid
 		public function Cell()
 		{
 			super();
-			
-//			this.useHandCursor = true;
-//			this.buttonMode = true;
 		}
 		
 		public var backgroupColor:uint;
@@ -48,6 +47,11 @@ package com.biiway.stockassistant.components.datagrid
 		
 		private var box:CheckBox;
 		
+		/**
+		 * 当<code>Cell.cellType=Cell.BOX</code>时，表示当前单元格是否选中。默认值为：false。
+		 */
+		private var _selected:Boolean = false;
+		
 		//创建常量组件
 		public static const LABEL:String = "LABEL";
 		public static const BOX:String  = "BOX";
@@ -56,7 +60,7 @@ package com.biiway.stockassistant.components.datagrid
 		/**
 		 * 复选框Click点击
 		 */
-		public static const BOX_CLICK:String = "boxClick";
+		public static const CHECKBOX_CLICK:String = "checkboxClick";
 		
 		override protected function measure():void
 		{
@@ -114,23 +118,42 @@ package com.biiway.stockassistant.components.datagrid
 				box.verticalCenter = 0;
 				box.horizontalCenter = 0;
 				box.setStyle("skinClass",Class(CheckBoxSkin));
-				box.addEventListener(MouseEvent.CLICK,boxClickHandler,false,0,true);
+				box.addEventListener(MouseEvent.CLICK,checkboxHandler,false,0,true);
+				box.addEventListener(FlexEvent.VALUE_COMMIT,checkboxHandler,false,0,true);
 
 				this.addElement(box);
 			}
 			
 		}
 		
-		protected function boxClickHandler(event:MouseEvent):void
+		protected function checkboxHandler(event:Event):void
 		{
 			var box:CheckBox = event.currentTarget as CheckBox;
-			var cell:Cell = box.parent as Cell;
 			
-			var dye:DynamicEvent = new DynamicEvent(BOX_CLICK);
-			dye.rowsIndex = cell.id;
-			dye.selected = box.selected;
-			
-			this.dispatchEvent(dye);
+			switch(event.type)
+			{
+				case MouseEvent.CLICK :
+					var cell:Cell = box.parent as Cell;
+					
+					selected = box.selected;
+					
+					var dye:DynamicEvent = new DynamicEvent(CHECKBOX_CLICK);
+					dye.rowsIndex = cell.id;
+					dye.selected = box.selected;
+					
+					this.dispatchEvent(dye);
+					break;
+				
+				case FlexEvent.VALUE_COMMIT :
+					var e:CellEvent = new CellEvent(CellEvent.CELL_VALUE_COMMIT,true);
+					e.selected = selected;
+					e.data = data;
+					dispatchEvent(e);
+					break;
+				
+				default:
+					break;
+			}
 		}
 		
 		public function clearSelectedOrValue():void
@@ -147,18 +170,6 @@ package com.biiway.stockassistant.components.datagrid
 			
 			this.data = null;
 		}
-
-		[Inspectable(category="General", enumeration="LABEL,BOX", defaultValue="LABEL")]
-		public function get cellType():String
-		{
-			return _cellType;
-		}
-		
-		public function set cellType(value:String):void
-		{
-			_cellType = value;
-		}
-		
 		public function get text():String
 		{
 			return _text;
@@ -192,6 +203,45 @@ package com.biiway.stockassistant.components.datagrid
 			_data = value;
 		}
 
+
+		[Inspectable(category="General", enumeration="LABEL,BOX,ICON", defaultValue="LABEL")]
+		
+		/**
+		 * 单元格类型，可选值有<code>Cell.LABEL;Cell.BOX;Cell.ICON</code>，默认为<code>Cell.LABEL</cdoe>
+		 */
+		public function get cellType():String
+		{
+			return _cellType;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set cellType(value:String):void
+		{
+			_cellType = value;
+		}
+
+		/**
+		 * 当<code>Cell.cellType=Cell.BOX</code>时，表示当前单元格是否选中。默认值为：false。
+		 */
+		public function get selected():Boolean
+		{
+			return _selected;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set selected(value:Boolean):void
+		{
+			if(value != selected)
+			{
+				_selected = value;
+				
+				box.selected = value;  
+			}
+		}
 
 	}
 }

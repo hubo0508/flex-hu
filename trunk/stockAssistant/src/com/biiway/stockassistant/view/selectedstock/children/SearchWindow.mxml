@@ -10,7 +10,8 @@
 					  xmlns:components="com.printingoffice.framework.components.*"
 					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  xmlns:datagrid="com.biiway.stockassistant.components.datagrid.*"
-					  creationComplete="creationCompleteHandler(event)"
+					  creationComplete="creationCompleteHandler(event)" 
+					  initialize="initializeHandler(event)"
 					  backgroundColor="#FFFFFF">
 
 	<fx:Script>
@@ -21,17 +22,24 @@
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			public var parentPoint:Point;
+			
 			public static const CLOSE_EVENT:String = "closeSearchList";
 			
-			/**
-			 * 搜索类型窗体
-			 */
-//			private var searchTypeList:SearchTypeList;
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
 			
-			/**
-			 * 存储x,y坐标，由使用组件输入值
-			 */
-			public var currentPoint:Point;
+			private function initEvent():void
+			{
+				closebtn.addEventListener(MouseEvent.CLICK,closebtnHandler,false,0,true);
+			}
+			
+			protected function closebtnHandler(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -104,6 +112,7 @@
 				//PopUpManager.removePopUp(searchTypeList);
 			} 
 
+			
 		]]>
 	</fx:Script>
 
@@ -119,6 +128,6 @@
 		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="['BOX','names','times']" displayColumnWidth="[37,180,80]" width="100%"/>
 	</s:Scroller>
 	
-	<s:Button right="10" bottom="10" width="72" height="29" skinClass="assets.skin.SearchBtnSkin"/>
+	<s:Button id="closebtn" right="10" bottom="10" width="72" height="29" skinClass="assets.skin.SearchBtnSkin"/>
 	
 </s:SkinnableContainer>
