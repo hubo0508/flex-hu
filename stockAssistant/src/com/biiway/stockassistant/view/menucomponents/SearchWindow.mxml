@@ -54,15 +54,15 @@
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
 
-				startDate.addEventListener(FlexEvent.DATA_CHANGE,startDateHandler,false,0,true);
-				endDate.addEventListener(FlexEvent.DATA_CHANGE,endDateHandler,false,0,true);
+				startDate.addEventListener(DropdownEvent.CLOSE,startDateHandler,false,0,true);
+				endDate.addEventListener(DropdownEvent.CLOSE,endDateHandler,false,0,true);
 			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 			}
 			
-			protected function startDateHandler(event:FlexEvent):void
+			protected function startDateHandler(event:CalendarLayoutChangeEvent):void
 			{
 				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
 				stEvent.startdate = startDate.selectedDate;
@@ -71,7 +71,7 @@
 				this.dispatchEvent(stEvent);
 			}
 			
-			protected function endDateHandler(event:FlexEvent):void
+			protected function endDateHandler(event:DropdownEvent):void
 			{
 				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
 				stEvent.startdate = startDate.selectedDate;
