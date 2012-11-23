@@ -90,7 +90,7 @@
 		]]>
 	</fx:Script>
 
-	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,180,80]" />
+	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,0,80]" />
 
 	<s:BitmapImage horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
 	

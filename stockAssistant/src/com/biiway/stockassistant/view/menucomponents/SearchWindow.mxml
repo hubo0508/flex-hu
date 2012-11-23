@@ -62,10 +62,10 @@
 			{
 			}
 			
-			protected function startDateHandler(event:CalendarLayoutChangeEvent):void
+			protected function startDateHandler(event:DropdownEvent):void
 			{
 				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
-				stEvent.startdate = startDate.selectedDate;
+				stEvent.startdate = startDate.text;
 				stEvent.datetype = searchinput.text;
 				
 				this.dispatchEvent(stEvent);
@@ -74,8 +74,8 @@
 			protected function endDateHandler(event:DropdownEvent):void
 			{
 				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
-				stEvent.startdate = startDate.selectedDate;
-				stEvent.enddate = endDate.selectedDate;
+				stEvent.startdate = startDate.text;
+				stEvent.enddate = endDate.text;
 				stEvent.datetype = searchinput.text;
 				
 				this.dispatchEvent(stEvent);
@@ -203,7 +203,7 @@
 				
 				if("自定义" == searchinput.text){
 					customtimegroup.visible = true;
-					searchTextBC.right = 220;
+					searchTextBC.right = customtimegroup.width + 20 + 20;
 				}else{
 					customtimegroup.visible = false;
 					searchTextBC.right = 30;
@@ -263,7 +263,7 @@
 	</fx:Script>
 	
 	<fx:Declarations>
-		<mx:DateFormatter id="dateFormatter" formatString="YY-MM-DD"/>
+		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
 	</fx:Declarations>
 
 	<s:filters> 
@@ -290,10 +290,10 @@
 	</s:BorderContainer> 
 	
 	<s:HGroup id="customtimegroup" right="30" top="6" height="29" verticalAlign="middle" visible="false">
-		<mx:DateField id="startDate" x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="startDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 		<s:Label text="至" />
-		<mx:DateField id="endDate" x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="endDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 	</s:HGroup>
 	
