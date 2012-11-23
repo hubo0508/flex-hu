@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.components.datagrid.CellEvent;
 			import com.biiway.stockassistant.util.UIUtil;
 			import com.biiway.stockassistant.view.selectedstock.children.SearchWindow;
 			
@@ -34,6 +35,11 @@
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
+			}
+			
+			protected function cellHandler(event:CellEvent):void
+			{
+				searchinput.text = event.selected ? event.data["names"] : null; 
 			}
 			
 			protected function searchinputHandler(event:FocusEvent):void
@@ -70,12 +76,13 @@
 						searchWindow.height = 315;
 						searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 						searchWindow.addEventListener(SearchWindow.CLOSE_EVENT,mouseDownOutsideHandler,false,0,true);
-						
+						searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
+
 						var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
 						point.y += searchTextBC.height;
 						searchWindow.x = point.x;
 						searchWindow.y = point.y+1;
-						searchWindow.currentPoint = point;
+						searchWindow.parentPoint = point;
 						
 						setDetailedWindowImgVisible(false);
 						
@@ -153,7 +160,7 @@
 		<s:fill>
 			<s:LinearGradient rotation="90">
 				<s:GradientEntry color="0xFFFFFF" />
-				<s:GradientEntry color="0xE5E9EE"  />
+				<s:GradientEntry color="0xE5E9EE" />
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>

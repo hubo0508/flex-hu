@@ -13,13 +13,12 @@
 		  width="100%">
 	
 	<fx:Metadata>
-		[Event(name="gridEvent",type="com.printingoffice.framework.event.GridEvent")]
-		[Event(name="iconRollEvent",type="com.printingoffice.framework.event.GridEvent")]
+		[Event(name="gridEvent",type="com.biiway.stockassistant.event.GridEvent")]
+		[Event(name="iconRollEvent",type="com.biiway.stockassistant.event.GridEvent")]
 	</fx:Metadata>
 
 	<fx:Script>
 		<![CDATA[
-			import com.biiway.stockassistant.components.graphic.CurrentLinePrompt;
 			import com.biiway.stockassistant.event.GridEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.util.UIUtil;
@@ -27,6 +26,8 @@
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.controls.Image;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
 			import mx.effects.Glow;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
@@ -91,6 +92,11 @@
 			private var _selectedItem:Array;
 			
 			/**
+			 * 单击整行是否状态生效，默认true;
+			 */
+			private var _changeRowState:Boolean = true;
+			
+			/**
 			 * 容器内部使用，存储选择行的索引值
 			 */
 			private var selectedRowsIndex:Array;
@@ -101,7 +107,6 @@
 			 * 提示行信息
 			 */
 			private var _promptVisible:Boolean = true;
-			
 		
 
 			protected function initializeHandler(event:FlexEvent):void
@@ -132,8 +137,6 @@
 			}
 			
 			/**
-			 * <p>继续父组件createChildren()函数</p>
-			 * 
 			 * 1、根据属性displayColumn个数初始化列数。</br>
 			 * 2、初始化当前行状态容器。</br>
 			 * 
@@ -500,9 +503,9 @@
 				cell.constColor = defaultColor;
 				cell.addEventListener(MouseEvent.ROLL_OUT,cellRollHandler,false,0,true);
 				cell.addEventListener(MouseEvent.ROLL_OVER,cellRollHandler,false,0,true);
-				cell.addEventListener(Cell.BOX_CLICK,boxClickHandler,false,0,true);
+				cell.addEventListener(Cell.CHECKBOX_CLICK,checkboxClickHandler,false,0,true);
 				
-				if(cell.cellType == Cell.BOX)
+				if(cell.cellType == Cell.BOX || changeRowState)
 				{
 					cell.addEventListener(MouseEvent.CLICK,boxCellClickHandler,false,0,true);
 				}
@@ -515,22 +518,69 @@
 				if(event.target is CheckBox)return;
 				
 				var cell:Cell = event.currentTarget as Cell;
-				var box:CheckBox = cell.getElementAt(0) as CheckBox;
+				changeRowState ? cell = getCheckBoxCellByRowsIndex(cell.id) : null;
 				
-				box.selected = !box.selected;
+				if(!cell) return;
 				
-				changeBgColor( int(cell.id), box.selected ? SELECTED : NOT_SELECTED) ;
+				cell.selected = !(cell.getElementAt(0) as CheckBox).selected;
+				changeBgColor(int(cell.id), cell.selected ? SELECTED : NOT_SELECTED) ;
+				
+				if(selectType == "radio")
+				{
+					setBoxCoumnState(cell.id);
+				}
+			}
+			
+			private function getCheckBoxCellByRowsIndex(rowsIndex:String):Cell
+			{
+				var column:Column = this.getElementAt(0) as Column;
+				if(column.name == Cell.BOX)
+				{
+					var num:int = column.numElements;
+					for(var i:int=0; i<num; i++)
+					{
+						var cell:Object = column.getElementAt(i);
+						if(cell.id == rowsIndex)
+						{
+							return cell as Cell;
+						}
+					}
+				}
+				
+				return null;
 			}
 			
 			/**
 			 * 点击行前复选框，
 			 */
-			protected function boxClickHandler(dye:DynamicEvent):void
+			protected function checkboxClickHandler(dye:DynamicEvent):void
 			{
 				var selected:Boolean = Boolean(dye.selected);
 				var rowsIndex:int = int(dye.rowsIndex);
 				
 				changeBgColor(rowsIndex, selected ? SELECTED : NOT_SELECTED) ;
+				
+				if(selectType == "radio")
+				{
+					setBoxCoumnState(rowsIndex.toString());
+				}
+			}
+			
+			private function setBoxCoumnState(currentRowsIndex:String):void
+			{
+				var column:Column = this.getElementAt(0) as Column;
+				if(column.name != Cell.BOX)return;
+				var num:int = column.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var cell:Cell = column.getElementAt(i) as Cell; 
+					if(cell.cellType == Cell.BOX && cell.selected && currentRowsIndex != cell.id)
+					{
+						cell.selected = false;
+						changeBgColor(int(cell.id), NOT_SELECTED) ;
+						break;
+					}
+				}
 			}
 			
 			protected function cellRollHandler(event:MouseEvent):void
@@ -828,6 +878,23 @@
 			{
 				_promptVisible = value;
 			}
+
+			/**
+			 * 单击整行是否状态生效，默认true;
+			 */
+			public function get changeRowState():Boolean
+			{
+				return _changeRowState;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set changeRowState(value:Boolean):void
+			{
+				_changeRowState = value;
+			}
+
 			
 		]]>
 	</fx:Script>
