@@ -5,16 +5,17 @@
 		 xmlns:login="com.biiway.stockassistant.view.login.*"
 		 xmlns:navigation="com.biiway.stockassistant.view.navigation.*"
 		 xmlns:components="com.biiway.stockassistant.components.*"
-		 xmlns:selectedstock="com.biiway.stockassistant.view.selectedstock.*" 
+		 xmlns:selectedstock="com.biiway.stockassistant.view.selectedstock.*"
 		 creationComplete="creationCompleteHandler(event)"
-		 width="{Const.LOGIN_MEASURE[0]}"
-		 height="{Const.LOGIN_MEASURE[1]}">
+		 width="395"
+		 height="295">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.view.menucomponents.SearchTools;
 			import com.biiway.stockassistant.view.navigation.Navigation;
 			import com.biiway.stockassistant.view.selectedstock.SelectedStock;
 			
