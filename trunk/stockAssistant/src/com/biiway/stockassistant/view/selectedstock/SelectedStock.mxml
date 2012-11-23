@@ -29,6 +29,7 @@
 			{
 				searchTools.addEventListener(SearchToolsEvent.CLICKEVENT,clickSearchToolsHandler,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION,changeSearchConditionHander,false,0,true);
 			}
 			
 			private function initData():void
@@ -51,6 +52,14 @@
 			protected function closeSearchToolsHandler(event:SearchToolsEvent):void
 			{
 				trace(event.searchtext);
+			}
+			
+			/**
+			 * 查询时间变动时，触发
+			 */
+			protected function changeSearchConditionHander(event:SearchToolsEvent):void
+			{
+				trace(event.searchtimetype + "  " );
 			}
 			
 			////////////////测试数据，误删，调试程序使用////////////////
@@ -81,7 +90,7 @@
 		]]>
 	</fx:Script>
 
-	<menucomponents:SearchTools id="searchTools"/>
+	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,180,80]" />
 
 	<s:BitmapImage horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
 	

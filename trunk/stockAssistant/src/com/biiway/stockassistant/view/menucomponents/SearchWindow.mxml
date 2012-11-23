@@ -12,6 +12,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.event.SearchToolsEvent;
 			import com.biiway.stockassistant.util.UIUtil;
 			
 			import mx.collections.ArrayCollection;
@@ -21,11 +22,17 @@
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.events.TextOperationEvent;
+			
 			public var parentPoint:Point;
 			
 			private var tootip:TooTip;
 			
 			public static const SUCCESSEVENT:String = "successEvent";
+			
+			private var _displayColumn:Array;
+			
+			private var _displayColumnWidth:Array;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -38,6 +45,7 @@
 				
 				searchinput.addEventListener(FocusEvent.FOCUS_IN,searchinputHandler,false,0,true);
 				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
+				//searchinput.addEventListener(TextOperationEvent.CHANGE,searchinputHandler,false,0,true);
 				
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
@@ -46,26 +54,6 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-//				
-//				var acc:ArrayCollection = new ArrayCollection();
-//				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-//				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-//				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-//				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-//				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-//				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
-//				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
-//				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-//				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-//				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
-//				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-//				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-//				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-//				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-//				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-//				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-//				
-//				grid.dataProvider = acc;					
 			}
 			
 			public function set dataProvider(value:ArrayCollection):void
@@ -148,7 +136,7 @@
 				}
 			}
 			
-			protected function searchinputHandler(event:FocusEvent):void
+			protected function searchinputHandler(event:Event):void
 			{
 				switch(event.type)
 				{
@@ -158,6 +146,13 @@
 					
 					case FocusEvent.FOCUS_OUT :
 						selectedSearchContainer(false);
+						break;
+					
+					case TextOperationEvent.CHANGE :
+						var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
+						searchToolsEvent.searchtimetype = searchinput.text;
+						
+						this.dispatchEvent(searchToolsEvent);
 						break;
 					
 					default:
@@ -187,6 +182,8 @@
 				}else{
 					customtimegroup.visible = false;
 					searchTextBC.right = 30;
+					
+					this.searchinputHandler(new TextOperationEvent(TextOperationEvent.CHANGE));
 				}
 				
 				removeWindow(event.currentTarget as IFlexDisplayObject);
@@ -210,6 +207,33 @@
 				return dateFormatter.format(item);  
 			}  
 			
+			[Bindable(event="displayColumn")]
+			public function get displayColumn():Array
+			{
+				return _displayColumn;
+			}
+
+			[Bindable(event="displayColumnWidth")]
+			public function get displayColumnWidth():Array
+			{
+				return _displayColumnWidth;
+			}
+
+			public function set displayColumnWidth(value:Array):void
+			{
+				_displayColumnWidth = value;
+				
+				this.dispatchEvent(new Event("displayColumnWidth"));
+			}
+
+			public function set displayColumn(value:Array):void
+			{
+				_displayColumn = value;
+				
+				this.dispatchEvent(new Event("displayColumn"));
+			}
+
+			
 		]]>
 	</fx:Script>
 	
@@ -226,7 +250,7 @@
 	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"   width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 
 	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="55">
-		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="['BOX','names','times']" displayColumnWidth="[37,180,80]" width="100%"/>
+		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="{displayColumn}" displayColumnWidth="{displayColumnWidth}" width="100%"/>
 	</s:Scroller>
 
 	<s:Label left="10" top="15" text="时间"/>
@@ -241,10 +265,10 @@
 	</s:BorderContainer> 
 	
 	<s:HGroup id="customtimegroup" right="30" top="6" height="29" verticalAlign="middle" visible="false">
-		<mx:DateField x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="startDate" x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 		<s:Label text="至" />
-		<mx:DateField x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="endDate" x="270" y="10" width="80" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 	</s:HGroup>
 	
