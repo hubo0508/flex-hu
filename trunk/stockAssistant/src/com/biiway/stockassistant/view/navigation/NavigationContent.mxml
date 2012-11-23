@@ -63,7 +63,7 @@
 				}
 				
 				ele.x == Const.GAP_SHADOW ? null : ele.x = Const.GAP_SHADOW;
-				ele.y == (Const.GAP_SHADOW + navigationHeight) ? null : ele.y = (Const.GAP_SHADOW + navigationHeight);
+				ele.y == (Const.GAP_SHADOW + navigationHeight) ? null : ele.y = (Const.GAP_SHADOW + navigationHeight + 1);
 			}
 			
 			private function updateNavigationProperty(w:Number, h:Number,ele:IVisualElement):void
