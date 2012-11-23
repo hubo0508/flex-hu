@@ -9,5 +9,5 @@
 	<menucomponents:SearchTools/>
 
 	<s:BitmapImage horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
-
+	
 </s:Group>

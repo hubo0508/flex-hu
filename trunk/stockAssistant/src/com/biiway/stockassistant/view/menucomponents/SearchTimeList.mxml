@@ -8,13 +8,16 @@
 
 	<fx:Script>
 		<![CDATA[
-			
 			import mx.events.DynamicEvent;
+			
+			import spark.components.DataGroup;
 			
 			public static const TIMETYPE:String = "timeType"
 			
 			protected function clickHandler(event:MouseEvent):void
 			{
+				if(event.target is DataGroup) return;
+				
 				var dye:DynamicEvent = new DynamicEvent(TIMETYPE);
 				dye.data = list.selectedItem;
 				
