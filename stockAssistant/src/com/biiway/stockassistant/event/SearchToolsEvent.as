@@ -10,9 +10,13 @@ package com.biiway.stockassistant.event
 		
 		public static const CHANGE_SEARCH_CONDITION:String = "changeSearchCondition";
 		
-		public var searchtext:String;
+		public var text:String;
 		
-		public var searchtimetype:String;
+		public var datetype:String;
+		
+		public var startdate:Date;
+		
+		public var enddate:Date;
 		
 		public function SearchToolsEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

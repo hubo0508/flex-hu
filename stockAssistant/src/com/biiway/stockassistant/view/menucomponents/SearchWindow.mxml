@@ -17,11 +17,14 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.core.IFlexDisplayObject;
+			import mx.events.CalendarLayoutChangeEvent;
+			import mx.events.DropdownEvent;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.events.DropDownEvent;
 			import spark.events.TextOperationEvent;
 			
 			public var parentPoint:Point;
@@ -50,10 +53,32 @@
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
+
+				startDate.addEventListener(FlexEvent.DATA_CHANGE,startDateHandler,false,0,true);
+				endDate.addEventListener(FlexEvent.DATA_CHANGE,endDateHandler,false,0,true);
 			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+			}
+			
+			protected function startDateHandler(event:FlexEvent):void
+			{
+				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
+				stEvent.startdate = startDate.selectedDate;
+				stEvent.datetype = searchinput.text;
+				
+				this.dispatchEvent(stEvent);
+			}
+			
+			protected function endDateHandler(event:FlexEvent):void
+			{
+				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
+				stEvent.startdate = startDate.selectedDate;
+				stEvent.enddate = endDate.selectedDate;
+				stEvent.datetype = searchinput.text;
+				
+				this.dispatchEvent(stEvent);
 			}
 			
 			public function set dataProvider(value:ArrayCollection):void
@@ -150,7 +175,7 @@
 					
 					case TextOperationEvent.CHANGE :
 						var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
-						searchToolsEvent.searchtimetype = searchinput.text;
+						searchToolsEvent.datetype = searchinput.text;
 						
 						this.dispatchEvent(searchToolsEvent);
 						break;
@@ -232,7 +257,7 @@
 				
 				this.dispatchEvent(new Event("displayColumn"));
 			}
-
+			
 			
 		]]>
 	</fx:Script>

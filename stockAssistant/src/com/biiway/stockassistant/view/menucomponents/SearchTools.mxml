@@ -147,7 +147,9 @@
 			protected function searchToolsHandler(event:SearchToolsEvent):void
 			{
 				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
-				stEvent.searchtimetype = event.searchtimetype;
+				stEvent.datetype = event.datetype;
+				stEvent.startdate = event.startdate;
+				stEvent.enddate = event.enddate;
 				
 				this.dispatchEvent(stEvent);
 			} 
@@ -168,7 +170,7 @@
 				PopUpManager.removePopUp(displayObject);
 				
 				var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CLOSEEVENT);
-				searchToolsEvent.searchtext = searchinput.text;
+				searchToolsEvent.text = searchinput.text;
 				dispatchEvent(searchToolsEvent);
 			}
 			
