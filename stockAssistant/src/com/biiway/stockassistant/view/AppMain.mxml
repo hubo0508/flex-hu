@@ -91,18 +91,23 @@
 				switch(event.data["type"])
 				{
 					case "selectedstock" :
+						content.removeAllElements();
+						
 						var selectedStock:SelectedStock = new SelectedStock();
 						
 						content.addElement(selectedStock);
 						break;
 					
 					case "incomeanalysis" :
+						content.removeAllElements();
 						break;
 					
 					case "member" :
+						content.removeAllElements();
 						break;
 					
 					case "help" :
+						content.removeAllElements();
 						break;
 					
 					default:
@@ -154,7 +159,7 @@
 		
 			
 		]]>
-	</fx:Script>
+	</fx:Script> 
 	
 	<login:Login id="login" loginEvent="loginHandler(event)"/>
 	
