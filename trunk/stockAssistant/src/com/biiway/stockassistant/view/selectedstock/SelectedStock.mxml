@@ -51,7 +51,7 @@
 			 */
 			protected function closeSearchToolsHandler(event:SearchToolsEvent):void
 			{
-				trace(event.searchtext);
+				trace(event.text);
 			}
 			
 			/**
@@ -59,7 +59,7 @@
 			 */
 			protected function changeSearchConditionHander(event:SearchToolsEvent):void
 			{
-				trace(event.searchtimetype + "  " );
+				trace(event.datetype + "  " +"  " + event.startdate + "  "+event.enddate);
 			}
 			
 			////////////////测试数据，误删，调试程序使用////////////////
