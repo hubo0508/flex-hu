@@ -17,7 +17,7 @@ package com.biiway.stockassistant.components
 		[Bindable]
 		private var _emptyColor:uint = 7171437;
 		
-		private var sysColor:uint = 0;
+		private var sysColor:uint = 0x0000000;
 		
 		private var textChanged:Boolean = true;
 		
@@ -31,8 +31,7 @@ package com.biiway.stockassistant.components
 			if((super.text == null || super.text.replace(/^\s*|\s*$/g, "").split(" ").join("") == "" ))
 			{
 				displayAsPassword = false;
-			}
-			else{
+			}else{
 				displayAsPassword = true;
 			}
 		}
@@ -86,6 +85,8 @@ package com.biiway.stockassistant.components
 				if(displayAsPassword){
 					displayAsPassword = false;
 				}
+			}else{
+				super.setStyle("color",sysColor);
 			}
 		}
 		

@@ -108,6 +108,8 @@
 			 */
 			private var _promptVisible:Boolean = true;
 		
+			
+			private var currentSelectedCellIndex:String = "-1";
 
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -117,6 +119,17 @@
 			private function initEvent():void
 			{
 				this.addEventListener(MouseEvent.MOUSE_WHEEL,mouseWheelHandler,false,0,true);
+				//this.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
+			}
+			
+			protected function cellHandler(event:CellEvent):void
+			{
+				trace("grid-cellHandler");
+				if(event.rowsIndex == currentSelectedCellIndex){
+					//event.stopImmediatePropagation();
+					currentSelectedCellIndex = "-1";
+				}
+				currentSelectedCellIndex = event.rowsIndex;
 			}
 			
 			/**
@@ -494,7 +507,7 @@
 				}
 				else
 				{
-					cell.cellType= type == Cell.BOX ? Cell.BOX : Cell.LABEL;
+					cell.cellType = type == Cell.BOX ? Cell.BOX : Cell.LABEL;
 				}
 				cell.percentWidth=100;
 				cell.height = cellHeight;
@@ -515,21 +528,39 @@
 			
 			protected function boxCellClickHandler(event:MouseEvent):void
 			{
-				if(event.target is CheckBox)return;
+				//if(event.target is CheckBox)return;
 				
 				var cell:Cell = event.currentTarget as Cell;
 				changeRowState ? cell = getCheckBoxCellByRowsIndex(cell.id) : null;
 				
 				if(!cell) return;
 				
-				cell.selected = !(cell.getElementAt(0) as CheckBox).selected;
-				changeBgColor(int(cell.id), cell.selected ? SELECTED : NOT_SELECTED) ;
-				
 				if(selectType == "radio")
 				{
 					setBoxCoumnState(cell.id);
 				}
+				
+				cell.selected = !(cell.getElementAt(0) as CheckBox).selected;
+				changeBgColor(int(cell.id), cell.selected ? SELECTED : NOT_SELECTED) ;
 			}
+			
+			
+			/**
+			 * 点击行前复选框，
+			 */
+			protected function checkboxClickHandler(dye:DynamicEvent):void
+			{
+				var selected:Boolean = Boolean(dye.selected);
+				var rowsIndex:int = int(dye.rowsIndex);
+				
+				if(selectType == "radio")
+				{
+					setBoxCoumnState(rowsIndex.toString());
+				}
+				
+				changeBgColor(rowsIndex, selected ? SELECTED : NOT_SELECTED) ;
+			}
+			
 			
 			private function getCheckBoxCellByRowsIndex(rowsIndex:String):Cell
 			{
@@ -550,21 +581,6 @@
 				return null;
 			}
 			
-			/**
-			 * 点击行前复选框，
-			 */
-			protected function checkboxClickHandler(dye:DynamicEvent):void
-			{
-				var selected:Boolean = Boolean(dye.selected);
-				var rowsIndex:int = int(dye.rowsIndex);
-				
-				changeBgColor(rowsIndex, selected ? SELECTED : NOT_SELECTED) ;
-				
-				if(selectType == "radio")
-				{
-					setBoxCoumnState(rowsIndex.toString());
-				}
-			}
 			
 			private function setBoxCoumnState(currentRowsIndex:String):void
 			{

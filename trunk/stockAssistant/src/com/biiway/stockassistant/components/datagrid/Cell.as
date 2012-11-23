@@ -129,25 +129,25 @@ package com.biiway.stockassistant.components.datagrid
 		protected function checkboxHandler(event:Event):void
 		{
 			var box:CheckBox = event.currentTarget as CheckBox;
-			
+			selected = box.selected;
 			switch(event.type)
 			{
 				case MouseEvent.CLICK :
-					var cell:Cell = box.parent as Cell;
+//					var dye:DynamicEvent = new DynamicEvent(CHECKBOX_CLICK);
+//					dye.rowsIndex = (box.parent as Object).id;
+//					dye.selected = box.selected;
+//					
+//					this.dispatchEvent(dye);
 					
+					box.selected = !box.selected;
 					selected = box.selected;
-					
-					var dye:DynamicEvent = new DynamicEvent(CHECKBOX_CLICK);
-					dye.rowsIndex = cell.id;
-					dye.selected = box.selected;
-					
-					this.dispatchEvent(dye);
 					break;
 				
 				case FlexEvent.VALUE_COMMIT :
 					var e:CellEvent = new CellEvent(CellEvent.CELL_VALUE_COMMIT,true);
-					e.selected = selected;
+					e.selected = box.selected;
 					e.data = data;
+					e.rowsIndex = (box.parent as Object).id;
 					dispatchEvent(e);
 					break;
 				

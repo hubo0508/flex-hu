@@ -12,6 +12,8 @@ package com.biiway.stockassistant.components.datagrid
 		
 		public var selected:Boolean;
 		
+		public var rowsIndex:String;
+		
 		public function CellEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
