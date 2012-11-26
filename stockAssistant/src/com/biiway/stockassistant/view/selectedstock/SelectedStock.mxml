@@ -29,12 +29,23 @@
 			{
 				searchTools.addEventListener(SearchToolsEvent.CLICKEVENT,clickSearchToolsHandler,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
-				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION,changeSearchConditionHander,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,changeSearchConditionHander,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.SELECTED_STOCK_EVENT,selectedStockHandler,false,0,true);
 			}
 			
 			private function initData():void
 			{
 				
+			}
+			
+			/**
+			 * 点击选股按钮,触发
+			 */
+			protected function selectedStockHandler(event:SearchToolsEvent):void
+			{
+				trace(event.text);
+				
+				loadSecondaryMenu(event.text);
 			}
 			
 			/**
@@ -52,6 +63,8 @@
 			protected function closeSearchToolsHandler(event:SearchToolsEvent):void
 			{
 				trace(event.text);
+				
+				loadSecondaryMenu(event.text);
 			}
 			
 			/**
@@ -62,6 +75,17 @@
 				trace(event.datetype + "  " +"  " + event.startdate + "  "+event.enddate);
 			}
 			
+			private function loadSecondaryMenu(modename:String):void
+			{
+				if(modename == null || modename == ""){
+					return;
+				}
+				
+				content.visible ? null : content.visible = true;
+				help.visible ? help.visible = false : null;
+				
+				navigationMenu.dataProvider = getAC();
+			}
 			////////////////测试数据，误删，调试程序使用////////////////
 			
 			private function getAC():ArrayCollection
@@ -92,6 +116,19 @@
 
 	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,0,80]" />
 
-	<s:BitmapImage horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
+	<s:BitmapImage visible="true" id="help" horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
+	
+	<s:Group id="content" width="100%" height="100%" top="67" visible="false">
+		<s:Line id="sLine" left="0" right="0" top="60" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
+		<s:Label left="250" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>
+		
+		<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" left="15"/>
+		
+	</s:Group>
 	
 </s:Group>

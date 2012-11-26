@@ -43,6 +43,8 @@
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
+				
+				selectedStockBtn.addEventListener(MouseEvent.CLICK,selectedStockHandler,false,0,true);
 			}
 			
 			public function set dataProvider(value:ArrayCollection):void
@@ -54,6 +56,13 @@
 			///////////////////////////////////////////////////////////////////////////////////////////
 			//++以下代码开发者不需要关心++//
 			///////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function selectedStockHandler(event:MouseEvent):void
+			{
+				var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.SELECTED_STOCK_EVENT);
+				searchToolsEvent.text = searchinput.text;
+				dispatchEvent(searchToolsEvent);
+			}
 			
 			protected function cellHandler(event:CellEvent):void
 			{
@@ -99,7 +108,7 @@
 							searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 							searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
 							searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
-							searchWindow.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION,searchToolsHandler,false,0,true);
+							searchWindow.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,searchToolsHandler,false,0,true);
 							
 							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
 							point.y += searchTextBC.height;
@@ -146,7 +155,7 @@
 			
 			protected function searchToolsHandler(event:SearchToolsEvent):void
 			{
-				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION);
+				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT);
 				stEvent.datetype = event.datetype;
 				stEvent.startdate = event.startdate;
 				stEvent.enddate = event.enddate;
@@ -229,11 +238,6 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Metadata>
-		[Event(name="loginEvent",type="com.biiway.stockassistant.event.LoginEvent")]
-		[Event(name="closeEvent",type="com.biiway.stockassistant.event.LoginEvent")]
-	</fx:Metadata>
-	
 	<s:Rect left="0.5" right="0.5" top="0" height="63">
 		<s:fill>
 			<s:LinearGradient rotation="90">
@@ -255,7 +259,7 @@
 			</s:stroke>
 		</s:Line>
 	</s:BorderContainer> 
-	<s:Button x="446" top="18" width="72" height="29" fontFamily="16" color="0xFFFFFF" label="选股" left="{searchTextBC.width+searchTextBC.x + 10}"
+	<s:Button id="selectedStockBtn" x="446" top="18" width="72" height="29" fontFamily="16" color="0xFFFFFF" label="选股" left="{searchTextBC.width+searchTextBC.x + 10}"
 			  skinClass="assets.skin.SearchBtnSkin"/>
 	
 </s:Group>
