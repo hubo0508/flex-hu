@@ -15,10 +15,12 @@
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.view.incomeanalysis.IncomeanAlysis;
 			import com.biiway.stockassistant.view.menucomponents.SearchTools;
 			import com.biiway.stockassistant.view.navigation.Navigation;
 			import com.biiway.stockassistant.view.selectedstock.SelectedStock;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			
@@ -30,8 +32,8 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-//				navigation.message("xxxxxxxxxxx");
-//				display();
+				navigation.message("xxxxxxxxxxx");
+				display();
 			}
 			
 			/**
@@ -57,7 +59,7 @@
 				}
 				else
 				{
-					login.message("错误！",false);
+					//login.message("错误！",false);
 				}
 			}
 			
@@ -92,14 +94,12 @@
 				{
 					case "selectedstock" :
 						content.removeAllElements();
-						
-						var selectedStock:SelectedStock = new SelectedStock();
-						
-						content.addElement(selectedStock);
+						content.addElement(new SelectedStock());
 						break;
 					
 					case "incomeanalysis" :
 						content.removeAllElements();
+						content.addElement(new IncomeanAlysis());
 						break;
 					
 					case "member" :
@@ -125,7 +125,7 @@
 			{
 				if(mark)
 				{
-					login.visible = false;
+					//login.visible = false;
 					navigationContent.visible = true;
 					
 					this.width  == Const.CONTENT_MEASURE[0] ? null : width  = Const.CONTENT_MEASURE[0];
@@ -133,7 +133,7 @@
 				}
 				else
 				{
-					login.visible = true;
+					//login.visible = true;
 					navigationContent.visible = false;
 					
 					this.width  == Const.LOGIN_MEASURE[0] ? null : width  = Const.LOGIN_MEASURE[0];
@@ -161,15 +161,15 @@
 		]]>
 	</fx:Script> 
 	
-	<login:Login id="login" loginEvent="loginHandler(event)"/>
+	<!--<login:Login id="login" loginEvent="loginHandler(event)"/>-->
 	
 	<navigation:NavigationContent id="navigationContent">
 		<navigation:ContentDropShadow/>
 		<navigation:Navigation id="navigation" logoutEvent="logoutEventHandler(event)" menuEvent="menuEventHandler(event)">
 			<navigation:menudata>
 				<fx:Array>
-					<fx:Object type="selectedstock" text="选股" selected="true"/>
-					<fx:Object type="incomeanalysis" text="收益分析"/>
+					<fx:Object type="selectedstock" text="选股" selected="false"/>
+					<fx:Object type="incomeanalysis" text="收益分析" selected="true"/>
 					<fx:Object type="member" text="会员管理"/>
 					<fx:Object type="help" text="帮助"/>
 				</fx:Array>

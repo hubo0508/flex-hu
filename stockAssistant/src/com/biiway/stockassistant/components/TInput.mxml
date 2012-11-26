@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TextInput xmlns:fx="http://ns.adobe.com/mxml/2009"
+			 xmlns:s="library://ns.adobe.com/flex/spark"
+			 xmlns:mx="library://ns.adobe.com/flex/mx"
+			 skinClass="assets.skin.TISkin"
+			 text=""
+			 borderColor="0xB4B4B4"
+			 focusAlpha="0">
+	
+	<fx:Script>
+		<![CDATA[
+			override protected function focusInHandler(event:FocusEvent):void
+			{
+				super.focusInHandler(event);
+				
+				this.setStyle("borderColor",0x4D90FE);
+			}
+			
+			override protected function focusOutHandler(event:FocusEvent):void
+			{
+				super.focusOutHandler(event);
+				this.setStyle("borderColor",0xB4B4B4);
+			}
+		]]>
+	</fx:Script>
+	
+</s:TextInput>
