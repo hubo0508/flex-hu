@@ -66,3 +66,9 @@ mx|Button
 	fontSize:13;
 	
 }
+global
+{
+	font-family: Arial;
+	font-size: 12;
+	vertical-align: bottom;
+}

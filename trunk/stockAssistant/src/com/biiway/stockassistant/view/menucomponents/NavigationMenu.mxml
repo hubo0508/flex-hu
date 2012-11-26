@@ -3,12 +3,12 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="creationCompleteHandler(event)"
-		 width="210"
-		 top="62"
-		 height="100%">
+		 mouseWheel="mouseWheelHandler(event)">
+	
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.ExpandGroup;
+			import com.biiway.stockassistant.core.TweenLite;
 			import com.biiway.stockassistant.util.Const;
 			
 			import mx.collections.ArrayCollection;
@@ -22,6 +22,8 @@
 			
 			private var creationCompleteMark:Boolean = false;
 			
+			private var scrolldelta:int;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				creationCompleteMark = true;
@@ -29,6 +31,19 @@
 				this.height = this.height - Const.GAP_SHADOW;
 				
 				initMenu();
+			}
+			override public function set verticalScrollPosition(value:Number):void 
+			{
+				value =  (value - scrolldelta) <= 0 ? 0 : (value - scrolldelta);
+				super.verticalScrollPosition = value;	
+			}
+			
+			/**
+			 * 当鼠标滚轮滚动到 InteractiveObject 实例上时分派。如果目标为文本字段，则作为默认行为，该文本会滚动。
+			 */
+			protected function mouseWheelHandler(event:MouseEvent):void
+			{
+				scrolldelta = event.delta;
 			}
 			
 			private function initMenu():void
@@ -46,10 +61,9 @@
 					group.y = i * 30;
 					group.width = this.width-30;
 					group.data = data;
-//					group.useHandCursor = true;
-//					group.buttonMode =  true;
 					group.addEventListener(MouseEvent.ROLL_OUT,menuContainerHandler,false,0,true);
 					group.addEventListener(MouseEvent.ROLL_OVER,menuContainerHandler,false,0,true);
+					group.addEventListener(MouseEvent.CLICK,menuContainerHandler,false,0,true);
 					
 					var label:Label = new Label();
 					label.text = data[datafield];
@@ -59,6 +73,12 @@
 					label.setStyle("lineBreak","toFit");
 					label.maxDisplayedLines = 1;
 					
+//					if(i == 0)
+//					{
+//						label.setStyle("color",Const.RED_COLOR)
+//						label.name = "CURRENT";
+//					}
+					
 					group.addElement(label);
 					
 					content.addElement(group);
@@ -67,17 +87,52 @@
 			
 			protected function menuContainerHandler(event:MouseEvent):void
 			{
+				var menuContainer:ExpandGroup = event.currentTarget as ExpandGroup;
+				var label:Label = menuContainer.getElementAt(0) as Label;
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
+						updateTextStyle(Const.DEFAULT_COLOR, label);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-
+						updateTextStyle(Const.RED_COLOR, label);
+						break;
+					
+					case MouseEvent.CLICK :
+						bgColor.visible ? null : bgColor.visible = true;
+						
+						for(var i:int=0,num:int=content.numElements; i<num; i++)
+						{
+							var _label:Label = (content.getElementAt(i) as ExpandGroup).getElementAt(0) as Label;
+							if(_label && _label.name == "CURRENT")
+							{
+								_label.name = "";
+								updateTextStyle(Const.DEFAULT_COLOR,_label);
+								break;
+							}
+						}
+						label.name = "CURRENT";
+						updateTextStyle(Const.RED_COLOR,label);
+						
+						updateBgRectY(menuContainer.y);
 						break;
 					
 					default:
 						break;
+				}
+			}
+			
+			private function updateBgRectY(y:Number):void
+			{
+				new TweenLite(bgColor,.3,{y:y});
+			}
+			
+			private function updateTextStyle(color:uint, label:Label):void
+			{
+				if(label.name != "CURRENT")
+				{
+					label.setStyle("color",color);
 				}
 			}
 
@@ -101,12 +156,11 @@
 				_dataProvider = value;
 				creationCompleteMark ? initMenu() : null;
 			}
-
 							
 		]]>
 	</fx:Script>
 	
-	<s:Group height="30" width="100%">
+	<s:Group id="bgColor" height="30" width="100%" visible="false">
 		<s:Rect left="0" right="0" top="0" height="30">
 			<s:fill>
 				<s:LinearGradient rotation="90">

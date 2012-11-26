@@ -11,6 +11,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.event.SearchToolsEvent;
+			import com.biiway.stockassistant.util.Const;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -107,6 +108,12 @@
 				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
 				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
 				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
 
 				return acc;
 			}
@@ -125,9 +132,15 @@
 			</s:stroke>
 		</s:Line>
 		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
-		<s:Label left="250" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>
+		<s:Label left="260" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>
 		
-		<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" left="15"/>
+		<s:Scroller id="scroller" height="{content.height - 143}" width="210"	top="62" left="15">
+			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="210" height="{scroller.height}"/>
+		</s:Scroller>
+		
+		<s:Group left="235" height="{content.height - 143}" width="100%">
+			<s:Label horizontalCenter="0" text="显示K线图" verticalCenter="0"/>
+		</s:Group>
 		
 	</s:Group>
 	
