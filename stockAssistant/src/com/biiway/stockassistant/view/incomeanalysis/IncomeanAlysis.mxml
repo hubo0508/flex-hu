@@ -2,13 +2,13 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
+		 xmlns:components1="com.biiway.stockassistant.components.*"
+		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
 		 initialize="initializeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
-		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
 		 width="100%"
-		 height="100%" 
-		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
-		 xmlns:components1="com.biiway.stockassistant.components.*">
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
@@ -40,10 +40,7 @@
 			
 			protected function testModelHandler(event:MouseEvent):void
 			{
-				incomeanalysisLeft.visible  ? incomeanalysisLeft.visible  = false : null;
-				incomeanalysisRight.visible ? incomeanalysisRight.visible = false : null;
-				
-				navigationMenu.dataProvider = getAC();
+				loadSecondaryMenu("x");
 			}
 			
 			protected function saveModelHandler(event:MouseEvent):void
@@ -58,7 +55,7 @@
 			{
 				trace(event.text);
 				
-				loadSecondaryMenu(event.text);
+				//loadSecondaryMenu(event.text);
 			}
 			
 			/**
@@ -77,7 +74,7 @@
 			{
 				trace(event.text);
 				
-				loadSecondaryMenu(event.text);
+				//loadSecondaryMenu(event.text);
 			}
 			
 			/**
@@ -96,16 +93,18 @@
 				leftGap = Number(kChart.left) + (kChart.width + Number(kChart.left) - Number(kChart.left)) * 0.5
 				incomeanalysisRight.x = leftGap - incomeanalysisRight.width * 0.5;
 			}
-			
+
 			private function loadSecondaryMenu(modename:String):void
 			{
 				if(modename == null || modename == ""){
 					return;
 				}
 				
-				content.visible ? null : content.visible = true;
 				incomeanalysisLeft.visible  ? incomeanalysisLeft.visible  = false : null;
 				incomeanalysisRight.visible ? incomeanalysisRight.visible = false : null;
+				content.visible  ? null : content.visible = true;
+				scroller.visible ? null : scroller.visible = true;
+				kChart.visible   ? null : kChart.visible = true;
 				
 				navigationMenu.dataProvider = getAC();
 			}
@@ -150,7 +149,9 @@
 		]]>
 	</fx:Script>
 
-	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,0,80]" />
+	<menucomponents:SearchTools id="searchTools"  text="填充"
+								displayColumn="['BOX','names','times']" 
+								displayColumnWidth="[37,0,80]" />
 	
 	<s:BitmapImage id="incomeanalysisLeft" visible="true" 
 				   source="@Embed('assets/image/incomeanalysisLeft.png')" verticalCenter="0"/>
@@ -159,11 +160,17 @@
 				   source="@Embed('assets/image/incomeanalysisRight.png')" verticalCenter="0"/>
 
 	
-	<s:Group id="content" width="100%" height="100%" top="67" bottom="87" visible="true">
+	<s:Group id="content" width="100%" height="100%" top="62"  visible="true">
 		
+		<!--
 		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="设定选股条件"/>
 		<s:Label left="420" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
-		<s:Label left="565" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>
+		<s:Label left="565" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>、
+		-->
+		
+		<s:BitmapImage  source="@Embed('assets/image/sd.png')" left="40" top="30"/>
+		<s:BitmapImage  source="@Embed('assets/image/xg.png')" left="420" top="30"/>
+		<s:BitmapImage  source="@Embed('assets/image/KLine.png')" left="565" top="30"/>
 		
 		<s:Line id="sLine" left="0" right="0" top="60" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
 			<s:stroke>
@@ -222,30 +229,31 @@
 			<components1:TInput x="70" y="402" />
 			
 			<!--按钮-->
-			<s:Button id="testModel" x="206" y="436" label="测试收益"/>
-			<s:Button id="saveModel" x="284" y="436" label="保存模型"/>
+			<components1:Button id="testModel" fSize="12" x="206" y="436" text="测试收益" width="72" />
+			<components1:Button id="saveModel" fSize="12" x="284" y="436" text="保存模型" width="72" />
+
 		</s:Group>
 		
-		<s:Line left="390" top="61" bottom="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:Line left="390" top="61" bottom="2" xFrom="0" xTo="0" yFrom="0" yTo="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
 			</s:stroke>
 		</s:Line>
 		
 		<!--选股池-->
-		<s:Scroller id="scroller" height="100%" width="155"	top="62" left="391">
-			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="{scroller.height}"/>
+		<s:Scroller id="scroller" bottom="2" width="155"	top="62" left="391" visible="false">
+			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="100%"/>
 		</s:Scroller>
 		
-		<s:Line id="kLine" left="545" top="61" bottom="0" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:Line id="kLine" left="545" top="61" bottom="2" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
 			</s:stroke>
 		</s:Line>
 		
 		<!--K线图-->
-		<s:Group top="62" left="546" bottom="87" id="kChart" height="100%" width="100%">
-			 
+		<s:Group top="62" left="546"  id="kChart" height="100%" width="100%" visible="false">
+			<s:Label horizontalCenter="0" text="显示K线图" verticalCenter="0"/>
 		</s:Group>
 		
 	</s:Group>

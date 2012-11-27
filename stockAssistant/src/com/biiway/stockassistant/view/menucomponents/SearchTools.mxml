@@ -30,6 +30,8 @@
 			
 			private var _displayColumnWidth:Array;
 			
+			private var _text:String;
+			
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				initEvent();
@@ -109,6 +111,8 @@
 							searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
 							searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
 							searchWindow.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,searchToolsHandler,false,0,true);
+							searchWindow.addEventListener(SearchWindow.CLOSEEVENT,closeSearchWindowHandler,false,0,true);
+
 							
 							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
 							point.y += searchTextBC.height;
@@ -235,6 +239,22 @@
 				_displayColumnWidth = value;
 			}
 
+			[Bindable(event="text")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if( _text !== value)
+				{
+					_text = value;
+					dispatchEvent(new Event("text"));
+				}
+			}
+
+
 		]]>
 	</fx:Script>
 	
@@ -259,7 +279,9 @@
 			</s:stroke>
 		</s:Line>
 	</s:BorderContainer> 
-	<s:Button id="selectedStockBtn" x="446" top="18" width="72" height="29" fontFamily="16" color="0xFFFFFF" label="选股" left="{searchTextBC.width+searchTextBC.x + 10}"
-			  skinClass="assets.skin.SearchBtnSkin"/>
+	
+	<components:Button id="selectedStockBtn" x="446" top="18" width="72" 
+					   height="29" color="0xFFFFFF" text="{text}" 
+					   left="{searchTextBC.width+searchTextBC.x + 10}"/>
 	
 </s:Group>
