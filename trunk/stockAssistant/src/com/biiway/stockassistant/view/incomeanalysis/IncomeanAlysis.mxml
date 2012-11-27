@@ -5,7 +5,7 @@
 		 initialize="initializeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
 		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
-		 width="1000"
+		 width="100%"
 		 height="100%" 
 		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
 		 xmlns:components1="com.biiway.stockassistant.components.*">
@@ -13,6 +13,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.event.SearchToolsEvent;
+			import com.biiway.stockassistant.util.Const;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -32,6 +33,22 @@
 				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,changeSearchConditionHander,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.SELECTED_STOCK_EVENT,selectedStockHandler,false,0,true);
+			
+				testModel.addEventListener(MouseEvent.CLICK,testModelHandler,false,0,true);
+				saveModel.addEventListener(MouseEvent.CLICK,saveModelHandler,false,0,true);
+			}
+			
+			protected function testModelHandler(event:MouseEvent):void
+			{
+				incomeanalysisLeft.visible  ? incomeanalysisLeft.visible  = false : null;
+				incomeanalysisRight.visible ? incomeanalysisRight.visible = false : null;
+				
+				navigationMenu.dataProvider = getAC();
+			}
+			
+			protected function saveModelHandler(event:MouseEvent):void
+			{
+				
 			}
 			
 			/**
@@ -71,6 +88,15 @@
 				trace(event.datetype + "  " +"  " + event.startdate + "  "+event.enddate);
 			}
 			
+			private function calculatePoint():void
+			{
+				var leftGap:Number = Number(scroller.left) + (Number(kChart.left) - Number(scroller.left))*0.5;
+				incomeanalysisLeft.x = leftGap - incomeanalysisLeft.width*0.5;
+				
+				leftGap = Number(kChart.left) + (kChart.width + Number(kChart.left) - Number(kChart.left)) * 0.5
+				incomeanalysisRight.x = leftGap - incomeanalysisRight.width * 0.5;
+			}
+			
 			private function loadSecondaryMenu(modename:String):void
 			{
 				if(modename == null || modename == ""){
@@ -82,6 +108,13 @@
 				incomeanalysisRight.visible ? incomeanalysisRight.visible = false : null;
 				
 				navigationMenu.dataProvider = getAC();
+			}
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+				calculatePoint();
 			}
 			
 			////////////////测试数据，误删，调试程序使用////////////////
@@ -119,14 +152,14 @@
 
 	<menucomponents:SearchTools id="searchTools" displayColumn="['BOX','names','times']" displayColumnWidth="[37,0,80]" />
 	
-	<s:BitmapImage id="incomeanalysisLeft" visible="true" horizontalCenter="24"
+	<s:BitmapImage id="incomeanalysisLeft" visible="true" 
 				   source="@Embed('assets/image/incomeanalysisLeft.png')" verticalCenter="0"/>
 
-	<s:BitmapImage id="incomeanalysisRight" visible="true" horizontalCenter="250"
+	<s:BitmapImage id="incomeanalysisRight" visible="true"
 				   source="@Embed('assets/image/incomeanalysisRight.png')" verticalCenter="0"/>
 
 	
-	<s:Group id="content" width="100%" height="100%" top="67" visible="true">
+	<s:Group id="content" width="100%" height="100%" top="67" bottom="87" visible="true">
 		
 		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="设定选股条件"/>
 		<s:Label left="420" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
@@ -139,7 +172,7 @@
 		</s:Line>
 		
 		<!--设定选股条件-->
-		<s:Group left="15" height="442" width="385" top="60">
+		<s:Group id="conditionGroup" left="15" height="100%" width="375" top="60">
 			
 			<!--基础数据设置-->
 			<s:Label left="0" top="25" fontSize="14" text="基础数据设置"/>
@@ -147,13 +180,13 @@
 			<s:Label x="93" y="57" text="涨幅"/>
 			<s:Label x="40" y="79" text="序号"/>
 			<s:Label x="88" y="79" text="最低"/>
-			<s:NumericStepper x="76" y="102" width="46" cornerRadius="0" borderColor="0x686868" skinClass="assets.skin.NStepperSkin"/>
-			<s:NumericStepper x="76" y="132" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="76" y="162" width="46" cornerRadius="0" borderColor="0x686868"/>
+			<components1:NStepper x="76" y="102" />
+			<components1:NStepper x="76" y="132" />
+			<components1:NStepper x="76" y="162" />
 			<s:Label x="145" y="79" text="最高"/>
-			<s:NumericStepper x="134" y="102" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="134" y="132" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="134" y="162" width="46" cornerRadius="0" borderColor="0x686868"/>
+			<components1:NStepper x="134" y="102" />
+			<components1:NStepper x="134" y="132" />
+			<components1:NStepper x="134" y="162" />
 			<s:Label x="45" y="109" text="1"/>
 			<s:Label x="45" y="139" text="2"/>
 			<s:Label x="45" y="168" text="3"/>
@@ -162,13 +195,13 @@
 			<s:Label x="256" y="57" text="成交量"/>
 			<s:Label x="209" y="79" text="序号"/>
 			<s:Label x="256" y="79" text="最低"/>
-			<s:NumericStepper x="246" y="102" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="246" y="132" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="246" y="162" width="46" cornerRadius="0" borderColor="0x686868"/>
+			<components1:NStepper x="246" y="102" />
+			<components1:NStepper x="246" y="132" />
+			<components1:NStepper x="246" y="162" />
 			<s:Label x="314" y="79" text="最高"/>
-			<s:NumericStepper x="305" y="102" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="305" y="132" width="46" cornerRadius="0" borderColor="0x686868"/>
-			<s:NumericStepper x="305" y="162" width="46" cornerRadius="0" borderColor="0x686868"/>
+			<components1:NStepper x="305" y="102" />
+			<components1:NStepper x="305" y="132" />
+			<components1:NStepper x="305" y="162" />
 			<s:Label x="215" y="109" text="1"/>
 			<s:Label x="215" y="139" text="2"/>
 			<s:Label x="215" y="168" text="3"/>
@@ -187,27 +220,31 @@
 			<components1:TInput x="70" y="363" />
 			<s:Label x="37" y="406" text="夹角"/>
 			<components1:TInput x="70" y="402" />
+			
+			<!--按钮-->
+			<s:Button id="testModel" x="206" y="436" label="测试收益"/>
+			<s:Button id="saveModel" x="284" y="436" label="保存模型"/>
 		</s:Group>
 		
-		<s:Line left="400" top="61" bottom="0" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:Line left="390" top="61" bottom="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
 			</s:stroke>
 		</s:Line>
 		
 		<!--选股池-->
-		<s:Scroller id="scroller" height="{content.height - 150.5}" width="145"	top="62" left="401">
-			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="145" height="{scroller.height}"/>
+		<s:Scroller id="scroller" height="100%" width="155"	top="62" left="391">
+			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="{scroller.height}"/>
 		</s:Scroller>
 		
-		<s:Line  left="545" top="61" bottom="0" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:Line id="kLine" left="545" top="61" bottom="0" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
 			<s:stroke>
 				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
 			</s:stroke>
 		</s:Line>
 		
 		<!--K线图-->
-		<s:Group>
+		<s:Group top="62" left="546" bottom="87" id="kChart" height="100%" width="100%">
 			 
 		</s:Group>
 		
