@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
@@ -144,4 +144,4 @@
 		
 	</s:Group>
 	
-</s:Group>
+</s:BorderContainer>
