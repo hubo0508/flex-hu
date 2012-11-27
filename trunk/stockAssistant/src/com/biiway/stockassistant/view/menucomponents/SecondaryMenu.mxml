@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  creationComplete="creationCompleteHandler(event)"
+		  gap="0"
+		  width="185"
+		  height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.ExpandGroup;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.graphics.SolidColorStroke;
+			
+			import spark.components.Group;
+			import spark.components.Label;
+			import spark.primitives.BitmapImage;
+			import spark.primitives.Line;
+			
+			private var _datafield:String = "text";
+			
+			private var _dataProvider:ArrayCollection;
+			
+			[Embed('assets/image/rightArrow.png')]
+			public static var rightArrow:Class;
+			
+			[Embed('assets/image/bottomArrow.png')]
+			public static var bottomArrow:Class;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({text:"基本设置"});
+				acc.addItem({text:"充值"});
+				acc.addItem({text:"交易查询"});
+				acc.addItem({text:"我的应用"});
+				
+				_dataProvider = acc;
+				
+				//initMenu();
+			}
+			
+			private function initMenu():void
+			{
+				if(_dataProvider == null || _dataProvider.length == 0)return;
+				
+				for(var i:int=0,num:int=_dataProvider.length; i<num; i++)
+				{
+					var eGroup:ExpandGroup = createItemMenu(i,_dataProvider.getItemAt(i));
+					
+					this.addElement(eGroup);
+				}
+			}
+			
+			private function createItemMenu(i:int, data:Object):ExpandGroup
+			{
+				var group:ExpandGroup = new ExpandGroup();
+				group.data = data;
+				group.height = 40;
+				group.percentWidth = 100;
+				group.id = i.toString();
+				
+				var solidColor:SolidColor = new SolidColor();
+				solidColor.color = 0xFFFFFF;
+				
+				var bgRect:Rect = new Rect();
+				bgRect.percentHeight = 100;
+				bgRect.percentWidth = 100;
+				bgRect.fill = solidColor;
+				
+				var label:Label = new Label();
+				label.left = 0;
+				label.setStyle("color","0xED3434");
+				label.setStyle("fontSize",14);
+				label.text = data[datafield];
+				label.verticalCenter = 0;
+				
+				var bImage:BitmapImage = new BitmapImage();
+				bImage.source = rightArrow;
+				bImage.verticalCenter = 0;
+				bImage.right = 11;
+				
+				var scStorke:SolidColorStroke = new SolidColorStroke();
+				scStorke.weight = 1;
+				scStorke.caps = "square";
+				scStorke.color = 0xD9D9D9;
+				
+				var line:Line = new Line();
+				line.left = 0; 
+				line.right = 0; 
+				line.height = 0; 
+				line.bottom = 0;
+				line.stroke = scStorke;
+				
+				group.addElement(bgRect);
+				group.addElement(label);
+				group.addElement(bImage);
+				group.addElement(line);
+				
+				return group;
+			}
+			
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider = value;
+			}
+
+			public function get datafield():String
+			{
+				return _datafield;
+			}
+
+			public function set datafield(value:String):void
+			{
+				_datafield = value;
+			}
+			
+			
+		]]>
+	</fx:Script>
+
+	
+	<s:Group height="40" width="100%">
+		<s:Group>
+			
+		</s:Group>
+		<s:Rect  width="100%" height="100%" >
+			<s:fill>
+				<s:SolidColor color="0x868686" />
+			</s:fill>
+		</s:Rect>
+		<s:Label left="0" color="0xED3434" fontSize="14" text="基本设置" verticalCenter="0"/>
+		<s:BitmapImage right="11" source="@Embed('assets/image/rightArrow.png')" verticalCenter="0"/>
+		<s:Line left="0" right="0" height="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	
+	<s:Group height="40" width="100%" top="40">
+		<s:Label left="0" color="0xED3434" fontSize="14" text="充值" verticalCenter="0"/>
+		<s:BitmapImage right="11" source="@Embed('assets/image/rightArrow.png')" verticalCenter="0"/>
+		<s:Line left="0" right="0" height="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	
+	<!--<s:Group height="40" width="100%" top="80">
+		<s:Label left="0" color="0xED3434" fontSize="14" text="交易查询" verticalCenter="0"/>
+		<s:BitmapImage right="11" source="@Embed('assets/image/rightArrow.png')" verticalCenter="0"/>
+		<s:Line left="0" right="0" height="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	
+	<s:Group height="40" width="100%" top="120">
+		<s:Label left="0" color="0xED3434" fontSize="14" text="我的应用" verticalCenter="0"/>
+		<s:BitmapImage right="11" source="@Embed('assets/image/rightArrow.png')" verticalCenter="0"/>
+		<s:Line left="0" right="0" height="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:Group>
+	-->
+</s:VGroup>

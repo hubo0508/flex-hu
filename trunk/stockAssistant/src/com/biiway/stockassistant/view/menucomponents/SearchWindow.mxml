@@ -5,7 +5,8 @@
 					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  xmlns:datagrid="com.biiway.stockassistant.components.datagrid.*"
 					  xmlns:components="com.biiway.stockassistant.components.*"
-					  width="335" backgroundColor="#FFFFFF"
+					  width="335"
+					  backgroundColor="#FFFFFF"
 					  creationComplete="creationCompleteHandler(event)"
 					  initialize="initializeHandler(event)">
 
@@ -33,6 +34,8 @@
 			
 			public static const SUCCESSEVENT:String = "successEvent";
 			
+			public static const CLOSEEVENT:String = "closeEvent";
+			
 			private var _displayColumn:Array;
 			
 			private var _displayColumnWidth:Array;
@@ -56,10 +59,17 @@
 
 				startDate.addEventListener(CalendarLayoutChangeEvent.CHANGE,startDateHandler,false,0,true);
 				endDate.addEventListener(CalendarLayoutChangeEvent.CHANGE,endDateHandler,false,0,true);
+				
+				close.addEventListener(MouseEvent.CLICK,closeHander,false,0,true);
 			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
+			}
+			
+			protected function closeHander(event:MouseEvent):void
+			{
+				dispatchEvent(new DynamicEvent(SUCCESSEVENT));
 			}
 			
 			protected function startDateHandler(event:CalendarLayoutChangeEvent):void
@@ -278,7 +288,7 @@
 							 strength='1' inner='false' hideObject='false'/>
 	</s:filters>
 	
-	<s:Button  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"   width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
+	<s:Button id="close"  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"   width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 
 	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="55">
 		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="{displayColumn}" displayColumnWidth="{displayColumnWidth}" width="100%"/>
@@ -302,7 +312,7 @@
 		<mx:DateField id="endDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 	</s:HGroup>
-	
-	<s:Button id="success" label="确认" right="10" bottom="10" width="72" height="29" skinClass="assets.skin.SearchBtnSkin"/>
+
+	<components:Button id="success" fSize="12" text="确认" right="10" bottom="10" width="72" height="29" />
 
 </s:SkinnableContainer>

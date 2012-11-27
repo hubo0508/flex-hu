@@ -4,6 +4,7 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:view="com.biiway.stockassistant.view.*"
 					   initialize="initializeHandler(event)"
+					   backgroundColor="0xFF0000"
 					   backgroundAlpha="0" 
 					   showStatusBar="false"
 					   width="395"
@@ -23,8 +24,14 @@
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				windowCentered();
-				
 				//alwaysInFront = true;
+				
+//				this.nativeWindow.startResize("L");
+//				this.nativeWindow.startResize("R");
+//				this.nativeWindow.startResize("T");
+//				this.nativeWindow.startResize("B");
+//				this.nativeWindow.startResize("TL");
+//				this.nativeWindow.startResize("RB");
 			}
 			
 			/**
@@ -53,13 +60,10 @@
 				lastScale[0] == w ? null : lastScale[0] = w;
 				lastScale[1] == h ? null : lastScale[1] = h;
 				
-				updateChildrenScale(w,h);
-			}
-			
-			private function updateChildrenScale(w:Number, h:Number):void
-			{
 				appmain.width  == w ? null : appmain.width  = w;
 				appmain.height == h ? null : appmain.height = h;
+				
+				trace("app h=" + h);
 			}
 			
 		]]>
