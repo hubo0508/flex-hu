@@ -6,6 +6,18 @@ package com.biiway.stockassistant.util
 		{
 		}
 		
+		//网上银行
+		[Embed(source="assets/image/chongzhi.png")]
+		public static const chongzhi:Class;
+		
+		//刷卡
+		[Embed(source="assets/image/shuka.png")]
+		public static const shuaka:Class;
+		
+		//手机
+		[Embed(source="assets/image/shouji.png")]
+		public static const shouji:Class;
+		
 		[Embed(source="assets/image/max.png")]
 		public static const MAX:Class;
 		

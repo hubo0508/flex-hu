@@ -4,14 +4,21 @@
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
 		  creationComplete="creationCompleteHandler(event)"
 		  gap="0"
-		  width="185"
+		  width="190"
 		  height="100%">
+	
+	<fx:Metadata>
+		[Event(name="menuEvent",type="com.biiway.stockassistant.event.MenuEvent")]
+	</fx:Metadata>
 	
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.ExpandGroup;
+			import com.biiway.stockassistant.core.TweenLite;
+			import com.biiway.stockassistant.event.MenuEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.containers.Canvas;
 			import mx.events.FlexEvent;
 			import mx.graphics.SolidColor;
 			import mx.graphics.SolidColorStroke;
@@ -32,15 +39,13 @@
 			[Embed('assets/image/bottomArrow.png')]
 			public static var bottomArrow:Class;
 			
+			private var creationCompleteMark:Boolean = false;
+			
+			private var selectedSubmenuMark:Boolean = false;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({text:"基本设置",submenu:[{text:"测试",selected:true},{text:"测试2",selected:false}]});
-				acc.addItem({text:"充值"});
-				acc.addItem({text:"交易查询"});
-				acc.addItem({text:"我的应用"});
-				
-				_dataProvider = acc;
+				creationCompleteMark = true;
 				
 				initMenu();
 			}
@@ -51,36 +56,164 @@
 				
 				for(var i:int=0,num:int=_dataProvider.length; i<num; i++)
 				{
-					var eGroup:Group = createItemMenu(i,_dataProvider.getItemAt(i));
+					var eCanvas:Canvas = createItemMenu(i,_dataProvider.getItemAt(i));
 					
-					this.addElement(eGroup);
+					this.addElement(eCanvas);
 				}
 				
 				this.addElement(createRect(0xFFFFFF,2,0));
 			}
 			
 			
-			private function createItemMenu(i:int, data:Object):Group
+			private function createItemMenu(i:int, data:Object):Canvas
 			{
-				//<s:Group minHeight="40" width="100%">
-				var group:Group = new Group();
-				group.id = i.toString();
-				group.minHeight = 40;
-				group.percentWidth = 100;
-				group.useHandCursor = true;
-				group.buttonMode = true;
+				//<mx:Canvas borderVisible="false" minHeight="40" width="100%" height="50" verticalScrollPolicy="off">
+				var canvas:Canvas = new Canvas();
+				canvas.setStyle("borderVisible",false);
+				canvas.minHeight = 40;
+				canvas.percentWidth = 100;
+				canvas.useHandCursor = true;
+				canvas.buttonMode = true;
+				canvas.verticalScrollPolicy = "off";
 				
-				var submenuGroup:Group = createSubmenu(data);
+				var submenuGroup:Group = createSubmenu(data,i);
 				var onemenuGroup:Group = createOneMenu(data);
+				onemenuGroup.addEventListener(MouseEvent.ROLL_OUT,onemenuHander,false,0,true);
+				onemenuGroup.addEventListener(MouseEvent.ROLL_OVER,onemenuHander,false,0,true);
+				onemenuGroup.addEventListener(MouseEvent.CLICK,onemenuHander,false,0,true);
 				
-				if(submenuGroup){
-					group.height = 40;
+				if(submenuGroup)
+				{
+					canvas.height = 40;
+					expandDefaultMenu(canvas,data);
 				}
 				
-				submenuGroup ? group.addElement(submenuGroup) : null;
-				onemenuGroup ? group.addElement(onemenuGroup) : null;
+				submenuGroup ? canvas.addElement(submenuGroup) : null;
+				onemenuGroup ? canvas.addElement(onemenuGroup) : null;
 					
-				return group;
+				return canvas;
+			}
+			
+			private function expandDefaultMenu(parentMenu:Canvas, data:Object):void
+			{
+				if(!selectedSubmenuMark) return;
+				
+				var submenuData:Array = data["submenu"] as Array;
+				parentMenu.height = submenuData.length * 27 + 40;
+				
+				selectedSubmenuMark = false;
+			}
+			
+			protected function submenuHander(event:MouseEvent):void
+			{
+				var group:ExpandGroup = event.currentTarget as ExpandGroup;
+				var label:Label = group.getElementAt(0) as Label;
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						var pGroup:Group = group.parent as Group;
+						
+						var rect:Rect = pGroup.getElementAt(0) as Rect;
+						rect.visible ? null : rect.visible = true;
+						
+						clearSubmenuState(rect.id);
+						
+						new TweenLite(rect,.2,{y:group.y});
+						
+						this.dispatchMenuEvent(group.data,label.text);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						if(label.getStyle("fontWeight") != "normal")
+						{
+							label.setStyle("fontWeight","normal");
+						}
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						if(label.getStyle("fontWeight") != "bold")
+						{
+							label.setStyle("fontWeight","bold");
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function clearSubmenuState(id:String):void
+			{
+				for(var i:int=0,num:int=numElements; i<num; i++)
+				{
+					var canvas:Canvas = getElementAt(i) as Canvas;
+					if(canvas)
+					{
+						var rect:Rect = (canvas.getElementAt(0) as Group).getElementAt(0) as Rect;
+						if(rect.id != id && rect.visible)
+						{
+							rect.visible = false;
+						}
+					}
+				}
+			}
+			
+			protected function onemenuHander(event:MouseEvent):void
+			{
+				var group:Group = event.currentTarget as Group;
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						var pCanvas:Canvas = group.parent as Canvas;
+						var sGroup:Group = getSubmenu(pCanvas);
+						if(sGroup == null) return;
+						pCanvas.height == 40 ? showSubmenu(pCanvas,sGroup.height) : hideSubmenu(pCanvas);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						var label:Label = group.getElementAt(1) as Label;
+						label.setStyle("color",0xED3434);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						var label2:Label = group.getElementAt(1) as Label;
+						label2.setStyle("color",0x0078B6);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			
+			private function showSubmenu(target:Canvas,submenuHeight:Number):void
+			{
+				showOrHideArrow(target,bottomArrow);
+				new TweenLite(target,.3,{height:(submenuHeight+39)})
+			}
+			
+			private function hideSubmenu(target:Canvas):void
+			{
+				showOrHideArrow(target,rightArrow);
+				new TweenLite(target,.3,{height:40});
+			}
+			
+			private function showOrHideArrow(target:Canvas, icon:Class):void
+			{
+				var onemenu:Group = target.getElementAt(1) as Group;
+				var bImage:BitmapImage = onemenu.getElementAt(2) as BitmapImage;
+				bImage.source = null;
+				bImage.source = icon;
+			}
+			
+			private function getSubmenu(canvas:Canvas):Group
+			{
+				var s:Group = canvas.getElementAt(0) as Group;
+				if(s.name == "submenu")
+				{
+					return s;
+				}
+				return null;
 			}
 			
 			private function createOneMenu(data:Object):Group
@@ -102,6 +235,7 @@
 				label.left = 0; 
 				label.setStyle("color",0xED3434);
 				//label.setStyle("color",0x000000);
+				//label.setStyle("color",0x0078B6);
 				label.setStyle("fontSize",14);
 				label.text = data[datafield];
 				label.verticalCenter = -1;
@@ -135,7 +269,7 @@
 				return group;
 			}
 			
-			private function createSubmenu(data:Object):Group
+			private function createSubmenu(data:Object, i:int):Group
 			{
 				// Create submenu
 				//submenu:[{text:"测试",selected:true},{text:"测试2",selected:true}]
@@ -148,7 +282,8 @@
 					submenuGroup.x = 0 ;
 					submenuGroup.y = 40 ;
 					submenuGroup.percentWidth = 100;
-					submenuGroup.height = 27;
+					submenuGroup.minHeight = 27;
+					submenuGroup.name = "submenu";
 					
 					//<s:Rect  width="100%" height="27"  top="0">
 					//	<s:fill>
@@ -157,6 +292,8 @@
 					//</s:Rect>
 					var submenuRect:Rect = createRect(0xF3F3F3, 27, 0);
 					submenuRect.y= 0;
+					submenuRect.visible = false;
+					submenuRect.id = i.toString();
 					
 					submenuGroup.addElement(submenuRect);
 					for(var i:int=0,num:int=submenuData.length; i<num; i++)
@@ -164,7 +301,12 @@
 						var kdata:Object = submenuData[i] as Object;
 						if(kdata["selected"] as Boolean == true )
 						{
-							///////////////
+							selectedSubmenuMark = true;
+							
+							submenuRect.visible = true;
+							submenuRect.y = i * 27;
+							
+							dispatchMenuEvent(data,kdata[datafield]);
 						}
 						
 						//<s:Group height="27" width="100%">
@@ -177,16 +319,29 @@
 						//<s:Label left="15" verticalCenter="0" text="测试"/>
 						var subLabel:Label = new Label();
 						subLabel.left = 15;
-						subLabel.verticalCenter = 0;
+						subLabel.verticalCenter = -1;
 						subLabel.text = kdata[datafield];
 
 						subgroup.addElement(subLabel);
+						
+						subgroup.addEventListener(MouseEvent.ROLL_OUT,submenuHander,false,0,true);
+						subgroup.addEventListener(MouseEvent.ROLL_OVER,submenuHander,false,0,true);
+						subgroup.addEventListener(MouseEvent.CLICK,submenuHander,false,0,true);
 						
 						submenuGroup.addElement(subgroup);
 					}
 				}
 				
 				return submenuGroup;
+			}
+
+			private function dispatchMenuEvent(data:Object, text:String):void
+			{
+				var menuEvent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
+				menuEvent.data = data;
+				menuEvent.text = text;
+				
+				this.dispatchEvent(menuEvent);
 			}
 			
 			private function createRect(color:uint, height:Number, y:Number):Rect
@@ -207,6 +362,10 @@
 			public function set dataProvider(value:ArrayCollection):void
 			{
 				_dataProvider = value;
+				if(creationCompleteMark)
+				{
+					initMenu();
+				}
 			}
 
 			public function get datafield():String
@@ -219,42 +378,12 @@
 				_datafield = value;
 			}
 			
-			
 		]]>
-	</fx:Script>
-	<!--
-	<s:Group minHeight="40" width="100%" height="40">
-		<s:Group x="0" y="40" width="100%" >
-			<s:Rect  width="100%" height="27"  top="0">
-				<s:fill>
-					<s:SolidColor color="0xF3F3F3" />
-				</s:fill>
-			</s:Rect>
-			<s:Group height="27" width="100%">
-				<s:Label left="15" verticalCenter="0" text="测试"/>
-			</s:Group>
-			<s:Group height="27" width="100%">
-				<s:Label left="15" verticalCenter="0" text="测试"/>
-			</s:Group>
-		</s:Group>
-		<s:Group height="40" width="100%">
-			<s:Rect  width="100%" height="100%" >
-				<s:fill>
-					<s:SolidColor color="0xFFFFFF" />
-				</s:fill>
-			</s:Rect>
-			<s:Label left="0" color="0xED3434" fontSize="14" text="基本设置" verticalCenter="0"/>
-			<s:BitmapImage right="11" source="@Embed('assets/image/rightArrow.png')" verticalCenter="0"/>
-			<s:Line left="0" right="0" height="0" bottom="1">
-				<s:stroke>
-					<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-				</s:stroke>
-			</s:Line>
-		</s:Group>
-	</s:Group>
+	</fx:Script> 
 	
-	<s:Group minHeight="40" width="100%" height="40">
-		<s:Group x="0" y="40" width="100%" >
+	<!--
+	<mx:Canvas borderVisible="false" minHeight="40" width="100%" height="50" verticalScrollPolicy="off">
+		<s:BorderContainer x="0" y="40" width="100%"  height="40">
 			<s:Rect  width="100%" height="27"  top="0">
 				<s:fill>
 					<s:SolidColor color="0xF3F3F3" />
@@ -263,10 +392,7 @@
 			<s:Group height="27" width="100%">
 				<s:Label left="15" verticalCenter="0" text="测试"/>
 			</s:Group>
-			<s:Group height="27" width="100%">
-				<s:Label left="15" verticalCenter="0" text="测试"/>
-			</s:Group>
-		</s:Group>
+		</s:BorderContainer>
 		<s:Group height="40" width="100%">
 			<s:Rect  width="100%" height="100%" >
 				<s:fill>
@@ -281,6 +407,7 @@
 				</s:stroke>
 			</s:Line>
 		</s:Group>
-	</s:Group>
+	</mx:Canvas>
 	-->
+
 </s:VGroup>

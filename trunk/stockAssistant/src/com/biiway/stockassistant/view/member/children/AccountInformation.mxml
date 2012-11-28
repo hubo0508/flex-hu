@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.biiway.stockassistant.components.*"
+		 width="100%"
+		 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			protected function clickPhoneHandler(event:MouseEvent):void
+			{
+				var label:Label = event.currentTarget as Label;
+				if(label.text == "修改")
+				{
+					label.text = "保存";
+					phone.editable = true;
+					phone.setStyle("borderVisible",true);
+					return;
+				}
+				
+				if(label.text == "保存")
+				{
+					label.text = "修改";
+					phone.editable = false;
+					phone.setStyle("borderVisible",false);
+					return;
+				}
+			}
+			
+			protected function clickMailHandler(event:MouseEvent):void
+			{
+				var label:Label = event.currentTarget as Label;
+				if(label.text == "修改")
+				{
+					label.text = "保存";
+					mail.editable = true;
+					mail.setStyle("borderVisible",true);
+					return;
+				}
+				
+				if(label.text == "保存")
+				{
+					label.text = "修改";
+					mail.editable = false;
+					mail.setStyle("borderVisible",false);
+					return;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<s:Label x="51" y="20" fontWeight="bold" text="个人资料" fontSize="13"/>
+	<s:Line left="24" top="43" width="390" height="0">
+		<s:stroke> 
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Label fontSize="13" x="50" y="60" text="真实姓名："/>
+	<components:TInput x="120" y="57" width="208" borderVisible="false" editable="false"
+					   fontSize="13" text="胡波"/>
+	
+	<s:Label fontSize="13" x="50" y="90" text="股乐账号："/>
+	<components:TInput x="120" y="86" width="208" borderVisible="false" editable="false"
+					   fontSize="13" text="15828019062"/>
+	
+	<s:Label fontSize="13" x="50" y="120" text="手机号码："/>
+	<components:TInput id="phone" editable="false" x="120" y="115" width="208" borderVisible="false" fontSize="13"
+					   text="15828019062"/>
+	<s:Label click="clickPhoneHandler(event)" text="修改" x="340" y="120" fontSize="13" color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	
+	<s:Label fontSize="13" x="50" y="150" text="电子邮箱："/>
+	<components:TInput id="mail" editable="false" borderVisible="false" fontSize="13" x="120" y="145" width="208" text="hubo.0508@gmail.com"/>
+	<s:Label click="clickMailHandler(event)" text="修改" x="340" y="150" fontSize="13" color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	
+	<s:Label fontSize="13" x="50" y="180" text="注册时间："/>
+	<components:TInput x="120" y="176" width="208" borderVisible="false" editable="false"
+					   fontSize="13" text="2012年12月12日 17:46"/>
+	
+	<s:Label y="20" left="473" fontWeight="bold" text="账户保护" fontSize="13"/>
+	<s:Line left="444" right="24" top="43" height="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+	<s:Label x="473" y="60" fontSize="13" text="登录密码：" />
+	<s:Label x="553" y="60" fontSize="13" text="已设置"  color="0x999999"/>
+	<s:Label x="553" y="87" fontSize="13" text="修改登录密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Line x="640.5" top="88.5" height="10" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Label x="653" y="87" fontSize="13" text="找回登录密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Line left="444" right="27.5" top="116.5" height="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+	<s:Label x="473" y="135" fontSize="13" text="支付密码：" />
+	<s:Label x="553" y="135" fontSize="13" text="已设置"  color="0x999999"/>
+	<s:Label x="553" y="162" fontSize="13" text="修改支付密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Line x="640.5" top="163.5" height="10" xFrom="0" xTo="0" yFrom="0" yTo="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Label x="653" y="162" fontSize="13" text="找回支付密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Line left="444" right="27.5" top="189" height="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+	<s:Label x="473" y="207" fontSize="13" text="密码保护：" />
+	<s:Label x="553" y="207" fontSize="13" text="已设置"  color="0x999999"/>
+	<s:Label x="553" y="234" fontSize="13" text="修改密码保护"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Line left="444" right="28" top="263" height="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	
+</s:Group>

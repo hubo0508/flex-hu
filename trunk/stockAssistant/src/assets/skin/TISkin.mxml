@@ -98,7 +98,7 @@
             if (getStyle("borderVisible") == true)
             {
                 border.visible = true;
-                //shadow.visible = true;
+                shadow.visible = true;
                 background.left = background.top = background.right = background.bottom = 1;
                 textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 1;
                 if (promptDisplay)
@@ -110,7 +110,7 @@
             else
             {
                 border.visible = false;
-                //shadow.visible = false;
+                shadow.visible = false;
                 background.left = background.top = background.right = background.bottom = 0;
                 textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 0;
                 if (promptDisplay)
