@@ -11,7 +11,7 @@
 					   maxWidth="395"
 					   maxHeight="295"
 					   height="295">
-	 
+	  
 	<fx:Style source="assets/css/css.css"/>
 	
 	<fx:Script>
