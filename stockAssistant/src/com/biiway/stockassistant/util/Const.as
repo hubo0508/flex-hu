@@ -6,6 +6,22 @@ package com.biiway.stockassistant.util
 		{
 		}
 		
+		//右箭头
+		[Embed('assets/image/rightArrow.png')]
+		public static const rightArrow:Class;
+		
+		//下箭头
+		[Embed('assets/image/bottomArrow.png')]
+		public static const bottomArrow:Class;
+		
+		//下箭头 蓝色
+		[Embed('assets/image/bottomArrow_blue.png')]
+		public static const bottomArrow_blue:Class;
+		
+		//上箭头 蓝色
+		[Embed('assets/image/topArrow_blue.png')]
+		public static const topArrow_blue:Class;
+		
 		//网上银行
 		[Embed(source="assets/image/chongzhi.png")]
 		public static const chongzhi:Class;

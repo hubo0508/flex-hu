@@ -72,3 +72,13 @@ global
 	font-size: 12;
 	vertical-align: bottom;
 }
+
+.dataGrid{
+	headerBackgroundSkin:ClassReference("assets.skin.DGHeaderBackgroundSkin");
+	verticalGridLineColor: #919191;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #919191;
+	textAlign:center;
+	borderColor: #919191;
+	alternatingItemColors: #ffffff, #ffffff;
+}

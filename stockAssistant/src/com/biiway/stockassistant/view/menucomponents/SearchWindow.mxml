@@ -5,10 +5,10 @@
 					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
 					  xmlns:datagrid="com.biiway.stockassistant.components.datagrid.*"
 					  xmlns:components="com.biiway.stockassistant.components.*"
-					  width="335"
-					  backgroundColor="#FFFFFF"
 					  creationComplete="creationCompleteHandler(event)"
-					  initialize="initializeHandler(event)">
+					  initialize="initializeHandler(event)"
+					  width="335"
+					  backgroundColor="#FFFFFF">
 
 	<fx:Script>
 		<![CDATA[

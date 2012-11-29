@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.biiway.stockassistant.view.member.components.*"
+		 initialize="initializeHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			
+			import spark.components.DataGroup;
+			
+			private var _text:String;
+			
+			private var _selectButtonHeight:Number = 22;
+			
+			private var _selectButtonWidth:Number = 96;
+			
+			private var _dataProvider:ArrayList;
+			
+			private var _labelField:String = "type";
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+
+			private function initEvent():void
+			{
+				selectButton.addEventListener(MouseEvent.CLICK,selectButtonHandler,false,0,true);
+			}
+			
+			protected function selectButtonHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+				if(event.target is DataGroup) return;
+				
+//				var dye:DynamicEvent = new DynamicEvent(TIMETYPE);
+//				dye.data = list.selectedItem;
+//				
+//				this.dispatchEvent(dye);
+			}	
+			
+			[Bindable(event="selectButtonHeightChange")]
+			public function get selectButtonHeight():Number
+			{
+				return _selectButtonHeight;
+			}
+
+			public function set selectButtonHeight(value:Number):void
+			{
+				if( _selectButtonHeight !== value)
+				{
+					_selectButtonHeight = value;
+					dispatchEvent(new Event("selectButtonHeightChange"));
+				}
+			}
+
+			[Bindable(event="selectButtonWidthChange")]
+			public function get selectButtonWidth():Number
+			{
+				return _selectButtonWidth;
+			}
+
+			public function set selectButtonWidth(value:Number):void
+			{
+				if( _selectButtonWidth !== value)
+				{
+					_selectButtonWidth = value;
+					dispatchEvent(new Event("selectButtonWidthChange"));
+				}
+			}
+
+			[Bindable(event="textChange")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if( _text !== value)
+				{
+					_text = value;
+					dispatchEvent(new Event("textChange"));
+				}
+			}
+
+			[Bindable(event="dataProviderChange")]
+			public function get dataProvider():ArrayList
+			{
+				return _dataProvider;
+			}
+
+			public function set dataProvider(value:ArrayList):void
+			{
+				if( _dataProvider !== value)
+				{
+					_dataProvider = value;
+					dispatchEvent(new Event("dataProviderChange"));
+				}
+			}
+
+			[Bindable(event="labelFieldChange")]
+			public function get labelField():String
+			{
+				return _labelField;
+			}
+
+			public function set labelField(value:String):void
+			{
+				if( _labelField !== value)
+				{
+					_labelField = value;
+					dispatchEvent(new Event("labelFieldChange"));
+				}
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<components:SelectButton id="selectButton" left="0" top="0" width="{selectButtonWidth}"
+							 height="{selectButtonHeight}" text="{text}"/>
+	<s:Group id="content" top="{selectButtonHeight}" width="100%" height="100%">
+		<s:List id="list" dataProvider="{dataProvider}" click="clickHandler(event)" 
+				labelField="{labelField}" 
+				borderVisible="false" width="100%" height="100%">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer>
+						<s:Label id="nameLabel" color="#444444" fontSize="12" text="{data.type}" left="15" top="7" bottom="7"/>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+	</s:Group>
+</s:Group>
