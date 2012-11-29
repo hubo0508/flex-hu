@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Line xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		height="0"
+		xFrom="0"
+		xTo="0"
+		yFrom="0"
+		yTo="0">
+	
+	<s:stroke>
+		<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+	</s:stroke>
+	
+</s:Line>
