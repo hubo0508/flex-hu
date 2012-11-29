@@ -21,7 +21,8 @@
 	<s:BitmapImage x="50" y="68" source="{Const.chongzhi}"/>
 	<s:Label x="101" y="77" fontWeight="bold" text="网上银行" fontSize="13"/>
 	<s:Label x="171" y="77" fontWeight="normal" text="支持全国49个银行，银行卡需要开通网上银行功能" fontSize="13" color="0x999999"/>
-	<components:Button y="69" right="50" width="72" fSize="14" text="支付"/>
+	<s:Button y="69" right="50" width="72" height="28" label="支付" fontSize="14"
+			  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Label x="51" y="130" fontWeight="normal" text="刷卡充值" fontSize="13"/>
 	<s:Line left="29.5" right="29.5" top="158.5" height="0">
@@ -32,7 +33,8 @@
 	<s:BitmapImage x="50" y="178" source="{Const.shuaka}"/>
 	<s:Label x="101" y="187" fontWeight="bold" text="刷卡充值" fontSize="13"/>
 	<s:Label x="171" y="187" fontWeight="normal" text="会员充值" fontSize="13" color="0x999999"/>
-	<components:Button y="179" right="50" width="72" fSize="14" text="支付"/>
+	<s:Button y="179" right="50" width="72" height="28" label="支付" fontSize="14"
+			  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Label x="51" y="240" fontWeight="normal" text="线下充值" fontSize="13"/>
 	<s:Line left="35.5" right="35.5" top="264.5" height="0">
@@ -43,6 +45,7 @@
 	<s:BitmapImage x="50" y="288" source="{Const.shouji}"/>
 	<s:Label x="101" y="297" fontWeight="bold" text="手机卡充值" fontSize="13"/>
 	<s:Label x="171" y="297" fontWeight="normal" text="就近购买手机充值卡充值" fontSize="13" color="0x999999"/>
-	<components:Button y="289" right="50" width="72" fSize="14" text="支付"/>
+	<s:Button y="289" right="50" width="72" height="28" label="支付" fontSize="14"
+			  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
 
 </s:Group>

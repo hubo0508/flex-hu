@@ -228,10 +228,15 @@
 			<s:Label x="37" y="406" text="夹角"/>
 			<components1:TInput x="70" y="402" />
 			
-			<!--按钮-->
+			<!--按钮
 			<components1:Button id="testModel" fSize="12" x="206" y="436" text="测试收益" width="72" />
 			<components1:Button id="saveModel" fSize="12" x="284" y="436" text="保存模型" width="72" />
-
+			-->
+			
+			<s:Button id="testModel" x="160" y="436" width="90" height="28" label="测试收益" fontSize="14"
+					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+			<s:Button id="saveModel" x="266" y="436" width="90" height="28" label="保存模型" fontSize="14"
+					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
 		</s:Group>
 		
 		<s:Line left="390" top="61" bottom="2" xFrom="0" xTo="0" yFrom="0" yTo="0">

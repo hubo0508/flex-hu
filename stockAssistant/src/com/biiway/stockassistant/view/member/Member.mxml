@@ -14,6 +14,7 @@
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.view.member.children.AccountInformation;
+			import com.biiway.stockassistant.view.member.children.IncomeAndExpenditureDetails;
 			import com.biiway.stockassistant.view.member.children.MemberRecharge;
 			import com.biiway.stockassistant.view.member.children.RechargeQuery;
 			
@@ -39,7 +40,7 @@
 				var acc:ArrayCollection = new ArrayCollection();
 				acc.addItem({text:"基本设置",submenu:[{text:"账户资料",selected:false}]});
 				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:false}]});
-				acc.addItem({text:"交易查询",submenu:[{text:"交易管理"},{text:"收支明细"},{text:"充值记录",selected:true}]});
+				acc.addItem({text:"交易查询",submenu:[{text:"收支明细"},{text:"充值记录",selected:true}]});
 				//acc.addItem({text:"我的应用"});
 				
 				return acc;
@@ -65,6 +66,7 @@
 					
 					case "收支明细" :
 						content.removeAllElements();
+						content.addElement(new IncomeAndExpenditureDetails());
 						break;
 					
 					case "充值记录" :

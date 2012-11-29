@@ -2,12 +2,82 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:components="com.biiway.stockassistant.components.*"
+		 xmlns:components="com.biiway.stockassistant.components.*" 
+		 initialize="initializeHandler(event)"
 		 width="100%"
 		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.core.TweenLite;
+			
+			import mx.events.FlexEvent;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				modifyPassword.addEventListener(MouseEvent.CLICK,modifyPasswordHandler,false,0,true);
+				modifyPaymentPassword.addEventListener(MouseEvent.CLICK,modifyPaymentPasswordHander,false,0,true);
+				passwordProtection.addEventListener(MouseEvent.CLICK,passwordProtectionHandler,false,0,true);
+			}
+			
+			protected function passwordProtectionHandler(event:MouseEvent):void
+			{
+				var modifyPassword:AccountInfomation_PasswordProtection = new AccountInfomation_PasswordProtection();
+				modifyPassword.x = 0;
+				modifyPassword.y = 0;
+				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
+				
+				this.addElement(modifyPassword);
+			}
+			
+			protected function modifyPasswordHandler(event:MouseEvent):void
+			{
+				var modifyPassword:AccountInformation_ChangePassword = new AccountInformation_ChangePassword();
+				modifyPassword.x = 0;
+				modifyPassword.y = 0;
+				modifyPassword.addEventListener(AccountInformation_ChangePassword.CANCEL,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInformation_ChangePassword.CONFFIRM,closeHandler,false,0,true);
+				
+				//this.addElementAt(modifyPassword,0);
+				this.addElement(modifyPassword);
+
+				//new TweenLite(modifyPassword,.5,{backgroundAlpha:0});
+			}
+			
+			protected function modifyPaymentPasswordHander(event:MouseEvent):void
+			{
+				var modifyPassword:AccountInfomation_ModifyPaymentPassword = new AccountInfomation_ModifyPaymentPassword();
+				modifyPassword.x = 0;
+				modifyPassword.y = 0;
+				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
+				
+				this.addElement(modifyPassword);
+			}
+			
+			protected function closeHandler(event:Event):void
+			{
+				switch(event.type)
+				{
+					case AccountInformation_ChangePassword.CANCEL :
+						removeElementAt(numElements-1);
+						break;
+					
+					case AccountInformation_ChangePassword.CONFFIRM :
+						removeElementAt(numElements-1);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
 			protected function clickPhoneHandler(event:MouseEvent):void
 			{
 				var label:Label = event.currentTarget as Label;
@@ -47,6 +117,8 @@
 					return;
 				}
 			}
+			
+		
 			
 		]]>
 	</fx:Script>
@@ -88,7 +160,7 @@
 	
 	<s:Label x="473" y="60" fontSize="13" text="登录密码：" />
 	<s:Label x="553" y="60" fontSize="13" text="已设置"  color="0x999999"/>
-	<s:Label x="553" y="87" fontSize="13" text="修改登录密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Label id="modifyPassword" x="553" y="87" fontSize="13" text="修改登录密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
 	<s:Line x="640.5" top="88.5" height="10" xFrom="0" xTo="0" yFrom="0" yTo="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
@@ -103,7 +175,7 @@
 	
 	<s:Label x="473" y="135" fontSize="13" text="支付密码：" />
 	<s:Label x="553" y="135" fontSize="13" text="已设置"  color="0x999999"/>
-	<s:Label x="553" y="162" fontSize="13" text="修改支付密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Label id="modifyPaymentPassword" x="553" y="162" fontSize="13" text="修改支付密码"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
 	<s:Line x="640.5" top="163.5" height="10" xFrom="0" xTo="0" yFrom="0" yTo="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
@@ -118,7 +190,7 @@
 	
 	<s:Label x="473" y="207" fontSize="13" text="密码保护：" />
 	<s:Label x="553" y="207" fontSize="13" text="已设置"  color="0x999999"/>
-	<s:Label x="553" y="234" fontSize="13" text="修改密码保护"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
+	<s:Label id="passwordProtection" x="553" y="234" fontSize="13" text="修改密码保护"  color="0x0078B6" useHandCursor="true" buttonMode="true"/>
 	<s:Line left="444" right="28" top="263" height="0">
 		<s:stroke>
 			<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
