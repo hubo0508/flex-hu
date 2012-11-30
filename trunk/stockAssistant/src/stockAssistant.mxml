@@ -2,10 +2,11 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
-					   xmlns:view="com.biiway.stockassistant.view.*"
+					   xmlns:login="com.biiway.stockassistant.view.login.*"
 					   initialize="initializeHandler(event)"
+					   xmlns:components="com.biiway.stockassistant.components.*"
 					   backgroundColor="0xFF0000"
-					   backgroundAlpha="0" 
+					   backgroundAlpha="0"
 					   showStatusBar="false"
 					   width="395"
 					   maxWidth="395"
@@ -16,10 +17,17 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.event.LoginEvent;
+			import com.biiway.stockassistant.view.AppMain;
+			import com.biiway.stockassistant.view.login.Login;
+			import com.biiway.stockassistant.view.navigation.Navigation;
+			
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
 			
 			private var lastScale:Array = [0,0];
+			
+			private var login:Login;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -35,7 +43,110 @@
 			}
 			
 			/**
-			 * 重计计算坐标
+			 * 点击“登录”按钮触发。
+			 * 
+			 * 1、消息提示参见：Login.message()；
+			 * 2、在登录时，需要从数据库中判断用户名与密码是否正确，应该调用<code>Login.message("正在登录，请稍后！",true)</code>函数进行友好提示。
+			 * 3、在demo中，未实现登录友好提示功能；
+			 * 4、登录友好提示未做效果，只是简单的文字提示。
+			 * 
+			 * @param LoginEvent.username 登录用户名
+			 * @param LoginEvent.password 登录密码
+			 * 
+			 * @see com.biiway.stockassistant.view.login.Login.message()
+			 */
+			protected function loginHandler(event:LoginEvent):void
+			{
+				if("admin" == event.username && "123" == event.password)
+				{
+					login ? login.message("正在登录，请稍后...",true) : null;
+					
+					loadContent(event.username);
+				}
+				else
+				{
+					login ? login.message("密码或用户名错误！",false) : null;
+				}
+			}
+			
+			/**
+			 * 加载内容显示窗口
+			 */
+			public function loadContent(username:String):void
+			{
+				var appMain:AppMain = new AppMain();
+				appMain.addEventListener(Navigation.LOGOUTEVENT,logout,false,0,true);
+				appMain.addEventListener(AppMain.LOADING_CMPLETE,loadingCmpleteHandler,false,0,true);
+				
+				this.addElement(appMain);
+			}
+			
+			/**
+			 * 1、当组件AppMain完成其构建、属性处理、测量、布置和绘制时分派，以解决登录后会有一秒空白问题
+			 * 2、在这时间里，可以用来加载后台数据
+			 */
+			protected function loadingCmpleteHandler(event:Event):void
+			{
+				removeLogin();
+			}
+			
+			/**
+			 * 删除内容
+			 */
+			public function removeContent():void
+			{
+				this.removeAllElements();
+			}
+			
+			/**
+			 * 注销
+			 */
+			public function logout(event:Event = null):void
+			{
+				removeContent();
+				loadLogin();
+				updateLoginScale();
+				windowCentered();
+			}
+			
+			/**
+			 * 重新设置窗口大小
+			 */
+			public function updateLoginScale():void
+			{
+				width=395;
+				maxWidth=395;
+				maxHeight=295;
+				height=295;
+			}
+			
+			/**
+			 * 加载登录窗口
+			 */
+			public function loadLogin():void
+			{
+				if(login) return;
+				
+				login = new Login();
+				login.addEventListener(LoginEvent.LOGIN_EVENT,loginHandler,false,0,true);
+				
+				this.addElement(login);
+			}
+			
+			/**
+			 * 删除登录窗口
+			 */
+			public function removeLogin():void
+			{
+				if(!login)return;
+				
+				this.removeElement(login);
+				
+				login = null;
+			}
+			
+			/**
+			 * 将窗口窗口居中
 			 */
 			public function windowCentered():void
 			{
@@ -44,31 +155,12 @@
 				super.move(stagewidth/2-this.width/2,stageheight/2-this.height/2);
 			}
 			
-			///////////////////////////////////////////////////////////////////////////////////////////
-			//++以下代码开发者不需要关心++//
-			///////////////////////////////////////////////////////////////////////////////////////////
-					
-			override protected function updateDisplayList(w:Number, h:Number):void
+			override protected function createChildren():void
 			{
-				super.updateDisplayList(w,h);
-				
-				if(lastScale[0] == w && lastScale[1] == h)
-				{
-					return;
-				}
-				
-				lastScale[0] == w ? null : lastScale[0] = w;
-				lastScale[1] == h ? null : lastScale[1] = h;
-				
-				appmain.width  == w ? null : appmain.width  = w;
-				appmain.height == h ? null : appmain.height = h;
-				
-				trace("app h=" + h);
+				super.createChildren();
+				loadLogin();
 			}
-			
 		]]>
 	</fx:Script>
-	
-	<view:AppMain id="appmain"/>
-	
+
 </s:WindowedApplication>

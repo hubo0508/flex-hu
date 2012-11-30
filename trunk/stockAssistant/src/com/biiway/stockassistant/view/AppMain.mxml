@@ -5,10 +5,11 @@
 		 xmlns:login="com.biiway.stockassistant.view.login.*"
 		 xmlns:navigation="com.biiway.stockassistant.view.navigation.*"
 		 xmlns:components="com.biiway.stockassistant.components.*"
-		 xmlns:selectedstock="com.biiway.stockassistant.view.selectedstock.*"
+		 xmlns:selectedstock="com.biiway.stockassistant.view.selectedstock.*" 
+		 initialize="initializeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
-		 width="395"
-		 height="295">
+		 width="100%"
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
@@ -27,49 +28,27 @@
 			
 			import spark.components.WindowedApplication;
 			
+			/**
+			 * 用户名
+			 */
+			private var _username:String;
+			
+			public static const LOADING_CMPLETE:String = "LoadingIsCmplete";
+			
 			///////////////////////////////////////////////////////////////////////////////////////////
 			//++以下代码需要开发者实现与后台交互++//
 			///////////////////////////////////////////////////////////////////////////////////////////
 			
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				updateWindowedApplicationScale();
+			}
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-//				navigation.message("xxxxxxxxxxx");
-//				display();
-			}
-			
-			/**
-			 * 点击“登录”按钮触发。
-			 * 
-			 * 1、消息提示参见：Login.message()；
-			 * 2、在登录时，需要从数据库中判断用户名与密码是否正确，应该调用<code>Login.message("正在登录，请稍后！",true)</code>函数进行友好提示。
-			 * 3、在demo中，未实现登录友好提示功能；
-			 * 4、登录友好提示未做效果，只是简单的文字提示。
-			 * 
-			 * @param LoginEvent.username 登录用户名
-			 * @param LoginEvent.password 登录密码
-			 * 
-			 * @see com.biiway.stockassistant.view.login.Login.message()
-			 */
-			protected function loginHandler(event:LoginEvent):void
-			{
-				if("admin" == event.username && "123" == event.password)
-				{
-					navigation.message(event.username);
-					//login.message("正确！",true);
-					display();
-				}
-				else
-				{
-					login.message("错误！",false);
-				}
-			}
-			
-			/**
-			 * 用户点击“注销”按钮时，需要实现某些业务规则，请在本函数实现
-			 */
-			public function logoutOperational():void
-			{
-			
+				//在这时间里，可以用来加载后台数据
+				loadingIsCmplete();
 			}
 			
 			/**
@@ -117,32 +96,9 @@
 				}
 			}
 			
-			protected function logoutEventHandler(event:Event):void
+			private function loadingIsCmplete():void
 			{
-				logoutOperational();
-				display(false);
-			}
-			
-			private function display(mark:Boolean = true):void
-			{
-				if(mark)
-				{
-					login.visible = false;
-					navigationContent.visible = true;
-					
-					this.width  == Const.CONTENT_MEASURE[0] ? null : width  = Const.CONTENT_MEASURE[0];
-					this.height == Const.CONTENT_MEASURE[1] ? null : height = Const.CONTENT_MEASURE[1];
-				}
-				else
-				{
-					login.visible = true;
-					navigationContent.visible = false;
-					
-					this.width  == Const.LOGIN_MEASURE[0] ? null : width  = Const.LOGIN_MEASURE[0];
-					this.height == Const.LOGIN_MEASURE[1] ? null : height = Const.LOGIN_MEASURE[1];
-				}
-				
-				updateWindowedApplicationScale();
+				this.dispatchEvent(new Event(LOADING_CMPLETE));
 			}
 			
 			private function updateWindowedApplicationScale():void
@@ -152,22 +108,33 @@
 				app.maxWidth = Capabilities.screenResolutionX;
 				app.maxHeight = Capabilities.screenResolutionY;
 				
-				app.width  == this.width  ? null : app.width  = this.width;
-				app.height == this.height ? null : app.height = this.height;
+				app.width  == 1000  ? null : app.width  = 1000;
+				app.height == 700   ? null : app.height = 700;
 				
 				(app as Object).windowCentered();
 			}
-			
+
+			[Bindable(event="usernameChange")]
+			public function get username():String
+			{
+				return _username;
+			}
+
+			public function set username(value:String):void
+			{
+				if( _username !== value)
+				{
+					_username = value;
+					dispatchEvent(new Event("usernameChange"));
+				}
+			}
+
 		]]>
 	</fx:Script> 
 	
-	<login:Login id="login" loginEvent="loginHandler(event)"/>
-	
 	<navigation:NavigationContent id="navigationContent">
 		<navigation:ContentDropShadow/>
-		<navigation:Navigation id="navigation" 
-							   logoutEvent="logoutEventHandler(event)" 
-							   menuEvent="menuEventHandler(event)">
+		<navigation:Navigation id="navigation" message="{username}" menuEvent="menuEventHandler(event)">
 			<navigation:menudata>
 				<fx:Array>
 					<fx:Object type="selectedstock" text="选股" selected="false"/>
