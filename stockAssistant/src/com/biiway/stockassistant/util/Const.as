@@ -6,6 +6,10 @@ package com.biiway.stockassistant.util
 		{
 		}
 		
+		[Bindable]
+		[Embed(source="assets/swf/loading-1-2.swf")]
+		public static var loading:Class;
+		
 		//右箭头
 		[Embed('assets/image/rightArrow.png')]
 		public static const rightArrow:Class;

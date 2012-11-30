@@ -63,7 +63,7 @@
 			
 			protected function logoutbtnHandler(event:MouseEvent):void
 			{
-				this.dispatchEvent(new Event(LOGOUTEVENT));
+				this.dispatchEvent(new Event(LOGOUTEVENT,true));
 			}
 			
 			protected function nativeGroupHandler(event:MouseEvent):void
@@ -250,7 +250,7 @@
 			/**
 			 * 更新当前显示帐号信息
 			 */
-			public function message(account:String):void
+			public function set message(account:String):void
 			{
 				messagetext.text = "欢迎您，"+account;
 			}
