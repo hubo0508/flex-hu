@@ -109,9 +109,9 @@
 				app.maxHeight = Capabilities.screenResolutionY;
 				
 				app.width  == 1000  ? null : app.width  = 1000;
-				app.height == 700   ? null : app.height = 700;
+				app.height == 685   ? null : app.height = 685;
 				
-				(app as Object).windowCentered();
+				//(app as Object).windowCentered();
 			}
 
 			[Bindable(event="usernameChange")]
@@ -134,6 +134,7 @@
 	
 	<navigation:NavigationContent id="navigationContent">
 		<navigation:ContentDropShadow/>
+		<navigation:Resize/>
 		<navigation:Navigation id="navigation" message="{username}" menuEvent="menuEventHandler(event)">
 			<navigation:menudata>
 				<fx:Array>

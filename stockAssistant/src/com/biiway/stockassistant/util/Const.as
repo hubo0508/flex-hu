@@ -6,9 +6,19 @@ package com.biiway.stockassistant.util
 		{
 		}
 		
-		[Bindable]
+//		[Embed('assets/image/horizontalSize.gif')]
+//		public static const horizontalSize:Class;
+//		[Embed('assets/image/leftObliqueSize.gif')]
+//		public static const leftObliqueSize:Class;
+//		[Embed('assets/image/mouseMove.gif')]
+//		public static const mouseMove:Class;
+//		[Embed('assets/image/rightObliqueSize.gif')]
+//		public static const rightObliqueSize:Class;
+//		[Embed('assets/image/verticalSize.gif')]
+//		public static const verticalSize:Class;
+		
 		[Embed(source="assets/swf/loading-1-2.swf")]
-		public static var loading:Class;
+		public static const loading:Class;
 		
 		//右箭头
 		[Embed('assets/image/rightArrow.png')]

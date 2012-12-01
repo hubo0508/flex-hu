@@ -10,6 +10,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.core.ResizeManager;
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.view.navigation.components.MenuContainer;
@@ -39,6 +40,8 @@
 				initializeMark = true;
 				
 				createMenuItemAndDisplay();	
+
+				ResizeManager.enableResize(this);
 			}
 			
 			private function initEvent():void
@@ -361,7 +364,7 @@
 	<s:BitmapImage left="10" top="8" source="@Embed('assets/image/logoc.png')"/>
 	
 	<!--标题头-->
-	<s:Group id="nativeGroup" name="{NativeWindowDisplayState.NORMAL}" left="0" right="0" top="0" height="40" doubleClickEnabled="true" useHandCursor="true" buttonMode="true"/>
+	<s:Group id="nativeGroup" name="{NativeWindowDisplayState.NORMAL}" left="1" right="1" top="3" height="40" doubleClickEnabled="true" useHandCursor="true" buttonMode="true"/>
 	
 	<s:Line bottom="0" width="100%" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
 		<s:stroke>
