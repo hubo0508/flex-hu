@@ -44,7 +44,24 @@
 					{
 						updateContentProperty(navigationHeight, w, h, ele);
 					}
+					else if(ele is Resize)
+					{
+						updateContentDropShadowProperty(w,h,ele);
+					}
 				}
+			}
+			
+			private function updateResizeProperty(navigationHeight:Number, w:Number, h:Number, ele:IVisualElement):void
+			{
+				var gap:Number = Const.GAP_SHADOW*2;
+				var newWidth:Number = w - gap;
+				var newHeight:Number = h - navigationHeight - gap;
+				
+				ele.width  == newWidth  ? null : ele.width  = newWidth;
+				ele.height == newHeight ? null : ele.height = newHeight;
+				
+				ele.x == Const.GAP_SHADOW ? null : ele.x = Const.GAP_SHADOW;
+				ele.y == (Const.GAP_SHADOW + navigationHeight) ? null : ele.y = (Const.GAP_SHADOW + navigationHeight + 1);
 			}
 			
 			private function updateContentProperty(navigationHeight:Number, w:Number, h:Number, ele:IVisualElement):void

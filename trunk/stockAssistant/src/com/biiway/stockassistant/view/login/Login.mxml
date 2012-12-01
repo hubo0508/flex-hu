@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <loading:LoadingGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" 
-		 xmlns:components="com.biiway.stockassistant.components.*"
-		 initialize="initializeHandler(event)"
-		 creationComplete="creationCompleteHandler(event)"
-		 width="{Const.LOGIN_MEASURE[0]}"
-		 height="{Const.LOGIN_MEASURE[1]}" xmlns:loading="com.biiway.stockassistant.components.loading.*">
-	
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  xmlns:components="com.biiway.stockassistant.components.*"
+					  xmlns:loading="com.biiway.stockassistant.components.loading.*"
+					  initialize="initializeHandler(event)"
+					  creationComplete="creationCompleteHandler(event)"
+					  width="395"
+					  height="295">
+
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.core.ResizeManager;
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.util.StringUtil;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
+			import mx.managers.CursorManager;
 			
 			import spark.components.WindowedApplication;
+			
+			private var cursorId:int = -1;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -41,6 +46,9 @@
 				
 				nativeGroup.addEventListener(MouseEvent.MOUSE_DOWN,nativeGroupHandler,false,0,true);
 				
+				addEventListener(MouseEvent.ROLL_OUT,mouseHandler,false,0,true);
+				addEventListener(MouseEvent.ROLL_OVER,mouseHandler,false,0,true);
+				addEventListener(MouseEvent.MOUSE_MOVE,mouseHandler,false,0,true);
 				addEventListener(KeyboardEvent.KEY_DOWN, onEnterHandler,false,0,true);
 				
 				loginButton.addEventListener(MouseEvent.CLICK,loginButtonClickHandler,false,0,true);
@@ -50,6 +58,40 @@
 				usernametext.addEventListener(FocusEvent.FOCUS_OUT,focusEventHandler,false,0,true);
 				passwordtext.addEventListener(FocusEvent.FOCUS_IN,focusEventHandler,false,0,true);
 				passwordtext.addEventListener(FocusEvent.FOCUS_OUT,focusEventHandler,false,0,true);
+			}
+			
+			protected function mouseHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						trace("over");
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+//						var w:Number = this.width - Const.GAP_SHADOW*2;
+//						var _x:Number = event.localX;
+//						var _y:Number = event.localY;
+//						var lrX:Number = 4;
+//						var lrY:Number = 4;
+//						trace("w="+(w-lrX)+"  lrX="+lrX+" x="+event.localX+",y="+event.localY);
+//						trace((_x>lrX) + "  " + (_x<(w-lrX)));
+//						if(_x>lrX && _x<(w-lrX) && _y<lrY && cursorId == -1){
+//							cursorId = CursorManager.setCursor(Const.verticalSize); 
+//							trace(cursorId);
+//						}else{
+//							CursorManager.removeCursor(cursorId);
+//							cursorId = -1;
+//						}
+						
+						break;
+					
+					default:
+						break;
+				}
 			}
 			
 			protected function resetButtonClickHandler(event:MouseEvent):void
@@ -221,10 +263,12 @@
 	<fx:Metadata>
 		[Event(name="loginEvent",type="com.biiway.stockassistant.event.LoginEvent")]
 	</fx:Metadata>
+	
 
-	<s:BitmapImage x="{Const.GAP_SHADOW}" y="{Const.GAP_SHADOW}" 
-				   width="{Const.LOGIN_MEASURE[0]-Const.GAP_SHADOW*2}" 
-				   height="{Const.LOGIN_MEASURE[1]-Const.GAP_SHADOW*2}" 
+	
+	<s:BitmapImage x="{Const.GAP_SHADOW}" y="{Const.GAP_SHADOW}"  id="bi"
+				   width="{395-Const.GAP_SHADOW*2}" 
+				   height="{295-Const.GAP_SHADOW*2}" 
 				   source="@Embed('assets/image/LoginBackground.png')">
 		<s:filters>
 			<flash.filters:DropShadowFilter id='dropShadowFilter' xmlns:flash.filters='flash.filters.*' 
@@ -237,8 +281,13 @@
 		</s:filters>
 	</s:BitmapImage>
 	
+	<s:BorderContainer borderVisible="false" backgroundAlpha="0" cornerRadius="4" 
+					   x="{Const.GAP_SHADOW}" y="{Const.GAP_SHADOW}"  id="resize"
+					   width="{395-Const.GAP_SHADOW*2}" 
+					   height="{295-Const.GAP_SHADOW*2}" />
+	
 	<!--标题头-->
-	<s:Group id="nativeGroup" left="{Const.GAP_SHADOW}" right="{Const.GAP_SHADOW}" top="{Const.GAP_SHADOW}" height="30" useHandCursor="true" buttonMode="true"/>
+	<s:Group id="nativeGroup" left="{Const.GAP_SHADOW}" right="{Const.GAP_SHADOW}" top="{Const.GAP_SHADOW}" height="30" useHandCursor="false" buttonMode="false"/>
 	
 	<!--标题头>最小按钮-->
 	<s:Group id="minbg" right="41" top="{Const.GAP_SHADOW}" width="27" height="25" useHandCursor="true" buttonMode="true"/>
@@ -288,5 +337,5 @@
 	<!--按钮-->
 	<s:Button id="loginButton" right="90" bottom="25" width="59" height="26" label="登录" buttonMode="true" fontSize="13" skinClass="assets.skin.LoginBtnSkin" useHandCursor="true"/>
 	<s:Button id="resetButton" right="160" bottom="25" width="59" height="26" label="重置" buttonMode="true" fontSize="13" skinClass="assets.skin.LoginBtnSkin" useHandCursor="true"/>
-
+	
 </loading:LoadingGroup>
