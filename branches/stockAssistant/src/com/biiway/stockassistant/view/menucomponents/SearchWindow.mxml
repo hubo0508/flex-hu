@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  xmlns:graphic="com.printingoffice.framework.components.graphic.*"
+					  xmlns:datagrid="com.biiway.stockassistant.components.datagrid.*"
+					  xmlns:components="com.biiway.stockassistant.components.*"
+					  creationComplete="creationCompleteHandler(event)"
+					  initialize="initializeHandler(event)"
+					  width="335"
+					  backgroundColor="#FFFFFF">
+
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.event.SearchToolsEvent;
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.CalendarLayoutChangeEvent;
+			import mx.events.DropdownEvent;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.events.DropDownEvent;
+			import spark.events.TextOperationEvent;
+			
+			public var parentPoint:Point;
+			
+			private var tootip:TooTip;
+			
+			public static const SUCCESSEVENT:String = "successEvent";
+			
+			public static const CLOSEEVENT:String = "closeEvent";
+			
+			private var _displayColumn:Array;
+			
+			private var _displayColumnWidth:Array;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				success.addEventListener(MouseEvent.CLICK,successHandler,false,0,true);
+				
+				searchinput.addEventListener(FocusEvent.FOCUS_IN,searchinputHandler,false,0,true);
+				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
+				//searchinput.addEventListener(TextOperationEvent.CHANGE,searchinputHandler,false,0,true);
+				
+				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
+
+				startDate.addEventListener(CalendarLayoutChangeEvent.CHANGE,startDateHandler,false,0,true);
+				endDate.addEventListener(CalendarLayoutChangeEvent.CHANGE,endDateHandler,false,0,true);
+				
+				close.addEventListener(MouseEvent.CLICK,closeHander,false,0,true);
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+			}
+			
+			protected function closeHander(event:MouseEvent):void
+			{
+				dispatchEvent(new DynamicEvent(SUCCESSEVENT));
+			}
+			
+			protected function startDateHandler(event:CalendarLayoutChangeEvent):void
+			{
+				if(event.triggerEvent.type == MouseEvent.MOUSE_UP)
+				{
+					var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT);
+					stEvent.startdate = startDate.text;
+					stEvent.datetype = searchinput.text;
+					
+					this.dispatchEvent(stEvent);
+				}
+			}
+			
+			protected function endDateHandler(event:CalendarLayoutChangeEvent):void
+			{
+				if(event.triggerEvent.type == MouseEvent.MOUSE_UP)
+				{
+					var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT);
+					stEvent.startdate = startDate.text;
+					stEvent.enddate = endDate.text;
+					stEvent.datetype = searchinput.text;
+					
+					this.dispatchEvent(stEvent);
+				}
+			}
+			
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				grid.dataProvider = value;	
+			}
+			
+			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						var searchTimeList:SearchTimeList = new SearchTimeList();
+						searchTimeList.x = this.parentPoint.x + searchTextBC.x+1;
+						searchTimeList.y = this.parentPoint.y + searchTextBC.y+searchTextBC.height+1;
+						searchTimeList.width = searchTextBC.width;
+						searchTimeList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+						searchTimeList.addEventListener(SearchTimeList.TIMETYPE,chooseTypeHandler,false,0,true);
+						
+						setDetailedWindowImgVisible(false);
+						
+						searchTextBC.setStyle("borderColor",0x4D90FE);
+
+						PopUpManager.addPopUp(searchTimeList, UIUtil.getApplication(this), false);				
+						break;
+					
+					case MouseEvent.MOUSE_OVER:
+						if(img.name == "drop-down")
+						{
+							img.name = "drop-down-over";
+							img.source = null;
+							img.source = "assets/image/drop-down-over.png";
+							
+							this.showTootip(true,img);
+						}
+						break;
+					
+					case MouseEvent.MOUSE_OUT :
+						if(img.name == "drop-down-over")
+						{
+							img.name = "drop-down";
+							img.source = null;
+							img.source = "assets/image/drop-down.png";
+							
+							this.showTootip(false,img);
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showTootip(value:Boolean,img:Image):void
+			{
+				if (value)
+				{
+					tootip ? null : tootip=new TooTip("选择时间类型");
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					tootip.x = point.x - 30 ;
+					tootip.y = point.y + 30 ;
+					
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					tootip ? PopUpManager.removePopUp(tootip) : null;
+				}
+			}
+			
+			private function setDetailedWindowImgVisible(value:Boolean):void
+			{
+				if(detailedWindowImg.visible != value)
+				{
+					detailedWindowImg.visible = value;
+					sLine.visible = value;
+				}
+			}
+			
+			protected function searchinputHandler(event:Event):void
+			{
+				switch(event.type)
+				{
+					case FocusEvent.FOCUS_IN:
+						selectedSearchContainer(true);
+						break;
+					
+					case FocusEvent.FOCUS_OUT :
+						selectedSearchContainer(false);
+						break;
+					
+					case TextOperationEvent.CHANGE :
+						var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT);
+						searchToolsEvent.datetype = searchinput.text;
+						
+						this.dispatchEvent(searchToolsEvent);
+						break;
+					
+					default:
+						break;
+				}		
+			}
+			
+			private function selectedSearchContainer(value:Boolean):void
+			{
+				value ? searchTextBC.setStyle("borderColor",0x4D90FE) : searchTextBC.setStyle("borderColor",0xD9D9D9);
+			}
+			
+			protected function successHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new DynamicEvent(SUCCESSEVENT));
+			}
+			
+			protected function chooseTypeHandler(event:DynamicEvent):void
+			{
+				var selectItem:Object = event.data;
+				searchinput.text = selectItem.type;
+				searchinput.name = selectItem.type;
+				
+				if("自定义" == searchinput.text){
+					customtimegroup.visible = true;
+					searchTextBC.right = customtimegroup.width + 20 + 20;
+				}else{
+					customtimegroup.visible = false;
+					searchTextBC.right = 30;
+					
+					this.searchinputHandler(new TextOperationEvent(TextOperationEvent.CHANGE));
+				}
+				
+				removeWindow(event.currentTarget as IFlexDisplayObject);
+			}
+			
+			protected function mouseDownOutsideHandler(event:Event):void
+			{				
+				removeWindow(event.currentTarget as IFlexDisplayObject);
+			} 
+			
+			private function removeWindow(displayObject:IFlexDisplayObject):void
+			{
+				selectedSearchContainer(false);
+				setDetailedWindowImgVisible(true);
+				
+				PopUpManager.removePopUp(displayObject);
+			}
+			
+			private function doLabel(item:Date):String
+			{  
+				return dateFormatter.format(item);  
+			}  
+			
+			[Bindable(event="displayColumn")]
+			public function get displayColumn():Array
+			{
+				return _displayColumn;
+			}
+
+			[Bindable(event="displayColumnWidth")]
+			public function get displayColumnWidth():Array
+			{
+				return _displayColumnWidth;
+			}
+
+			public function set displayColumnWidth(value:Array):void
+			{
+				_displayColumnWidth = value;
+				
+				this.dispatchEvent(new Event("displayColumnWidth"));
+			}
+
+			public function set displayColumn(value:Array):void
+			{
+				_displayColumn = value;
+				
+				this.dispatchEvent(new Event("displayColumn"));
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+	</fx:Declarations>
+
+	<s:filters> 
+		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+							 alpha='0.4' color='#000000'  knockout='false' quality='1'
+							 strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:Button id="close"  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"   width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
+
+	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="55">
+		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="{displayColumn}" displayColumnWidth="{displayColumnWidth}" width="100%"/>
+	</s:Scroller>
+
+	<s:Label left="10" top="15" text="时间"/>
+	<s:BorderContainer id="searchTextBC" left="45" right="30" top="6" height="29" backgroundColor="#FFFFFF" borderColor="#D9D9D9">
+		<s:TextInput editable="false" text="不限" id="searchinput" imeMode="CHINESE" height="100%"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
+		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
+		<s:Line id="sLine" right="21" top="0" width="0" height="26" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:BorderContainer> 
+	
+	<s:HGroup id="customtimegroup" right="30" top="6" height="29" verticalAlign="middle" visible="false">
+		<mx:DateField id="startDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+					  yearNavigationEnabled="true" labelFunction="doLabel"/>
+		<s:Label text="至" />
+		<mx:DateField id="endDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+					  yearNavigationEnabled="true" labelFunction="doLabel"/>
+	</s:HGroup>
+
+	<components:Button id="success" fSize="12" text="确认" right="10" bottom="10" width="72" height="29" />
+
+</s:SkinnableContainer>

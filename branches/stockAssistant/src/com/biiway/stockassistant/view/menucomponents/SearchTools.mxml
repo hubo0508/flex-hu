@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.biiway.stockassistant.components.*"
+		 initialize="initializeHandler(event)"
+		 height="67"
+		 width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.components.datagrid.CellEvent;
+			import com.biiway.stockassistant.event.SearchToolsEvent;
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.IVisualElement;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			private var tootip:TooTip;
+			
+			private var searchWindow:SearchWindow;
+			
+			private var _displayColumn:Array;
+			
+			private var _displayColumnWidth:Array;
+			
+			private var _text:String;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				searchinput.addEventListener(FocusEvent.FOCUS_IN,searchinputHandler,false,0,true);
+				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
+				
+				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
+				
+				selectedStockBtn.addEventListener(MouseEvent.CLICK,selectedStockHandler,false,0,true);
+			}
+			
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				searchWindow.dataProvider = value;
+			}
+			
+	
+			///////////////////////////////////////////////////////////////////////////////////////////
+			//++以下代码开发者不需要关心++//
+			///////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function selectedStockHandler(event:MouseEvent):void
+			{
+				var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.SELECTED_STOCK_EVENT);
+				searchToolsEvent.text = searchinput.text;
+				dispatchEvent(searchToolsEvent);
+			}
+			
+			protected function cellHandler(event:CellEvent):void
+			{
+				searchinput.text = event.selected ? event.data["names"] : null; 
+			}
+			
+			protected function searchinputHandler(event:FocusEvent):void
+			{
+				switch(event.type)
+				{
+					case FocusEvent.FOCUS_IN:
+						selectedSearchContainer(true);
+						break;
+					
+					case FocusEvent.FOCUS_OUT :
+						selectedSearchContainer(false);
+						break;
+					
+					default:
+						break;
+				}		
+			}
+			
+			private function selectedSearchContainer(value:Boolean):void
+			{
+				value ? searchTextBC.setStyle("borderColor",0x4D90FE) : searchTextBC.setStyle("borderColor",0xD9D9D9);
+			}
+			
+			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						if(searchWindow == null)
+						{
+							searchWindow = new SearchWindow();	
+							searchWindow.width = searchTextBC.width;
+							searchWindow.height = 315;
+							searchWindow.displayColumn = this.displayColumn;
+							searchWindow.displayColumnWidth = this.displayColumnWidth;
+							searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+							searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
+							searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
+							searchWindow.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,searchToolsHandler,false,0,true);
+							searchWindow.addEventListener(SearchWindow.CLOSEEVENT,closeSearchWindowHandler,false,0,true);
+
+							
+							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
+							point.y += searchTextBC.height;
+							searchWindow.x = point.x;
+							searchWindow.y = point.y+1;
+							searchWindow.parentPoint = point;
+						}
+
+						setDetailedWindowImgVisible(false);
+						
+						searchTextBC.setStyle("borderColor",0x4D90FE);
+						
+						PopUpManager.addPopUp(searchWindow, UIUtil.getApplication(this), false);
+						
+						dispatchEvent(new SearchToolsEvent(SearchToolsEvent.CLICKEVENT));
+						break;
+					
+					case MouseEvent.MOUSE_OVER:
+						if(img.name == "drop-down")
+						{
+							img.name = "drop-down-over";
+							img.source = null;
+							img.source = "assets/image/drop-down-over.png";
+							
+							this.showTootip(true,img);
+						}
+						break;
+					
+					case MouseEvent.MOUSE_OUT :
+						if(img.name == "drop-down-over")
+						{
+							img.name = "drop-down";
+							img.source = null;
+							img.source = "assets/image/drop-down.png";
+							
+							this.showTootip(false,img);
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function searchToolsHandler(event:SearchToolsEvent):void
+			{
+				var stEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT);
+				stEvent.datetype = event.datetype;
+				stEvent.startdate = event.startdate;
+				stEvent.enddate = event.enddate;
+				
+				this.dispatchEvent(stEvent);
+			} 
+			
+			/**
+			 * 关闭查询弹出框，调用
+			 */
+			protected function closeSearchWindowHandler(event:DynamicEvent):void
+			{
+				removeWindown(event.currentTarget as IFlexDisplayObject);
+			}
+			
+			private function removeWindown(displayObject:IFlexDisplayObject):void
+			{
+				selectedSearchContainer(false);
+				setDetailedWindowImgVisible(true);
+				
+				PopUpManager.removePopUp(displayObject);
+				
+				var searchToolsEvent:SearchToolsEvent = new SearchToolsEvent(SearchToolsEvent.CLOSEEVENT);
+				searchToolsEvent.text = searchinput.text;
+				dispatchEvent(searchToolsEvent);
+			}
+			
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				removeWindown(event.currentTarget as IFlexDisplayObject);
+			}
+			
+			private function setDetailedWindowImgVisible(value:Boolean):void
+			{
+				if(detailedWindowImg.visible != value)
+				{
+					detailedWindowImg.visible = value;
+					sLine.visible = value;
+				}
+			}
+			
+			private function showTootip(value:Boolean,img:Image):void
+			{
+				if (value)
+				{
+					tootip ? null : tootip=new TooTip("显示搜索选项");
+
+					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					tootip.x = point.x -30;
+					tootip.y = point.y+30;
+
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					tootip ? PopUpManager.removePopUp(tootip) : null;
+				}
+			}
+
+			public function get displayColumn():Array
+			{
+				return _displayColumn;
+			}
+
+			public function set displayColumn(value:Array):void
+			{
+				_displayColumn = value;
+			}
+
+			public function get displayColumnWidth():Array
+			{
+				return _displayColumnWidth;
+			}
+
+			public function set displayColumnWidth(value:Array):void
+			{
+				_displayColumnWidth = value;
+			}
+
+			[Bindable(event="text")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if( _text !== value)
+				{
+					_text = value;
+					dispatchEvent(new Event("text"));
+				}
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<s:Rect left="0.5" right="0.5" top="0" height="63">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xFFFFFF" />
+				<s:GradientEntry color="0xE5E9EE" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:BitmapImage left="0.5" right="1" top="63" height="5"  source="@Embed('assets/image/DropShadowFilter.png')"/>
+	
+	<s:Label x="{searchTextBC.x  - 43}" fontFamily="黑体" fontSize="18" text="模型" verticalCenter="-1"/>
+	<s:BorderContainer id="searchTextBC" top="18" width="400" height="29" backgroundColor="#FFFFFF" borderColor="#D9D9D9" horizontalCenter="-34">
+		<components:DefaultInput emptyText="快速查询" id="searchinput" imeMode="CHINESE" height="100%"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
+		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
+		<s:Line id="sLine" right="21" top="0" width="0" height="26" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:BorderContainer> 
+	
+	<components:Button id="selectedStockBtn" x="446" top="18" width="72" 
+					   height="29" color="0xFFFFFF" text="{text}" 
+					   left="{searchTextBC.width+searchTextBC.x + 10}"/>
+	
+</s:Group>

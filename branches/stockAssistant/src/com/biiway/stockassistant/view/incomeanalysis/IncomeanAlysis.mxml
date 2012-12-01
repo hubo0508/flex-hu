@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
+		 xmlns:components1="com.biiway.stockassistant.components.*"
+		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
+		 initialize="initializeHandler(event)"
+		 creationComplete="creationCompleteHandler(event)"
+		 width="100%"
+		 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.event.SearchToolsEvent;
+			import com.biiway.stockassistant.util.Const;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				//initData();
+			}
+			
+			private function initEvent():void
+			{
+				searchTools.addEventListener(SearchToolsEvent.CLICKEVENT,clickSearchToolsHandler,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,changeSearchConditionHander,false,0,true);
+				searchTools.addEventListener(SearchToolsEvent.SELECTED_STOCK_EVENT,selectedStockHandler,false,0,true);
+			
+				testModel.addEventListener(MouseEvent.CLICK,testModelHandler,false,0,true);
+				saveModel.addEventListener(MouseEvent.CLICK,saveModelHandler,false,0,true);
+			}
+			
+			protected function testModelHandler(event:MouseEvent):void
+			{
+				loadSecondaryMenu("x");
+			}
+			
+			protected function saveModelHandler(event:MouseEvent):void
+			{
+				
+			}
+			
+			/**
+			 * 点击选股按钮,触发
+			 */
+			protected function selectedStockHandler(event:SearchToolsEvent):void
+			{
+				trace(event.text);
+				
+				//loadSecondaryMenu(event.text);
+			}
+			
+			/**
+			 * 点击搜索三角形时，弹出搜索窗口.
+			 */
+			protected function clickSearchToolsHandler(event:SearchToolsEvent):void
+			{
+				//getAC();  从后台查询
+				searchTools.dataProvider = getAC();
+			}
+			
+			/**
+			 * 关闭搜索窗口后，触发
+			 */
+			protected function closeSearchToolsHandler(event:SearchToolsEvent):void
+			{
+				trace(event.text);
+				
+				//loadSecondaryMenu(event.text);
+			}
+			
+			/**
+			 * 查询时间变动时，触发
+			 */
+			protected function changeSearchConditionHander(event:SearchToolsEvent):void
+			{
+				trace(event.datetype + "  " +"  " + event.startdate + "  "+event.enddate);
+			}
+			
+			private function calculatePoint():void
+			{
+				var leftGap:Number = Number(scroller.left) + (Number(kChart.left) - Number(scroller.left))*0.5;
+				incomeanalysisLeft.x = leftGap - incomeanalysisLeft.width*0.5;
+				
+				leftGap = Number(kChart.left) + (kChart.width + Number(kChart.left) - Number(kChart.left)) * 0.5
+				incomeanalysisRight.x = leftGap - incomeanalysisRight.width * 0.5;
+			}
+
+			private function loadSecondaryMenu(modename:String):void
+			{
+				if(modename == null || modename == ""){
+					return;
+				}
+				
+				incomeanalysisLeft.visible  ? incomeanalysisLeft.visible  = false : null;
+				incomeanalysisRight.visible ? incomeanalysisRight.visible = false : null;
+				content.visible  ? null : content.visible = true;
+				scroller.visible ? null : scroller.visible = true;
+				kChart.visible   ? null : kChart.visible = true;
+				
+				navigationMenu.dataProvider = getAC();
+			}
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+				
+				calculatePoint();
+			}
+			
+			////////////////测试数据，误删，调试程序使用////////////////
+			
+			private function getAC():ArrayCollection
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
+				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
+				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
+				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
+				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
+				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				
+				return acc;
+			}
+		]]>
+	</fx:Script>
+
+	<menucomponents:SearchTools id="searchTools"  text="填充"
+								displayColumn="['BOX','names','times']" 
+								displayColumnWidth="[37,0,80]" />
+	
+	<s:BitmapImage id="incomeanalysisLeft" visible="true" 
+				   source="@Embed('assets/image/incomeanalysisLeft.png')" verticalCenter="0"/>
+
+	<s:BitmapImage id="incomeanalysisRight" visible="true"
+				   source="@Embed('assets/image/incomeanalysisRight.png')" verticalCenter="0"/>
+
+	
+	<s:Group id="content" width="100%" height="100%" top="62"  visible="true">
+		
+		<!--
+		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="设定选股条件"/>
+		<s:Label left="420" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
+		<s:Label left="565" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>、
+		-->
+		
+		<s:BitmapImage  source="@Embed('assets/image/sd.png')" left="40" top="30"/>
+		<s:BitmapImage  source="@Embed('assets/image/xg.png')" left="420" top="30"/>
+		<s:BitmapImage  source="@Embed('assets/image/KLine.png')" left="565" top="30"/>
+		
+		<s:Line id="sLine" left="0" right="0" top="60" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		
+		<!--设定选股条件-->
+		<s:Group id="conditionGroup" left="15" height="100%" width="375" top="60">
+			
+			<!--基础数据设置-->
+			<s:Label left="0" top="25" fontSize="14" text="基础数据设置"/>
+			<s:BitmapImage left="30" top="50" source="@Embed('assets/image/bg.png')" />
+			<s:Label x="93" y="57" text="涨幅"/>
+			<s:Label x="40" y="79" text="序号"/>
+			<s:Label x="88" y="79" text="最低"/>
+			<components1:NStepper x="76" y="102" />
+			<components1:NStepper x="76" y="132" />
+			<components1:NStepper x="76" y="162" />
+			<s:Label x="145" y="79" text="最高"/>
+			<components1:NStepper x="134" y="102" />
+			<components1:NStepper x="134" y="132" />
+			<components1:NStepper x="134" y="162" />
+			<s:Label x="45" y="109" text="1"/>
+			<s:Label x="45" y="139" text="2"/>
+			<s:Label x="45" y="168" text="3"/>
+			
+			<s:BitmapImage left="200" top="50" source="@Embed('assets/image/bg.png')" />
+			<s:Label x="256" y="57" text="成交量"/>
+			<s:Label x="209" y="79" text="序号"/>
+			<s:Label x="256" y="79" text="最低"/>
+			<components1:NStepper x="246" y="102" />
+			<components1:NStepper x="246" y="132" />
+			<components1:NStepper x="246" y="162" />
+			<s:Label x="314" y="79" text="最高"/>
+			<components1:NStepper x="305" y="102" />
+			<components1:NStepper x="305" y="132" />
+			<components1:NStepper x="305" y="162" />
+			<s:Label x="215" y="109" text="1"/>
+			<s:Label x="215" y="139" text="2"/>
+			<s:Label x="215" y="168" text="3"/>
+			
+			<!--日均线设置-->
+			<s:Label left="0" top="215" fontSize="14" text="日均线设置"/>
+			<s:Label x="27" y="247" text="日均线"/>
+			<components1:TInput x="70" y="243"  />
+			<s:Label x="37" y="286" text="夹角"/>
+			<components1:TInput x="70" y="282" />
+			<s:CheckBox x="220" y="245" label="是否间隔"/>
+			
+			<!--通用设置-->
+			<s:Label left="0" top="335" fontSize="14" text="通用设置"/>
+			<s:Label x="27" y="367" text="日均线"/>
+			<components1:TInput x="70" y="363" />
+			<s:Label x="37" y="406" text="夹角"/>
+			<components1:TInput x="70" y="402" />
+			
+			<!--按钮
+			<components1:Button id="testModel" fSize="12" x="206" y="436" text="测试收益" width="72" />
+			<components1:Button id="saveModel" fSize="12" x="284" y="436" text="保存模型" width="72" />
+			-->
+			
+			<s:Button id="testModel" x="160" y="436" width="90" height="28" label="测试收益" fontSize="14"
+					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+			<s:Button id="saveModel" x="266" y="436" width="90" height="28" label="保存模型" fontSize="14"
+					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+		</s:Group>
+		
+		<s:Line left="390" top="61" bottom="2" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		
+		<!--选股池-->
+		<s:Scroller id="scroller" bottom="2" width="155"	top="62" left="391" visible="false">
+			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="100%"/>
+		</s:Scroller>
+		
+		<s:Line id="kLine" left="545" top="61" bottom="2" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
+			<s:stroke>
+				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		
+		<!--K线图-->
+		<s:Group top="62" left="546"  id="kChart" height="100%" width="100%" visible="false">
+			<s:Label horizontalCenter="0" text="显示K线图" verticalCenter="0"/>
+		</s:Group>
+		
+	</s:Group>
+</s:Group>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler(event)"
+		 mouseWheel="mouseWheelHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.ExpandGroup;
+			import com.biiway.stockassistant.core.TweenLite;
+			import com.biiway.stockassistant.util.Const;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.components.Label;
+			
+			private var _datafield:String = "text";
+			
+			private var _dataProvider:ArrayCollection;
+			
+			private var creationCompleteMark:Boolean = false;
+			
+			private var scrolldelta:int;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				creationCompleteMark = true;
+				
+				this.height = this.height - Const.GAP_SHADOW;
+				
+				initMenu();
+			}
+			override public function set verticalScrollPosition(value:Number):void 
+			{
+				value =  (value - scrolldelta) <= 0 ? 0 : (value - scrolldelta);
+				super.verticalScrollPosition = value;	
+			}
+			
+			/**
+			 * 当鼠标滚轮滚动到 InteractiveObject 实例上时分派。如果目标为文本字段，则作为默认行为，该文本会滚动。
+			 */
+			protected function mouseWheelHandler(event:MouseEvent):void
+			{
+				scrolldelta = event.delta;
+			}
+			
+			private function initMenu():void
+			{
+				if(dataProvider == null || dataProvider.length == 0) return;
+				
+				content.removeAllElements();
+				
+				for(var i:int=0,num:int=dataProvider.length; i<num; i++)
+				{
+					var data:Object = dataProvider.getItemAt(i);
+					
+					var group:ExpandGroup = new ExpandGroup();
+					group.height = 30;
+					group.y = i * 30;
+					group.width = this.width-30;
+					group.data = data;
+					group.addEventListener(MouseEvent.ROLL_OUT,menuContainerHandler,false,0,true);
+					group.addEventListener(MouseEvent.ROLL_OVER,menuContainerHandler,false,0,true);
+					group.addEventListener(MouseEvent.CLICK,menuContainerHandler,false,0,true);
+					
+					var label:Label = new Label();
+					label.text = data[datafield];
+					label.verticalCenter = 0;
+					label.maxWidth = this.width-30;
+					label.toolTip  = data[datafield];
+					label.setStyle("lineBreak","toFit");
+					label.maxDisplayedLines = 1;
+					
+//					if(i == 0)
+//					{
+//						label.setStyle("color",Const.RED_COLOR)
+//						label.name = "CURRENT";
+//					}
+					
+					group.addElement(label);
+					
+					content.addElement(group);
+				}
+			}
+			
+			protected function menuContainerHandler(event:MouseEvent):void
+			{
+				var menuContainer:ExpandGroup = event.currentTarget as ExpandGroup;
+				var label:Label = menuContainer.getElementAt(0) as Label;
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						updateTextStyle(Const.DEFAULT_COLOR, label);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						updateTextStyle(Const.RED_COLOR, label);
+						break;
+					
+					case MouseEvent.CLICK :
+						bgColor.visible ? null : bgColor.visible = true;
+						
+						for(var i:int=0,num:int=content.numElements; i<num; i++)
+						{
+							var _label:Label = (content.getElementAt(i) as ExpandGroup).getElementAt(0) as Label;
+							if(_label && _label.name == "CURRENT")
+							{
+								_label.name = "";
+								updateTextStyle(Const.DEFAULT_COLOR,_label);
+								break;
+							}
+						}
+						label.name = "CURRENT";
+						updateTextStyle(Const.RED_COLOR,label);
+						
+						updateBgRectY(menuContainer.y);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function updateBgRectY(y:Number):void
+			{
+				new TweenLite(bgColor,.3,{y:y});
+			}
+			
+			private function updateTextStyle(color:uint, label:Label):void
+			{
+				if(label.name != "CURRENT")
+				{
+					label.setStyle("color",color);
+				}
+			}
+
+			public function get datafield():String
+			{
+				return _datafield;
+			}
+
+			public function set datafield(value:String):void
+			{
+				_datafield = value;
+			}
+
+			public function get dataProvider():ArrayCollection
+			{
+				return _dataProvider;
+			}
+
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider = value;
+				creationCompleteMark ? initMenu() : null;
+			}
+							
+		]]>
+	</fx:Script>
+	
+	<s:Group id="bgColor" height="30" width="100%" visible="false">
+		<s:Rect left="0" right="0" top="0" height="30">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xEEEEEE"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Rect left="0" top="0" height="30" width="4">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0xDD4B39"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+	
+	<s:Group x="30" id="content" width="100%" height="100%"/>
+	
+</s:Group>

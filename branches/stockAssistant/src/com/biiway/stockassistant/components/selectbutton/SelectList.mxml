@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:selectbutton="com.biiway.stockassistant.components.selectbutton.*"
+		 xmlns:components="com.biiway.stockassistant.view.member.components.*"
+		 initialize="initializeHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.collections.ArrayList;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.DataGroup;
+			
+			private var _text:String;
+			
+			private var _selectButtonHeight:Number = 22;
+			
+			private var _selectButtonWidth:Number = 96;
+			
+			private var _dropDownListWidth:Number = 85;
+			
+			private var _dataProvider:ArrayList;
+			
+			private var _labelField:String = "type";
+			
+			private var list:List;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+
+			private function initEvent():void
+			{
+				selectButton.addEventListener(MouseEvent.CLICK,selectButtonHandler,false,0,true);
+			}
+			
+			protected function selectButtonHandler(event:MouseEvent):void
+			{
+				if(list == null)
+				{
+					list = new List();	
+					list.width = dropDownListWidth;
+					list.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
+					list.addEventListener(List.CLICK,listHandler,false,0,true);
+					
+					var point:Point = UIUtil.getUiAbsolutePosition(this);
+					point.y += this.height;
+					list.x = point.x;
+					list.y = point.y+1;
+				}
+				
+				list.dataProvider = dataProvider;
+				var newheight:Number = dataProvider.length * 27 + 10;
+				list.height != newheight ? list.height = newheight : null;
+
+				PopUpManager.addPopUp(list, UIUtil.getApplication(this), false);
+			}
+			
+			protected function listHandler(event:DynamicEvent):void
+			{
+				PopUpManager.removePopUp(list);
+
+				text = event.data[labelField];
+			}
+			
+			protected function mouseDownOutsideHandler(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(list);
+			}
+			
+			
+			[Bindable(event="selectButtonHeightChange")]
+			public function get selectButtonHeight():Number
+			{
+				return _selectButtonHeight;
+			}
+
+			public function set selectButtonHeight(value:Number):void
+			{
+				if( _selectButtonHeight !== value)
+				{
+					_selectButtonHeight = value;
+					dispatchEvent(new Event("selectButtonHeightChange"));
+				}
+			}
+
+			[Bindable(event="selectButtonWidthChange")]
+			public function get selectButtonWidth():Number
+			{
+				return _selectButtonWidth;
+			}
+
+			public function set selectButtonWidth(value:Number):void
+			{
+				if( _selectButtonWidth !== value)
+				{
+					_selectButtonWidth = value;
+					dispatchEvent(new Event("selectButtonWidthChange"));
+				}
+			}
+
+			[Bindable(event="textChange")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if( _text !== value)
+				{
+					_text = value;
+					dispatchEvent(new Event("textChange"));
+				}
+			}
+
+			[Bindable(event="dataProviderChange")]
+			public function get dataProvider():ArrayList
+			{
+				return _dataProvider;
+			}
+
+			public function set dataProvider(value:ArrayList):void
+			{
+				if( _dataProvider !== value)
+				{
+					_dataProvider = value;
+					dispatchEvent(new Event("dataProviderChange"));
+				}
+			}
+
+			[Bindable(event="labelFieldChange")]
+			public function get labelField():String
+			{
+				return _labelField;
+			}
+
+			public function set labelField(value:String):void
+			{
+				if( _labelField !== value)
+				{
+					_labelField = value;
+					dispatchEvent(new Event("labelFieldChange"));
+				}
+			}
+
+			[Bindable(event="dropDownListWidthChange")]
+			public function get dropDownListWidth():Number
+			{
+				return _dropDownListWidth;
+			}
+
+			public function set dropDownListWidth(value:Number):void
+			{
+				if( _dropDownListWidth !== value)
+				{
+					_dropDownListWidth = value;
+					dispatchEvent(new Event("dropDownListWidthChange"));
+				}
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<selectbutton:SelectButton id="selectButton" left="0" top="0" width="{selectButtonWidth}"
+							 height="{selectButtonHeight}" text="{text}"/>
+	
+</s:Group>

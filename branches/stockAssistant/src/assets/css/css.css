@@ -1,0 +1,84 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace easy "library://flexeasy";
+
+
+s|WindowedApplication{
+	fontFamily: 宋体,Arial, "_sans";
+}
+/*
+*{
+	fontFamily: Arial,微软雅黑, "_sans";
+	advancedAntiAliasing:true;
+}*/
+
+/*
+@font-face {
+	src: local("微软雅黑");
+	fontFamily: YH;
+	embedAsCFF: true;
+	advancedAntiAliasing: true; 
+}*/
+
+.tag{
+	fontFamily: 微软雅黑,黑体,Arial, '_sans';
+	fontSize:13;
+	color:#444444;
+}
+
+mx|ToolTip {
+	fontSize: 13;
+	borderSkin: Embed(source="/assets/skin/ToolTip_borderSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="78", scaleGridBottom="18");
+	color: #ffffff;
+}
+
+s|Scroller{
+	skinClass : ClassReference("assets.skin.Scroller_skin");
+	upArrowSkin: ClassReference(null); 
+	downArrowSkin: ClassReference(null);
+}
+
+s|CheckBox{
+	skinClass : ClassReference("assets.skin.CheckBoxSkin");
+}
+
+mx|Button
+{
+	
+	disabledSkin: Embed(source="/assets/skin/Button_disabledSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	downSkin: Embed(source="/assets/skin/Button_downSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	overSkin: Embed(source="/assets/skin/Button_overSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	upSkin: Embed(source="/assets/skin/Button_upSkin.png",
+		scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18"); 
+	color: #FFFFFF;
+	/*textRollOverColor: #13ACFF;
+	textSelectedColor: #13ACFF;*/
+	selectedUpSkin: Embed(source="/assets/skin/Button_overSkin.png", scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	selectedOverSkin: Embed(source="/assets/skin/Button_overSkin.png", scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	selectedDisabledSkin: Embed(source="/assets/skin/Button_disabledSkin.png", scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	selectedDownSkin: Embed(source="/assets/skin/Button_upSkin.png", scaleGridLeft="4", scaleGridTop="4", scaleGridRight="60", scaleGridBottom="18");
+	/*disabledColor: #222626;*/
+	fontSize:13;
+	
+}
+global
+{
+	font-family: Arial;
+	font-size: 12;
+	vertical-align: bottom;
+}
+
+.dataGrid{
+	headerBackgroundSkin:ClassReference("assets.skin.DGHeaderBackgroundSkin");
+	verticalGridLineColor: #919191;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #919191;
+	textAlign:center;
+	borderColor: #919191;
+	alternatingItemColors: #ffffff, #ffffff;
+}

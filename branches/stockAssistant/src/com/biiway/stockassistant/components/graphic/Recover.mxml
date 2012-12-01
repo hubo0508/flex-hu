@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-11</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<s:Graphic xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   name="VectorFig"
+		   rollOver="rollHandler(event)"
+		   rollOut="rollHandler(event)">
+
+	<!--
+		 回收图标
+	-->
+
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.graphics.SolidColor;
+			
+			public var rollMask:Boolean=false;
+
+			[Bindable]
+			public var originalColor:uint=0xA0A0A0;
+			
+			[Bindable]
+			public var overColor:uint=0x585858;
+
+			[Bindable]
+			private var sc:SolidColor;
+
+			protected function rollHandler(event:MouseEvent):void
+			{
+				if (!rollMask)
+					return;
+
+				this.changeBgColor(event.type);
+			}
+
+			public function changeBgColor(type:String):void
+			{
+				switch (type)
+				{
+					case MouseEvent.ROLL_OUT:
+						this.sc.color=originalColor;
+						break;
+
+					case MouseEvent.ROLL_OVER:
+						this.sc.color=overColor;
+						break;
+
+					default:
+						break;
+				}
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if (!sc)
+				{
+					sc=new SolidColor();
+					sc.color=originalColor;
+				}
+			}
+		]]>
+	</fx:Script>
+
+	<s:Path fill="{sc}" data="M 7.144 0.82 C 7.144 0.82 6.291 1.755 5.722 1.755 C 5.153 1.755 1.855 1.755 1.855 1.755 L 1.855 0 L 0 3.49 L 1.855 7 L 1.855 5.187 L 3.815 5.187 C 3.815 5.187 5.451 5.625 7.144 0.82 Z" winding="nonZero" x="9.891" y="9.416" />
+	<s:Path fill="{sc}" data="M 0 1.712 L 3.114 0 L 4.965 3.093 C 4.965 3.093 5.705 4.464 4.39 5.348 C 3.114 6.208 1.951 4.846 1.951 4.846 L 0 1.712 Z" winding="nonZero" x="11.923" y="4.834" />
+	<s:Path fill="{sc}" data="M 2.968 7.458 C 2.968 7.458 2.589 6.358 2.828 5.814 C 3.069 5.276 4.764 2.631 4.764 2.631 L 6.359 3.512 L 4.119 0.224 L 0 0 L 1.645 0.909 L 0.668 2.523 C 0.668 2.523 -0.607 3.707 2.968 7.458 Z" winding="nonZero" x="0.517" y="6.382" />
+	<s:Path fill="{sc}" data="M 5.512 0 L 5.506 3.422 L 1.772 3.4 C 1.772 3.4 0.156 3.324 0.009 1.803 C -0.134 0.315 1.686 0.038 1.686 0.038 L 5.512 0 Z" winding="nonZero" x="4.086" y="11.49" />
+	<s:Path fill="{sc}" data="M 0 0.209 C 0 0.209 1.289 0.499 1.557 0.921 C 1.828 1.338 3.484 4.108 3.484 4.108 L 1.886 4.98 L 5.994 4.779 L 8.259 1.5 L 6.607 2.403 L 5.636 0.784 C 5.636 0.784 5.426 -0.474 0 0.209 Z" winding="nonZero" x="6.999" y="0.653" />
+	<s:Path fill="{sc}" data="M 3.105 5.621 L 0 3.903 L 1.893 0.832 C 1.893 0.832 2.769 -0.457 4.232 0.186 C 5.651 0.812 4.988 2.446 4.988 2.446 L 3.105 5.621 Z" winding="nonZero" x="3.059" y="1.224" />
+
+</s:Graphic>

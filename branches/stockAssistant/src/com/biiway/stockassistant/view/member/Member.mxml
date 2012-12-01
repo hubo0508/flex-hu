@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
+		 xmlns:components="com.biiway.stockassistant.components.*"
+		 initialize="initializeHandler(event)"
+		 creationComplete="creationCompleteHandler(event)"
+		 width="100%"
+		 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.event.MenuEvent;
+			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.view.member.children.AccountInformation;
+			import com.biiway.stockassistant.view.member.children.IncomeAndExpenditureDetails;
+			import com.biiway.stockassistant.view.member.children.MemberRecharge;
+			import com.biiway.stockassistant.view.member.children.RechargeQuery;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				secondaryMenu.dataProvider = getMenuData();
+			}
+			
+			private function initEvent():void
+			{
+			}
+			
+			private function getMenuData():ArrayCollection
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({text:"基本设置",submenu:[{text:"账户资料",selected:true}]});
+				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:false}]});
+				acc.addItem({text:"交易查询",submenu:[{text:"收支明细"},{text:"充值记录",selected:false}]});
+				//acc.addItem({text:"我的应用"});
+				
+				return acc;
+			}
+			
+			protected function menuEventHandler(event:MenuEvent):void
+			{
+				switch(event.text)
+				{
+					case "账户资料" :
+						content.removeAllElements();
+						content.addElement(new AccountInformation());
+						break;
+					
+					case "会员充值" :
+						content.removeAllElements();
+						content.addElement(new MemberRecharge());
+						break;
+					
+					case "交易管理" :
+						content.removeAllElements();
+						break;
+					
+					case "收支明细" :
+						content.removeAllElements();
+						content.addElement(new IncomeAndExpenditureDetails());
+						break;
+					
+					case "充值记录" :
+						content.removeAllElements();
+						content.addElement(new RechargeQuery());
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:BitmapImage  source="@Embed('assets/image/wa.png')" left="40" top="30"/>
+	
+	<components:HorizontalLines top="62" width="100%" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0"/>
+	
+	<menucomponents:SecondaryMenu id="secondaryMenu" left="24" top="65" bottom="2" menuEvent="menuEventHandler(event)"/>
+	
+	<components:VerticalLines left="234" top="64"/>
+	
+	<s:Group id="content" top="63" width="100%" left="235" bottom="2" />
+	
+</s:Group>

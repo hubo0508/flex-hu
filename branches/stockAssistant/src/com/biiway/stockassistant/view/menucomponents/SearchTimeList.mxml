@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+					  xmlns:s="library://ns.adobe.com/flex/spark"
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  backgroundColor="#FFFFFF"
+					  width="300"
+					  height="200">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DynamicEvent;
+			
+			import spark.components.DataGroup;
+			
+			public static const TIMETYPE:String = "timeType"
+			
+			protected function clickHandler(event:MouseEvent):void
+			{
+				if(event.target is DataGroup) return;
+				
+				var dye:DynamicEvent = new DynamicEvent(TIMETYPE);
+				dye.data = list.selectedItem;
+				
+				this.dispatchEvent(dye);
+			}			
+		]]>
+	</fx:Script>
+
+	<s:filters> 
+		<s:DropShadowFilter  angle='45' blurX='4' blurY='4' distance='0'
+							 alpha='0.4' color='#000000'  knockout='false' quality='1'
+							 strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:List id="list" click="clickHandler(event)" labelField="type" borderVisible="false" width="100%" bottom="5" top="5">
+		<s:itemRenderer>
+			<fx:Component> 
+				<s:ItemRenderer> 
+					<s:Label id="nameLabel" color="#444444" fontSize="12" text="{data.type}" left="15" top="7" bottom="7"/>
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+		<s:dataProvider>
+			<s:ArrayList>
+				<fx:Object type="不限"/>
+				<fx:Object type="自定义" />
+				<fx:Object type="一天内" />
+				<fx:Object type="三天内"/>
+				<fx:Object type="一周内" />
+				<fx:Object type="一月内" />
+				<fx:Object type="一年内" />
+			</s:ArrayList>
+		</s:dataProvider>
+	</s:List>
+	
+</s:SkinnableContainer>

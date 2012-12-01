@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	 <p><b>auth：</b>HUBO</p>
+	 <p><b>create-time：</b>2012-2-1	1</p>
+	 <p><b>mail：</b>hubo.0508ⓐgmail.com	</p>
+-->
+<graphic1:VectorFig xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:graphic="com.printingoffice.components.graphic.*"
+				   path="M 6.775 11.538 C 4.208 11.538 2.118 9.449 2.118 6.88 C 2.118 4.313 4.208 2.223 6.775 2.223 C 7.877 2.223 8.888 2.609 9.684 3.252 L 7.375 5.249 L 13.457 6.147 L 13.444 0 L 11.31 1.848 C 10.109 0.766 8.521 0.103 6.775 0.103 C 3.032 0.103 0 3.139 0 6.88 C 0 10.623 3.032 13.658 6.775 13.658 C 9.711 13.658 12.21 11.79 13.15 9.18 L 10.985 8.86 C 10.24 10.439 8.635 11.538 6.775 11.538 Z"
+				   originalColor="#A0A0A0"
+				   overColor="#585858"
+				   minHeight="5"
+				   minWidth="5" xmlns:graphic1="com.printingoffice.framework.components.graphic.*">
+
+	<!--
+		 刷新图标
+	-->
+
+</graphic1:VectorFig>

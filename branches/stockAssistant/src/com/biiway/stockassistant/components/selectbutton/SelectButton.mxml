@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 initialize="initializeHandler(event)"
+		 width="96"
+		 height="22"
+		 useHandCursor="true"
+		 buttonMode="true">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.util.Const;
+			
+			import mx.events.FlexEvent;
+			
+			private var _text:String;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				addEventListener(MouseEvent.ROLL_OUT,mouseHander,false,0,true);
+				addEventListener(MouseEvent.ROLL_OVER,mouseHander,false,0,true);
+				addEventListener(MouseEvent.CLICK,mouseHander,false,0,true);
+			}
+			
+			protected function mouseHander(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						showOrHideBgRect(false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						showOrHideBgRect(true);
+						break;
+					
+					case MouseEvent.CLICK :
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showOrHideBgRect(value:Boolean):void
+			{
+				rect.visible != value ? rect.visible = value : null;
+			}
+
+			[Bindable(event="textChange")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if( _text !== value)
+				{
+					_text = value;
+					dispatchEvent(new Event("textChange"));
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	
+	<s:Rect width="100%" height="100%" id="rect" visible="false">
+		<s:stroke>
+			<s:SolidColorStroke color="0x8398AC" weight="1"/>
+		</s:stroke>
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xFFFFFF" />
+				<s:GradientEntry color="0xF0F5FB" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	<s:Label left="5" top="4" color="0x0078B6" fontSize="12" text="{text}"/>
+	<s:BitmapImage right="10" top="8" source="{Const.bottomArrow_blue}"/>
+	
+</s:Group>

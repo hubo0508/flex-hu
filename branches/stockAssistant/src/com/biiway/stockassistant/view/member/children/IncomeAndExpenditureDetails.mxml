@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:selectbutton="com.biiway.stockassistant.components.selectbutton.*"
+		 xmlns:components="com.biiway.stockassistant.view.member.components.*"
+		 xmlns:components1="com.biiway.stockassistant.components.*"
+		 width="100%"
+		 height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.util.Const;
+		]]>
+	</fx:Script>
+
+	<selectbutton:SelectList x="45" y="18" text="一月内" >
+		<selectbutton:dataProvider>
+			<s:ArrayList>
+				<fx:Object type="当天" />
+				<fx:Object type="最近一周" />
+				<fx:Object type="最近一个月" />
+				<fx:Object type="最近三个月" />
+				<fx:Object type="最近一年内" />
+			</s:ArrayList>
+		</selectbutton:dataProvider>
+	</selectbutton:SelectList>
+	
+	<selectbutton:SelectList x="155" y="18" text="显示收入和支出" dropDownListWidth="130" selectButtonWidth="130">
+		<selectbutton:dataProvider>
+			<s:ArrayList>
+				<fx:Object type="显示收入和支出" />
+				<fx:Object type="显示收入" />
+				<fx:Object type="显示收入支出" />
+			</s:ArrayList>
+		</selectbutton:dataProvider>
+	</selectbutton:SelectList>
+	
+	<s:DataGrid left="24" right="24" top="50" height="300"  fontWeight="normal"
+				skinClass="assets.skin.DGridSkin" borderColor="0x8398AC">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn headerText="交易时间" dataField="totle"/>
+				<s:GridColumn headerText="类型" dataField="city"/>
+				<s:GridColumn headerText="交易单号" dataField="state"/>
+				<s:GridColumn headerText="收入（元）" dataField="state"/>
+				<s:GridColumn headerText="支出（元）" dataField="state"/>
+				<s:GridColumn headerText="账户余额" dataField="state"/>
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+	
+	<s:Label x="24" y="365" text="当前第 4 页/共 10 页，456条数据"/>
+	<s:HGroup y="360" right="24" verticalAlign="middle">
+		<mx:LinkButton  label="首   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+		<mx:LinkButton  label="上一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+		<s:Label text="第" color="0x0078B6"/>
+		<components1:TInput width="30" height="18"/>
+		<s:Label text="页" color="0x0078B6"/>
+		<mx:LinkButton  label="下一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+		<mx:LinkButton  label="尾   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+	</s:HGroup>
+	
+</s:Group>
