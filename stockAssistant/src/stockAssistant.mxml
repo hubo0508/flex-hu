@@ -25,21 +25,12 @@
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
 			
-			private var lastScale:Array = [0,0];
-			
 			private var login:Login;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				windowCentered();
 				//alwaysInFront = true;
-				
-//				this.nativeWindow.startResize("L");
-//				this.nativeWindow.startResize("R");
-//				this.nativeWindow.startResize("T");
-//				this.nativeWindow.startResize("B");
-//				this.nativeWindow.startResize("TL");
-//				this.nativeWindow.startResize("RB");
 			}
 			
 			/**
