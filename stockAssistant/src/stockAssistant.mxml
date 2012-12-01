@@ -88,6 +88,7 @@
 			protected function loadingCmpleteHandler(event:Event):void
 			{
 				removeLogin();
+				windowCentered();
 			}
 			
 			/**
