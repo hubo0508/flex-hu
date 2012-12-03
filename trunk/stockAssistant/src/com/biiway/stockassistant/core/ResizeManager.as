@@ -178,10 +178,11 @@ package com.biiway.stockassistant.core
 				var yPosition:Number=Application.application.parent.mouseY;
 				if (xPosition >= (point.x + thisObj.width - mouseMargin) && yPosition >= (point.y + thisObj.height - mouseMargin))
 				{
-					if(!(thisObj is Navigation)){
+					mouseState=SIDE_RIGHT | SIDE_BOTTOM;
+					if(!(thisObj is Navigation && mouseState == SIDE_BOTTOM))
+					{
 						changeCursor(LEFT_OBLIQUE_SIZE, -6, -6);
 					}
-					mouseState=SIDE_RIGHT | SIDE_BOTTOM;
 				}
 				else if (xPosition <= (point.x + mouseMargin) && yPosition <= (point.y + mouseMargin))
 				{
@@ -190,10 +191,11 @@ package com.biiway.stockassistant.core
 				}
 				else if (xPosition <= (point.x + mouseMargin) && yPosition >= (point.y + thisObj.height - mouseMargin))
 				{
-					if(!(thisObj is Navigation)){
+					mouseState=SIDE_LEFT | SIDE_BOTTOM;
+					if(!(thisObj is Navigation && mouseState == SIDE_BOTTOM))
+					{
 						changeCursor(RIGHT_OBLIQUE_SIZE, -6, -6);
 					}
-					mouseState=SIDE_LEFT | SIDE_BOTTOM;
 				}
 				else if (xPosition >= (point.x + thisObj.width - mouseMargin) && yPosition <= (point.y + mouseMargin))
 				{
@@ -212,10 +214,11 @@ package com.biiway.stockassistant.core
 				}
 				else if (yPosition >= (point.y + thisObj.height - mouseMargin))
 				{
-					if(!(thisObj is Navigation)){
+					mouseState=SIDE_BOTTOM;
+					if(!(thisObj is Navigation && mouseState == SIDE_BOTTOM))
+					{
 						changeCursor(VERTICAL_SIZE, -9, -9);
 					}
-					mouseState=SIDE_BOTTOM;
 				}
 				else if (yPosition <= (point.y + mouseMargin))
 				{
@@ -267,7 +270,8 @@ package com.biiway.stockassistant.core
 		 */
 		private static function doResize(event:MouseEvent):void
 		{
-			if(resizeObj is Navigation || (mouseState == SIDE_BOTTOM || resizeObj == null)){
+			if(resizeObj == null || (resizeObj is Navigation && mouseState == SIDE_BOTTOM))
+			{
 				return;
 			}
 			
