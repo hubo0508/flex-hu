@@ -79,9 +79,11 @@ package com.biiway.stockassistant.core
 		public static function enableResize(targetObj:UIComponent):void
 		{
 			//Application.application.parent:SystemManager
-			Application.application.parent.addEventListener(MouseEvent.MOUSE_UP, doMouseUp);
-			Application.application.parent.addEventListener(MouseEvent.MOUSE_MOVE, doResize);
-
+			//Application.application.parent.addEventListener(MouseEvent.MOUSE_UP, doMouseUp);
+			//Application.application.parent.addEventListener(MouseEvent.MOUSE_MOVE, doResize);
+			FlexGlobals.topLevelApplication.addEventListener(MouseEvent.MOUSE_UP, doMouseUp);
+			FlexGlobals.topLevelApplication.addEventListener(MouseEvent.MOUSE_MOVE, doResize);
+  
 			initPosition(targetObj);
 
 			targetObj.setStyle(RESIZE_OLD_POINT, new Point());
@@ -174,8 +176,10 @@ package com.biiway.stockassistant.core
 
 			if (resizeObj == null)
 			{
-				var xPosition:Number=Application.application.parent.mouseX;
-				var yPosition:Number=Application.application.parent.mouseY;
+//				var xPosition:Number=Application.application.parent.mouseX;
+//				var yPosition:Number=Application.application.parent.mouseY;
+				var xPosition:Number=FlexGlobals.topLevelApplication.mouseX;
+				var yPosition:Number=FlexGlobals.topLevelApplication.mouseY;
 				if (xPosition >= (point.x + thisObj.width - mouseMargin) && yPosition >= (point.y + thisObj.height - mouseMargin))
 				{
 					mouseState=SIDE_RIGHT | SIDE_BOTTOM;

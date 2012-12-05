@@ -3,8 +3,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
-		 xmlns:components1="com.biiway.stockassistant.components.*"
-		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
+		 xmlns:c="com.biiway.stockassistant.components.*"
+		 xmlns:m="com.biiway.stockassistant.view.menucomponents.*"
 		 initialize="initializeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
 		 width="100%"
@@ -116,6 +116,11 @@
 				calculatePoint();
 			}
 			
+			private function doLabel(item:Date):String
+			{  
+				return dateFormatter.format(item);  
+			}  
+			
 			////////////////测试数据，误删，调试程序使用////////////////
 			
 			private function getAC():ArrayCollection
@@ -149,18 +154,17 @@
 		]]>
 	</fx:Script>
 
-	<menucomponents:SearchTools id="searchTools"  text="填充"
-								displayColumn="['BOX','names','times']" 
-								displayColumnWidth="[37,0,80]" />
+	<fx:Declarations>
+		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+	</fx:Declarations>
 	
-	<s:BitmapImage id="incomeanalysisLeft" visible="true" 
-				   source="@Embed('assets/image/incomeanalysisLeft.png')" verticalCenter="0"/>
-
-	<s:BitmapImage id="incomeanalysisRight" visible="true"
-				   source="@Embed('assets/image/incomeanalysisRight.png')" verticalCenter="0"/>
-
+	<m:SearchTools id="searchTools"  text="填充" displayColumn="['BOX','names','times']"  displayColumnWidth="[37,0,80]" />
 	
-	<s:Group id="content" width="100%" height="100%" top="62"  visible="true">
+	<s:BitmapImage id="incomeanalysisLeft" visible="false" x="0" source="@Embed('assets/image/incomeanalysisLeft.png')" verticalCenter="240"/>
+
+	<s:BitmapImage id="incomeanalysisRight" visible="false" x="0" source="@Embed('assets/image/incomeanalysisRight.png')" verticalCenter="240"/>
+
+	<s:Group id="content" width="100%" top="62" bottom="0"  visible="true">
 		
 		<!--
 		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="设定选股条件"/>
@@ -172,89 +176,145 @@
 		<s:BitmapImage  source="@Embed('assets/image/xg.png')" left="420" top="30"/>
 		<s:BitmapImage  source="@Embed('assets/image/KLine.png')" left="565" top="30"/>
 		
-		<s:Line id="sLine" left="0" right="0" top="60" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
+		<c:HorizontalLines id="sLine" left="0" right="0" top="60"/>
 		
 		<!--设定选股条件-->
-		<s:Group id="conditionGroup" left="15" height="100%" width="375" top="60">
-			
-			<!--基础数据设置-->
-			<s:Label left="0" top="25" fontSize="14" text="基础数据设置"/>
-			<s:BitmapImage left="30" top="50" source="@Embed('assets/image/bg.png')" />
-			<s:Label x="93" y="57" text="涨幅"/>
-			<s:Label x="40" y="79" text="序号"/>
-			<s:Label x="88" y="79" text="最低"/>
-			<components1:NStepper x="76" y="102" />
-			<components1:NStepper x="76" y="132" />
-			<components1:NStepper x="76" y="162" />
-			<s:Label x="145" y="79" text="最高"/>
-			<components1:NStepper x="134" y="102" />
-			<components1:NStepper x="134" y="132" />
-			<components1:NStepper x="134" y="162" />
-			<s:Label x="45" y="109" text="1"/>
-			<s:Label x="45" y="139" text="2"/>
-			<s:Label x="45" y="168" text="3"/>
-			
-			<s:BitmapImage left="200" top="50" source="@Embed('assets/image/bg.png')" />
-			<s:Label x="256" y="57" text="成交量"/>
-			<s:Label x="209" y="79" text="序号"/>
-			<s:Label x="256" y="79" text="最低"/>
-			<components1:NStepper x="246" y="102" />
-			<components1:NStepper x="246" y="132" />
-			<components1:NStepper x="246" y="162" />
-			<s:Label x="314" y="79" text="最高"/>
-			<components1:NStepper x="305" y="102" />
-			<components1:NStepper x="305" y="132" />
-			<components1:NStepper x="305" y="162" />
-			<s:Label x="215" y="109" text="1"/>
-			<s:Label x="215" y="139" text="2"/>
-			<s:Label x="215" y="168" text="3"/>
-			
-			<!--日均线设置-->
-			<s:Label left="0" top="215" fontSize="14" text="日均线设置"/>
-			<s:Label x="27" y="247" text="日均线"/>
-			<components1:TInput x="70" y="243"  />
-			<s:Label x="37" y="286" text="夹角"/>
-			<components1:TInput x="70" y="282" />
-			<s:CheckBox x="220" y="245" label="是否间隔"/>
-			
-			<!--通用设置-->
-			<s:Label left="0" top="335" fontSize="14" text="通用设置"/>
-			<s:Label x="27" y="367" text="日均线"/>
-			<components1:TInput x="70" y="363" />
-			<s:Label x="37" y="406" text="夹角"/>
-			<components1:TInput x="70" y="402" />
-			
-			<!--按钮
-			<components1:Button id="testModel" fSize="12" x="206" y="436" text="测试收益" width="72" />
-			<components1:Button id="saveModel" fSize="12" x="284" y="436" text="保存模型" width="72" />
-			-->
-			
-			<s:Button id="testModel" x="160" y="436" width="90" height="28" label="测试收益" fontSize="14"
-					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
-			<s:Button id="saveModel" x="266" y="436" width="90" height="28" label="保存模型" fontSize="14"
-					  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
-		</s:Group>
+		<s:Scroller left="20" width="510" top="61" bottom="2">
+			<s:VGroup id="conditionGroup" gap="25" right="10" paddingRight="10" paddingTop="15">
+				
+				<c:FieldSet  width="100%" height="100" h="100" title="通用设置">
+					<s:Label x="43" y="30" text="时间"/>
+					<mx:DateField id="startDate" x="81" y="24" width="127" 
+								  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+								  yearNavigationEnabled="true" labelFunction="doLabel"/>
+					<s:Label x="238" y="30" text="至"/>
+					<mx:DateField id="endDate" x="282" y="24" width="127" 
+								  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+								  yearNavigationEnabled="true" labelFunction="doLabel"/>
+					<s:Label x="20" y="70" text="持票周期"/>
+					<c:TInput x="80" y="64" />
+					<s:Label x="229" y="70" text="交易日"/>
+					<c:TInput x="280" y="64" />
+				</c:FieldSet>
+				
+				<c:FieldSet  width="100%" h="312" title="基础数据设置">
+					<s:BitmapImage top="22" horizontalCenter="0" source="@Embed('assets/image/bg.png')"/>
+					
+					<s:CheckBox x="22" y="115" label="开盘涨幅"/>
+					<c:NStepper x="112" y="112"/>
+					<c:NStepper x="171" y="112"/>
+					<c:NStepper x="231" y="112"/>
+					<c:NStepper x="288" y="112"/>
+					<c:NStepper x="349" y="112"/>
+					<c:NStepper x="407" y="112"/>
+					
+					<s:CheckBox x="22" y="155" label="当天涨幅"/>
+					<c:NStepper x="112" y="152"/>
+					<c:NStepper x="171" y="152"/>
+					<c:NStepper x="231" y="152"/>
+					<c:NStepper x="288" y="152"/>
+					<c:NStepper x="349" y="152"/>
+					<c:NStepper x="407" y="152"/>
+					
+					<s:CheckBox x="22" y="195" label="成交量"/>
+					<c:NStepper x="112" y="192"/>
+					<c:NStepper x="171" y="192"/>
+					<c:NStepper x="231" y="192"/>
+					<c:NStepper x="288" y="192"/>
+					<c:NStepper x="349" y="192"/>
+					<c:NStepper x="407" y="192"/>
+					
+					<s:CheckBox x="22" y="235" label="冲高回落"/>
+					<c:NStepper x="112" y="232"/>
+					<c:NStepper x="171" y="232"/>
+					<c:NStepper x="231" y="232"/>
+					<c:NStepper x="288" y="232"/>
+					<c:NStepper x="349" y="232"/>
+					<c:NStepper x="407" y="232"/>
+					
+					<s:CheckBox x="22" y="275" label="减低回升"/>
+					<c:NStepper x="112" y="272"/>
+					<c:NStepper x="171" y="272"/>
+					<c:NStepper x="231" y="272"/>
+					<c:NStepper x="288" y="272"/>
+					<c:NStepper x="349" y="272"/>
+					<c:NStepper x="407" y="272"/>
+					
+				</c:FieldSet>
+				
+				<c:FieldSet width="100%" title="均线设置" height="100" h="100">
+					<s:CheckBox x="22" y="25" label="均线多头排列"/>
+					<s:Label x="136" y="28" text="均线角"/>
+					<c:TInput x="181" y="23" width="40"/>
+					<s:CheckBox x="247" y="23" label="均线空头排列"/>
+					<s:Label x="359" y="25" text="均线角度"/>
+					<c:TInput x="421" y="19" width="40"/>
+					<s:Label x="22" y="65" text="均线间隔(第一日的百分比)"/>
+					<c:TInput x="181" y="59" width="40"/>
+				</c:FieldSet>
+				
+				<c:FieldSet width="100%" title="买点设置" height="100" h="100">
+					<s:CheckBox x="22" y="25" label="过前高"/> 
+					<s:CheckBox x="102" y="25" label="低于前低"/>
+					<s:CheckBox x="192" y="25" label="等待价格回落"/>
+					<s:Label x="22" y="65" text="买点"/>
+					<s:DropDownList x="51" y="60" width="75" labelField="text" 
+									selectedIndex="0" skinClass="assets.skin.DDListSkin" 
+									cornerRadius="0" borderColor="0xC3C3C3">
+						<s:dataProvider>
+							<s:ArrayList>
+								<fx:Object text="低于"/>
+								<fx:Object text="高于"/>
+							</s:ArrayList>
+						</s:dataProvider>
+					</s:DropDownList>
+					<s:Label x="142" y="65" text="第"/>
+					<c:NStepper x="162" y="60" width="46"/>
+					<s:Label x="214" y="65" text="日"/>
+					<s:DropDownList x="243" y="60" width="75" labelField="text" 
+									selectedIndex="0" skinClass="assets.skin.DDListSkin" 
+									cornerRadius="0" borderColor="0xC3C3C3">
+						<s:dataProvider>
+							<s:ArrayList>
+								<fx:Object text="开盘价"/>
+								<fx:Object text="收盘价"/>
+								<fx:Object text="最高价"/>
+								<fx:Object text="最低价"/>
+							</s:ArrayList>
+						</s:dataProvider>
+					</s:DropDownList>
+					<s:Label x="334" y="65" text="的"/>
+					<c:TInput x="351" y="60" width="43"/>
+					<s:Label x="404" y="65" text="%"/>
+				</c:FieldSet>
+				
+				<c:FieldSet width="100%" title="收益设置" height="60" h="60">
+					<c:layout>
+						<s:HorizontalLayout gap="10" paddingLeft="17" paddingTop="5" verticalAlign="middle"/>
+					</c:layout>
+					<s:RadioButton skinClass="assets.skin.RButtonSkin" x="22" y="25" label="测试最高价收益"/> 
+					<s:RadioButton skinClass="assets.skin.RButtonSkin" x="102" y="25" label="测试最收盘价收益"/>
+					<s:RadioButton skinClass="assets.skin.RButtonSkin" x="192" y="25" label="按时间排序输出"/>
+					<s:RadioButton skinClass="assets.skin.RButtonSkin" x="192" y="25" label="按股票排序输出"/>
+				</c:FieldSet>
+				
+				<s:Button id="testModel" x="160" y="386" width="90" height="28" label="测试收益" fontSize="14"
+						  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+				<s:Button id="saveModel" x="266" y="386" width="90" height="28" label="保存模型" fontSize="14"
+						  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+				
+			</s:VGroup>
+		</s:Scroller>
 		
-		<s:Line left="390" top="61" bottom="2" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
+		
+		<c:VerticalLines left="536.5" top="62" />
 		
 		<!--选股池-->
 		<s:Scroller id="scroller" bottom="2" width="155"	top="62" left="391" visible="false">
-			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="100%"/>
+			<m:NavigationMenu  datafield="names" id="navigationMenu" width="155" height="100%"/>
 		</s:Scroller>
 		
-		<s:Line id="kLine" left="545" top="61" bottom="2" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
+		<c:VerticalLines id="kLine" left="650" top="62" />
 		
 		<!--K线图-->
 		<s:Group top="62" left="546"  id="kChart" height="100%" width="100%" visible="false">
