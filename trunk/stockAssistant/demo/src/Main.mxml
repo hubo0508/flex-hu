@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" 
+					   xmlns:messages="merapi.examples.helloworld.messages.*" xmlns:handlers="merapi.handlers.*" xmlns:ns="http://merapiproject.net/2009">
+	
+	<fx:Script>
+		<![CDATA[
+			import merapi.examples.helloworld.messages.HelloWorldMessage;
+			import merapi.messages.Message;
+			
+			import mx.rpc.events.ResultEvent;  
+			private function handleResult(e:ResultEvent):void{  
+				aa.text = ((e.result as Message).data as Array)[0];
+			}  
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				var message:Message = new Message("hello","xxxxxxxxxString");
+				message.send();
+			}
+			
+		]]> 
+	</fx:Script>
+
+	<fx:Declarations>
+		<!--<messages:HelloWorldMessage id="helloWorldMessage" helloText="Hello World!!!" />  -->
+		<ns:MessageHandler id="helloWorldHandler"  type="{ HelloWorldMessage.HELLO }" result="handleResult(event)"/>   
+	</fx:Declarations>
+	
+	<mx:Button x="0" y="-1" label="Say Hello" click="button1_clickHandler(event)"/>  
+	<mx:Label id="aa" x="158" y="113" text="2"/>  
+	
+</s:WindowedApplication>
