@@ -3,12 +3,14 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="creationCompleteHandler(event)"
-		 mouseWheel="mouseWheelHandler(event)" height="100%">
+		 mouseWheel="mouseWheelHandler(event)"
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.ExpandGroup;
 			import com.biiway.stockassistant.core.TweenLite;
+			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			
 			import mx.collections.ArrayCollection;
@@ -100,6 +102,12 @@
 						break;
 					
 					case MouseEvent.CLICK :
+						
+						var menuevent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
+						menuevent.text = label.text;
+						menuevent.data = menuContainer.data;
+						dispatchEvent(menuevent);
+						
 						bgColor.visible ? null : bgColor.visible = true;
 						
 						for(var i:int=0,num:int=content.numElements; i<num; i++)

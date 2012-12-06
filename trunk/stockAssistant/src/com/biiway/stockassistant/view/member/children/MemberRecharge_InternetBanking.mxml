@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:components="com.biiway.stockassistant.components.*"
+				   initialize="initializeHandler(event)"
+				   borderVisible="false"
+				   x="0"
+				   y="0"
+				   width="100%"
+				   fontSize="13"
+				   height="315">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			public static const CANCEL:String = "cancel";
+			
+			public static const CONFFIRM:String = "confirm";
+			
+			private var tootip:TooTip;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();				
+			}
+			
+			private function initEvent():void
+			{
+				cancel.addEventListener(MouseEvent.CLICK,cancelHandler,false,0,true);
+				confirm.addEventListener(MouseEvent.CLICK,confirmHandler,false,0,true);
+				
+				selectOtherBanks.addEventListener(MouseEvent.CLICK,selectOtherBanksHandler,false,0,true);
+				selectOtherBanks.addEventListener(MouseEvent.ROLL_OUT,selectOtherBanksHandler,false,0,true);
+				selectOtherBanks.addEventListener(MouseEvent.ROLL_OVER,selectOtherBanksHandler,false,0,true);
+			}
+			
+			protected function selectOtherBanksHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						showOrHdieTootip(false,selectOtherBanks);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						showOrHdieTootip(true,selectOtherBanks);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showOrHdieTootip(value:Boolean,img:Image):void
+			{
+				if (value)
+				{
+					tootip ? null : tootip=new TooTip("选择其它银行");
+
+					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					tootip.x = point.x - img.width * 0.5;
+					tootip.y = point.y + img.height + 8;
+
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					tootip ? PopUpManager.removePopUp(tootip) : null;
+				}
+			}
+			
+			protected function cancelHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event(CANCEL));
+			}
+			
+			protected function confirmHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event(CONFFIRM));
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Rect  width="100%" height="37" top="0">
+		<s:fill>
+			<s:SolidColor color="0xECFBD0" />
+		</s:fill>
+	</s:Rect>
+	<components:HorizontalLines top="37" width="100%" color="{0xA5B38B}"/>
+	<s:Label left="10" top="10" color="0x666666" fontSize="18" fontWeight="bold" text="网上银行支付"/>
+	
+	<s:Label x="10" y="81" text="选择银行"/>
+	<s:Rect x="70" y="65" width="149" height="45">
+		<s:stroke>
+			<s:SolidColorStroke weight="1" color="0x446384"/>
+		</s:stroke>
+	</s:Rect>
+	<s:Image source="assets/image/banlk/ICBC.png" x="70" y="65"/>
+	<s:Image id="selectOtherBanks" x="230" y="65" source="assets/image/btn/banlk_.png"/>
+	
+	<s:Button id="cancel" y="259" width="72" height="28" label="返回" buttonMode="true" fontSize="14"
+			  horizontalCenter="-40" skinClass="assets.skin.Button1Skin" useHandCursor="true"/>
+	<s:Button id="confirm" y="259" width="72" height="28" label="确定" buttonMode="true" fontSize="14"
+			  horizontalCenter="40" skinClass="assets.skin.Button1Skin" useHandCursor="true"/>
+
+	<components:HorizontalLines bottom="1"  width="100%" color="{0xA5B38B}"/>
+	<components:HorizontalLines bottom="0"  width="100%" color="{0xC9D6B1}"/>
+
+</s:BorderContainer>
