@@ -3,8 +3,8 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:login="com.biiway.stockassistant.view.login.*"
-					   initialize="initializeHandler(event)"
 					   xmlns:components="com.biiway.stockassistant.components.*"
+					   initialize="initializeHandler(event)"
 					   backgroundColor="0xFF0000"
 					   backgroundAlpha="0"
 					   showStatusBar="false"
@@ -25,12 +25,15 @@
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
 			
+			import spark.events.ElementExistenceEvent;
+			
 			private var login:Login;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				windowCentered();
 				//alwaysInFront = true;
+				
 			}
 			
 			/**
@@ -145,6 +148,8 @@
 				var stageheight:Number = Capabilities.screenResolutionY;  
 				var stagewidth:Number = Capabilities.screenResolutionX; 
 				super.move(stagewidth/2-this.width/2,stageheight/2-this.height/2);
+				
+				trace(login);
 			}
 			
 			override protected function createChildren():void

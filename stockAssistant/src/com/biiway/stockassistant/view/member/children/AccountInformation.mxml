@@ -27,11 +27,11 @@
 			
 			protected function passwordProtectionHandler(event:MouseEvent):void
 			{
-				var modifyPassword:AccountInfomation_PasswordProtection = new AccountInfomation_PasswordProtection();
+				var modifyPassword:AccountInformation_PasswordProtection = new AccountInformation_PasswordProtection();
 				modifyPassword.x = 0;
 				modifyPassword.y = 0;
-				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
-				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInformation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInformation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
 				
 				this.addElement(modifyPassword);
 			}
@@ -52,11 +52,11 @@
 			
 			protected function modifyPaymentPasswordHander(event:MouseEvent):void
 			{
-				var modifyPassword:AccountInfomation_ModifyPaymentPassword = new AccountInfomation_ModifyPaymentPassword();
+				var modifyPassword:AccountInformation_ModifyPaymentPassword = new AccountInformation_ModifyPaymentPassword();
 				modifyPassword.x = 0;
 				modifyPassword.y = 0;
-				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
-				modifyPassword.addEventListener(AccountInfomation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInformation_ModifyPaymentPassword.CANCEL,closeHandler,false,0,true);
+				modifyPassword.addEventListener(AccountInformation_ModifyPaymentPassword.CONFFIRM,closeHandler,false,0,true);
 				
 				this.addElement(modifyPassword);
 			}

@@ -269,7 +269,7 @@
 	
 	<s:BitmapImage left="0.5" right="1" top="63" height="5"  source="@Embed('assets/image/DropShadowFilter.png')"/>
 	
-	<s:Label x="{searchTextBC.x  - 43}" fontFamily="黑体" fontSize="18" text="模型" verticalCenter="-1"/>
+	<s:Label x="{searchTextBC.x  - 86}" fontFamily="黑体" fontSize="18" text="提取模型" verticalCenter="-1"/>
 	<s:BorderContainer id="searchTextBC" top="18" width="400" height="29" backgroundColor="#FFFFFF" borderColor="#D9D9D9" horizontalCenter="-34">
 		<components:DefaultInput emptyText="快速查询" id="searchinput" imeMode="CHINESE" height="100%"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
 		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>

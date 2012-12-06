@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  mouseWheel="mouseWheelHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var scrolldelta:int;
+			
+			override public function set verticalScrollPosition(value:Number):void 
+			{
+				value =  (value - scrolldelta) <= 0 ? 0 : (value - scrolldelta);
+				super.verticalScrollPosition = value;	
+			}
+			
+			/**
+			 * 当鼠标滚轮滚动到 InteractiveObject 实例上时分派。如果目标为文本字段，则作为默认行为，该文本会滚动。
+			 */
+			protected function mouseWheelHandler(event:MouseEvent):void
+			{
+				scrolldelta = event.delta;
+			}
+		]]>
+	</fx:Script>
+</s:Group>

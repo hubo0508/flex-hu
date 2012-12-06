@@ -38,8 +38,8 @@
 			private function getMenuData():ArrayCollection
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({text:"基本设置",submenu:[{text:"账户资料",selected:true}]});
-				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:false}]});
+				acc.addItem({text:"基本设置",submenu:[{text:"账户资料",selected:false}]});
+				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:true}]});
 				acc.addItem({text:"交易查询",submenu:[{text:"收支明细"},{text:"充值记录",selected:false}]});
 				//acc.addItem({text:"我的应用"});
 				
