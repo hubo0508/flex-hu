@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   skinClass="assets.skin.TWindownSkin"
+			   close="closeHandler(event)"
+			   title="支付服务及相关协议"
+			   width="600"
+			   height="570">
+	
+	<fx:Script> 
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			
+			protected function closeHandler(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<mx:HTML x="0" y="0" width="100%" height="100%" 
+			 location="com/biiway/stockassistant/view/member/html/agreement/onlineExpressPaymentAgreement.htm"/>
+	
+</s:TitleWindow>

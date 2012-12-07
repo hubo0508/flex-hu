@@ -32,6 +32,10 @@ package com.biiway.stockassistant.util
 		[Embed('assets/image/bottomArrow_blue.png')]
 		public static const bottomArrow_blue:Class;
 		
+		//更多条件
+		[Embed('assets/image/moreConditions.png')]
+		public static const moreConditions:Class;
+		
 		//上箭头 蓝色
 		[Embed('assets/image/topArrow_blue.png')]
 		public static const topArrow_blue:Class;

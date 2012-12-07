@@ -2,61 +2,154 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:selectbutton="com.biiway.stockassistant.components.selectbutton.*"
-		 xmlns:components="com.biiway.stockassistant.view.member.components.*"
+		 xmlns:b="com.biiway.stockassistant.components.selectbutton.*"
+		 xmlns:c="com.biiway.stockassistant.components.*" 
+		 initialize="initializeHandler(event)"
 		 width="100%"
-		 height="100%" xmlns:components1="com.biiway.stockassistant.components.*">
+		 height="100%">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.core.TweenLite;
 			import com.biiway.stockassistant.util.Const;
+			
+			import mx.events.FlexEvent;
+			
+			protected function initializeHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			protected function initEvent():void
+			{
+				moreConditions.addEventListener(MouseEvent.CLICK,moreConditionsHandler,false,0,true);
+			}
+			
+			protected function moreConditionsHandler(event:MouseEvent):void
+			{
+				if(filterGroup.height == 0)
+				{
+					//topVGroup.gap = 10;
+					new TweenLite(filterGroup,.4,{height:120});	
+					return;
+				}
+				if(filterGroup.height == 120)
+				{
+					new TweenLite(filterGroup,.4,{height:0});	
+					//topVGroup.gap = 6;
+				}
+			}
+			
+			private function doLabel(item:Date):String
+			{  
+				return dateFormatter.format(item);  
+			}  
+			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+	</fx:Declarations>
 
-	<selectbutton:SelectList x="45" y="18" text="最近三个月" >
-		<selectbutton:dataProvider>
-			<s:ArrayList>
-				<fx:Object type="当天" />
-				<fx:Object type="最近一周" />
-				<fx:Object type="最近一个月" />
-				<fx:Object type="最近三个月" />
-				<fx:Object type="最近一年内" />
-			</s:ArrayList>
-		</selectbutton:dataProvider>
-	</selectbutton:SelectList>
-	
-	<selectbutton:SelectList x="155" y="18" text="所有状态">
-		<selectbutton:dataProvider>
-			<s:ArrayList>
-				<fx:Object type="所有状态" />
-				<fx:Object type="成功的交易" />
-				<fx:Object type="失败的交易" />
-			</s:ArrayList>
-		</selectbutton:dataProvider>
-	</selectbutton:SelectList>
-	
-	<s:DataGrid left="24" right="24" top="50" height="300"  fontWeight="normal"
-				skinClass="assets.skin.DGridSkin" borderColor="0x8398AC">
-		<s:columns>
-			<s:ArrayList>
-				<s:GridColumn headerText="创建时间" dataField="totle"/>
-				<s:GridColumn headerText="充值单号" dataField="city"/>
-				<s:GridColumn headerText="状态" dataField="state"/>
-				<s:GridColumn headerText="操作" dataField="state"/>
-			</s:ArrayList>
-		</s:columns>
-	</s:DataGrid>
-	
-	<s:Label x="24" y="365" text="当前第 4 页/共 10 页，456条数据"/>
-	<s:HGroup y="360" right="24" verticalAlign="middle">
-		<mx:LinkButton  label="首   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
-		<mx:LinkButton  label="上一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
-		<s:Label text="第" color="0x0078B6"/>
-		<components1:TInput width="30" height="18"/>
-		<s:Label text="页" color="0x0078B6"/>
-		<mx:LinkButton  label="下一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
-		<mx:LinkButton  label="尾   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
-	</s:HGroup>
-	
+	<s:Scroller width="100%" height="100%">
+
+		<s:VGroup id="topVGroup" x="45" y="18" width="100%" height="100%" paddingBottom="20" paddingLeft="24"
+				  paddingRight="24" paddingTop="20" gap="10">
+			
+			<s:HGroup verticalAlign="middle">
+				<b:SelectList  text="最近三个月" >
+					<b:dataProvider>
+						<s:ArrayList>
+							<fx:Object type="当天" />
+							<fx:Object type="最近一周" />
+							<fx:Object type="最近一个月" />
+							<fx:Object type="最近三个月" />
+							<fx:Object type="最近一年内" />
+						</s:ArrayList>
+					</b:dataProvider>
+				</b:SelectList>
+				
+				<c:VerticalLines height="15"/>
+				
+				<b:SelectList x="155" y="18" text="所有状态">
+					<b:dataProvider>
+						<s:ArrayList>
+							<fx:Object type="所有状态" />
+							<fx:Object type="成功的交易" />
+							<fx:Object type="失败的交易" />
+						</s:ArrayList>
+					</b:dataProvider>
+				</b:SelectList> 
+				
+				<c:VerticalLines height="15"/>
+				
+				<b:SelectButton id="moreConditions" text="更多条件" cla="{Const.moreConditions}"/>
+				
+				<c:VerticalLines height="15"/>
+				
+			</s:HGroup> 
+			
+			<mx:Canvas id="filterGroup" width="100%" height="0" borderColor="0x8398AC" borderVisible="true" verticalScrollPolicy="off">
+				<s:Label x="20" y="20" text="充值单号"/>
+				<c:TInput x="80" y="15" width="170" textAlign="left"/>
+				<s:Label x="280" y="20" text="起止日期"/>
+				<mx:DateField id="startDate" x="341" y="14" width="150" 
+							  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+							  yearNavigationEnabled="true" labelFunction="doLabel"/>
+				<s:Group x="508" y="25" width="10" height="1">
+					<c:HorizontalLines x="-5" y="0" width="100%"/>
+				</s:Group>
+				<mx:DateField id="endDate" x="529" y="14" width="150" 
+							  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+							  yearNavigationEnabled="true" labelFunction="doLabel"/>
+				<s:Label x="20" y="59" text="明细类型"/>
+				<s:CheckBox x="80" y="55" label="充值" selected="true"/>
+				<s:CheckBox x="140" y="55" label="转帐" selected="true"/>
+				<s:Label x="280" y="59" text="金额范围"/>
+				<c:TInput x="341" y="53" width="150"/>
+				<s:Group x="508" y="64" width="10" height="1">
+					<c:HorizontalLines x="-5" y="0" width="100%"/>
+				</s:Group>
+				<c:TInput x="529" y="53" width="150"/>
+				<s:Group width="100%" height="100%" left="1" top="1">
+					<s:Rect x="0" y="0" width="100%" height="100%">
+						<s:stroke>
+							<s:SolidColorStroke weight="1" color="0x446384"/>
+						</s:stroke>
+					</s:Rect>
+				</s:Group>
+				<s:Button id="filterbtn" y="85" width="56" height="25" label="筛选" buttonMode="true"
+						  fontSize="14" right="20" skinClass="assets.skin.Button1Skin"
+						  useHandCursor="true"/>
+			</mx:Canvas>
+			
+			<s:DataGrid left="24" right="24" top="50" width="100%" height="300"
+						borderColor="0x8398AC" fontWeight="normal" skinClass="assets.skin.DGridSkin">
+				<s:columns>
+					<s:ArrayList>
+						<s:GridColumn headerText="创建时间" dataField="totle"/>
+						<s:GridColumn headerText="充值单号" dataField="city"/>
+						<s:GridColumn headerText="状态" dataField="state"/>
+						<s:GridColumn headerText="操作" dataField="state"/>
+					</s:ArrayList>
+				</s:columns>
+			</s:DataGrid>
+			
+			<s:HGroup y="360" width="100%" verticalAlign="middle">
+				<s:Label x="24" y="365" text="当前第 4 页/共 10 页，456条数据"/>
+				<s:Spacer width="100%"/>
+				<mx:LinkButton  label="首   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+				<mx:LinkButton  label="上一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+				<s:Label text="第" color="0x0078B6"/>
+				<c:TInput width="30" height="18"/>
+				<s:Label text="页" color="0x0078B6"/>
+				<mx:LinkButton  label="下一页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+				<mx:LinkButton  label="尾   页" color="0x0078B6" paddingLeft="2" paddingRight="2"/>
+			</s:HGroup>
+			
+		</s:VGroup>
+			
+	</s:Scroller>
 	
 </s:Group>

@@ -1,0 +1,632 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0086)https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-1-1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+
+<title>支付宝 - 网上支付 安全快速！</title>
+<meta name="description" content="中国最大的第三方电子支付服务提供商">
+<meta name="keywords" content="网上购物-网上支付-安全支付-安全购物-购物，安全-支付-支付宝,在线-付款,收款-网上,贸易-网上贸易">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<link rel="icon" href="https://img.alipay.com/common/favicon/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="https://i.alipayobjects.com/common/favicon/favicon.ico" type="image/x-icon">
+<!-- CMS:全站页面效率统计开始:alipay/tracker/tracker_time.vm --><meta name="ABTest" content="">
+
+
+<script type="text/javascript">
+  window.monitor||(function(){var M=window.monitor={};M._rate=0.01;M._errors=[];M._now=function(){return ("function"==typeof Date.now)?Date.now():new Date().valueOf();};M._startTime=window.performance&&performance.timing?performance.timing.navigationStart:M._now();var _TIMER={};M.time=function(name){_TIMER[name]=M._now();};M.timeEnd=function(name){var s=_TIMER[name];if(!s){return NaN;}var e=M._now(),t=e-s;M._errors.push({"time":t});if("function"==typeof M.timedSend){M.timedSend();}return t;};M.log=function(g,p,c){M._errors.push({constom:{type:"log",productLine:g,product:p,errorCode:c,counts:1}});if("function"==typeof M.timedSend){M.timedSend();}};M.error=function(e){if(!(msg instanceof Error)){return;}M._errors.push({constom:{msg:e.message,file:e.fileName||"",ln:e.lineNumber||e.line||0}});if("function"==typeof M.timedSend){M.timedSend();}};window.onerror=function(m,f,l){M._errors.push({jsError:{msg:m,file:f,ln:l}});if("function"==typeof M.timedSend){M.timedSend();}return false;}})();
+  
+window._to = { start: new Date() };
+</script>
+
+
+<script charset="utf-8" src="./PaymentStep_files/saved_resource"></script>
+
+<!-- CMS:全站页面效率统计结束:alipay/tracker/tracker_time.vm --><link charset="utf-8" rel="stylesheet" href="https://a.alipayobjects.com/build/css/tp/cashier.css?t=20110706" media="all">
+<style>
+    .payflow-container {
+        padding:20px !important;
+        width:674px !important;
+    }
+    
+    #J_step {
+    	position: relative;
+    	z-index: 10; 
+    	clear: both; 
+    	border-top:1px solid #a1bee0;
+        width: 674px;
+    }
+    .tab-flow{
+    	+height:28px;
+        +width:674px;
+        +overflow:hidden; 
+    }
+    .tab-flow .c-tab-ttl{
+    	overflow: hidden; 
+    	zoom: 1; 
+    	height: 34px; 
+    	margin: 0; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/title.png) no-repeat left 33px; 
+    	display: none;
+    }
+    .tab-flow .c-tab-ttl li {
+    	float: right; 
+    	height: 35px; 
+    	margin-right:0px;
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left top; 
+    }
+    .tab-flow .c-tab-ttl li a {
+    	display: block; 
+    	padding: 4px 20px 0 25px; 
+    	color: #4D4D4D; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -40px; 
+    }
+    .tab-flow .c-tab-ttl .current,
+    .tab-flow .c-tab-ttl .first-current,
+    .tab-flow .c-tab-ttl .last-current {
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left -80px; 
+    }
+    .tab-flow .c-tab-ttl .current a,
+    .tab-flow .c-tab-ttl .first-current a,
+    .tab-flow .c-tab-ttl .last-current a {
+    	font-weight: 700; 
+    	color: #BB6600; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -120px; 
+    }
+    
+    .tab-flow .c-tab-ctt{
+    	display: none;
+    	clear: both;
+    }
+    .tab-flow .c-tab-ctt h3 {
+    	display: none;
+    }
+    .c-tab .current {
+    	display: block;
+    }
+    .main-flow-wrap {
+    }
+    .main-flow{
+    	overflow: hidden; 
+    	zoom: 1; 
+    	height: 28px; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/title.png) no-repeat left 0px; 
+    	_position:relative;
+    }
+    .main-flow a,
+    .main-flow a:hover {
+    	font-size:12px;
+    	font-weight:600;
+    	text-decoration:none;
+    	color:#0077fe;
+    }
+    .main-flow li {
+    	float:left;
+    	position: relative; z-index: 9;
+    	background: transparent url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left -320px; 
+    	line-height: 1.0; 
+    }
+    .main-flow li.first {
+    	background: transparent url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left -160px; 
+    }
+    .main-flow li a {
+    	display: block; 
+    	float: left; 
+    	position: relative; z-index: 10;
+    	height: 28px;
+    	line-height: 28px;
+    	margin: 0 -15px 0 0; 
+    	padding: 7px 25px 0; 
+    	line-height: 12px; 
+    	*+line-height: 16px; 
+    	*_line-height: 14px; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -360px; 
+    }
+    .main-flow li.first a {
+    	padding: 7px 25px 0 15px; 
+    }
+    .main-flow li.last a {
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -240px; 
+    }
+    .main-flow .current,
+    .main-flow .first-current,
+    .main-flow .last-current {
+    	position: relative; z-index: 11;
+    	background: transparent url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left -400px; 
+    }
+    .main-flow .first-current {
+    	background: transparent url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat left -200px; 
+    }
+    .main-flow .current a,
+    .main-flow .current a:hover,
+    .main-flow .first-current a,
+    .main-flow .first-current a:hover,
+    .main-flow .last-current a,
+    .main-flow .last-current a:hover {
+    	color: #4d4d4d; 
+    	position: relative; z-index: 12;
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -440px; 
+    }
+    .main-flow .first-current a {
+    	padding: 7px 25px 0 15px; 
+    }
+    .main-flow .last-current a,
+    .main-flow .last-current a:hover {
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat right -280px; 
+    }
+    
+    .main-step{
+    	clear:both;
+    	display: none;
+    }
+    .main-step {
+    	height: 28px; 
+    	background: url(https://img.alipay.com/tp/frame/v1/payflow/title.png) no-repeat left -29px; 
+    }
+    .main-step li{
+    	float:left;
+    	padding: 4px 5px 0 5px; 
+    }
+    .main-step li a,
+    .main-step li a:hover {
+    	display: block; 
+    	float: left; 
+    	padding: 1px 6px 6px 6px; 
+    	text-decoration: none; 
+    }
+    .main-step .current,
+    .main-step .first-current,
+    .main-step .last-current {
+    }
+    .main-step .current a,
+    .main-step .first-current a,
+    .main-step .last-current a {
+    	font-weight: 700; 
+    	color:#fff;
+    	background: #FF6600 url(https://img.alipay.com/tp/frame/v1/payflow/bg.png) no-repeat center -463px; 
+    
+    }
+    .main-image{
+    	clear:both;
+    	overflow: hidden; 
+    	width: 672px; 
+    	border: 1px #a1bee0 solid; 
+    	border-top: none; 
+    	text-align: center; 
+    }
+    .main-image .loading {
+    	width: 220px;
+    	height: 19px; 
+    }
+    .main-image div {
+    	display: none;
+    }
+    .main-image div.current {
+    	display: block;
+    }
+
+</style>
+<style>
+	 .icon-gray {
+	 	filter: url("https://cashier.alipay.com/filters.svg#grayscale");
+	 }
+</style>
+<!-- CMS:统一收银台/公用CMS/收银台图标开始:cashier/common/icons.vm --><!-- CMS:统一收银台/公用CMS/收银台图标结束:cashier/common/icons.vm --><script>
+window.onload = function(){
+    var element = document.getElementById("J_xbox_colse");
+    var closeFn = function(e){
+        self.parent.AP.widget.xBox.hide();
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        else {
+            e.returnValue = false;
+        }
+    }
+    if (element) {
+        if (element.addEventListener) {
+            element.addEventListener("click", closeFn, false);
+        }
+        else {
+            element.attachEvent("onclick", closeFn);
+        }
+    }
+}
+</script>
+<script type="text/javascript" charset="utf-8">
+window._analytic_time = +(new Date);
+AralePreload = [];
+var AP = AP || {};
+AP.PageVar = {
+    app_domain: "https://cashier.alipay.com"
+}
+</script>
+<link type="text/css" rel="stylesheet" href="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/style.css"><script type="text/javascript" charset="utf-8" src="chrome-extension://cpngackimfmofbokmjmljamhdncknpmg/page_context.js"></script></head>
+<body screen_capture_injected="true">
+
+
+
+<!-- CMS:新手导航/支付方式银行演示开始:cashier/common/payflow.vm -->  <div id="container" class="payflow-container xbox">
+    <h2>查看支付方式</h2>
+    <a class="xbox-close-link" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#" id="J_xbox_colse" seed="container-J_xbox_colse" smartracker="on">关闭</a>
+                    <div class="showhow-pane">
+        <div id="J_step" class="c-tab tab-flow">
+            <div class="c-tab-ttl"><ol>
+                <li class="first-current">
+                    <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1" seed="J_step-link" smartracker="on"> 支付宝卡通付款流程演示 </a>
+                </li>
+                <li class="last">
+                    <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s2" seed="J_step-linkT1" smartracker="on"> 支付宝卡通申请流程演示 </a>
+                </li>
+            </ol></div>
+            <div id="s1" class="c-tab-ctt current">
+                <div class="main-flow-wrap"><ol class="main-flow">
+                    <li class="first-current">
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-1" seed="link-icbc-1"> 第1步 </a>
+                    </li>
+                    <li>
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-2" seed="link-icbc-2"> 第2步 </a>
+                    </li>
+                    <li>
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-3" seed="link-icbc-3"> 第3步 </a>
+                    </li>
+                    <li>
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-4" seed="link-icbc-4"> 第4步 </a>
+                    </li>
+                    <li>
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-5" seed="link-icbc-5"> 第5步 </a>
+                    </li>
+                    <li class="last">
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-6" seed="link-icbc-6"> 完成 </a>
+                    </li>
+                </ol></div>
+            </div>
+            <div id="s2" class="c-tab-ctt">
+                <div class="main-flow-wrap"><ol class="main-flow">
+                    <li>
+                        <a href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s2-1" seed="mainFlow-null" smartracker="on"> null </a>
+                    </li>
+                </ol></div>
+            </div>
+        </div>
+        <div class="main-image">
+            <img class="loading fn-hide" src="./PaymentStep_files/loading.gif" alt="loading..." seed="mainImage-loading" smartracker="on"><img style="height: auto; width: auto;" src="./PaymentStep_files/1.png" title=" 支付宝卡通付款流程演示  &gt;  第1步 " usemap="#m1-1">
+            <div id="s1-1" data-src="https://img.alipay.com/tp/frame/v1/payflow/icbc/1.png" style="display: block;">
+                <map name="m1-1">
+                    <area shape="rect" coords="120,192,255,231" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-2" seed="map-icbc-2" title="转到  支付宝卡通付款流程演示  &gt;  第2步 ">
+                </map>
+            </div>
+            <div id="s1-2" data-src="https://img.alipay.com/tp/frame/v1/payflow/icbc/2.png" style="display: none;">
+                <map name="m1-2">
+                    <area shape="rect" coords="118,312,190,344" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-3" seed="map-icbc-3" title="转到  支付宝卡通付款流程演示  &gt;  第3步 ">
+                </map>
+            </div>
+            <div id="s1-3" data-src="https://img.alipay.com/tp/frame/v1/payflow/icbc/3.png" style="display: none;">
+                <map name="m1-3">
+                    <area shape="rect" coords="386,276,461,309" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-4" seed="map-icbc-4" title="转到  支付宝卡通付款流程演示  &gt;  第4步 ">
+                </map>
+            </div>
+            <div id="s1-4" data-src="https://img.alipay.com/tp/frame/v1/payflow/icbc/4.png" style="display: none;">
+                <map name="m1-4">
+                    <area shape="rect" coords="208,269,402,300" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-5" seed="map-icbc-5" title="转到  支付宝卡通付款流程演示  &gt;  第5步 ">
+                </map>
+            </div>
+            <div id="s1-5" data-src="https://img.alipay.com/tp/frame/v1/payflow/icbc/5.png" style="display: none;">
+                <map name="m1-5">
+                    <area shape="rect" coords="126,368,200,399" href="https://cashier.alipay.com/standard/gateway/payFlow.htm?bank=icbc105&_xbox=true#s1-6" seed="map-icbc-6" title="转到  支付宝卡通付款流程演示  &gt;  完成 ">
+                </map>
+            </div>
+            <div id="s1-6" data-src="https://img.alipay.com/tp/frame/v1/payflow/done.png" style="display: none;">
+            </div>
+            <div id="s2-1" style="display: none;">
+                null
+            </div>
+        </div>
+    </div>
+                                                    </div>
+  
+<!-- CMS:支付宝全站/监控埋点/tracker js引用开始:alipay/tracker/tracker.vm -->
+
+<script type="text/javascript" charset="utf-8" src="./PaymentStep_files/saved_resource(1)"></script>
+
+
+<!-- CMS:支付宝全站/监控埋点/tracker js引用结束:alipay/tracker/tracker.vm --><script charset="utf-8" src="./PaymentStep_files/arale.js"></script><script charset="utf-8" src="./PaymentStep_files/tp.js"></script>
+<script type="text/javascript" charset="utf-8">
+    E.on("J_xbox_colse", "click", function(){
+        try {
+            self.parent.AP.widget.xBox.hide();
+        } catch(e) {}
+        try {
+            self.parent.aralex.xbox.Xbox.cache.current.hide();
+        } catch(e) {}
+    });
+        /**
+     * scripts for tutorial
+     * by taibo
+     **/
+    E.onDOMReady(function() {
+        var cls = 'current',
+        level = 3,
+        stepRoot = null,
+        initTab = function() {
+            var cTab = D.query('.c-tab'),
+            catContainer = D.query('.showhow-menu')[0];
+            shown = false;
+            cTab.forEach(function(el) {
+                var _tabid = el.id;
+                AP.widget.xTab.switchTab(_tabid, 0, 'click'); //第二个参数代表默认选择第几个
+            });
+
+            E.on(D.query('.thumb-detail'), 'click', function() {
+                var url = this.getAttribute('data-url');
+                if (url) {
+                    location.href = url;
+                }
+            });
+
+            E.on(D.query('.thumb-detail'), 'mouseover', function() {
+                var cls = this.className.split(' ')[1];
+                D.addClass(this, cls + '-hover');
+            });
+
+            E.on(D.query('.thumb-detail'), 'mouseout', function() {
+                var cls = this.className.split(' ')[1];
+                D.removeClass(this, cls + '-hover');
+            });
+
+            var trigger = D.query('.showhow-menu-fold')[0], iframe = D.getFirstChild(catContainer), keep = false;
+            if (trigger) {
+                E.on([iframe, trigger], 'mouseover', function() {
+                    keep = true;
+                    D.removeClass(catContainer, 'fn-hide');
+                    if (!shown) {
+                        shown = true;
+                        var iframe = D.getFirstChild(catContainer),
+                        win = iframe.contentWindow || iframe.contentDocument.parentWindow;
+                        iframe.style.height = win.getHeight() + 'px';
+                        D.query('.w-950')[0].style['overflow'] = 'visible';
+                    }
+                });
+                E.on(iframe, 'mouseout', function() {
+                    keep = false;
+                    window.setTimeout(function() {
+                        keep || D.addClass(catContainer, 'fn-hide');
+                    }, 300);
+                });
+                E.on(document.body, 'click', function() {
+                    keep || D.addClass(catContainer, 'fn-hide');
+                });
+            }
+        },
+        historyWatcher = function() {
+            var timer, last;
+            return {
+                register: function(fn, thisObj) {
+                    if (typeof fn !== 'function') return;
+                    timer = window.setInterval(function() {
+                        /* 
+                         *                          */
+                        try {
+                            if (location.hash !== last) {
+                                last = location.hash;
+                                fn.call(thisObj || window, last);
+                            }
+                        } catch(e) {}
+                    },
+                    100);
+                },
+                stop: function() {
+                    timer && window.clearInterval(timer);
+                },
+                set: function(newHash) {
+                    last = newHash;
+                    try {
+                        location.hash = newHash;
+                    } catch(e) {}
+                }
+            };
+        } (),
+        getStepDesc = function(hash) {
+            var arr = hash.split('-'),
+            path = [],
+            link;
+            while (arr.length) {
+                link = D.query('a[href="' + arr.join('-') + '"]', stepRoot);
+                link.length && path.unshift(link[0].innerHTML || '');
+                arr.pop();
+            }
+            return path.join(' > ');
+        },
+        extractHash = function(link) {
+            var href = link.getAttribute('href');
+            AP.env.browser.msie && AP.env.browser.v === 6 && alert(href + '\n' + location.pathname);
+            if (!href || href.indexOf('#') === - 1) return null;
+            if (href[0] === '#') return href;
+            var arr = href.split('#'),
+            l = window.location;
+            return l.protocol + '//' + l.host + l.pathname == arr[0] ? '#' + arr[1] : null;
+        },
+        markStep = function(link, isFirst, isLast) {
+            var newClass = cls,
+            parent = D.getAncestorByTagName(link, 'ol');
+            isFirst && (newClass = 'first-current');
+            isLast && (newClass = 'last-current');
+
+            D.removeClass(D.getFirstChild(parent), 'first-current');
+            isFirst ? D.removeClass(D.getFirstChild(parent), 'first') : D.addClass(D.getFirstChild(parent), 'first');
+            D.removeClass(D.getLastChild(parent), 'last-current');
+            isLast ? D.removeClass(D.getLastChild(parent), 'last') : D.addClass(D.getLastChild(parent), 'last');
+            D.removeClass(D.getChildren(parent), cls);
+            D.addClass(D.getAncestorBy(link), newClass);
+        },
+        enterStep = function() {
+            var imgContainer = null,
+            nodes0 = null;
+            markItem = function(nodes, hash) {
+                for (var i = 0, len = nodes.length; i < len; i++) {
+                    if (nodes[i].href.split('#').pop() === hash) {
+                        markStep(nodes[i], i === 0, i === len - 1);
+                        return nodes[i];
+                    }
+                }
+                throw '#' + hash + ' not found.';
+            };
+
+            return function(hash) {
+                var step = ['s1', '1', '1'];
+                level == 2 && step.pop();
+                var mystep = (hash || location.hash).split('#').pop(),
+                arr = mystep.split('-');
+                for (var i = 0, len = Math.min(step.length, arr.length); i < len; i++) {
+                    if (arr[i]) step[i] = arr[i];
+                }
+
+                nodes0 = nodes0 || [D.query('div.c-tab-ttl a'), D.query('div.c-tab-ctt')];
+                markItem(nodes0[0], step[0]);
+                var node0 = D.get(step[0]);
+                node0 && (D.hasClass(node0, cls) || D.removeClass(nodes0[1], cls) && D.addClass(node0, cls));
+
+                var nodes1 = [D.query('ol.main-flow a', node0), D.query('ol.main-step', node0)],
+                href = step[0] + '-' + step[1];
+                var link = markItem(nodes1[0], href);
+                var node1 = D.get(href);
+                imgContainer = imgContainer || D.getNextSibling(stepRoot);
+                if (!D.isAncestor(imgContainer, node1)) {
+                    D.removeClass(nodes1[1], cls);
+                    D.addClass(node1, cls);
+
+                    link = markItem(D.query('a', node1), step.join('-'));
+                }
+
+                historyWatcher.set('#' + step.join('-'));
+                showImage(imgContainer, link);
+            };
+        } (),
+        showImage = function(container, link) {
+            var div = D.get(link.href.split('#').pop()),
+            src = div.getAttribute('data-src'),
+            me = arguments.callee;
+            if (!src) {
+                throw 'Customized attribute "data-src" not found';
+            }
+            if (!me.image) {
+                me.loading = D.getFirstChild(container);
+                var img = new Image();
+                img.style.width = img.style.height = 'auto';
+                img.onload = function() {
+                    D.addClass(me.loading, 'fn-hide');
+                    D.removeClass(img, 'fn-hide');
+                };
+                D.insertAfter(img, me.loading);
+                me.image = img;
+                me.lastSrc = null;
+            }
+            if (src === me.lastSrc) return;
+
+            D.setStyle(D.query('.main-image > div'), 'display', 'none');
+            div.style.display = 'block';
+
+            me.lastSrc = src;
+            D.removeClass(me.loading, 'fn-hide');
+            D.addClass(me.image, 'fn-hide');
+            me.image.src = src;
+            me.image.title = getStepDesc(location.hash);
+            var map = D.getFirstChild(div);
+            me.image.useMap = map ? '#' + map.name: '';
+
+            // preloading next one
+            var next = D.getNextSibling(div);
+            next && ((new Image()).src = next.getAttribute('data-src'));
+        },
+        clickHandler = function(e) {
+            E.stopEvent(e);
+            this.href && enterStep(this.href);
+        },
+        initStep = function() {
+            level = D.query('div ol', stepRoot).length > 1 ? 3: 2;
+            D.addClass(stepRoot, 'c-tab tab-flow');
+            try {
+                var hash = location.hash.split('#').pop().split('-'),
+                nodes0 = D.getChildren(stepRoot);
+            } catch(e) {}
+
+            // level 0
+            var level0 = nodes0.shift(),
+            links = D.query('a', level0),
+            div = document.createElement('div');
+            if (links.length !== nodes0.length) {
+                throw 'level0 is not matched.';
+            }
+            div.className = 'c-tab-ttl';
+            D.insertBefore(div, level0);
+            div.appendChild(level0);
+
+            links.forEach(function(link0, index) {
+                var id = link0.href.split('#').pop(),
+                level1 = D.get(id);
+                // bind link0
+                E.on(link0, 'click', clickHandler);
+
+                //level 1
+                D.addClass(level1, 'c-tab-ctt');
+                var nodes1 = D.getChildren(level1),
+                container = [];
+                container.push(nodes1.shift());
+                if (container[0].nodeName !== 'OL') {
+                    D.addClass(container[0], 'fn-left');
+                    container.push(nodes1.shift());
+                }
+                var list = container[container.length - 1],
+                links = D.query('a', list);
+                if (nodes1.length && links.length !== nodes1.length) {
+                    throw 'level1 is not matched at ' + level1.id;
+                }
+                D.addClass(list, 'main-flow');
+
+                var div = document.createElement('div');
+                div.className = 'main-flow-wrap';
+                D.insertBefore(div, container[0]);
+                container.forEach(function(el) {
+                    div.appendChild(el);
+                });
+
+                var nodes2 = D.query('a', list);
+                if (level === 3) {
+                    D.addClass(nodes1, 'main-step');
+                    E.on(nodes2, 'click', clickHandler);
+
+                    nodes2.forEach(function(link) {
+                        var node = D.get(link.href.split('#').pop());
+                        E.on(D.query('a', node), 'click', clickHandler);
+                    });
+                } else {
+                    E.on(nodes2, 'click', clickHandler);
+                }
+
+                D.query('area', D.getNextSibling(stepRoot)).forEach(function(area) {
+                    var hash = extractHash(area);
+                    if (hash) {
+                        area.title = '转到 ' + getStepDesc(hash);
+                        E.on(area, 'click', function(e) {
+                            E.stopEvent(e);
+                            enterStep(this.href);
+                        });
+                    }
+                });
+            });
+            if (AP.env.browser.misie6) {
+                enterStep();
+            } else {
+                historyWatcher.register(enterStep);
+            }
+        };
+
+        initTab();
+
+        (stepRoot = D.get('J_step')) && initStep();
+
+    });
+
+</script>
+
+
+
+<div><object id="ClCache" click="sendMsg" host="" width="0" height="0"></object></div></body></html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:c="com.biiway.stockassistant.components.*" 
+		 creationComplete="creationCompleteHandler(event)">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			
+			public static const SELECTED:String = "selected";
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				for(var i:int=0, num:int=numElements; i<num; i++)
+				{
+					var uic:Image = getElementAt(i) as Image;
+					if(uic)
+					{
+						uic.addEventListener(MouseEvent.CLICK,banlkHandler,false,0,true);
+						uic.addEventListener(MouseEvent.ROLL_OUT,banlkHandler,false,0,true);
+						uic.addEventListener(MouseEvent.ROLL_OVER,banlkHandler,false,0,true);
+					}
+				}
+			}
+			
+			protected function banlkHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						var dye:DynamicEvent = new DynamicEvent(SELECTED);
+						dye.name = img.name;
+						dye.source = img.source;
+						dispatchEvent(dye);
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						rect.visible ? null : rect.visible = true;
+						rect.x = img.x;
+						rect.y = img.y;
+						break;
+					
+					default:
+						break;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:filters>
+		<flash.filters:DropShadowFilter id='dropShadowFilter' xmlns:flash.filters='flash.filters.*' 
+										angle='45'
+										blurX='2' blurY='2'
+										distance='2'
+										alpha='0.4' color='#000000' 
+										knockout='false' quality='1'
+										strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:Image name="ICBC" source="assets/image/banlk/ICBC.png" x="0" y="0"/>
+	<s:Image name="ABC" source="assets/image/banlk/ABC.png" x="149" y="0"/>
+	<s:Image name="BCM" source="assets/image/banlk/BCM.png" x="298" y="0"/>
+	
+	<s:Image name="BOC" source="assets/image/banlk/BOC.png" x="0" y="45"/>
+	<s:Image name="CCB" source="assets/image/banlk/CCB.png" x="149" y="45"/>
+	<s:Image name="CIB" source="assets/image/banlk/CIB.png" x="298" y="45"/>
+	
+	<s:Image name="CITIC" source="assets/image/banlk/CITIC.png" x="0" y="90"/>
+	<s:Image name="CMBC" source="assets/image/banlk/CMBC.png" x="149" y="90"/>
+	<s:Image name="SDB" source="assets/image/banlk/SDB.png" x="298" y="90"/>
+
+	<c:VerticalLines color="0xC2CFDD" x="0" y="0" height="100%"/>
+	<c:VerticalLines color="0xC2CFDD" x="149" y="0" height="100%"/>
+	<c:VerticalLines color="0xC2CFDD" x="298" y="0" height="100%"/>
+	<c:VerticalLines color="0xC2CFDD" x="447" y="0" height="100%"/>
+	
+	<c:HorizontalLines color="0xC2CFDD" x="0" y="0" width="100%"/>
+	<c:HorizontalLines color="0xC2CFDD" x="0" y="45" width="100%"/>
+	<c:HorizontalLines color="0xC2CFDD" x="0" y="90" width="100%"/>
+	<c:HorizontalLines color="0xC2CFDD" x="0" y="135" width="100%"/>
+	
+	<s:Rect id="rect" width="149" height="45" x="0" y="0" visible="false">
+		<s:fill>
+			<s:SolidColor color="0xA5B38B" alpha="0.15"/>
+		</s:fill>
+	</s:Rect>
+	
+</s:Group>
