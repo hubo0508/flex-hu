@@ -2,21 +2,26 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   xmlns:components="com.biiway.stockassistant.components.*"
+				   xmlns:c="com.biiway.stockassistant.components.*"
+				   xmlns:children="com.biiway.stockassistant.view.member.children.*"
 				   initialize="initializeHandler(event)"
 				   borderVisible="false"
 				   x="0"
 				   y="0"
 				   width="100%"
 				   fontSize="13"
-				   height="315">
+				   height="419">
 	
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
 			import com.biiway.stockassistant.util.UIUtil;
 			
+			import mx.core.FlexGlobals;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
 			import mx.managers.PopUpManager;
 			
 			public static const CANCEL:String = "cancel";
@@ -33,11 +38,31 @@
 			private function initEvent():void
 			{
 				cancel.addEventListener(MouseEvent.CLICK,cancelHandler,false,0,true);
-				confirm.addEventListener(MouseEvent.CLICK,confirmHandler,false,0,true);
+//				confirm.addEventListener(MouseEvent.CLICK,confirmHandler,false,0,true);
 				
 				selectOtherBanks.addEventListener(MouseEvent.CLICK,selectOtherBanksHandler,false,0,true);
 				selectOtherBanks.addEventListener(MouseEvent.ROLL_OUT,selectOtherBanksHandler,false,0,true);
 				selectOtherBanks.addEventListener(MouseEvent.ROLL_OVER,selectOtherBanksHandler,false,0,true);
+				selectOtherBanks_label.addEventListener(MouseEvent.CLICK,selectOtherBanksHandler,false,0,true);
+		
+				paymentStep.addEventListener(MouseEvent.CLICK,paymentStepHandler,false,0,true);
+				agreement.addEventListener(MouseEvent.CLICK,agreementHandler,false,0,true);
+			}
+			
+			protected function agreementHandler(event:MouseEvent):void
+			{
+				var agreement:MemberRecharge_InternetBanking_Agreement = new MemberRecharge_InternetBanking_Agreement();
+				
+				PopUpManager.addPopUp(agreement, FlexGlobals.topLevelApplication as DisplayObject, false);
+				PopUpManager.centerPopUp(agreement);
+			}
+			
+			protected function paymentStepHandler(event:MouseEvent):void
+			{
+				var step:MemberRecharge_InternetBanking_PaymentStep = new MemberRecharge_InternetBanking_PaymentStep();
+
+				PopUpManager.addPopUp(step, FlexGlobals.topLevelApplication as DisplayObject, false);
+				PopUpManager.centerPopUp(step);
 			}
 			
 			protected function selectOtherBanksHandler(event:MouseEvent):void
@@ -45,13 +70,24 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
+						var selectBanlk:MemberRecharge_InternetBanking_SelectBanlk = new MemberRecharge_InternetBanking_SelectBanlk();
+						selectBanlk.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,closeSelectBanlkHandler,false,0,true);
+						selectBanlk.addEventListener(MemberRecharge_InternetBanking_SelectBanlk.SELECTED,selectHandler,false,0,true);
+						
+						var point:Point = UIUtil.getUiAbsolutePosition(targetBanks);
+						selectBanlk.x = point.x;
+						selectBanlk.y = point.y + targetBanks.height + 8;
+						
+						PopUpManager.addPopUp(selectBanlk, this, false);
 						break;
 					
 					case MouseEvent.ROLL_OUT :
+						selectOtherBanks.source = "assets/image/btn/banlk_over.png";
 						showOrHdieTootip(false,selectOtherBanks);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						selectOtherBanks.source = "assets/image/btn/banlk_over.png";
 						showOrHdieTootip(true,selectOtherBanks);
 						break;
 					
@@ -60,11 +96,23 @@
 				}
 			}
 			
+			protected function selectHandler(event:DynamicEvent):void
+			{
+				targetBanks.source = event.source;
+				trace(event.name);
+				PopUpManager.removePopUp(event.currentTarget as IFlexDisplayObject);
+			}
+			
+			protected function closeSelectBanlkHandler(event:FlexMouseEvent):void
+			{
+				PopUpManager.removePopUp(event.currentTarget as IFlexDisplayObject);
+			}
+			
 			private function showOrHdieTootip(value:Boolean,img:Image):void
 			{
 				if (value)
 				{
-					tootip ? null : tootip=new TooTip("选择其它银行");
+					tootip ? null : tootip=new TooTip("选择其他方式付款");
 
 					var point:Point = UIUtil.getUiAbsolutePosition(img);
 					tootip.x = point.x - img.width * 0.5;
@@ -95,24 +143,40 @@
 			<s:SolidColor color="0xECFBD0" />
 		</s:fill>
 	</s:Rect>
-	<components:HorizontalLines top="37" width="100%" color="{0xA5B38B}"/>
+	<c:HorizontalLines top="37" width="100%" color="{0xA5B38B}"/>
 	<s:Label left="10" top="10" color="0x666666" fontSize="18" fontWeight="bold" text="网上银行支付"/>
 	
-	<s:Label x="10" y="81" text="选择银行"/>
-	<s:Rect x="70" y="65" width="149" height="45">
+	<s:Label x="40" y="81" text="付款方式"/>
+	<s:Rect x="100" y="65" width="149" height="45">
 		<s:stroke>
 			<s:SolidColorStroke weight="1" color="0x446384"/>
 		</s:stroke>
 	</s:Rect>
-	<s:Image source="assets/image/banlk/ICBC.png" x="70" y="65"/>
-	<s:Image id="selectOtherBanks" x="230" y="65" source="assets/image/btn/banlk_.png"/>
+	<s:Image id="targetBanks" source="assets/image/banlk/ICBC.png" x="100" y="65"/>
+	<s:Image id="selectOtherBanks" x="260" y="65" source="assets/image/btn/banlk_over.png" useHandCursor="true" buttonMode="true"/>
 	
-	<s:Button id="cancel" y="259" width="72" height="28" label="返回" buttonMode="true" fontSize="14"
-			  horizontalCenter="-40" skinClass="assets.skin.Button1Skin" useHandCursor="true"/>
-	<s:Button id="confirm" y="259" width="72" height="28" label="确定" buttonMode="true" fontSize="14"
-			  horizontalCenter="40" skinClass="assets.skin.Button1Skin" useHandCursor="true"/>
+	<mx:HTML x="360" y="78" height="38" fontSize="14" width="257"
+			 htmlText="支付 &lt;span style='color:#F90; font-weight:bold; font-size:18px;'&gt;38.50 &lt;/span&gt;元&lt;"/>
+	
+	<s:CheckBox x="42" y="140" label="同意"/>
+	<s:Label id="agreement" x="101" y="143" color="0x0099CC" fontWeight="bold" text="《支付服务及相关协议》 " 
+			 useHandCursor="true" buttonMode="true"/>
+	
+	<s:Button id="cancel" x="43" y="191" width="100" label="取消支付" buttonMode="true" color="0xFFFFFF"
+			  fontSize="16" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
+	<s:Button x="153" y="191" width="200" label="登录到网上银行付款" buttonMode="true" color="0xFFFFFF"
+			  fontSize="16" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
+	
+	<s:Label id="selectOtherBanks_label" x="43" y="239" color="0x0099CC" text="选择其他方式付款" useHandCursor="true" buttonMode="true"/>
+	<s:Label x="153" y="239" color="0x0099CC" text=" | "/>
+	<s:Label id="paymentStep" x="170" y="239" color="0x0099CC" text="查看支付流程" useHandCursor="true" buttonMode="true"/>
+	
+	<c:HorizontalLines x="0" y="270" width="100%"/>
+	
+	<mx:HTML x="43" y="277" width="100%" height="100%" 
+			 location="com/biiway/stockassistant/view/member/html/paymentHelp.html"/>
 
-	<components:HorizontalLines bottom="1"  width="100%" color="{0xA5B38B}"/>
-	<components:HorizontalLines bottom="0"  width="100%" color="{0xC9D6B1}"/>
+	<c:HorizontalLines bottom="1"  width="100%" color="{0xA5B38B}"/>
+	<c:HorizontalLines bottom="0"  width="100%" color="{0xC9D6B1}"/>
 
 </s:BorderContainer>

@@ -39,8 +39,8 @@
 			{
 				var acc:ArrayCollection = new ArrayCollection();
 				acc.addItem({text:"基本设置",submenu:[{text:"账户资料",selected:false}]});
-				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:true}]});
-				acc.addItem({text:"交易查询",submenu:[{text:"收支明细"},{text:"充值记录",selected:false}]});
+				acc.addItem({text:"充值",submenu:[{text:"会员充值",selected:false}]});
+				acc.addItem({text:"交易查询",submenu:[{text:"收支明细",selected:false},{text:"充值记录",selected:true}]});
 				//acc.addItem({text:"我的应用"});
 				
 				return acc;
@@ -88,7 +88,7 @@
 	
 	<menucomponents:SecondaryMenu id="secondaryMenu" left="24" top="65" bottom="2" menuEvent="menuEventHandler(event)"/>
 	
-	<components:VerticalLines left="234" top="64"/>
+	<components:VerticalLines left="234" top="64" bottom="2"/>
 	
 	<s:Scroller width="100%" height="100%" left="235" bottom="2" top="63" right="1">
 		<s:Group id="content"/>

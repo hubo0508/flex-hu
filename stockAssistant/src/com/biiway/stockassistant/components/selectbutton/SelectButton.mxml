@@ -16,6 +16,8 @@
 			
 			private var _text:String;
 			
+			private var _cla:Class= Const.bottomArrow_blue;
+			
 			protected function initializeHandler(event:FlexEvent):void
 			{
 				initEvent();
@@ -68,6 +70,22 @@
 				}
 			}
 
+			[Bindable(event="claChange")]
+			public function get cla():Class
+			{
+				return _cla;
+			}
+
+			public function set cla(value:Class):void
+			{
+				if( _cla !== value)
+				{
+					_cla = value;
+					dispatchEvent(new Event("claChange"));
+				}
+			}
+
+
 		]]>
 	</fx:Script>
 	
@@ -84,6 +102,6 @@
 		</s:fill>
 	</s:Rect>
 	<s:Label left="5" top="4" color="0x0078B6" fontSize="12" text="{text}"/>
-	<s:BitmapImage right="10" top="8" source="{Const.bottomArrow_blue}"/>
+	<s:BitmapImage right="10" top="8" source="{cla}"/>
 	
 </s:Group>
