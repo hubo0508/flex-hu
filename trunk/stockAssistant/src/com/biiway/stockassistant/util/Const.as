@@ -147,5 +147,54 @@ package com.biiway.stockassistant.util
 			
 			return iconInfo;
 		}
+		
+		/**
+		 * 
+		 * 一、密码长度:	5 分: 小于等于 4 个字符。10 分: 5 到 7 字符。	25 分: 大于等于 8 个字符 
+		 * 二、字母: 0 分: 没有字母 。10 分: 全都是小（大）写字母 。20 分: 大小写混合字母 
+		 * 三、数字: 0 分: 没有数字 。10 分: 1 个数字 。20 分: 大于等于 3 个数字 
+		 * 四、符号: 0 分: 没有符号 。10 分: 1 个符号 。25 分: 大于 1 个符号
+		 * 五、奖励: 2 分: 字母和数字。3 分: 字母、数字和符号。5 分: 大小写字母、数字和符号 
+		 * 最后的评分标准:			
+			>= 90: 非常安全 
+			>= 80: 安全（Secure） 
+			>= 70: 非常强 
+			>= 60: 强（Strong） 
+			>= 50: 一般（Average） 
+			>= 25: 弱（Weak） 
+			>= 0: 非常弱 
+			 * */
+		public static function passwordSecurityCheck(pass:String):String
+		{ 
+			if(!pass)return "";
+			
+			var count:int = 0;
+			
+			//一、密码长度:	5 分: 小于等于 4 个字符。10 分: 5 到 7 字符。	25 分: 大于等于 8 个字符 
+			count += pass.length<=4 ? 5 : (pass.length>=5 && pass.length <=7 ? 10 : 25);
+			
+			//二、字母: 0 分: 没有字母 。10 分: 全都是小（大）写字母 。20 分: 大小写混合字母 
+			count += !pass.match(/[a-z]/i) ? 0 : (pass.match(/[a-z]/) && pass.match(/[A-Z]/) ? 20 : (pass.match(/[a-z]/) || pass.match(/[A-Z]/) ? 10 : 0)); 
+			
+			//三、数字: 0 分: 没有数字 。10 分: 1 个数字 。20 分: 大于等于 3 个数字 
+			count += !pass.match(/[0-9]/g) ? 0 : (pass.match(/[0-9]/g).length>=3 ? 20 : (pass.match(/[0-9]/g).length==1) ? 10 : 0); 
+			
+			//四、符号: 0 分: 没有符号 。10 分: 1 个符号 。25 分: 大于 1 个符号
+			count += !pass.match(/\W/)     ? 0 : (pass.match(/\W/g).length>1 ? 25 : 10); 
+			
+			//五、奖励: 2 分: 字母和数字。3 分: 字母、数字和符号。5 分: 大小写字母、数字和符号 
+			count += (!pass.match(/[0-9]/) || !pass.match(/[a-z]/i)) ? 0 : (!pass.match(/\W/) ? 2 : (!pass.match(/[a-z]/) || !pass.match(/[A-Z]/) ? 3 : 5)); 
+			
+			if(count >= 90){return "非常安全";}
+			if(count >= 80){return "安全";}
+			if(count >= 70){return "非常强";}
+			if(count >= 60){return "强";}
+			if(count >= 50){return "一般";}
+			if(count >= 25){return "弱";}
+			if(count >= 0){return "非常弱";}
+				
+			return "";
+		}
+		
 	}
 }
