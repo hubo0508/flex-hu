@@ -138,9 +138,9 @@
 		<navigation:Navigation id="navigation" message="{username}" menuEvent="menuEventHandler(event)">
 			<navigation:menudata>
 				<fx:Array>
-					<fx:Object type="selectedstock" text="选股" selected="false"/>
+					<fx:Object type="selectedstock" text="选股" selected="true"/>
 					<fx:Object type="incomeanalysis" text="收益分析" selected="false"/>
-					<fx:Object type="member" text="会员管理" selected="true"/>
+					<fx:Object type="member" text="会员管理" selected="false"/>
 					<fx:Object type="help" text="帮助" selected="false"/>
 				</fx:Array>
 			</navigation:menudata>
