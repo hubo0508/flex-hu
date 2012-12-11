@@ -154,8 +154,6 @@
 				var stageheight:Number = Capabilities.screenResolutionY;  
 				var stagewidth:Number = Capabilities.screenResolutionX; 
 				super.move(stagewidth/2-this.width/2,stageheight/2-this.height/2);
-				
-				trace(login);
 			}
 			
 			override protected function createChildren():void
