@@ -108,7 +108,7 @@
 				app.maxWidth = Capabilities.screenResolutionX;
 				app.maxHeight = Capabilities.screenResolutionY;
 				
-				app.width  == 1000  ? null : app.width  = 1000;
+				app.width  == 1100  ? null : app.width  = 1100;
 				app.height == 685   ? null : app.height = 685;
 				
 				//(app as Object).windowCentered();
