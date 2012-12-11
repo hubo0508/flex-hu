@@ -34,6 +34,8 @@ mx|ToolTip {
 	color: #ffffff;
 }
 
+
+
 s|Scroller{
 	skinClass : ClassReference("assets.skin.Scroller_skin");
 	upArrowSkin: ClassReference(null); 
@@ -42,6 +44,10 @@ s|Scroller{
 
 s|CheckBox{
 	skinClass : ClassReference("assets.skin.CheckBoxSkin");
+}
+
+Panel{
+	skinClass : ClassReference("assets.skin.PSkin");
 }
 
 mx|Button
