@@ -16,6 +16,7 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
+			import spark.components.HGroup;
 			import spark.components.Label;
 			
 			private var _datafield:String = "text";
@@ -25,6 +26,12 @@
 			private var creationCompleteMark:Boolean = false;
 			
 			private var scrolldelta:int;
+			
+			private var types:String;
+			
+			public var datafields:Array;
+			
+			public var fieldPrompt:Array;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -70,21 +77,39 @@
 					group.addEventListener(MouseEvent.ROLL_OVER,menuContainerHandler,false,0,true);
 					group.addEventListener(MouseEvent.CLICK,menuContainerHandler,false,0,true);
 					
-					var label:Label = new Label();
-					label.text = data[datafield];
-					label.verticalCenter = 0;
-					label.maxWidth = this.width-30;
-					label.toolTip  = data[datafield];
-					label.setStyle("lineBreak","toFit");
-					label.maxDisplayedLines = 1;
-					
-//					if(i == 0)
-//					{
-//						label.setStyle("color",Const.RED_COLOR)
-//						label.name = "CURRENT";
-//					}
-					
-					group.addElement(label);
+					if(datafields == null){
+						
+						var label:Label = new Label();
+						label.text = data[datafield];
+						label.verticalCenter = 0;
+						label.maxWidth = this.width-30;
+						label.toolTip  = data[datafield];
+						label.setStyle("lineBreak","toFit");
+						label.maxDisplayedLines = 1;
+						
+						group.addElement(label);
+						
+					}else{
+						
+						var nGroup:HGroup = new HGroup();
+						nGroup.gap = 0;
+						nGroup.percentHeight = 100;
+						nGroup.percentWidth = 100;
+						
+						for(var u:int=0,unum:int=datafields.length; u<unum; u++)
+						{
+							var nLabel:Label = new Label();
+							nLabel.text = u <= 0 ? data[datafields[u]] : ("[" + data[datafields[u]] + "]");
+							nLabel.verticalCenter = 0;
+							nLabel.maxWidth = this.width-30;
+							nLabel.setStyle("lineBreak","toFit");
+							nLabel.maxDisplayedLines = 1;
+							
+							nGroup.addElement(nLabel);
+						}
+						
+						group.addElement(nGroup);
+					}
 					
 					content.addElement(group);
 				}
