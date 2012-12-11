@@ -17,11 +17,15 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.components.MessageBox;
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.view.AppMain;
 			import com.biiway.stockassistant.view.login.Login;
 			import com.biiway.stockassistant.view.navigation.Navigation;
 			
+			import merapi.messages.Message;
+			
+			import mx.controls.Alert;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
 			
@@ -54,11 +58,13 @@
 				if("admin" == event.username && "123" == event.password)
 				{
 					login ? login.message("正在登录，请稍后...",true) : null;
-					
+
 					loadContent(event.username);
 				}
 				else
 				{
+					//MessageBox.show("xx");
+					//Alert.show("xxxxxxxxxxxxxxxxxx232342412341234123412341234");
 					login ? login.message("密码或用户名错误！",false) : null;
 				}
 			}
