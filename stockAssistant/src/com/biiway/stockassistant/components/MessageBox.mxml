@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 skinClass="assets.skin.PSkin"
+		 cornerRadius="5"
+		 width="220"
+		 height="100">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.stockassistant.util.UIUtil;
+			
+			import mx.core.FlexGlobals;
+			import mx.managers.ISystemManager;
+			import mx.managers.PopUpManager;
+			
+			//public static const MARK:Boolean = true;
+			
+			public static const NO:String = "NO";
+			
+			public static const OK:String = "OK";
+			
+			public static const CANCEL:String= "CANCEL";
+			
+			public static var ORDER_BUTTONS:Array = [CANCEL,OK];
+			
+			public static function show(text:String = "", title:String = "",
+														  parent:Sprite = null, 
+														  closeHandler:Function = null
+														 ):void
+			{
+				
+				if (!parent)
+				{
+					var sm:ISystemManager = ISystemManager(FlexGlobals.topLevelApplication.systemManager);
+					// no types so no dependencies
+					var mp:Object = sm.getImplementation("mx.managers.IMarshallPlanSystemManager");
+					if (mp && mp.useSWFBridge())
+						parent = Sprite(sm.getSandboxRoot());
+					else
+						parent = Sprite(FlexGlobals.topLevelApplication);
+				}
+				
+				var messageBox:MessageBox = new MessageBox();
+				
+				PopUpManager.addPopUp(messageBox, parent, false);
+				PopUpManager.centerPopUp(messageBox);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:HGroup bottom="10" horizontalCenter="0">
+		<mx:Button label="取消"/>
+		<mx:Button label="确认"/>
+	</s:HGroup>
+	
+</s:Panel>
+	
