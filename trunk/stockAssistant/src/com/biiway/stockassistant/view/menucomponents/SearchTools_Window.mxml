@@ -109,12 +109,12 @@
 				switch(event.type)
 				{
 					case MouseEvent.CLICK :
-						var searchTimeList:SearchTimeList = new SearchTimeList();
+						var searchTimeList:SearchTools_Window_TimeList = new SearchTools_Window_TimeList();
 						searchTimeList.x = this.parentPoint.x + searchTextBC.x+1;
 						searchTimeList.y = this.parentPoint.y + searchTextBC.y+searchTextBC.height+1;
 						searchTimeList.width = searchTextBC.width;
 						searchTimeList.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
-						searchTimeList.addEventListener(SearchTimeList.TIMETYPE,chooseTypeHandler,false,0,true);
+						searchTimeList.addEventListener(SearchTools_Window_TimeList.TIMETYPE,chooseTypeHandler,false,0,true);
 						
 						setDetailedWindowImgVisible(false);
 						

@@ -24,7 +24,7 @@
 			
 			private var tootip:TooTip;
 			
-			private var searchWindow:SearchWindow;
+			private var searchWindow:SearchTools_Window;
 			
 			private var _displayColumn:Array;
 			
@@ -102,16 +102,16 @@
 					case MouseEvent.CLICK :
 						if(searchWindow == null)
 						{
-							searchWindow = new SearchWindow();	
+							searchWindow = new SearchTools_Window();	
 							searchWindow.width = searchTextBC.width;
 							searchWindow.height = 315;
 							searchWindow.displayColumn = this.displayColumn;
 							searchWindow.displayColumnWidth = this.displayColumnWidth;
 							searchWindow.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 							searchWindow.addEventListener(CellEvent.CELL_VALUE_COMMIT,cellHandler,false,0,true);
-							searchWindow.addEventListener(SearchWindow.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
+							searchWindow.addEventListener(SearchTools_Window.SUCCESSEVENT,closeSearchWindowHandler,false,0,true);
 							searchWindow.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,searchToolsHandler,false,0,true);
-							searchWindow.addEventListener(SearchWindow.CLOSEEVENT,closeSearchWindowHandler,false,0,true);
+							searchWindow.addEventListener(SearchTools_Window.CLOSEEVENT,closeSearchWindowHandler,false,0,true);
 
 							
 							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
