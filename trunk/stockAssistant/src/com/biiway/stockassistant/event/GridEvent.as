@@ -15,6 +15,8 @@ package com.biiway.stockassistant.event
 		
 		public static const GRID_EVENT:String = "gridEvent";
 		
+		public static const CLICK_EVENT:String = "clickEvent";
+		
 		public var point:Point;
 		
 		public var types:String;

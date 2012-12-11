@@ -2,8 +2,9 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:menucomponents="com.biiway.stockassistant.view.menucomponents.*"
-		 xmlns:loading="com.biiway.stockassistant.components.loading.*"
+		 xmlns:components="com.biiway.stockassistant.view.incomeanalysis.components.*" 
+		 xmlns:c="com.biiway.stockassistant.components.*"
+		 xmlns:m="com.biiway.stockassistant.view.menucomponents.*"
 		 initialize="initializeHandler(event)"
 		 creationComplete="creationCompleteHandler(event)"
 		 width="100%"
@@ -11,11 +12,24 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.components.TooTip;
+			import com.biiway.stockassistant.core.TweenLite;
+			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.event.SearchToolsEvent;
 			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.view.menucomponents.NavigationMenu;
 			
 			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Label;
+			
+			private var tootip:TooTip;
 			
 			protected function initializeHandler(event:FlexEvent):void
 			{
@@ -24,20 +38,80 @@
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
-				initData();
+				//initData();
 			}
 			
 			private function initEvent():void
 			{
 				searchTools.addEventListener(SearchToolsEvent.CLICKEVENT,clickSearchToolsHandler,false,0,true);
-				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
+				//searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,changeSearchConditionHander,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.SELECTED_STOCK_EVENT,selectedStockHandler,false,0,true);
+			
+				separator.addEventListener(MouseEvent.CLICK,separatorHandler,false,0,true);
+				separator.addEventListener(MouseEvent.ROLL_OUT,separatorHandler,false,0,true);
+				separator.addEventListener(MouseEvent.ROLL_OVER,separatorHandler,false,0,true);
+				separator.addEventListener(MouseEvent.MOUSE_MOVE,separatorHandler,false,0,true);
 			}
 			
-			private function initData():void
+			protected function separatorHandler(event:MouseEvent):void
 			{
-				
+				switch(event.type)
+				{
+					case MouseEvent.CLICK :
+						if(settingScroller.width == 210){
+							settingScroller.width = 520;
+							bar.visible = false;
+							bal.visible = true;
+							xg.left = 600;
+							kline.left = 770;
+						}else if(settingScroller.width == 520){
+							settingScroller.width = 210;
+							bar.visible = true;
+							bal.visible = false;
+							xg.left = 300;
+							kline.left = 460;
+						}
+						
+						break;
+					
+					case MouseEvent.ROLL_OUT :
+						var text:String = bar.visible ? "点击，展开设置栏" : "点击，收缩设置栏"
+						showOrHideTootip(text,false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						var text2:String = bar.visible ? "点击，展开设置栏" : "点击，收缩设置栏"
+						showOrHideTootip(text2,true);
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						if(!tootip)return;
+						tootip.x = FlexGlobals.topLevelApplication.mouseX - 55;
+						tootip.y = FlexGlobals.topLevelApplication.mouseY + 25;
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function showOrHideTootip(text:String, value:Boolean):void
+			{
+				if (value)
+				{
+					tootip ? null : tootip=new TooTip();
+					tootip.text = text;
+					
+					tootip.x = FlexGlobals.topLevelApplication.mouseX - 55;
+					tootip.y = FlexGlobals.topLevelApplication.mouseY + 25;
+					
+					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+				}
+				else
+				{
+					tootip ? PopUpManager.removePopUp(tootip) : null;
+				}
 			}
 			
 			/**
@@ -56,7 +130,7 @@
 			protected function clickSearchToolsHandler(event:SearchToolsEvent):void
 			{
 				//getAC();  从后台查询
-				searchTools.dataProvider = getAC();
+				searchTools.dataProvider = getAC2();
 			}
 			
 			/**
@@ -66,7 +140,7 @@
 			{
 				trace(event.text);
 				
-				loadSecondaryMenu(event.text);
+				//loadSecondaryMenu(event.text);
 			}
 			
 			/**
@@ -76,79 +150,352 @@
 			{
 				trace(event.datetype + "  " +"  " + event.startdate + "  "+event.enddate);
 			}
-			
+
 			private function loadSecondaryMenu(modename:String):void
 			{
 				if(modename == null || modename == ""){
+					loadNavigationMenu(null);
+					help.visible = true;
+					hgroup.visible = content.visible  = false;
+				}else{
+					loadNavigationMenu(getAC());
+					help.visible = false;
+					hgroup.visible = content.visible = true;
+				}
+			}
+			
+			private function loadNavigationMenu(data:ArrayCollection):void
+			{
+				var navmenu:NavigationMenu;
+				if(stockPoolScroller.numElements == 1)
+				{
+					var obj:Object = stockPoolScroller.getElementAt(0);
+					if(obj is Group && obj.name == "BitmapImage")
+					{
+						stockPoolScroller.viewport = null;
+						
+						stockPoolScroller.viewport = createNavigationMenu(data);
+						return;
+					}
+					
+					navmenu = obj as NavigationMenu;
+					navmenu.dataProvider = data;
 					return;
 				}
 				
-				content.visible ? null : content.visible = true;
-				help.visible ? help.visible = false : null;
-				
-				navigationMenu.dataProvider = getAC();
+				stockPoolScroller.viewport = createNavigationMenu(data);
 			}
+			
+			private function createNavigationMenu(data:ArrayCollection):NavigationMenu
+			{
+				var navmenu:NavigationMenu = new NavigationMenu();
+				navmenu.datafield = "names";
+				navmenu.width = 155;
+				navmenu.dataProvider = data;
+				navmenu.addEventListener(MenuEvent.MENUEVENT,menueventHandler,false,0,true);
+				
+				return navmenu;
+			}
+			
+			protected function menueventHandler(event:MenuEvent):void
+			{
+				trace(event.data);
+				trace(event.text);
+				
+				var navmenu:NavigationMenu;
+				if(kChart.numElements == 1)
+				{
+					var obj:Object = kChart.getElementAt(0);
+					if(obj is BitmapImage)
+					{
+						kChart.removeAllElements();
+						
+						var label:Label        = new Label;
+						label.text             = "显示K线图";
+						label.verticalCenter   = 0;
+						label.horizontalCenter = 0;
+						
+						kChart.addElement(label);
+						return;
+					}
+					
+					//K线图容器已创建，则更新数据
+					//逻辑代码
+					return;
+				}
+				
+				var label2:Label        = new Label;
+				label2.text             = "显示K线图";
+				label2.verticalCenter   = 0;
+				label2.horizontalCenter = 0;
+				
+				kChart.addElement(label2);
+			}
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
+			{
+				super.updateDisplayList(w,h);
+			}
+			
+			private function doLabel(item:Date):String
+			{  
+				return dateFormatter.format(item);  
+			}  
+			
 			////////////////测试数据，误删，调试程序使用////////////////
 			
 			private function getAC():ArrayCollection
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
-				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-
+				acc.addItem({names:"基金裕阳[500006]",times:'2012-03-02'});
+				acc.addItem({names:"基金科讯[500029]",times:'2012-03-03'});
+				acc.addItem({names:"50ETF[510050]",times:'2012-03-04'});
+				acc.addItem({names:"中盘ETF[510130]",times:'2012-03-04'});
+				acc.addItem({names:"中小ETF[510220]",times:'2012-03-05'});
+				acc.addItem({names:"资源ETF[510410]",times:'2012-04-02'});
+				acc.addItem({names:"武钢CWB1[580013]",times:'2012-03-05'});
+				acc.addItem({names:"国电CWB1[580022]",times:'2012-03-03'});
+				acc.addItem({names:"邯郸钢铁[600001]",times:'2012-03-06'});
+				acc.addItem({names:"首创股份[600008]",times:'2012-03-12'});
+				acc.addItem({names:"日照港[600017]",times:'2012-03-22'});
+				acc.addItem({names:"华电国际[600027]",times:'2012-03-12'});
+				acc.addItem({names:"招商银行[600036]",times:'2012-03-11'});
+				acc.addItem({names:"浙江广厦[600052]",times:'2012-03-22'});
+				acc.addItem({names:"古越龙山[600059]",times:'2011-02-02'});
+				acc.addItem({names:"宇通客车[600066]",times:'2011-08-20'});
+				acc.addItem({names:"海信电器[600060]",times:'2012-03-22'});
+				acc.addItem({names:"冠城大通[600067]",times:'2012-03-12'});
+				acc.addItem({names:"中达股份[600074]",times:'2012-03-11'});
+				acc.addItem({names:"东风科技[600081]",times:'2012-03-22'});
+				acc.addItem({names:"中视传媒[600088]",times:'2011-02-02'});
+				acc.addItem({names:"哈高科[600095]",times:'2011-08-20'});
+				
 				return acc;
 			}
 			
+			private function getAC2():ArrayCollection
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({names:"模型1",times:'2012-03-02'});
+				acc.addItem({names:"模型2",times:'2012-03-03'});
+				acc.addItem({names:"模型3",times:'2012-03-04'});
+				acc.addItem({names:"模型4",times:'2012-03-04'});
+				acc.addItem({names:"模型5",times:'2012-03-05'});
+				acc.addItem({names:"模型6",times:'2012-04-02'});
+				acc.addItem({names:"模型7",times:'2012-03-05'});
+				acc.addItem({names:"模型8",times:'2012-03-03'});
+				acc.addItem({names:"模型9",times:'2012-03-06'});
+				acc.addItem({names:"模型10",times:'2012-03-12'});
+				acc.addItem({names:"模型11",times:'2012-03-22'});
+				acc.addItem({names:"模型12",times:'2012-03-12'});
+				acc.addItem({names:"模型13",times:'2012-03-11'});
+				acc.addItem({names:"模型14",times:'2012-03-22'});
+				acc.addItem({names:"模型15",times:'2011-02-02'});
+				acc.addItem({names:"模型16",times:'2011-08-20'});
+				acc.addItem({names:"模型17",times:'2012-03-22'});
+				acc.addItem({names:"模型18",times:'2012-03-12'});
+				acc.addItem({names:"模型19",times:'2012-03-11'});
+				acc.addItem({names:"模型20",times:'2012-03-22'});
+				acc.addItem({names:"模型21",times:'2011-02-02'});
+				acc.addItem({names:"模型22",times:'2011-08-20'});
+				return acc;
+			}
 		]]>
 	</fx:Script>
 
-	<menucomponents:SearchTools id="searchTools"  text="选股"
-								displayColumn="['BOX','names','times']" 
-								displayColumnWidth="[37,0,80]" />
-
+	<fx:Declarations>
+		<mx:DateFormatter id="dateFormatter" formatString="YYYY-MM-DD"/>
+	</fx:Declarations>
+	
+	<m:SearchTools id="searchTools"  text="填充" displayColumn="['BOX','names','times']"  displayColumnWidth="[37,0,80]" />
+	
 	<s:BitmapImage visible="true" id="help" horizontalCenter="0" verticalCenter="0" source="@Embed('assets/image/selectedstock_help.png')"/>
 	
-	<loading:LoadingGroup id="content" width="100%" bottom="2" top="67" visible="false">
-		<s:Line id="sLine" left="0" right="0" top="60" height="0" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
-		<!--
-		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
-		<s:Label left="260" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>
+ 	<s:Group id="content" width="100%" top="62" bottom="0" visible="false">
+		
+		<mx:HTML id="sd"    left="40"  top="30" width="200"
+			htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;查看选股条件&lt;/span&gt;"/>
+		
+		<mx:HTML id="xg"    left="600" top="30" width="155"
+				 htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;选股池&lt;/span&gt;"/>
+		
+		<mx:HTML id="kline" left="770" top="30" width="200"
+				 htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;K线图预览&lt;/span&gt;"/>
+		
+		<!--<s:Label id="sd"    left="40"  top="30" fontSize="20" text="查看选股条件" fontFamily="Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun"/>
+		<s:Label id="xg"    left="600" top="30" fontSize="20" text="选股池" fontFamily="Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun"/>
+		<s:Label id="kline" left="770" top="30" fontSize="20" text="K线图预览" fontFamily="Microsoft YaHei,Segoe UI,Helvetica,Arial,sans-serif,simsun"/>
+
+		<s:BitmapImage  source="@Embed('assets/image/sd.png')" left="40" top="30"/> 
+		<s:BitmapImage id="xg"  source="@Embed('assets/image/xg.png')" left="600" top="30"/>
+		<s:BitmapImage id="kline"  source="@Embed('assets/image/KLine.png')" left="770" top="30"/>
 		-->
-		<s:BitmapImage  source="@Embed('assets/image/xg.png')" left="40" top="30"/>
-		<s:BitmapImage  source="@Embed('assets/image/KLine.png')" left="260" top="30"/>
 		
-		<s:Scroller id="scroller" height="100%" width="210"	top="62" left="15">
-			<menucomponents:NavigationMenu  datafield="names" id="navigationMenu" width="210" height="{scroller.height}"/>
-		</s:Scroller>
+		<c:HorizontalLines id="sLine" left="0" right="0" top="60"/>
 		
-		<s:Group left="235" top="62" height="100%" width="100%">
-			<s:Label horizontalCenter="0" text="显示K线图" verticalCenter="0"/>
+		<s:Group id="hgroup" top="61" bottom="2" width="100%" visible="false">
+			
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="20" paddingRight="20" paddingBottom="20" verticalAlign="middle"/>
+			</s:layout>
+			
+			<!--设定选股条件-->
+			<s:Scroller id="settingScroller" width="520" height="100%">
+				<c:ScrollerGroup id="conditionGroup">
+					<c:ScrollerGroup width="510">
+						
+						<c:layout>
+							<s:VerticalLayout gap="25"  paddingRight="10" paddingTop="15" paddingBottom="15"/>
+						</c:layout>
+						
+						<c:FieldSet  width="100%" height="100" h="100" title="通用设置">
+							<s:Label x="43" y="30" text="时间"/>
+							<c:TInput x="81" y="24" width="127" />
+							<s:Label x="238" y="30" text="至"/>
+							<c:TInput x="282" y="24" width="127"/>
+							<s:Label x="20" y="70" text="持票周期"/>
+							<c:TInput x="80" y="64" />
+							<s:Label x="229" y="70" text="交易日"/>
+							<c:TInput x="280" y="64" />
+						</c:FieldSet>
+						
+						<c:FieldSet  width="100%" h="312" title="基础数据设置">
+							<s:BitmapImage top="22" horizontalCenter="0" source="@Embed('assets/image/bg.png')"/>
+							
+							<s:CheckBox x="22" y="115" label="开盘涨幅"/>
+							<c:NStepper x="112" y="112"/>
+							<c:NStepper x="171" y="112"/>
+							<c:NStepper x="231" y="112"/>
+							<c:NStepper x="288" y="112"/>
+							<c:NStepper x="349" y="112"/>
+							<c:NStepper x="407" y="112"/>
+							
+							<s:CheckBox x="22" y="155" label="当天涨幅"/>
+							<c:NStepper x="112" y="152"/>
+							<c:NStepper x="171" y="152"/>
+							<c:NStepper x="231" y="152"/>
+							<c:NStepper x="288" y="152"/>
+							<c:NStepper x="349" y="152"/>
+							<c:NStepper x="407" y="152"/>
+							
+							<s:CheckBox x="22" y="195" label="成交量"/>
+							<c:NStepper x="112" y="192"/>
+							<c:NStepper x="171" y="192"/>
+							<c:NStepper x="231" y="192"/>
+							<c:NStepper x="288" y="192"/>
+							<c:NStepper x="349" y="192"/>
+							<c:NStepper x="407" y="192"/>
+							
+							<s:CheckBox x="22" y="235" label="冲高回落"/>
+							<c:NStepper x="112" y="232"/>
+							<c:NStepper x="171" y="232"/>
+							<c:NStepper x="231" y="232"/>
+							<c:NStepper x="288" y="232"/>
+							<c:NStepper x="349" y="232"/>
+							<c:NStepper x="407" y="232"/>
+							
+							<s:CheckBox x="22" y="275" label="减低回升"/>
+							<c:NStepper x="112" y="272"/>
+							<c:NStepper x="171" y="272"/>
+							<c:NStepper x="231" y="272"/>
+							<c:NStepper x="288" y="272"/>
+							<c:NStepper x="349" y="272"/>
+							<c:NStepper x="407" y="272"/>
+							
+						</c:FieldSet>
+						
+						<c:FieldSet width="100%" title="均线设置" height="100" h="100">
+							<s:CheckBox x="22" y="25" label="均线多头排列"/>
+							<s:Label x="136" y="28" text="均线角"/>
+							<c:TInput x="181" y="23" width="40"/>
+							<s:CheckBox x="247" y="23" label="均线空头排列"/>
+							<s:Label x="359" y="25" text="均线角度"/>
+							<c:TInput x="421" y="19" width="40"/>
+							<s:Label x="22" y="65" text="均线间隔(第一日的百分比)"/>
+							<c:TInput x="181" y="59" width="40"/>
+						</c:FieldSet>
+						
+						<c:FieldSet width="100%" title="买点设置" height="100" h="100">
+							<s:CheckBox x="22" y="25" label="过前高"/> 
+							<s:CheckBox x="102" y="25" label="低于前低"/>
+							<s:CheckBox x="192" y="25" label="等待价格回落"/>
+							<s:Label x="22" y="65" text="买点"/>
+							<s:DropDownList x="51" y="60" width="75" labelField="text" 
+											selectedIndex="0" skinClass="assets.skin.DDListSkin" 
+											cornerRadius="0" borderColor="0xC3C3C3">
+								<s:dataProvider>
+									<s:ArrayList>
+										<fx:Object text="低于"/>
+										<fx:Object text="高于"/>
+									</s:ArrayList>
+								</s:dataProvider>
+							</s:DropDownList>
+							<s:Label x="142" y="65" text="第"/>
+							<c:NStepper x="162" y="60" width="46"/>
+							<s:Label x="214" y="65" text="日"/>
+							<s:DropDownList x="243" y="60" width="75" labelField="text" 
+											selectedIndex="0" skinClass="assets.skin.DDListSkin" 
+											cornerRadius="0" borderColor="0xC3C3C3">
+								<s:dataProvider>
+									<s:ArrayList>
+										<fx:Object text="开盘价"/>
+										<fx:Object text="收盘价"/>
+										<fx:Object text="最高价"/>
+										<fx:Object text="最低价"/>
+									</s:ArrayList>
+								</s:dataProvider>
+							</s:DropDownList>
+							<s:Label x="334" y="65" text="的"/>
+							<c:TInput x="351" y="60" width="43"/>
+							<s:Label x="404" y="65" text="%"/>
+						</c:FieldSet>
+						
+						<c:FieldSet width="100%" title="收益设置" height="60" h="60">
+							<c:layout>
+								<s:HorizontalLayout gap="10" paddingLeft="17" paddingTop="5" verticalAlign="middle"/>
+							</c:layout>
+							<s:RadioButton skinClass="assets.skin.RButtonSkin" x="22" y="25" label="测试最高价收益"/> 
+							<s:RadioButton skinClass="assets.skin.RButtonSkin" x="102" y="25" label="测试最收盘价收益"/>
+							<s:RadioButton skinClass="assets.skin.RButtonSkin" x="192" y="25" label="按时间排序输出"/>
+							<s:RadioButton skinClass="assets.skin.RButtonSkin" x="192" y="25" label="按股票排序输出"/>
+						</c:FieldSet>
+						
+					</c:ScrollerGroup>
+				</c:ScrollerGroup>
+			</s:Scroller>
+			
+			<!--分隔线-->
+			<s:Group id="separator" useHandCursor="true" buttonMode="true">
+				<s:BitmapImage horizontalCenter="0" source="@Embed('assets/image/se.png')" verticalCenter="0"/>
+				<s:BitmapImage visible="false" id="bar" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_right.png')" verticalCenter="0"/>
+				<s:BitmapImage visible="true" id="bal" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_left.png')" verticalCenter="0"/>
+			</s:Group>
+			
+			<!--内容-->
+			<s:Group id="contentHgroup" height="100%" width="100%">
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+				
+				<c:VerticalLines height="100%"/>
+				
+				<!--选股池-->
+				<s:Scroller id="stockPoolScroller"  width="155" height="100%">
+					<s:Group name="BitmapImage" width="100%" height="100%">
+						<s:BitmapImage source="@Embed('assets/image/incomeanalysisLeft.png')" horizontalCenter="0" verticalCenter="0"/>
+					</s:Group>
+				</s:Scroller>
+				
+				<c:VerticalLines id="kLine" height="100%"/>
+				
+				<!--K线图-->
+				<s:Group   id="kChart" height="100%" width="100%" visible="true">
+					<s:BitmapImage source="@Embed('assets/image/incomeanalysisRight.png')" horizontalCenter="0" verticalCenter="0"  />
+				</s:Group>
+				
+			</s:Group>
+			
 		</s:Group>
 		
-	</loading:LoadingGroup>
-	
+	</s:Group>
 </s:Group>

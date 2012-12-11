@@ -4,6 +4,7 @@ package com.biiway.stockassistant.event
 	
 	public class SearchToolsEvent extends Event
 	{
+		
 		public static const CLICKEVENT:String = "clickEvent";
 		
 		public static const CLOSEEVENT:String = "closeEvent";

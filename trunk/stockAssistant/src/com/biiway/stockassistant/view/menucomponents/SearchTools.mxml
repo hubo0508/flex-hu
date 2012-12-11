@@ -42,8 +42,8 @@
 				searchinput.addEventListener(FocusEvent.FOCUS_IN,searchinputHandler,false,0,true);
 				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
 				
-				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
-				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.ROLL_OUT,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.ROLL_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
 				
 				selectedStockBtn.addEventListener(MouseEvent.CLICK,selectedStockHandler,false,0,true);
@@ -66,9 +66,14 @@
 				dispatchEvent(searchToolsEvent);
 			}
 			
+			/**
+			 * 点击单元格事件处理
+			 */
 			protected function cellHandler(event:CellEvent):void
 			{
 				searchinput.text = event.selected ? event.data["names"] : null; 
+				
+				selectedStockHandler(null);
 			}
 			
 			protected function searchinputHandler(event:FocusEvent):void
@@ -130,7 +135,7 @@
 						dispatchEvent(new SearchToolsEvent(SearchToolsEvent.CLICKEVENT));
 						break;
 					
-					case MouseEvent.MOUSE_OVER:
+					case MouseEvent.ROLL_OVER:
 						if(img.name == "drop-down")
 						{
 							img.name = "drop-down-over";
@@ -141,7 +146,7 @@
 						}
 						break;
 					
-					case MouseEvent.MOUSE_OUT :
+					case MouseEvent.ROLL_OUT :
 						if(img.name == "drop-down-over")
 						{
 							img.name = "drop-down";
@@ -208,8 +213,8 @@
 					tootip ? null : tootip=new TooTip("显示搜索选项");
 
 					var point:Point = UIUtil.getUiAbsolutePosition(img);
-					tootip.x = point.x -30;
-					tootip.y = point.y+30;
+					tootip.x = point.x - 30;
+					tootip.y = point.y + 35;
 
 					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 				}
@@ -271,13 +276,14 @@
 	
 	<s:Label x="{searchTextBC.x  - 86}" fontFamily="黑体" fontSize="18" text="提取模型" verticalCenter="-1"/>
 	<s:BorderContainer id="searchTextBC" top="18" width="400" height="29" backgroundColor="#FFFFFF" borderColor="#D9D9D9" horizontalCenter="-34">
-		<components:DefaultInput emptyText="快速查询" id="searchinput" imeMode="CHINESE" height="100%"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
+		
+		<components:DefaultInput emptyText="快速查询" id="searchinput" imeMode="CHINESE" height="100%"  
+								 borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
+		
 		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
-		<s:Line id="sLine" right="21" top="0" width="0" height="26" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
+		
+		<components:VerticalLines id="sLine" right="21" top="0" width="0" height="26"/>
+		
 	</s:BorderContainer> 
 	
 	<components:Button id="selectedStockBtn" x="446" top="18" width="72" 

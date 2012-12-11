@@ -47,7 +47,7 @@
 			
 			private function initEvent():void
 			{
-				success.addEventListener(MouseEvent.CLICK,successHandler,false,0,true);
+				//success.addEventListener(MouseEvent.CLICK,successHandler,false,0,true);
 				
 				searchinput.addEventListener(FocusEvent.FOCUS_IN,searchinputHandler,false,0,true);
 				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
@@ -219,10 +219,10 @@
 				
 				if("自定义" == searchinput.text){
 					customtimegroup.visible = true;
-					searchTextBC.right = customtimegroup.width + 20 + 20;
+					searchTextBC.width = 90;
 				}else{
-					customtimegroup.visible = false;
-					searchTextBC.right = 30;
+					customtimegroup.visible = false; 
+					searchTextBC.width = this.width-77;
 					
 					this.searchinputHandler(new TextOperationEvent(TextOperationEvent.CHANGE));
 				}
@@ -290,29 +290,38 @@
 	
 	<s:Button id="close"  skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"   width="15" height="15" right="8" top="8" useHandCursor="true" buttonMode="true"/>
 
-	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="55">
-		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" displayColumn="{displayColumn}" displayColumnWidth="{displayColumnWidth}" width="100%"/>
+	<s:Scroller id="gridScroller" left="10" right="10" top="40" bottom="10">
+		<datagrid:Grid id="grid" promptVisible="false" selectType="radio" cellHeight="30" 
+					   displayColumn="{displayColumn}" displayColumnWidth="{displayColumnWidth}" width="100%"/>
 	</s:Scroller>
 
 	<s:Label left="10" top="15" text="时间"/>
-	<s:BorderContainer id="searchTextBC" left="45" right="30" top="6" height="29" backgroundColor="#FFFFFF" borderColor="#D9D9D9">
-		<s:TextInput editable="false" text="不限" id="searchinput" imeMode="CHINESE" height="100%"  borderVisible="false" left="0" right="24" focusAlpha="0" contentBackgroundAlpha="0"/>
-		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
-		<s:Line id="sLine" right="21" top="0" width="0" height="26" xFrom="0" xTo="0" yFrom="0" yTo="0">
-			<s:stroke>
-				<s:SolidColorStroke color="0xD9D9D9" weight="1" caps="square"/>
-			</s:stroke>
-		</s:Line>
+	<s:BorderContainer id="searchTextBC" left="45" top="6" width="{this.width-77}" height="29"
+					   backgroundColor="#FFFFFF" borderColor="#D9D9D9">
+		
+		<s:TextInput editable="false" text="不限" id="searchinput" imeMode="CHINESE" 
+					 height="100%"  borderVisible="false" left="0" right="24" 
+					 focusAlpha="0" contentBackgroundAlpha="0"/>
+		
+		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  
+				  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
+		
+		<components:VerticalLines id="sLine" right="21" top="0" width="0" height="26" />
+		
 	</s:BorderContainer> 
 	
 	<s:HGroup id="customtimegroup" right="30" top="6" height="29" verticalAlign="middle" visible="false">
-		<mx:DateField id="startDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="startDate" x="270" y="10" width="100" 
+					  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 		<s:Label text="至" />
-		<mx:DateField id="endDate" x="270" y="10" width="100" monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
+		<mx:DateField id="endDate" x="270" y="10" width="100" 
+					  monthNames='["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]' 
 					  yearNavigationEnabled="true" labelFunction="doLabel"/>
 	</s:HGroup>
-
+	
+	<!--
 	<components:Button id="success" fSize="12" text="确认" right="10" bottom="10" width="72" height="29" />
-
+	-->
+	
 </s:SkinnableContainer>

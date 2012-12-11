@@ -44,7 +44,7 @@
 			private function initEvent():void
 			{
 				searchTools.addEventListener(SearchToolsEvent.CLICKEVENT,clickSearchToolsHandler,false,0,true);
-				searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
+				//searchTools.addEventListener(SearchToolsEvent.CLOSEEVENT,closeSearchToolsHandler,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.CHANGE_SEARCH_CONDITION_EVENT,changeSearchConditionHander,false,0,true);
 				searchTools.addEventListener(SearchToolsEvent.SELECTED_STOCK_EVENT,selectedStockHandler,false,0,true);
 			
@@ -67,13 +67,13 @@
 							bar.visible = false;
 							bal.visible = true;
 							xg.left = 600;
-							kline.left = 770;
+							kline.left = 810;
 						}else if(settingScroller.width == 520){
 							settingScroller.width = 210;
 							bar.visible = true;
 							bal.visible = false;
 							xg.left = 300;
-							kline.left = 460;
+							kline.left = 500;
 						}
 						
 						break;
@@ -170,7 +170,7 @@
 					return;
 				}
 				
-				loadNavigationMenu(getAC());
+				loadNavigationMenu(getAC2());
 			}
 			
 			private function loadNavigationMenu(data:ArrayCollection):void
@@ -199,7 +199,7 @@
 			{
 				var navmenu:NavigationMenu = new NavigationMenu();
 				navmenu.datafield = "names";
-				navmenu.width = 155;
+				navmenu.percentWidth = 100;
 				navmenu.dataProvider = data;
 				navmenu.addEventListener(MenuEvent.MENUEVENT,menueventHandler,false,0,true);
 				
@@ -256,28 +256,57 @@
 			private function getAC():ArrayCollection
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({names:"装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；",times:'2012-03-02',info:'装订方式精装；成品尺寸285x285mm；数量30本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人稿件",times:'2012-03-03',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"雨龙",times:'2012-03-04',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2012-03-04',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"黑蚁策划",times:'2012-03-05',info:'效果图；成品尺寸900x500mm；数量1；惠普喷墨机打印；覆膜哑膜；'});
-				acc.addItem({names:"成都美联汇",times:'2012-04-02',info:'CAD出图；硫酸纸；数量1份；洒30份；明天一早送到公司；'});
-				acc.addItem({names:"麒扬成都广告",times:'2012-03-05',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"博印堂",times:'2012-03-03',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"三木立泰",times:'2012-03-06',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"成都碧辉广告装饰",times:'2012-03-12',info:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"成都海菱广告传媒",times:'2012-03-22',info:'室内效果图；数量22张；不覆膜；'});
-				acc.addItem({names:"星空传媒",times:'2012-03-12',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"思讯传媒",times:'2012-03-11',info:'中国移动宣传单，成品尺寸300x300mm，明早自取；'});
-				acc.addItem({names:"私人",times:'2012-03-22',ame2:'VIP精装；专用纸；急件；'});
-				acc.addItem({names:"私人",times:'2011-02-02',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
-				acc.addItem({names:"私人",times:'2011-08-20',info:'装订方式骑马订；成品尺寸310x245mm；数量1本；内容双面；纸张类型专用纸90g；封面用纸铜板；'});
+				acc.addItem({names:"模型1",times:'2012-03-02'});
+				acc.addItem({names:"模型2",times:'2012-03-03'});
+				acc.addItem({names:"模型3",times:'2012-03-04'});
+				acc.addItem({names:"模型4",times:'2012-03-04'});
+				acc.addItem({names:"模型5",times:'2012-03-05'});
+				acc.addItem({names:"模型6",times:'2012-04-02'});
+				acc.addItem({names:"模型7",times:'2012-03-05'});
+				acc.addItem({names:"模型8",times:'2012-03-03'});
+				acc.addItem({names:"模型9",times:'2012-03-06'});
+				acc.addItem({names:"模型10",times:'2012-03-12'});
+				acc.addItem({names:"模型11",times:'2012-03-22'});
+				acc.addItem({names:"模型12",times:'2012-03-12'});
+				acc.addItem({names:"模型13",times:'2012-03-11'});
+				acc.addItem({names:"模型14",times:'2012-03-22'});
+				acc.addItem({names:"模型15",times:'2011-02-02'});
+				acc.addItem({names:"模型16",times:'2011-08-20'});
+				acc.addItem({names:"模型17",times:'2012-03-22'});
+				acc.addItem({names:"模型18",times:'2012-03-12'});
+				acc.addItem({names:"模型19",times:'2012-03-11'});
+				acc.addItem({names:"模型20",times:'2012-03-22'});
+				acc.addItem({names:"模型21",times:'2011-02-02'});
+				acc.addItem({names:"模型22",times:'2011-08-20'});
+				
+				return acc;
+			}
+			
+			private function getAC2():ArrayCollection
+			{
+				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({names:"500006[4.2%][2012-03-02]",times:'2012-03-02'});
+				acc.addItem({names:"500029[4.2%][2012-03-02]",times:'2012-03-03'});
+				acc.addItem({names:"510050[4.2%][2012-03-02]",times:'2012-03-04'});
+				acc.addItem({names:"510130[2.2%][2012-03-02]",times:'2012-03-04'});
+				acc.addItem({names:"510220[1.2%][2012-03-02]",times:'2012-03-05'});
+				acc.addItem({names:"510410[3.2%][2012-03-02]",times:'2012-04-02'});
+				acc.addItem({names:"580013[4.2%][2012-03-02]",times:'2012-03-05'});
+				acc.addItem({names:"580022[2.2%][2012-03-02]",times:'2012-03-03'});
+				acc.addItem({names:"600001[2.2%][2012-03-02]",times:'2012-03-06'});
+				acc.addItem({names:"600008[1.2%][2012-03-02]",times:'2012-03-12'});
+				acc.addItem({names:"600017[2.2%][2012-03-02]",times:'2012-03-22'});
+				acc.addItem({names:"600027[4.2%][2012-03-02]",times:'2012-03-12'});
+				acc.addItem({names:"600036[2.2%][2012-03-02]",times:'2012-03-11'});
+				acc.addItem({names:"600052[4.2%][2012-03-02]",times:'2012-03-22'});
+				acc.addItem({names:"600059[3.2%][2012-03-02]",times:'2011-02-02'});
+				acc.addItem({names:"600066[4.2%][2012-03-02]",times:'2011-08-20'});
+				acc.addItem({names:"600060[4.2%][2012-03-02]",times:'2012-03-22'});
+				acc.addItem({names:"600067[4.2%][2012-03-02]",times:'2012-03-12'});
+				acc.addItem({names:"600074[4.2%][2012-03-02]",times:'2012-03-11'});
+				acc.addItem({names:"600081[5.2%][2012-03-02]",times:'2012-03-22'});
+				acc.addItem({names:"600088[64.21%][2012-03-02]",times:'2011-02-02'});
+				acc.addItem({names:"600095[2.2%][2012-03-02]",times:'2011-08-20'});
 				
 				return acc;
 			}
@@ -292,15 +321,14 @@
 
 	<s:Group id="content" width="100%" top="62" bottom="0" >
 		
-		<!--
-		<s:Label left="40" top="30" fontFamily="黑体" fontSize="20" text="设定选股条件"/>
-		<s:Label left="420" top="30" fontFamily="黑体" fontSize="20" text="选股池"/>
-		<s:Label left="565" top="30" fontFamily="黑体" fontSize="20" text="K线图预览"/>、
-		-->
+		<mx:HTML id="sd"    left="40"  top="30" width="200"
+				 htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;设定选股条件&lt;/span&gt;"/>
 		
-		<s:BitmapImage  source="@Embed('assets/image/sd.png')" left="40" top="30"/>
-		<s:BitmapImage id="xg"  source="@Embed('assets/image/xg.png')" left="600" top="30"/><!--300/600-->
-		<s:BitmapImage id="kline"  source="@Embed('assets/image/KLine.png')" left="700" top="30"/><!--460/770-->
+		<mx:HTML id="xg"    left="600" top="30" width="155" 
+				 htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;选股池&lt;/span&gt;"/>
+		
+		<mx:HTML id="kline" left="810" top="30" width="200"
+				 htmlText="&lt;span style='font-Size:20px;font-family:黑体'&gt;K线图预览&lt;/span&gt;"/>
 		
 		<c:HorizontalLines id="sLine" left="0" right="0" top="60"/>
 		
@@ -448,8 +476,8 @@
 			<!--分隔线-->
 			<s:Group id="separator" useHandCursor="true" buttonMode="true">
 				<s:BitmapImage horizontalCenter="0" source="@Embed('assets/image/se.png')" verticalCenter="0"/>
-				<s:BitmapImage visible="true" id="bar" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_right.png')" verticalCenter="0"/>
-				<s:BitmapImage visible="false" id="bal" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_left.png')" verticalCenter="0"/>
+				<s:BitmapImage visible="false" id="bar" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_right.png')" verticalCenter="0"/>
+				<s:BitmapImage visible="true" id="bal" horizontalCenter="-2" source="@Embed('assets/image/blue_arrow_left.png')" verticalCenter="0"/>
 			</s:Group>
 			
 			<!--内容-->
@@ -461,7 +489,7 @@
 				<c:VerticalLines height="100%"/>
 				
 				<!--选股池-->
-				<s:Scroller id="stockPoolScroller"  width="155" height="100%">
+				<s:Scroller id="stockPoolScroller"  width="200" height="100%">
 					<s:Group name="BitmapImage" width="100%" height="100%">
 						<s:BitmapImage source="@Embed('assets/image/incomeanalysisLeft.png')" horizontalCenter="0" verticalCenter="0"/>
 					</s:Group>
@@ -479,4 +507,5 @@
 		</s:Group>
 		
 	</s:Group>
+	
 </s:Group>

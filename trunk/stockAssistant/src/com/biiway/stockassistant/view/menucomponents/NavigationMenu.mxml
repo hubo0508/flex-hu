@@ -50,7 +50,10 @@
 			
 			private function initMenu():void
 			{
-				if(dataProvider == null || dataProvider.length == 0) return;
+				if(dataProvider == null || dataProvider.length == 0){ 
+					content  ? content.removeAllElements() : null;
+					return;
+				}
 				
 				content.removeAllElements();
 				
