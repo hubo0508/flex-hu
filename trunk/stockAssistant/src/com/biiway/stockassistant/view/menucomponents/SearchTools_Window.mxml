@@ -53,8 +53,8 @@
 				searchinput.addEventListener(FocusEvent.FOCUS_OUT,searchinputHandler,false,0,true);
 				//searchinput.addEventListener(TextOperationEvent.CHANGE,searchinputHandler,false,0,true);
 				
-				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OUT,detailedWindowImgMouseHandler,false,0,true);
-				detailedWindowImg.addEventListener(MouseEvent.MOUSE_OVER,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.ROLL_OUT,detailedWindowImgMouseHandler,false,0,true);
+				detailedWindowImg.addEventListener(MouseEvent.ROLL_OVER,detailedWindowImgMouseHandler,false,0,true);
 				detailedWindowImg.addEventListener(MouseEvent.CLICK,detailedWindowImgMouseHandler,false,0,true);
 
 				startDate.addEventListener(CalendarLayoutChangeEvent.CHANGE,startDateHandler,false,0,true);
@@ -104,7 +104,7 @@
 			
 			protected function detailedWindowImgMouseHandler(event:MouseEvent):void
 			{
-				var img:Image = event.currentTarget as Image;
+				var img:Image = (event.currentTarget as Group).getElementAt(0) as Image;
 				
 				switch(event.type)
 				{
@@ -123,7 +123,7 @@
 						PopUpManager.addPopUp(searchTimeList, UIUtil.getApplication(this), false);				
 						break;
 					
-					case MouseEvent.MOUSE_OVER:
+					case MouseEvent.ROLL_OVER:
 						if(img.name == "drop-down")
 						{
 							img.name = "drop-down-over";
@@ -134,7 +134,7 @@
 						}
 						break;
 					
-					case MouseEvent.MOUSE_OUT :
+					case MouseEvent.ROLL_OUT :
 						if(img.name == "drop-down-over")
 						{
 							img.name = "drop-down";
@@ -157,8 +157,8 @@
 					tootip ? null : tootip=new TooTip("选择时间类型");
 					
 					var point:Point = UIUtil.getUiAbsolutePosition(img);
-					tootip.x = point.x - 30 ;
-					tootip.y = point.y + 30 ;
+					tootip.x = point.x - 34;
+					tootip.y = point.y + 36; 
 					
 					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
 				}
@@ -303,8 +303,9 @@
 					 height="100%"  borderVisible="false" left="0" right="24" 
 					 focusAlpha="0" contentBackgroundAlpha="0"/>
 		
-		<mx:Image id="detailedWindowImg" name="drop-down" source="assets/image/drop-down.png"  
-				  width="21" height="27" right="0" top="0" useHandCursor="true" buttonMode="true"/>
+		<s:Group useHandCursor="true" buttonMode="true" id="detailedWindowImg" width="21" height="27" right="0" top="0">
+			<mx:Image name="drop-down" source="assets/image/drop-down.png" />
+		</s:Group>
 		
 		<components:VerticalLines id="sLine" right="21" top="0" width="0" height="26" />
 		
