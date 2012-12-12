@@ -295,9 +295,9 @@
 			{
 				var acc:ArrayCollection = new ArrayCollection();
 				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
-				acc.addItem({code:"500029",percentage:"3.2%",times:'2012-03-03'});
-//				acc.addItem({names:"510050[4.2%][2012-03-02]",times:'2012-03-04'});
-//				acc.addItem({names:"510130[2.2%][2012-03-02]",times:'2012-03-04'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
 //				acc.addItem({names:"510220[1.2%][2012-03-02]",times:'2012-03-05'});
 //				acc.addItem({names:"510410[3.2%][2012-03-02]",times:'2012-04-02'});
 //				acc.addItem({names:"580013[4.2%][2012-03-02]",times:'2012-03-05'});

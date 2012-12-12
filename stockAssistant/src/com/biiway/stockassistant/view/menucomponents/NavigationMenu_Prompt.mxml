@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   minHeight="26"
+				   minWidth="26"
+				   borderVisible="false"
+				   backgroundImage="assets/skin/ToolTip_borderSkin.png">
+
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	
+	<s:Label text="xx"/>
+	
+</s:BorderContainer>

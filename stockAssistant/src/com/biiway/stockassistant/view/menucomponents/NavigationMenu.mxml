@@ -33,6 +33,8 @@
 			
 			public var fieldPrompt:Array;
 			
+			private var prompt:NavigationMenu_Prompt;
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				creationCompleteMark = true;
@@ -41,6 +43,7 @@
 				
 				initMenu();
 			}
+			
 			override public function set verticalScrollPosition(value:Number):void 
 			{
 				value =  (value - scrolldelta) <= 0 ? 0 : (value - scrolldelta);
@@ -79,13 +82,8 @@
 					
 					if(datafields == null){
 						
-						var label:Label = new Label();
-						label.text = data[datafield];
-						label.verticalCenter = 0;
-						label.maxWidth = this.width-30;
+						var label:Label = createDisplayText(data[datafield]);
 						label.toolTip  = data[datafield];
-						label.setStyle("lineBreak","toFit");
-						label.maxDisplayedLines = 1;
 						
 						group.addElement(label);
 						
@@ -95,15 +93,16 @@
 						nGroup.gap = 0;
 						nGroup.percentHeight = 100;
 						nGroup.percentWidth = 100;
+						nGroup.verticalAlign = "middle";
 						
 						for(var u:int=0,unum:int=datafields.length; u<unum; u++)
 						{
-							var nLabel:Label = new Label();
-							nLabel.text = u <= 0 ? data[datafields[u]] : ("[" + data[datafields[u]] + "]");
-							nLabel.verticalCenter = 0;
-							nLabel.maxWidth = this.width-30;
-							nLabel.setStyle("lineBreak","toFit");
-							nLabel.maxDisplayedLines = 1;
+							var nField:String = datafields[u];
+							var nLabel:Label = createDisplayText(u <= 0 ? data[nField] : ("[" + data[nField] + "]"));
+							nLabel.id = nField;
+							nLabel.addEventListener(MouseEvent.ROLL_OUT,nLabelHandler,false,0,true);
+							nLabel.addEventListener(MouseEvent.ROLL_OVER,nLabelHandler,false,0,true);
+							nLabel.addEventListener(MouseEvent.MOUSE_MOVE,nLabelHandler,false,0,true);
 							
 							nGroup.addElement(nLabel);
 						}
@@ -115,41 +114,91 @@
 				}
 			}
 			
-			protected function menuContainerHandler(event:MouseEvent):void
+			/**
+			 * 创建菜单文本
+			 */
+			private function createDisplayText(text:String):Label
 			{
-				var menuContainer:ExpandGroup = event.currentTarget as ExpandGroup;
-				var label:Label = menuContainer.getElementAt(0) as Label;
+				var nLabel:Label = new Label();
+				nLabel.text = text;
+				nLabel.verticalCenter = 0;
+				nLabel.maxWidth = this.width-30;
+				nLabel.setStyle("lineBreak","toFit");
+				nLabel.maxDisplayedLines = 1;
+				
+				return nLabel;
+			}
+			
+			protected function nLabelHandler(event:MouseEvent):void
+			{
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						updateTextStyle(Const.DEFAULT_COLOR, label);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						updateTextStyle(Const.RED_COLOR, label);
+						break;
+					
+					case MouseEvent.MOUSE_MOVE :
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function menuContainerHandler(event:MouseEvent):void
+			{
+				
+				var menuContainer:ExpandGroup = event.currentTarget as ExpandGroup;
+				var obj:Object = menuContainer.getElementAt(0);
+
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						if(!datafields && obj is Label){
+							updateTextStyle(Const.DEFAULT_COLOR, obj as Label);
+						}else{
+							for(var i:int=0,inum:int=obj.numElements; i<inum; i++)
+							{
+								updateTextStyle(Const.DEFAULT_COLOR, obj.getElementAt(i) as Label);
+							}
+						}
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						if(!datafields &&  obj is Label){
+							updateTextStyle(Const.RED_COLOR, obj as Label);
+						}else{
+							for(var u:int=0,unum:int=obj.numElements; u<unum; u++)
+							{
+								updateTextStyle(Const.RED_COLOR,  obj.getElementAt(u) as Label);
+							}
+						}
 						break;
 					
 					case MouseEvent.CLICK :
 						
-						var menuevent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
-						menuevent.text = label.text;
-						menuevent.data = menuContainer.data;
-						dispatchEvent(menuevent);
+						setMenuTextDefaultColor("click");
 						
-						bgColor.visible ? null : bgColor.visible = true;
-						
-						for(var i:int=0,num:int=content.numElements; i<num; i++)
-						{
-							var _label:Label = (content.getElementAt(i) as ExpandGroup).getElementAt(0) as Label;
-							if(_label && _label.name == "CURRENT")
+						if(!datafields && obj is Label){
+							obj.name = "CURRENT";
+							updateTextStyle(Const.RED_COLOR,obj as Label);
+							dispatchMenuClickEvent(obj.text, menuContainer.data);
+						}else{
+							var text:String = "";
+							for(var p:int=0,pnum:int=obj.numElements; p<pnum; p++)
 							{
-								_label.name = "";
-								updateTextStyle(Const.DEFAULT_COLOR,_label);
-								break;
+								var nLabel:Label = obj.getElementAt(p) as Label;
+								if(nLabel is Label && nLabel.name != "CURRENT")
+								{
+									text += nLabel.text;
+									nLabel.name = "CURRENT";
+									updateTextStyle(Const.RED_COLOR,nLabel);
+								}
 							}
+							dispatchMenuClickEvent(text, menuContainer.data);
 						}
-						label.name = "CURRENT";
-						updateTextStyle(Const.RED_COLOR,label);
 						
 						updateBgRectY(menuContainer.y);
 						break;
@@ -159,14 +208,73 @@
 				}
 			}
 			
+			/**
+			 * 设置菜单文本默认颜色
+			 */
+			private function setMenuTextDefaultColor(type:String = null):void
+			{
+				var clearMark:Boolean = false;
+				for(var i:int=0,num:int=content.numElements; i<num; i++)
+				{
+					var obj:Object = (content.getElementAt(i) as ExpandGroup).getElementAt(0);
+					if(obj is Label && obj.name == "CURRENT" && !type)
+					{
+						var oLabel:Label = obj as Label;
+						oLabel.name = "";
+						updateTextStyle(Const.DEFAULT_COLOR,oLabel);
+						break;
+					}
+					
+					if(obj is HGroup)
+					{
+						var ngroup:HGroup = obj as HGroup;
+						for(var p:int=0,pnum:int=ngroup.numElements; p<pnum; p++)
+						{
+							var nLabel:Label = ngroup.getElementAt(p) as Label;
+							if(nLabel is Label && !type) {
+								nLabel.name = "";
+								updateTextStyle(Const.DEFAULT_COLOR,nLabel);
+								clearMark = true;
+							}else{
+								if(nLabel.name != "CURRENT"){
+									break;
+								}
+								nLabel.name = "";
+								updateTextStyle(Const.DEFAULT_COLOR,nLabel);
+							}
+						}
+						if(clearMark)break;
+					}
+				}
+			}
+			
+			/**
+			 * 点击菜单时，抛出事件
+			 */
+			private function dispatchMenuClickEvent(text:String, data:Object):void
+			{
+				var menuevent:MenuEvent = new MenuEvent(MenuEvent.MENUEVENT);
+				menuevent.text = text;
+				menuevent.data = data;
+				
+				dispatchEvent(menuevent);
+			}
+			
+			/**
+			 * 更新单项菜单背景颜色组件Rect的Y坐标
+			 */
 			private function updateBgRectY(y:Number):void
 			{
+				bgColor.visible ? null : bgColor.visible = true;
 				new TweenLite(bgColor,.3,{y:y});
 			}
 			
+			/**
+			 * 更新菜单显示文本字体颜色
+			 */
 			private function updateTextStyle(color:uint, label:Label):void
 			{
-				if(label.name != "CURRENT")
+				if(label && label.name != "CURRENT")
 				{
 					label.setStyle("color",color);
 				}
