@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _url:String;
+			private var _eventType:String;
+			public var item:Object;
+			
+			public function get url():String
+			{
+				return _url;
+			}
+
+			public function set url(value:String):void
+			{
+				_url = value;
+			}
+
+			public function get eventType():String
+			{
+				return _eventType;
+			}
+
+			public function set eventType(value:String):void
+			{
+				_eventType = value;
+			}
+
+
+		]]>
+	</fx:Script>
+	
+</mx:Image>

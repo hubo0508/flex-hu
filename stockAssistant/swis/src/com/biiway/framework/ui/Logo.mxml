@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler(event)"
+		 width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.framework.event.LogoutEvent;
+			import com.biiway.framework.util.IconUtil;
+			
+			import mx.controls.Alert;
+			import mx.core.IChildList;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.ISystemManager;
+			
+			
+			private var _imgURL:Class;
+			
+			private var _loginStatus:Boolean = true;
+			
+			private var _logoutStatus:Boolean = true;
+			
+			public static const REMOVE_POPUP_WINDOWN:String = "removePopUpWindown";
+			
+			/********************************************************************************************/
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+
+			}
+
+			/********************************************************************************************/
+			
+			[Bindable]
+			public function get imgURL():Class
+			{
+				return _imgURL;
+			}
+
+			/**
+			 * @private
+			 */
+			public function set imgURL(value:Class):void
+			{
+				_imgURL = value;
+			}
+
+			
+			/********************************************************************************************/
+
+			protected function logout_clickHandler(event:MouseEvent):void
+			{
+				Alert.show("确定注销吗?","提示",Alert.YES|Alert.NO,null, processWithLogout);						
+			}
+
+			protected function processWithLogout(event:CloseEvent):void
+			{
+				if(event.detail == Alert.YES)
+				{
+					this.parentApplication.dispatchEvent(new LogoutEvent(LogoutEvent.LOGOUT_EVENT));
+					//navigateToURL(new URLRequest("javascript:location.reload();"),"_self");
+					this.parentApplication.dispatchEvent(new Event(REMOVE_POPUP_WINDOWN));
+				}
+			}
+			
+
+			protected function login_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+
+			[Bindable]
+			public function get loginStatus():Boolean
+			{
+				return _loginStatus;
+			}
+
+			public function set loginStatus(value:Boolean):void
+			{
+				_loginStatus = value;
+			}
+
+			[Bindable]
+			public function get logoutStatus():Boolean
+			{
+				return _logoutStatus;
+			}
+
+			public function set logoutStatus(value:Boolean):void
+			{
+				_logoutStatus = value;
+			}
+
+
+		]]>
+	</fx:Script>
+
+	<fx:Metadata>
+		[Event(name="removePopUpWindown",type="flash.events.Event")]
+		[Event(name="logoutEvent",type="com.biiway.framework.event.LogoutEvent")]
+	</fx:Metadata>
+	
+	<s:BitmapImage source="{imgURL || IconUtil.logo}"/>
+	
+	<mx:Image id="logout" click="logout_clickHandler(event)" source="{IconUtil.logout}" 
+			  top="74" right="20" toolTip="注销" useHandCursor="true" buttonMode="true" visible="{this.logoutStatus}"/>
+	
+	<mx:Image id="login"  click="login_clickHandler(event)"  
+			  source="{this.loginStatus ? IconUtil.login : IconUtil.login_gray}"  
+			  top="74" right="58" toolTip="登录" useHandCursor="true" buttonMode="true" 
+			  visible="{this.loginStatus}"/>
+	
+</s:Group>
