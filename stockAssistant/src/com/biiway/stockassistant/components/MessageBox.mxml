@@ -9,7 +9,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.core.FlexGlobals;
 			import mx.managers.ISystemManager;

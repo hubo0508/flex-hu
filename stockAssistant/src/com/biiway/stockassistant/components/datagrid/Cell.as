@@ -2,7 +2,7 @@ package com.biiway.stockassistant.components.datagrid
 {
 	import assets.skin.CheckBoxSkin;
 	
-	import com.biiway.stockassistant.util.UIUtil;
+	import com.biiway.stockassistant.util.Util;
 	
 	import flash.display.Graphics;
 	import flash.events.Event;

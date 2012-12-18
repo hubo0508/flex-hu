@@ -21,7 +21,7 @@
 		<![CDATA[
 			import com.biiway.stockassistant.event.GridEvent;
 			import com.biiway.stockassistant.util.Const;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -339,7 +339,7 @@
 				}
 				
 				var gridEvent:GridEvent = new GridEvent(GridEvent.ICON_ROLL_EVENT);
-				gridEvent.point = UIUtil.getUiAbsolutePosition(img);
+				gridEvent.point = Util.getUiAbsolutePosition(img);
 
 				this.dispatchEvent(gridEvent);
 			}

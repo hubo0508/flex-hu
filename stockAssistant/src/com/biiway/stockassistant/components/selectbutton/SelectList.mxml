@@ -8,7 +8,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.collections.ArrayList;
 			import mx.events.DynamicEvent;
@@ -51,7 +51,7 @@
 					list.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,mouseDownOutsideHandler,false,0,true);
 					list.addEventListener(List.CLICK,listHandler,false,0,true);
 					
-					var point:Point = UIUtil.getUiAbsolutePosition(this);
+					var point:Point = Util.getUiAbsolutePosition(this);
 					point.y += this.height;
 					list.x = point.x;
 					list.y = point.y+1;
@@ -61,7 +61,7 @@
 				var newheight:Number = dataProvider.length * 27 + 10;
 				list.height != newheight ? list.height = newheight : null;
 
-				PopUpManager.addPopUp(list, UIUtil.getApplication(this), false);
+				PopUpManager.addPopUp(list, Util.getApplication(this), false);
 			}
 			
 			protected function listHandler(event:DynamicEvent):void

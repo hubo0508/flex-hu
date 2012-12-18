@@ -20,7 +20,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.graphic.VectorFig;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.managers.PopUpManager;
 			
@@ -124,7 +124,7 @@
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
 
-						PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+						PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
 						if(isPopMask)
 						{
 							tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;
@@ -132,7 +132,7 @@
 						}
 						else
 						{
-							var point:Point = UIUtil.getUiAbsolutePosition(this);
+							var point:Point = Util.getUiAbsolutePosition(this);
 							tootip.x = point.x + this.width*0.5 - tootip.width*0.5;
 							tootip.y = point.y+this.height+tootip.triangleH;	
 						}

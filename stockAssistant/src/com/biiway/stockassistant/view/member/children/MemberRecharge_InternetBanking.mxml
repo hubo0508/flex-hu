@@ -15,7 +15,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.core.FlexGlobals;
 			import mx.core.IFlexDisplayObject;
@@ -53,7 +53,7 @@
 			{
 				var agreement:MemberRecharge_InternetBanking_Agreement = new MemberRecharge_InternetBanking_Agreement();
 				
-				PopUpManager.addPopUp(agreement, FlexGlobals.topLevelApplication as DisplayObject, false);
+				Util.addPopUp(agreement, FlexGlobals.topLevelApplication as DisplayObject, true);
 				PopUpManager.centerPopUp(agreement);
 			}
 			
@@ -74,7 +74,7 @@
 						selectBanlk.addEventListener(FlexMouseEvent.MOUSE_DOWN_OUTSIDE,closeSelectBanlkHandler,false,0,true);
 						selectBanlk.addEventListener(MemberRecharge_InternetBanking_SelectBanlk.SELECTED,selectHandler,false,0,true);
 						
-						var point:Point = UIUtil.getUiAbsolutePosition(targetBanks);
+						var point:Point = Util.getUiAbsolutePosition(targetBanks);
 						selectBanlk.x = point.x;
 						selectBanlk.y = point.y + targetBanks.height + 8;
 						
@@ -114,11 +114,11 @@
 				{
 					tootip ? null : tootip=new TooTip("选择其他方式付款");
 
-					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					var point:Point = Util.getUiAbsolutePosition(img);
 					tootip.x = point.x - img.width * 0.5;
 					tootip.y = point.y + img.height + 8;
 
-					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
 				}
 				else
 				{
@@ -162,10 +162,10 @@
 	<s:Label id="agreement" x="101" y="143" color="0x0099CC" fontWeight="bold" text="《支付服务及相关协议》 " 
 			 useHandCursor="true" buttonMode="true"/>
 	
-	<s:Button id="cancel" x="43" y="191" width="100" label="取消支付" buttonMode="true" color="0xFFFFFF"
-			  fontSize="16" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
-	<s:Button x="153" y="191" width="200" label="登录到网上银行付款" buttonMode="true" color="0xFFFFFF"
-			  fontSize="16" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
+	<s:Button id="cancel" x="43" y="191" width="90" label="取消支付" buttonMode="true" color="0xFFFFFF"
+			  fontSize="14" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
+	<s:Button x="153" y="191" width="190" label="登录到网上银行付款" buttonMode="true" color="0xFFFFFF"
+			  fontSize="14" fontWeight="bold" skinClass="assets.skin.BtnSkin" useHandCursor="true"/>
 	
 	<s:Label id="selectOtherBanks_label" x="43" y="239" color="0x0099CC" text="选择其他方式付款" useHandCursor="true" buttonMode="true"/>
 	<s:Label x="153" y="239" color="0x0099CC" text=" | "/>

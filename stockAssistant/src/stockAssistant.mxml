@@ -8,9 +8,9 @@
 					   backgroundColor="0xFF0000"
 					   backgroundAlpha="0"
 					   showStatusBar="false"
-					   width="395"
+					   width="395" 
 					   maxWidth="395"
-					   maxHeight="295"
+					   maxHeight="295" 
 					   height="295">
 	  
 	<fx:Style source="assets/css/css.css"/>

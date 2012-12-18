@@ -14,7 +14,7 @@
 		<![CDATA[
 			import com.biiway.stockassistant.components.TooTip;
 			import com.biiway.stockassistant.event.SearchToolsEvent;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.collections.ArrayCollection;
 			import mx.core.IFlexDisplayObject;
@@ -120,7 +120,7 @@
 						
 						searchTextBC.setStyle("borderColor",0x4D90FE);
 
-						PopUpManager.addPopUp(searchTimeList, UIUtil.getApplication(this), false);				
+						PopUpManager.addPopUp(searchTimeList, Util.getApplication(this), false);				
 						break;
 					
 					case MouseEvent.ROLL_OVER:
@@ -156,11 +156,11 @@
 				{
 					tootip ? null : tootip=new TooTip("选择时间类型");
 					
-					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					var point:Point = Util.getUiAbsolutePosition(img);
 					tootip.x = point.x - 34;
 					tootip.y = point.y + 36; 
 					
-					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
 				}
 				else
 				{
