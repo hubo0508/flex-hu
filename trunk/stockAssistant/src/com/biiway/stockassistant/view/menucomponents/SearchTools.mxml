@@ -12,7 +12,7 @@
 			import com.biiway.stockassistant.components.TooTip;
 			import com.biiway.stockassistant.components.datagrid.CellEvent;
 			import com.biiway.stockassistant.event.SearchToolsEvent;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.collections.ArrayCollection;
 			import mx.core.IFlexDisplayObject;
@@ -119,7 +119,7 @@
 							searchWindow.addEventListener(SearchTools_Window.CLOSEEVENT,closeSearchWindowHandler,false,0,true);
 
 							
-							var point:Point = UIUtil.getUiAbsolutePosition(searchTextBC);
+							var point:Point = Util.getUiAbsolutePosition(searchTextBC);
 							point.y += searchTextBC.height;
 							searchWindow.x = point.x;
 							searchWindow.y = point.y+1;
@@ -130,7 +130,7 @@
 						
 						searchTextBC.setStyle("borderColor",0x4D90FE);
 						
-						PopUpManager.addPopUp(searchWindow, UIUtil.getApplication(this), false);
+						PopUpManager.addPopUp(searchWindow, Util.getApplication(this), false);
 						
 						dispatchEvent(new SearchToolsEvent(SearchToolsEvent.CLICKEVENT));
 						break;
@@ -212,11 +212,11 @@
 				{
 					tootip ? null : tootip=new TooTip("显示搜索选项");
 
-					var point:Point = UIUtil.getUiAbsolutePosition(img);
+					var point:Point = Util.getUiAbsolutePosition(img);
 					tootip.x = point.x - 34;
 					tootip.y = point.y + 36;
 
-					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
 				}
 				else
 				{

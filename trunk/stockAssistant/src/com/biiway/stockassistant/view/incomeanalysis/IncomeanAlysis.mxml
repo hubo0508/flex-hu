@@ -17,7 +17,7 @@
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.event.SearchToolsEvent;
 			import com.biiway.stockassistant.util.Const;
-			import com.biiway.stockassistant.util.UIUtil;
+			import com.biiway.stockassistant.util.Util;
 			import com.biiway.stockassistant.view.menucomponents.NavigationMenu;
 			
 			import mx.collections.ArrayCollection;
@@ -112,7 +112,7 @@
 					tootip.x = FlexGlobals.topLevelApplication.mouseX - 55;
 					tootip.y = FlexGlobals.topLevelApplication.mouseY + 25;
 					
-					PopUpManager.addPopUp(tootip, UIUtil.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
 				}
 				else
 				{
@@ -294,6 +294,26 @@
 			private function getAC2():ArrayCollection
 			{
 				var acc:ArrayCollection = new ArrayCollection();
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
 				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
 				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
 				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});

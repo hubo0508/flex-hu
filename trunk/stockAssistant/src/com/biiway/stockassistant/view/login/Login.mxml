@@ -14,7 +14,7 @@
 			import com.biiway.stockassistant.core.ResizeManager;
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.util.Const;
-			import com.biiway.stockassistant.util.StringUtil;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.controls.Alert;
 			import mx.events.FlexEvent;
@@ -68,7 +68,7 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						trace("over");
+						//trace("over");
 						break;
 					
 					case MouseEvent.MOUSE_MOVE :
@@ -130,19 +130,19 @@
 			
 			protected function validatorText(uname:String,upassd:String):Boolean
 			{
-				if(StringUtil.isEmpty(uname) && StringUtil.isEmpty(upassd))
+				if(Util.isEmpty(uname) && Util.isEmpty(upassd))
 				{
 					message("用户名与密码不能为空！");
 					return false;
 				}
 				
-				if(StringUtil.isEmpty(uname))
+				if(Util.isEmpty(uname))
 				{
 					message("用户名不能为空！");
 					return false;
 				}
 				
-				if(StringUtil.isEmpty(upassd))
+				if(Util.isEmpty(upassd))
 				{
 					message("密码不能为空！");
 					return false;

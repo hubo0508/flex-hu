@@ -2,15 +2,45 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
-				   minHeight="26"
-				   minWidth="26"
 				   borderVisible="false"
-				   backgroundImage="assets/skin/ToolTip_borderSkin.png">
+				   backgroundAlpha="0"
+				   minWidth="10"
+				   height="26">
 
-	<s:layout>
-		<s:HorizontalLayout verticalAlign="middle"/>
-	</s:layout>
+	<fx:Script>
+		<![CDATA[
+			private var _text:String;
+			
+			
+			override protected function measure():void
+			{
+				super.measuredWidth = 10;
+			}
+
+			[Bindable(event="textChange")]
+			public function get text():String
+			{
+				return _text;
+			}
+
+			public function set text(value:String):void
+			{
+				if (_text !== value)
+				{
+					_text=value;
+					dispatchEvent(new Event("textChange"));
+				}
+			}
+		]]>
+	</fx:Script>
 	
-	<s:Label text="xx"/>
-	
+	<s:BitmapImage width="100%" height="100%" source="@Embed('assets/skin/ToolTip_borderSkin.png')" horizontalCenter="0" verticalCenter="0"/>
+
+
+	<s:Label horizontalCenter="0"
+			 text="{text}" color="0xFFFFFF"
+			 verticalCenter="0"
+			 paddingLeft="7"
+			 paddingRight="7"/>
+
 </s:BorderContainer>

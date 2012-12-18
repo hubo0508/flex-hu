@@ -12,9 +12,12 @@
 			import com.biiway.stockassistant.core.TweenLite;
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
+			import com.biiway.stockassistant.util.Util;
 			
 			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
 			
 			import spark.components.HGroup;
 			import spark.components.Label;
@@ -33,7 +36,7 @@
 			
 			public var fieldPrompt:Array;
 			
-			private var prompt:NavigationMenu_Prompt;
+			private var tootip:NavigationMenu_Prompt;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -131,19 +134,43 @@
 			
 			protected function nLabelHandler(event:MouseEvent):void
 			{
+				var label:Label = event.currentTarget as Label;
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
+						showOrHideTootip(fieldPrompt[label.id],false);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
+						showOrHideTootip(fieldPrompt[label.id],true);
 						break;
-					
+
 					case MouseEvent.MOUSE_MOVE :
+						if(!tootip)return;
+						tootip.x = FlexGlobals.topLevelApplication.mouseX + 4;
+						tootip.y = FlexGlobals.topLevelApplication.mouseY + 18;
 						break;
 					
 					default:
 						break;
+				}
+			}
+			
+			private function showOrHideTootip(text:String, value:Boolean):void
+			{
+				if (value)
+				{
+					tootip ? null : tootip=new NavigationMenu_Prompt();
+					tootip.text = text;
+					
+					tootip.x = FlexGlobals.topLevelApplication.mouseX + 4;
+					tootip.y = FlexGlobals.topLevelApplication.mouseY + 18;
+
+					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+				}
+				else
+				{
+					tootip ? PopUpManager.removePopUp(tootip) : null;
 				}
 			}
 			
