@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				creationComplete="creationCompleteHandler(event)"
+				autoDrawBackground="false"	
+				width="190"
+				height="40"
+				depth="0" xmlns:core="com.biiway.framework.core.*">
+
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.framework.core.TweenLite;
+			import com.biiway.framework.event.ClickThreeLevelMenuEvent;
+			import com.biiway.framework.util.IconUtil;
+			
+			import mx.controls.Image;
+			import mx.events.FlexEvent;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				addEventListener(MouseEvent.MOUSE_OVER,mouseEventHandler,false,0,true);
+				addEventListener(MouseEvent.MOUSE_OUT,mouseEventHandler,false,0,true);
+				addEventListener(MouseEvent.CLICK,clickEventHandler,false,0,true);				
+			}
+
+			protected function clickEventHandler(event:MouseEvent):void
+			{
+				var threeLevel:ClickThreeLevelMenuEvent = new ClickThreeLevelMenuEvent(ClickThreeLevelMenuEvent.CLICK_THREE_LEVEL_MENU);
+				threeLevel.eventType = this.treeLevelMenuAction.eventType;
+				threeLevel.name = this.menuName.text;
+					
+				this.owner.dispatchEvent(threeLevel);
+			}
+			
+			protected function mouseEventHandler(event:MouseEvent):void
+			{
+				switch (event.type)
+				{
+					case MouseEvent.MOUSE_OVER:
+						TweenLite.tweenTo(this.round_img, .3, {rotation: 90});
+						break;
+					
+					case MouseEvent.MOUSE_OUT:
+						TweenLite.tweenTo(this.round_img, .3, {rotation: 0});
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function bcMouseEventHandler(event:MouseEvent):void
+			{
+				var bc:BorderContainer = event.currentTarget as BorderContainer;
+				
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_OVER:
+						bc.setStyle("borderVisible",true);
+						break; 
+					
+					case MouseEvent.MOUSE_OUT:
+						bc.setStyle("borderVisible",false);
+						break;
+					
+					default:
+						break;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="clickThreeLevelMenu",type="com.biiway.framework.event.ClickThreeLevelMenuEvent")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<core:Action id="treeLevelMenuAction" eventType="{data.eventType}"/>
+	</fx:Declarations>
+
+	<s:BorderContainer borderColor="#2D68A3" borderWeight="1" mouseOut="bcMouseEventHandler(event)" mouseOver="bcMouseEventHandler(event)"  verticalCenter="0" cornerRadius="8" 
+					   borderVisible="false" width="180" height="30" 
+					   backgroundColor="#699BCD" left="10">	
+		<s:filters>
+			<flash.filters:GlowFilter xmlns:flash.filters='flash.filters.*' blurX='4' blurY='4' alpha='1' color='#ffff66'  
+									  knockout='false' quality='1' strength='1' inner='false'/>
+		</s:filters>
+		
+		<mx:Label id="menuName" useHandCursor="true" buttonMode="true" text="{data.name}" left="35" verticalCenter="0" color="#FFFFFF" fontFamily="黑体" fontSize="16" width="126"/>
+		
+	</s:BorderContainer>
+	
+	<s:Group useHandCursor="true" buttonMode="true" left="0"  verticalCenter="0" width="45">		
+		<mx:Image source="{data.url}" verticalCenter="0" horizontalCenter="0"/>
+		<mx:Image source="{IconUtil.three_level_02}" verticalCenter="0" horizontalCenter="0" id="round_img"/>
+	</s:Group>		
+	
+</s:ItemRenderer>

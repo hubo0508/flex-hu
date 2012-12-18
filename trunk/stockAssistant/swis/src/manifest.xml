@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<componentPackage>
+
+	 <component id="Logo" class="com.biiway.framework.ui.Logo" />
+	 <component id="MainMenu" class="com.biiway.framework.ui.MainMenu" />
+	 <component id="LeftExistingMenu" class="com.biiway.framework.ui.LeftExistingMenu" />
+	 <component id="PanelBox" class="com.biiway.framework.ui.PanelBox" />
+	 
+	 <component id="RegexpValidatorArea" class="com.biiway.framework.validator.RegexpValidatorArea" />
+	 <component id="RegexpValidatorInput" class="com.biiway.framework.validator.RegexpValidatorInput" />
+	 <component id="StringValidatorArea" class="com.biiway.framework.validator.StringValidatorArea" />
+	 <component id="StringValidatorInput" class="com.biiway.framework.validator.StringValidatorInput" />
+	
+	
+	 <component id="FusionCharts" class="com.biiway.framework.core.fusioncharts.FusionCharts" />
+</componentPackage>

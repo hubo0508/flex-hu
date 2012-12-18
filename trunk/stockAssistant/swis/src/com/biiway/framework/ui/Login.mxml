@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   xmlns:ns="library://SWIC.BIIWAY"
+				   creationComplete="creationCompleteHandler(event)"
+				   backgroundImage="{IconUtil.default_img}"
+				   width="100%"
+				   height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.framework.event.LoginEvent;
+			import com.biiway.framework.util.IconUtil;
+			import com.biiway.framework.util.StringUtil;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.components.SkinnableContainer;
+			
+			private var dragRangeY:int = 33;
+			
+			[Bindable]private var loginStatus:Boolean = false;
+			
+			[Bindable]private var objDataProvider:Object;
+			
+			private var _selectIndexMenu:int = 2;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initEventListener();
+				
+				this.loginStatus = this.checkInputInfo();
+				
+				//focusManager.setFocus(this.username);
+			}
+
+			private function initEventListener():void
+			{
+				this.loginBC.addEventListener(MouseEvent.MOUSE_MOVE,dragMouseEventFunc,false,0,true);
+				this.loginBC.addEventListener(MouseEvent.MOUSE_UP,dragMouseEventFunc,false,0,true);      
+				this.loginBC.addEventListener(MouseEvent.MOUSE_DOWN,dragMouseEventFunc,false,0,true); 
+			}
+			
+			public function applicationClass(app:SkinnableContainer):void
+			{
+				app.addElement(this);					
+			}
+			
+			public function setDefaultValue(useranemStr:String,passwordStr:String):void
+			{
+				if(StringUtil.isEmpty(useranemStr) || StringUtil.isEmpty(passwordStr)) return;
+				
+				if(useranemStr != this.username.text)
+				{
+					this.username.text = useranemStr;
+				}
+				
+				if(passwordStr != this.password.text)
+				{
+					this.password.text = passwordStr;	
+				}
+			}
+
+			public function set functionModuledataProvider(obj:Object):void
+			{
+				if(obj)
+				{
+					this.objDataProvider = obj;
+				}
+			}
+			
+			protected function dragMouseEventFunc(evt:MouseEvent):void
+			{
+				switch (evt.type)
+				{
+					case MouseEvent.MOUSE_DOWN:						
+						if(this.loginBC.mouseY <= dragRangeY)
+						{
+							this.loginBC.startDrag();								
+						}							
+						break;
+					
+					case MouseEvent.MOUSE_UP:						
+						this.loginBC.stopDrag();
+						break;
+					
+					case MouseEvent.MOUSE_MOVE:		
+						if(this.loginBC.mouseY <= dragRangeY)
+						{
+							this.loginBC.buttonMode = true;
+							this.loginBC.useHandCursor = true;
+						}
+						else
+						{
+							this.loginBC.buttonMode = false;
+							this.loginBC.useHandCursor = false;
+						}
+
+						break;
+
+					default:
+						break;
+				}
+			}
+
+			protected function username_changeHandler(event:Event):void
+			{
+				this.loginStatus = this.checkInputInfo();
+			}
+
+
+			protected function password_changeHandler(event:Event):void
+			{
+				this.loginStatus = this.checkInputInfo();
+			}
+			
+			private function checkInputInfo():Boolean
+			{
+				var usernameStr:String = this.username.text;
+				var passwordStr:String = this.password.text;
+
+				if(StringUtil.isEmpty(usernameStr) || StringUtil.isEmpty(passwordStr))
+				{
+					return false;
+				}
+				
+				this.username.text = usernameStr.replace(/^\s*|\s*$/g, "").split(" ").join("");
+				this.password.text = passwordStr.replace(/^\s*|\s*$/g, "").split(" ").join("");
+					
+				return true;
+			}
+
+
+			protected function reset_clickHandler(event:MouseEvent):void
+			{
+				if(StringUtil.isNotEmpty(this.username.text))
+				{
+					this.username.text = null;
+				}
+				
+				if(StringUtil.isNotEmpty(this.password.text))
+				{
+					this.password.text = null;
+				}
+			}
+
+
+			protected function login_clickHandler(event:MouseEvent):void
+			{
+				var login_event:LoginEvent = new LoginEvent(LoginEvent.LOGIN_EVENT);
+				login_event.username = this.username.text;
+				login_event.password = this.password.text;
+//				login_event.functionModule = this.functionModule.selectedItem.name;
+//				login_event.url2 = this.functionModule.selectedItem.url2;
+//				login_event.eventType = this.functionModule.selectedItem.eventType;
+				
+				this.dispatchEvent(login_event);
+			}
+
+			[Bindable]
+			public function get selectIndexMenu():int
+			{
+				return _selectIndexMenu;
+			}
+
+			public function set selectIndexMenu(value:int):void
+			{
+				_selectIndexMenu = value;
+			}
+
+
+			protected function text_keyUpHandler(event:KeyboardEvent):void
+			{
+				if(event.keyCode == Keyboard.ENTER && this.login.enabled)
+				{
+					var login_event:LoginEvent = new LoginEvent(LoginEvent.LOGIN_EVENT);
+					login_event.username = this.username.text;
+					login_event.password = this.password.text;
+					
+					this.dispatchEvent(login_event);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="loginEvent",type="com.biiway.framework.event.LoginEvent")]
+	</fx:Metadata>
+	
+	<ns:Logo top="10" width="100%" loginStatus="false" logoutStatus="false"/>
+
+	<s:BorderContainer id="loginBC" borderVisible="false" cornerRadius="8" width="330" height="184" horizontalCenter="0" verticalCenter="-20">
+		
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0xE9E8EC"/>
+				<s:GradientEntry color="0xFCFCFA"/>
+			</s:LinearGradient>	
+		</s:backgroundFill>
+		
+		<s:filters>
+			<flash.filters:GlowFilter id='glowFilter'  xmlns:flash.filters='flash.filters.*' 
+									  blurX='10' blurY='10'
+									  alpha='1' color='#ffffff' 
+									  knockout='false' quality='1'
+									  strength='1' inner='false'/>
+		</s:filters>
+		
+		<s:BitmapImage source="{IconUtil.login_title}" top="15"/>
+		
+		<s:BitmapImage source="{IconUtil.login_info}" top="65" left="20"/>
+	
+
+		<s:VGroup top="62" left="105" gap="16" right="17">
+			
+			<mx:TextInput id="username" width="100%" keyUp="text_keyUpHandler(event)" change="username_changeHandler(event)"/>
+			
+			<mx:TextInput id="password" width="100%" keyUp="text_keyUpHandler(event)" change="password_changeHandler(event)" displayAsPassword="true"/>
+			
+			<!--<mx:ComboBox id="functionModule" selectedIndex="{selectIndexMenu}" width="100%" labelField="name" dataProvider="{objDataProvider}" />-->
+
+		</s:VGroup>
+		
+		<s:HGroup bottom="15" horizontalCenter="0">
+			<mx:Button id="login" label="登录" useHandCursor="true" buttonMode="true" click="login_clickHandler(event)" enabled="{loginStatus ? true : false}"/>
+			<mx:Button id="reset" label="重置" useHandCursor="true" buttonMode="true" click="reset_clickHandler(event)"/>
+		</s:HGroup>
+		
+	</s:BorderContainer>
+	
+</s:BorderContainer>

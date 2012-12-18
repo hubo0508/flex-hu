@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark"
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   creationComplete="creationComplete_Handler(event)"
+		   click="clickHandler(event)"
+		   verticalScrollPolicy="off"
+		   horizontalScrollPolicy="off"
+		   width="100%"
+		   height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.framework.core.TweenLite;
+			import com.biiway.framework.event.ClickSecondaryMenuEvent;
+			import com.biiway.framework.event.ClickThreeLevelMenuEvent;
+			import com.biiway.framework.event.ClosePanelBoxEvent;
+			import com.biiway.framework.event.MinimizePanelBoxEvent;
+			import com.biiway.framework.event.RestorePanelBoxEvent;
+			import com.biiway.framework.util.IconUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.controls.Image;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import sjd.managers.ResizeManager;
+			
+			import spark.components.Group;
+			import spark.components.VGroup;
+			import spark.filters.DropShadowFilter;
+			import spark.filters.GlowFilter;
+			
+			/**自定义内容*/
+			private var objContent:IVisualElement;
+			
+			/**二级菜单数据源*/
+			private var menuDataACC:ArrayCollection;
+			
+			/**三级菜单数据源*/
+			private var threeLevelACC:Array;
+			
+			private var _dragRangeY:int = 35;
+			
+			/**当前页面最小缩放宽高*/
+			private var _minSize:Number = 400;		
+			
+			private var _menuContentHeight:Number = 140;
+			
+			/**当前页面标识*/
+			private var _SID:String;
+			
+			/**当前页面抬头显示文字*/
+			private var _titleText:String;
+			
+			/**三级菜单抬头*/
+			[Bindable]private var _threeLevelTitleText:String = "无子菜单";
+			private var _threeLevelTitleDefaultText:String = "无子菜单";
+			
+			/**自定义内容显示边距*/
+			private var _contentTop:int = 100;			
+			private var _contentBottom:int = 10;			
+			private var _contentRight:int = 10;			
+			private var _contentLeft:int = 10;
+			
+			/**最大化与还原窗口原始存储值*/
+			private var cacheHeight:Number;
+			private var cacheWeight:Number;
+			private var cacheX:Number;
+			private var cacheY:Number;
+			
+			/**静态事件变量*/
+			public static const UPDATE_CURR_MENU_STYLE:String = "updateCurrMenuStyle"
+
+			protected function creationComplete_Handler(event:FlexEvent):void
+			{			
+				ResizeManager.enableResize(this, minSize);
+				
+				this.createDropShadowFilter();
+				this.initEventListener();
+				this.addContent(this.objContent);
+				this.createSecondaryMenu(menuDataACC);
+				this.updateThreeLevelMenu(threeLevelACC);
+			}
+			
+			/**
+			 * 初始化事件监听
+			 */
+			private function initEventListener():void
+			{
+				this.addEventListener(MouseEvent.MOUSE_MOVE,dragMouseEventFunc,false,0,true);
+				this.addEventListener(MouseEvent.MOUSE_UP,dragMouseEventFunc,false,0,true);      
+				this.addEventListener(MouseEvent.MOUSE_DOWN,dragMouseEventFunc,false,0,true); 
+				
+				this.close_btn.addEventListener(MouseEvent.CLICK,closeBtnHandler,false,0,true);
+				this.minimize_btn.addEventListener(MouseEvent.CLICK,minimizeBtnHandler,false,0,true);
+				
+				//this.threeLevelGroup.addEventListener(MouseEvent.MOUSE_OUT,displayMenuHandler,false,0,true);
+				this.threeLevelGroup.addEventListener(MouseEvent.MOUSE_OVER,displayMenuHandler,false,0,true);
+				//this.hide_image.addEventListener(MouseEvent.MOUSE_OUT,displayMenuHandler,false,0,true);
+				this.threeLevelMenuContent.addEventListener(MouseEvent.ROLL_OUT,menuContentMouseEventHandler,false,0,true);
+				this.threeLevelMenuContent.addEventListener(MouseEvent.ROLL_OVER,menuContentMouseEventHandler,false,0,true);
+
+				this.maximizeORdeoxidize.addEventListener(MouseEvent.CLICK,maximizeORdeoxidize_clickHandler,false,0,true);
+				
+				this.minimize_btn.addEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler,false,0,true);
+				this.close_btn.addEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler,false,0,true);
+				this.maximizeORdeoxidize.addEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler,false,0,true);
+				this.minimize_btn.addEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler,false,0,true);
+				this.close_btn.addEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler,false,0,true);
+				this.maximizeORdeoxidize.addEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler,false,0,true);
+				
+				this.threeLevelDataGroup.addEventListener(ClickThreeLevelMenuEvent.CLICK_THREE_LEVEL_MENU,clickThreeLevelMenu_Handler,false,0,true);
+
+				this.stage.addEventListener(ResizeEvent.RESIZE,stageResizeHanlder,false,0,true);
+				
+				//this.addEventListener(Event.REMOVED_FROM_STAGE,destroyContainer,false,0,true);
+				
+				//this.parent.addEventListener(RestorePanelBoxEvent.RESTORE_PANEL_BOX,restorePanelBoxHandler,false,0,true);
+			}
+			
+//			public function restorePanelBoxHandler(event:RestorePanelBoxEvent):void
+//			{
+//				try{
+//					this.parent.removeEventListener(RestorePanelBoxEvent.RESTORE_PANEL_BOX,restorePanelBoxHandler);
+//				}catch(e:*){}			
+//				this.initEventListener();				
+//			}
+//			
+//			public function destroyContainer(event:Event = null):void
+//			{
+//				try
+//				{
+//					this.removeEventListener(MouseEvent.MOUSE_MOVE,dragMouseEventFunc);
+//					this.removeEventListener(MouseEvent.MOUSE_UP,dragMouseEventFunc);      
+//					this.removeEventListener(MouseEvent.MOUSE_DOWN,dragMouseEventFunc); 				
+//					this.close_btn.removeEventListener(MouseEvent.CLICK,closeBtnHandler);
+//					this.minimize_btn.removeEventListener(MouseEvent.CLICK,minimizeBtnHandler);				
+//					this.threeLevelGroup.removeEventListener(MouseEvent.MOUSE_OVER,displayMenuHandler);
+//					this.threeLevelMenuContent.removeEventListener(MouseEvent.ROLL_OUT,menuContentMouseEventHandler);
+//					this.threeLevelMenuContent.removeEventListener(MouseEvent.ROLL_OVER,menuContentMouseEventHandler);				
+//					this.maximizeORdeoxidize.removeEventListener(MouseEvent.CLICK,maximizeORdeoxidize_clickHandler);				
+//					this.minimize_btn.removeEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler);
+//					this.close_btn.removeEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler);
+//					this.maximizeORdeoxidize.removeEventListener(MouseEvent.MOUSE_OUT,btnMouseHandler);
+//					this.minimize_btn.removeEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler);
+//					this.close_btn.removeEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler);
+//					this.maximizeORdeoxidize.removeEventListener(MouseEvent.MOUSE_OVER,btnMouseHandler);				
+//					this.threeLevelDataGroup.removeEventListener(ClickThreeLevelMenuEvent.CLICK_THREE_LEVEL_MENU,clickThreeLevelMenu_Handler);				
+//					this.stage.removeEventListener(ResizeEvent.RESIZE,stageResizeHanlder);				
+//					this.removeEventListener(Event.REMOVED_FROM_STAGE,destroyContainer);					
+//				}catch(e:*){
+//					trace(e);
+//				}				
+//			}
+			
+			protected function stageResizeHanlder(event:Event):void
+			{
+				if (maximizeORdeoxidize.source == IconUtil.deoxidize)
+				{
+					this.width=this.stage.stageWidth;
+					this.height=this.stage.stageHeight;
+				}					
+			}
+			
+			private function displayDoMouseUp():void
+			{
+				this.dispatchEvent(new Event("doMouseUp",true));
+			}
+			
+			/**
+			 * 点击三级菜单捕获
+			 */
+			protected function clickThreeLevelMenu_Handler(event:ClickThreeLevelMenuEvent):void
+			{
+				var threeLevel:ClickThreeLevelMenuEvent = new ClickThreeLevelMenuEvent(ClickThreeLevelMenuEvent.CLICK_THREE_LEVEL_MENU);
+				threeLevel.eventType = event.eventType;
+				threeLevel.name = event.name;
+				
+				trace("+++++++++++++++++++" + event.eventType + " ++ "+event.name);
+				
+				this.dispatchEvent(threeLevel);
+			}
+			
+			/**
+			 * 对最大化，最小化，关闭，还原增加滤静效果
+			 * 
+			 * @param event:MouseEvent
+			 */
+			protected function btnMouseHandler(event:MouseEvent):void
+			{
+				var img:Image=event.currentTarget as Image;
+				switch (event.type)
+				{
+					case MouseEvent.MOUSE_OUT:
+						img.filters=[];
+						break;
+
+					case MouseEvent.MOUSE_OVER:
+						img.filters=[this.glowFilter()];
+						break;
+
+					default:
+						break;
+				}
+			}
+			
+			private var deoxidize:Class;
+			public function chageBtnSource(source:Class):void
+			{
+				deoxidize = source;				
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+			}
+			
+			override protected function  createChildren():void
+			{
+				super.createChildren();
+				this.maximizeORdeoxidize.source = deoxidize;
+			}
+
+			/**
+			 * 最大化与还原
+			 * 
+			 * @param event:MouseEvent
+			 */
+			protected function maximizeORdeoxidize_clickHandler(event:MouseEvent):void
+			{
+				var img:Image=event.currentTarget as Image;
+				if (img.source == IconUtil.maximize)
+				{
+					this.cacheWeight=this.width;
+					this.cacheHeight=this.height;
+					this.cacheX=this.x;
+					this.cacheY=this.y;
+
+					this.width=this.stage.stageWidth;
+					this.height=this.stage.stageHeight;				
+
+					this.x=0;
+					this.y=0;
+
+					img.source=IconUtil.deoxidize;
+				}else if (img.source == IconUtil.deoxidize){
+					if(this.width == this.stage.stageWidth){
+						this.width = this.width*0.8;
+					}else{
+						this.width=this.cacheWeight;
+					}
+					
+					if(this.height == this.stage.stageHeight){
+						this.height=this.height*0.8;
+					}else{
+						this.height=this.cacheHeight;
+					}				
+
+					if(this.height == this.stage.stageHeight || this.width == this.stage.stageWidth){
+						this.x=this.cacheX+30;
+						this.y=this.cacheY-30;
+					}else{
+						this.x=this.cacheX;
+						this.y=this.cacheY;
+					}
+
+					maximizeORdeoxidize.source=IconUtil.maximize;
+				}
+			}
+
+			
+			/**
+			 * 移出三级菜单
+			 */
+			protected function menuContentMouseEventHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OVER:
+						break;
+					
+					case MouseEvent.ROLL_OUT:
+						if(event.target is BorderContainer && event.target.id == "threeLevelMenuContent")
+						{
+							TweenLite.tweenTo(this.threeLevelMenuContent, .6, {bottom: (-this.menuContentHeight)});
+						}						
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			/**
+			 * 显示三级菜单
+			 */
+			protected function displayMenuHandler(event:MouseEvent):void
+			{
+				switch (event.type)
+				{
+					case MouseEvent.MOUSE_OVER:
+						var obj:ArrayCollection = this.threeLevelDataGroup.dataProvider as ArrayCollection;
+						if(obj)TweenLite.tweenTo(this.threeLevelMenuContent, .6, {bottom: (0)});						
+						break;
+					
+					case MouseEvent.MOUSE_OUT:
+						TweenLite.tweenTo(this.threeLevelMenuContent, .6, {bottom: (-this.menuContentHeight)});
+						break;
+					
+					default:
+						break;
+				}
+			}
+			/**
+			 * 点击当前容器，更新左侧菜单的显示当前内容
+			 *
+			 * @param titleText:String 当前容器显示名称
+			 * @param SID:String 当前容器的标一标识，需要创建改容器时手动添加全局唯一标识
+			 */
+			protected function clickHandler(event:MouseEvent):void
+			{
+				if (event.target is Image)
+					return;
+
+				var dy:DynamicEvent=new DynamicEvent(UPDATE_CURR_MENU_STYLE);
+				dy.name=this.titleText;
+				dy.SID=this.SID;
+
+				this.parentApplication.dispatchEvent(dy);
+			}
+
+			
+			/**
+			 * 删除自定义内容
+			 */
+			public function removeContent():void
+			{
+				var ele:Object = this.getContent() as UIComponent;
+				try
+				{
+					ele.removeEvent();
+					ele = null;
+					ele = this;
+					ele.removeEvent();
+				}catch(e:*){trace(e)}
+				
+				this.content_group.removeAllElements();
+			}
+			
+			/**
+			 * 取得自定义内容
+			 */
+			public function getContent():IVisualElement
+			{
+				return this.content_group.getElementAt(0);
+			}
+			
+			
+			/**
+			 * 设置二级菜单显示数据源
+			 */
+			public function set initSecondaryData(value:ArrayCollection):void
+			{
+				this.menuDataACC = value;				
+			}
+			
+			/**
+			 * 设置三级菜单显示数据源
+			 */
+			public function set initThreeLevelData(array:Array):void
+			{
+				this.threeLevelACC = array;
+			}
+			
+			/**
+			 * 设置自定义内容容器
+			 */
+			public function set content(obj:IVisualElement):void
+			{
+				this.objContent = obj;				
+			}
+			
+			/**
+			 * 点击关闭窗口按钮，关闭当前容器
+			 */
+			protected function closeBtnHandler(event:MouseEvent):void
+			{			
+				var evt:ClosePanelBoxEvent = new ClosePanelBoxEvent(ClosePanelBoxEvent.CLOSE_PANEL_BOX);
+				evt.SID = this.SID;
+				evt.name = this.titleText;
+				
+				this.parentApplication.dispatchEvent(evt);
+			}
+			
+			/**
+			 * 点击最小化窗口按钮，最小化当前容器
+			 */
+			protected function minimizeBtnHandler(event:MouseEvent):void
+			{
+				var evt:MinimizePanelBoxEvent = new MinimizePanelBoxEvent(MinimizePanelBoxEvent.MINIMIZE_PANEL_BOX);
+				evt.SID = this.SID;
+				evt.name = this.titleText;
+				
+				this.parentApplication.dispatchEvent(evt);
+			}
+
+			/**
+			 * 拖动当前容器
+			 */
+			protected function dragMouseEventFunc(evt:MouseEvent):void
+			{
+				switch (evt.type)
+				{
+					case MouseEvent.MOUSE_DOWN:
+						
+						if(this.mouseY <= dragRangeY)
+						{
+							if(this.mouseY >=5 && this.mouseX >= dragRangeY && this.mouseX <= this.width - dragRangeY)
+							{
+								this.startDrag();
+							}														
+						}							
+						break;
+					
+					case MouseEvent.MOUSE_UP:
+						
+						this.stopDrag();
+						break;
+					
+					case MouseEvent.MOUSE_MOVE:
+						
+						if(this.mouseY <= dragRangeY && this.mouseX >= dragRangeY && this.mouseX <= this.width - dragRangeY)
+						{
+							this.buttonMode = true;
+							this.useHandCursor = true;
+						}
+						else
+						{
+							this.buttonMode = false;
+							this.useHandCursor = false;
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			/**
+			 * 二级菜单简单鼠标移出移出效果
+			 */
+			protected function menuGroupMouseHandler(event:MouseEvent):void
+			{
+				var group:VGroup = event.currentTarget as VGroup;
+
+				switch(event.type)
+				{
+					case MouseEvent.MOUSE_OVER:
+						
+						group.paddingTop = -5;
+						group.gap = 9;
+						break;
+					
+					case MouseEvent.MOUSE_OUT:
+						
+						group.paddingTop = 0;
+						group.gap = 4;
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			/**
+			 * 二级菜单点击
+			 */
+			protected function clickMenuGroupHandler(event:MouseEvent):void
+			{
+				var vgroup:VGroup = event.currentTarget as VGroup;
+				
+				this.dispatchClickSecondaryEvent(vgroup.id,vgroup.name);
+			}			
+
+			/**
+			 * @param eventType:String 事件类型
+			 * @param name:String 菜单名称
+			 */
+			public function dispatchClickSecondaryEvent(eventType:String,name:String):void
+			{
+				var event:ClickSecondaryMenuEvent = new ClickSecondaryMenuEvent(ClickSecondaryMenuEvent.CLICK_SECONDARY_MENU);
+				event.eventType = eventType;
+				event.name = name;
+
+				this.dispatchEvent(event);
+			}
+			
+			/**
+			 * 更新三级菜单数据源
+			 */
+			public function updateThreeLevelMenu(value:Array):void
+			{
+				try
+				{
+					this._threeLevelTitleText = value[0];
+					var acc:ArrayCollection = value[1] as ArrayCollection;
+					if(value == null || value.length <=1 || acc == null || acc.length <= 0)
+					{
+						//this._threeLevelTitleText = threeLevelTitleDefaultText;
+						this.threeLevelDataGroup.dataProvider = null;
+						return;
+					}
+					
+					this.threeLevelDataGroup.dataProvider = null;
+					
+					this.threeLevelDataGroup.dataProvider = value[1];
+				}catch(e:*)
+				{
+					trace(e);
+				}
+				
+			}
+			
+			/**
+			 * 创建并显示二级菜单
+			 */
+			private function createSecondaryMenu(value:ArrayCollection):void
+			{
+				if(!value || value.length <= 0) return;
+				
+				for(var i:int=0; i<value.length; i++)
+				{
+					var url:String = value.getItemAt(i).url;
+					var name:String = value.getItemAt(i).name;
+					var eventType:String = value.getItemAt(i).eventType;
+					
+					var img:Image = this.createImage(url);
+					var label:Label = this.createLabel(name);
+					var group:VGroup = this.createVGroup(name);
+					
+					group.addEventListener(MouseEvent.MOUSE_OVER,menuGroupMouseHandler);
+					group.addEventListener(MouseEvent.MOUSE_OUT,menuGroupMouseHandler);
+					group.addEventListener(MouseEvent.CLICK,clickMenuGroupHandler);
+					
+					group.id = eventType;
+					group.name = name;
+					
+					group.addElement(img);
+					group.addElement(label);
+					
+					this.title_menu_group.addElement(group);
+				}
+			}
+			
+			/**
+			 * 创建发光效果
+			 */
+			private function glowFilter():spark.filters.GlowFilter
+			{
+				var glow:spark.filters.GlowFilter = new spark.filters.GlowFilter();
+				glow.blurX = 15;
+				glow.blurY = 15;
+				glow.alpha = 1;
+				glow.color = 0x00FF36;
+				glow.knockout = false;
+				glow.quality = 	1;
+				glow.strength = 1;
+				glow.inner = false;
+				
+				return glow;
+			}
+			
+			/**
+			 * 创建投影效果
+			 */
+			private function createDropShadowFilter():void				
+			{				
+				var dsf:spark.filters.DropShadowFilter = new spark.filters.DropShadowFilter();
+				dsf.angle = 45;
+				dsf.blurX = 10;
+				dsf.blurY = 10;
+				dsf.distance = 0;
+				dsf.alpha = 0.8;
+				dsf.color = 0x00000;
+				dsf.knockout = false;
+				dsf.quality = 1;
+				dsf.strength = 1;
+				dsf.inner = false;
+				dsf.hideObject = false;
+				
+				this.filters = [dsf];
+			}
+			
+			/**
+			 * 添加自定义组件
+			 */
+			public function addContent(obj:IVisualElement):void
+			{
+				if(obj)
+				{
+					this.content_group.addElement(obj);
+				}
+			}
+			
+			/**
+			 * 创建图片
+			 */
+			private function createImage(url:String):Image
+			{
+				var ClsImg:Class = getDefinitionByName("mx.controls.Image") as Class;
+				var img:Image = new ClsImg() as Image;
+				img.source = url;
+				
+				return img;
+			}
+			
+			/**
+			 * 创建显示文字
+			 */
+			private function createLabel(text:String,style:String = "pb_label_menu"):Label
+			{
+				var ClsLabel:Class = getDefinitionByName("spark.components.Label") as Class;
+				var label:Label = new ClsLabel() as Label;
+				label.text = text;
+				label.styleName = style;
+				
+				return label;
+			}
+			
+			/**
+			 * 创建布局容器
+			 */
+			private function createVGroup(toolTip:String):VGroup
+			{
+				var ClsVGroup:Class = getDefinitionByName("spark.components.VGroup") as Class;
+				var vgroup:VGroup = new ClsVGroup() as VGroup;
+				vgroup.horizontalAlign = "center";
+				vgroup.gap = 4;
+				vgroup.useHandCursor = true;
+				vgroup.buttonMode = true;
+				vgroup.toolTip = toolTip;
+				
+				return vgroup;
+			}
+
+			public function get dragRangeY():int
+			{
+				return _dragRangeY;
+			}
+
+			public function set dragRangeY(value:int):void
+			{
+				_dragRangeY = value;
+			}
+
+			[Bindable]
+			public function get minSize():Number
+			{
+				return _minSize;
+			}
+
+			public function set minSize(value:Number):void
+			{
+				_minSize = value;
+			}
+
+			[Bindable]
+			public function get SID():String
+			{
+				return _SID;
+			}
+
+			public function set SID(value:String):void
+			{
+				_SID = value;
+			}
+
+			[Bindable]
+			public function get titleText():String
+			{
+				return _titleText;
+			}
+
+			public function set titleText(value:String):void
+			{
+				_titleText = value;
+			}
+
+			[Bindable]
+			public function get contentTop():int
+			{
+				return _contentTop;
+			}
+
+			public function set contentTop(value:int):void
+			{
+				_contentTop = value;
+			}
+
+			[Bindable]
+			public function get contentBottom():int
+			{
+				return _contentBottom;
+			}
+
+			public function set contentBottom(value:int):void
+			{
+				_contentBottom = value;
+			}
+
+			[Bindable]
+			public function get contentRight():int
+			{
+				return _contentRight;
+			}
+
+			public function set contentRight(value:int):void
+			{
+				_contentRight = value;
+			}
+
+			[Bindable]
+			public function get contentLeft():int
+			{
+				return _contentLeft;
+			}
+
+			public function set contentLeft(value:int):void
+			{
+				_contentLeft = value;
+			}
+
+			[Bindable("threeLevelTitleDefaultText")]
+			public function get threeLevelTitleDefaultText():String
+			{
+				return _threeLevelTitleDefaultText;
+			}
+
+			public function set threeLevelTitleDefaultText(value:String):void
+			{
+				_threeLevelTitleDefaultText = value;
+				
+				this.dispatchEvent(new Event("threeLevelTitleDefaultText"));
+			}
+
+			[Bindable("menuContentHeight")]
+			public function get menuContentHeight():Number
+			{
+				return _menuContentHeight;
+			}
+
+			public function set menuContentHeight(value:Number):void
+			{
+				_menuContentHeight = value;
+				
+				this.dispatchEvent(new Event("menuContentHeight"));
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="clickSecondaryMenu",type="com.biiway.framework.event.ClickSecondaryMenuEvent")]
+		[Event(name="closePanelBox", type="com.biiway.framework.event.ClosePanelBoxEvent")]
+		[Event(name="minimizePanelBox", type="com.biiway.framework.event.MinimizePanelBoxEvent")]
+	</fx:Metadata>
+	
+	<mx:Canvas styleName="canvas" top="2" left="2" right="2" bottom="19" id="panel_box" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		
+		<!--当前BOX显示文字-->
+		<s:Label text="{this.titleText}" styleName="pb_label" top="10" left="10"/>
+		
+		<!--最小化与最大化功能按钮-->
+		<s:HGroup top="10" right="10">
+			<mx:Image id="minimize_btn" toolTip="最小化" source="{IconUtil.minimize}"  useHandCursor="true" buttonMode="true"/>
+			<mx:Image id="maximizeORdeoxidize" toolTip="最大化" source="{IconUtil.maximize}"  useHandCursor="true" buttonMode="true"/>			
+			<mx:Image id="close_btn" toolTip="关闭" source="{IconUtil.close}"  useHandCursor="true" buttonMode="true"/>
+		</s:HGroup>		
+		
+		<!--二级菜单显示-->
+		<s:HGroup top="45" left="10" id="title_menu_group" verticalAlign="top" gap="15"/>
+		
+		<!--自定义内容填充-->
+		<s:Group id="content_group" width="100%" height="100%" top="{this.contentTop}" bottom="{this.contentBottom}" right="{this.contentRight}" left="{this.contentLeft}"/>
+		
+		<!--三级菜单-->
+		<s:BorderContainer id="threeLevelMenuContent" cornerRadius="4" width="100%" bottom="{-this.menuContentHeight}" borderVisible="true" height="{this.menuContentHeight}">
+			
+			<s:backgroundFill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry color="0x0E2945"/>
+					<s:GradientEntry color="0x37618E"/>
+				</s:LinearGradient>	
+			</s:backgroundFill>
+			
+			<s:DataGroup id="threeLevelDataGroup" bottom="20" top="10" left="20" right="20" verticalCenter="0"
+						 itemRenderer="com.biiway.framework.renderers.ThreeLevelMenuRenderer">
+				<s:layout>
+					<s:TileLayout horizontalGap="10" verticalGap="15"/>
+				</s:layout>
+			</s:DataGroup>
+			
+		</s:BorderContainer>
+		
+	</mx:Canvas>
+	
+	<!--三级菜单台头显示文字-->
+	<s:Group id="threeLevelGroup" useHandCursor="true" buttonMode="true" horizontalCenter="0" bottom="0"> 			
+		<mx:Image id="threeLevelImg" source="assets/skin/image/level_menu02.png" horizontalCenter="0" />
+		<s:Label id="threeLevelTitle" styleName="bm_label_cue" text="{_threeLevelTitleText}" horizontalCenter="0" bottom="10"/>
+	</s:Group>
+	
+</mx:Canvas>

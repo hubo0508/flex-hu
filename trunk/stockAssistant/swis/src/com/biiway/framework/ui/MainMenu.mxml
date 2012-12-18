@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="creationCompleteHandler(event)"
+		 minHeight="85"
+		 minWidth="50"
+		 bottom="0"
+		 horizontalCenter="0">
+	
+	<fx:Script>
+		<![CDATA[		
+			import com.biiway.framework.components.Image;
+			import com.biiway.framework.core.TweenLite;
+			import com.biiway.framework.event.ClickMainMenuResultsEvent;
+			import com.biiway.framework.event.ClosePanelBoxEvent;
+			import com.biiway.framework.event.LogoutEvent;
+			import com.biiway.framework.event.MinimizePanelBoxEvent;
+			import com.biiway.framework.event.RestorePanelBoxEvent;
+			import com.biiway.framework.ui.Logo;
+			import com.biiway.framework.util.EffectUtil;
+			import com.biiway.framework.util.PopUpUtil;
+			import com.biiway.framework.util.UIComponentUtil;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.core.FlexSprite;
+			import mx.core.IChildList;
+			import mx.core.IFlexDisplayObject;
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			import mx.effects.Fade;
+			import mx.events.CloseEvent;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.graphics.GradientEntry;
+			import mx.graphics.LinearGradient;
+			import mx.managers.ISystemManager;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Application;
+			import spark.components.HGroup;
+			import spark.components.Label;
+			import spark.components.SkinnableContainer;
+			import spark.effects.Fade;
+			import spark.primitives.Rect;
+			
+			/**菜单所需要大小*/
+			[Bindable]private var maxMenuHeight:Number = 80;
+			[Bindabel]private var maxMenuWidth:Number = 58;
+			[Bindable]private var minMenuHeight:Number  = 50;
+			[Bindable]private var minMenuWidth:Number = 36;
+			
+			/**菜单间隔*/
+			[Bindable]private var spacing:int = 20;
+			
+			/**默认提示文字*/
+			private var _defaultCue:String = " 您所在用户组没有操作权限！";
+			
+			/**存储所有功能主页面*/
+			private var _occurClickAfterMenu:ArrayCollection = new ArrayCollection();
+			
+			/**动态事件类型*/
+			public static const CLICK_MAIN_MENU:String = "clickMainMenu";
+			public static const REMOVE_MENU_FLAG:String = "removeMenuFlag";
+			public static const MINIMIZE_MENU_FLAG:String = "minimizeMenuFlag";
+			
+			public static const EFFECT_FALASE:String = "effect_false";
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				//this._occurClickAfterMenu = new ArrayCollection();
+				this.initEventListener();
+			}
+			
+			/**
+			 * 初始化监听事件
+			 */
+			private function initEventListener():void
+			{
+				this.parentDocument.addEventListener(LeftExistingMenu.ADD_EXISTING_MENU_RESULTS,addMenuResultsHandler,false,0,true);
+				this.parentApplication.addEventListener(ClosePanelBoxEvent.CLOSE_PANEL_BOX,closePanelBoxHandler,false,0,true);
+				this.parentApplication.addEventListener(MinimizePanelBoxEvent.MINIMIZE_PANEL_BOX,minimizePanelHandler,false,0,true);
+				this.parent.addEventListener(RestorePanelBoxEvent.RESTORE_PANEL_BOX,restorePanelBoxHandler,false,0,true);
+				this.parentApplication.addEventListener(Logo.REMOVE_POPUP_WINDOWN,removePopUpWindownHandler,false,0,true);
+				
+				this.addEventListener(Event.REMOVED_FROM_STAGE,destroyContainer,false,0,true);
+			}
+			
+			public function destroyContainer(event:Event = null):void
+			{
+				try
+				{
+					this.parentDocument.removeEventListener(LeftExistingMenu.ADD_EXISTING_MENU_RESULTS,addMenuResultsHandler);
+					this.parentApplication.removeEventListener(ClosePanelBoxEvent.CLOSE_PANEL_BOX,closePanelBoxHandler);
+					this.parentApplication.removeEventListener(MinimizePanelBoxEvent.MINIMIZE_PANEL_BOX,minimizePanelHandler);
+					this.parent.removeEventListener(RestorePanelBoxEvent.RESTORE_PANEL_BOX,restorePanelBoxHandler);
+					this.parentApplication.removeEventListener(Logo.REMOVE_POPUP_WINDOWN,removePopUpWindownHandler);	
+					this.removeEventListener(Event.REMOVED_FROM_STAGE,destroyContainer);
+				}catch(e:*){
+					trace(e);
+				}				
+			}
+
+			private function removeGlobalsEvent():void
+			{
+				
+			}
+			
+			public function addItem(objUI:UIComponent):void
+			{
+				if(this._occurClickAfterMenu)
+				{
+					this._occurClickAfterMenu.addItem(objUI);
+				}
+				else
+				{
+					this._occurClickAfterMenu = new ArrayCollection();
+					this._occurClickAfterMenu.addItem(objUI);
+				}
+			}
+			
+			/**
+			 * 删除系统弹出容器
+			 */
+			protected function removePopUpWindownHandler(event:Event):void
+			{
+				if(this._occurClickAfterMenu)
+				{
+					this._occurClickAfterMenu.removeAll();
+				}
+				
+				var systemManager:ISystemManager=this.systemManager;
+
+				var ichildList:IChildList=systemManager.rawChildren;
+				for (var i:int=0; i < ichildList.numChildren; i++)
+				{
+					var obj:Object=ichildList.getChildAt(i);
+					if (obj == "mouseCatcher" || obj == "cursorHolder" || obj is Alert || obj == "modalWindow" || obj is Application)
+					{
+					}
+					else
+					{
+						PopUpManager.removePopUp(obj as IFlexDisplayObject);
+					}
+				}
+
+				try
+				{
+					this.parentApplication.logoutSystem();
+				}
+				catch (e:*)
+				{
+					trace(e);
+				}
+				
+				//_occurClickAfterMenu = null;
+			}
+
+
+			/**
+			 * 将最小化后的容器，进行返原
+			 * 
+			 *  @param evnet.name:String 菜单名称
+			 * @param this.occurClickAfterMenu:ArrayCollection 存储所有点击过的菜单
+			 */
+			protected function restorePanelBoxHandler(event:RestorePanelBoxEvent):void
+			{
+				this.restorePanelBoxByName(event.name,this.occurClickAfterMenu);
+			}
+			
+			/**
+			 * 在PanelBox容器中，点击最小化按钮后，抛出事件并bu 或
+			 * 
+			 * @param evnet.name:String 菜单名称
+			 * @param this.occurClickAfterMenu:ArrayCollection 存储所有点击过的菜单
+			 */
+			protected function minimizePanelHandler(event:MinimizePanelBoxEvent):void
+			{
+				this.minimizePanelBoxByName(event.name,this.occurClickAfterMenu);				
+				
+				var dy:DynamicEvent = new DynamicEvent(MINIMIZE_MENU_FLAG);
+				dy.selectName = this.topMenuName(this.occurClickAfterMenu);
+				
+				this.parent.dispatchEvent(dy);
+			}
+			
+			/**
+			 * 关闭窗体
+			 */
+			protected function closePanelBoxHandler(event:ClosePanelBoxEvent):void
+			{	
+				PopUpUtil.removeWindow(this.getOnlyPanelBox(event.name));
+				
+				//Memory values ​​manually clear the menu
+				this.removePaneBoxByName(event.name,this.occurClickAfterMenu);
+			
+				this.dispatchRemoveFalgEvent(event.name);
+			}
+			
+			private function dispatchRemoveFalgEvent(name:String,falg:Boolean = true):void
+			{
+				var dy:DynamicEvent = new DynamicEvent(REMOVE_MENU_FLAG);
+				dy.falg = falg;
+				dy.name = name;
+				dy.selectName = this.topMenuName(this.occurClickAfterMenu);
+				
+				this.parent.dispatchEvent(dy);
+			}
+			
+			/**
+			 * 取得最顶级菜单名称
+			 * 
+			 * @param acc:ArrayCollection 存储所有弹出后的菜单容器
+			 */
+			private function topMenuName(acc:ArrayCollection):String
+			{
+				if(!acc || acc.length <= 1)
+				{
+					return "";
+				}
+
+				return (acc.getItemAt(0) as PanelBox).titleText;
+			}
+				
+			
+			protected function addMenuResultsHandler(event:DynamicEvent):void
+			{	
+				var addFalg:Boolean = event.addFlag;
+				var name:String = event.name;
+				var eventType:String = event.eventType;
+				
+				if(addFalg)//新弹出容器
+				{
+					this.dispatchMenuResults(addFalg,name,eventType);
+				}
+				else//弹出原有的容器
+				{
+					var menuBox:PanelBox = this.getOnlyPanelBox(name);
+					PopUpUtil.messageWindow(menuBox,this,false);
+				}
+				
+			}
+			
+			/**
+			 * 根据菜单名称取得页面容器
+			 * 
+			 * @param name:String 菜单名称
+			 */
+			private function getOnlyPanelBox(name:String):PanelBox
+			{
+				var menu:PanelBox;
+				for(var i:int=0; i<this.occurClickAfterMenu.length; i++)
+				{
+					menu = this.occurClickAfterMenu.getItemAt(i) as PanelBox;
+					if(menu.titleText == name)
+					{
+						break;
+					}
+				}
+				return menu;
+			}
+			
+			/**
+			 * 根据菜单名称，删除所属页面容器
+			 * 
+			 * @param name:String 菜单名称
+			 * @acc:ArrayCollection 存储菜单页面容器
+			 */
+			private function removePaneBoxByName(name:String,acc:ArrayCollection):void
+			{
+				for(var i:int=0; i<this.occurClickAfterMenu.length; i++)
+				{
+					var menu:PanelBox = this.occurClickAfterMenu.getItemAt(i) as PanelBox;
+					if(menu.titleText == name)
+					{
+						acc.removeItemAt(i);
+						break;
+					}
+				}
+			}
+			
+			/**
+			 * 最小化容器
+			 *
+			 * @param name:String 菜单名称
+			 * @param acc:ArrayCollection 存储所有点击后的容器
+			 */
+			private function minimizePanelBoxByName(name:String, acc:ArrayCollection):void
+			{
+				for (var i:int=0; i < this.occurClickAfterMenu.length; i++)
+				{
+					var menu:PanelBox=this.occurClickAfterMenu.getItemAt(i) as PanelBox;
+					if (menu.titleText == name && menu.visible)
+					{
+						if(this.increaseTheEffect(menu)){
+							PopUpUtil.minimizeWindow(menu);	
+						}else{
+							PopUpUtil.minimizeWindow(menu,false);	
+						}					
+						break;
+					}
+				}
+			}
+
+			
+			/**
+			 * 还原容器
+			 *
+			 * @param name:String 菜单名称
+			 * @param acc:ArrayCollection 存储所有点击后的容器
+			 */
+			private function restorePanelBoxByName(name:String, acc:ArrayCollection):void
+			{
+				for (var i:int=0; i < this.occurClickAfterMenu.length; i++)
+				{
+					var menu:PanelBox=this.occurClickAfterMenu.getItemAt(i) as PanelBox;
+					if (menu.titleText == name)
+					{
+						if(this.increaseTheEffect(menu)){
+							PopUpUtil.messageWindow(menu, this, false);
+						}else{
+							PopUpUtil.messageWindow(menu, this, false, true, 1, false);	
+						}
+						break;
+					}
+				}
+			}
+			
+			/**
+			 * 判断是否增加效果
+			 * 
+			 * true  : 增加效果
+			 * false : 不增加效果
+			 */
+			private function increaseTheEffect(panelBox:PanelBox):Boolean
+			{
+				var subContent:UIComponent = panelBox.getContent() as UIComponent;
+				if(subContent && subContent.name == EFFECT_FALASE)
+				{
+					return false;
+				}
+				
+				return true;			
+			}
+			
+			/**
+			 * 执行特定方法，在最小化前执行
+			 */
+			private function executeRemoveContent(obj:Object):void
+			{
+				try
+				{
+					obj.beforeLoadContent();
+					//obj.getContent().beforeLoadContent();
+				}catch(e:*){trace(e)}
+			}
+			
+			/**
+			 * 执行特定方法，在还原前执行
+			 */
+			private function executeLoadContent(obj:Object):void
+			{
+				try
+				{
+					obj.afterLoadContent();
+					//obj.getContent().afterLoadContent();
+				}catch(e:*){trace(e)}
+			}
+
+
+			private function dispatchMenuResults(addFlag:Boolean,name:String,eventType:String):void
+			{
+				var results:ClickMainMenuResultsEvent = new ClickMainMenuResultsEvent(ClickMainMenuResultsEvent.CLICK_MAIN_MENU_RESULTS);
+				results.addFlag = addFlag;
+				results.name = name;
+				results.eventType = eventType;
+				
+				this.dispatchEvent(results);
+			}
+			
+			/**
+			 * 初始化菜单
+			 * 
+			 * <p>参数格式</p>
+			 * 
+			 * <code>
+			 * 	var acc:ArrayCollection = new ArrayCollection();
+			 *	acc.addItem({eventType:"callCenterEvent",url:"assets/image/menu/menu09.png",url2:"assets/image/menu/menu09_09.png",name:"呼叫中心"});
+			 * </code>
+			 */
+			public function set initializeMenu(value:ArrayCollection):void
+			{
+				if(value == null || value.length <= 0)
+				{
+					this.addElement(this.createDefaultCueLabe());
+				}
+				else
+				{
+					this.createAndDisplayMenu(value);
+				}
+			}
+			
+			/**
+			 * 创建菜单，将创建好的菜单显示到页面
+			 * 
+			 * <p>参数格式</p>
+			 * 
+			 * <code>
+			 * 	var acc:ArrayCollection = new ArrayCollection();
+			 *	acc.addItem({flag:false,eventType:"callCenterEvent",url:"assets/image/menu/menu09.png",url2:"assets/image/menu/menu09_09.png",name:"呼叫中心"});
+			 * </code>
+			 */
+			protected function createAndDisplayMenu(value:ArrayCollection):void
+			{
+				var group:Group = this.createMenuGroup();
+				
+				var count:int = 0;
+				for(var i:int = 0; i<value.length; i++)
+				{
+					var image:Image= this.createMenuImage(value.getItemAt(i));
+					
+					if(count > 0)
+					{
+						image.left = this.minMenuWidth * count + (this.spacing * count-1)
+					}
+					
+					image.addEventListener(MouseEvent.ROLL_OVER,rollOverImageHandler);
+					image.addEventListener(MouseEvent.ROLL_OUT,rollOutImageHandler);
+					image.addEventListener(MouseEvent.CLICK,clickImageHandler);
+					
+					group.addElement(image);
+					
+					count++;
+				}
+				
+				this.rect.width = count * this.minMenuWidth + (this.spacing * count-1) + 30;				
+				
+				this.addElement(group);
+			}
+
+			
+			/**
+			 * 鼠标移过菜单图片
+			 */
+			protected function rollOverImageHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				
+				if(img.mouseY > 40) return;
+				
+				//显示提示文字
+				
+				var position:Point = UIComponentUtil.getUiAbsolutePosition(img);
+
+				var toolTip:Label = this.createLabel();
+				if(img.name.length == 4)
+				{
+					toolTip.x = position.x - (img.name.length - 3)*8-8;
+				}
+				else
+				{
+					toolTip.x = position.x - (img.name.length - 3)*8;
+				}				
+				toolTip.y = position.y - 27;
+				toolTip.text = img.name;
+				toolTip.styleName = "bm_label_cue";
+				
+				img.owner = toolTip;
+
+				PopUpManager.addPopUp(toolTip, parentApplication as DisplayObject, false);
+				
+				if(toolTip.text == "注销")return;
+				
+				//img.left = (Number(img.left) - this.minMenuWidth/4);
+				//left: (Number(img.left) - this.minMenuWidth/4),
+				//添加菜单移动放大效果
+				TweenLite.tweenTo(img, 0.6, {y:-50,  width:this.maxMenuWidth, height:this.maxMenuHeight});
+				TweenLite.tweenTo(toolTip, 0.6, {y:toolTip.y-50});
+			}
+			
+			/**
+			 * 鼠标移出菜单图片
+			 */
+			protected function rollOutImageHandler(event:MouseEvent):void
+			{				
+				var img:Image = event.currentTarget as Image;
+				
+				if(img.name == "注销")
+				{
+					PopUpManager.removePopUp(img.owner as Label);
+					return;
+				}
+				else
+				{
+					//img.left = (Number(img.left) + this.minMenuWidth/4);
+					//left:(Number(img.left) + this.minMenuWidth/4)
+					//还原大小
+					TweenLite.tweenTo(img, 0.6, {y: 0, width:this.minMenuWidth, height:this.minMenuHeight });
+					TweenLite.tweenTo(img.owner, 0.6, {y:img.owner.y});
+					
+					PopUpManager.removePopUp(img.owner as Label);
+				}
+			}
+			
+			/**
+			 * 点击菜单图标
+			 * 
+			 * @param img.url:String 左侧显示小图标路径
+			 * @param img.name:String 菜单名称
+			 * @param img.eventType:String 事件唯一标识
+			 */
+			protected function clickImageHandler(event:MouseEvent):void
+			{
+				var img:Image = event.currentTarget as Image;
+				
+				if(img.eventType == "logout")
+				{
+					Alert.yesLabel = "确定";
+					Alert.noLabel = "取消";
+					Alert.show("确定退出该系统?","提示",Alert.YES|Alert.NO,null, processWithLogout);
+				}
+				else
+				{
+					if(img.item.flag == false)
+					{
+						this.dispatchMenuResults(false,img.name,img.eventType);
+					}
+					else
+					{
+						this.dispatchClickExistingMenu(img.url,img.name,img.eventType);
+					}
+					
+				}
+				
+			}
+			
+			protected function processWithLogout(event:CloseEvent):void
+			{
+				if(event.detail == Alert.YES)
+				{
+					this.parentApplication.dispatchEvent(new LogoutEvent(LogoutEvent.LOGOUT_EVENT));
+					//navigateToURL(new URLRequest("javascript:location.reload();"),"_self");
+					this.parentApplication.dispatchEvent(new Event(Logo.REMOVE_POPUP_WINDOWN));
+					
+					this.removeGlobalsEvent();
+				}
+			}
+			
+			/**
+			 * @param url2:String 左侧显示小图标路径
+			 * @param name:String 菜单名称
+			 * @param eventType:String 事件唯一标识
+			 */
+			public function dispatchClickExistingMenu(url2:String,name:String,eventType:String,item:Object=null):void
+			{
+				var dyEvent:DynamicEvent = new DynamicEvent(LeftExistingMenu.ADD_EXISTING_MENU,true);
+				dyEvent.url = url2;
+				dyEvent.name = name;
+				dyEvent.eventType = eventType;
+				dyEvent.item = item;
+				
+				this.dispatchEvent(dyEvent);		
+			}
+			
+			private function createGE(color:uint,ratio:Number):GradientEntry
+			{
+				var Cls:Class=getDefinitionByName("mx.graphics.GradientEntry") as Class;
+				var ge:GradientEntry = new Cls() as GradientEntry;
+				ge.color = color;
+				ge.ratio = ratio;
+				
+				return ge;
+			}
+			
+			private function createLG():LinearGradient
+			{
+				var Cls:Class=getDefinitionByName("mx.graphics.LinearGradient") as Class;
+				var lg:LinearGradient = new Cls() as LinearGradient;
+				lg.rotation = 90;
+				
+				return lg;
+			}
+			
+			private function createRect(w:Number, h:Number):Rect
+			{
+				var Cls:Class=getDefinitionByName("spark.primitives.Rect") as Class;
+				var rec:Rect = new Cls() as Rect;
+				rec.width = w;
+				rec.height = h;
+				rec.horizontalCenter = 0;
+				
+				return rec;
+			}
+			
+			/**
+			 * 创建默认提示文字
+			 * 
+			 * @param style_name:String(default=bm_label) 样式名称
+			 */
+			private function createDefaultCueLabe(style_name:String = "bm_label"):Label
+			{
+				var label:Label = this.createLabel();
+				label.text = this._defaultCue;
+				label.verticalCenter = 0;
+				label.horizontalCenter = 0;
+				label.styleName = style_name;
+				
+				return label;
+			}
+			
+			private function createGroup():Group
+			{
+				var Cls:Class=getDefinitionByName("spark.components.Group") as Class;
+				var group:Group = new Cls() as Group;
+				
+				return group;
+			}
+			
+			private function createLabel():Label
+			{
+				var Cls:Class=getDefinitionByName("spark.components.Label") as Class;
+				
+				return new Cls() as Label;
+			}
+			
+			private function createHGroup(gap:int = 25):HGroup
+			{
+				var Cls:Class=getDefinitionByName("spark.components.HGroup") as Class;
+				var hgroup:HGroup = new Cls() as HGroup;
+				hgroup.verticalCenter = 5;
+				hgroup.horizontalCenter = 0;
+				hgroup.gap = gap;
+				hgroup.paddingLeft = 30;
+				hgroup.paddingRight = 30;
+			
+				return hgroup;
+			}
+			
+			/**
+			 * 创建菜单显示容器
+			 */
+			private function createMenuGroup():Group
+			{
+				var Cls:Class=getDefinitionByName("spark.components.Group") as Class;
+				var group:Group = new Cls() as Group;
+				group.verticalCenter = 0;
+				group.horizontalCenter = 0;
+				
+				return group;
+			}
+			
+			/**
+			 * 创建菜单图标
+			 * 
+			 * @param value:Object 菜单值
+			 */
+			private function createMenuImage(value:Object):Image
+			{
+				var image:Image = new Image();
+				image.buttonMode = true;
+				image.useHandCursor = true;
+				image.source = value.url;
+				image.name = value.name;
+				image.eventType = value.eventType;
+				image.url = value.url2;
+				image.item = value;
+				image.width = this.minMenuWidth;
+				image.height = this.minMenuHeight;
+				
+				return image;
+			}
+
+			public function set defaultCue(value:String):void
+			{
+				_defaultCue = value;
+			}
+
+			public function get occurClickAfterMenu():ArrayCollection
+			{
+				return _occurClickAfterMenu;
+			}
+
+			public function set occurClickAfterMenu(value:ArrayCollection):void
+			{
+				_occurClickAfterMenu = value;
+			}			
+
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="addExistingMenu",type="mx.events.DynamicEvent")]
+		[Event(name="removeMenuFlag",type="mx.events.DynamicEvent")]
+		[Event(name="clickMainMenuResults",type="com.biiway.framework.event.ClickMainMenuResultsEvent")]
+	</fx:Metadata>	
+	
+	<s:Rect id="rect" width="100%" height="100%">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x4C565E" ratio="0.00"/>
+				<s:GradientEntry color="0x333A3E" ratio="0.33"/>
+				<s:GradientEntry color="0x1D2224" ratio="0.66"/>
+			</s:LinearGradient>						
+		</s:fill>
+	</s:Rect>
+	
+</s:Group>

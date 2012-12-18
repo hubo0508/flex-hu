@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  creationComplete="creationCompleteHandler(event)"
+		  minWidth="136"
+		  minHeight="154"
+		  verticalCenter="0"
+		  left="-140"
+		  gap="0" 
+		  visible="false">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.biiway.framework.core.TweenLite;
+			import com.biiway.framework.event.RestorePanelBoxEvent;
+			import com.biiway.framework.util.IconUtil;
+			import com.biiway.framework.util.StringUtil;
+			
+			import mx.controls.Image;
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Label;
+
+			/**动态事件静态变量*/
+			public static const ADD_EXISTING_MENU:String = "addExistingMenu";
+			public static const ADD_EXISTING_MENU_RESULTS:String = "addExistingMenuResults";
+			
+			/**当前主容器文字*/
+			private var currClickLabel:String = "";
+			
+			/**左侧显示文字颜色静态变量*/
+			private static const OVER_LABEL_COLOR:String = "#CEE054";
+			private static const OUT_LABEL_COLOR:String = "#FFFFFF";
+			private static const CLICK_LABEL_COLOR:String = "#0078F2";
+			private static const DEFAULT_LABEL_COLOR:String = "#FFFFFF";			
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.addEventListeners();
+			}
+			
+			/**
+			 * 初始化监听事件
+			 */
+			private function addEventListeners():void
+			{
+				this.parentDocument.addEventListener(ADD_EXISTING_MENU,createMenuHandler,false,0,true);
+				this.parent.addEventListener(MainMenu.REMOVE_MENU_FLAG,removeMenuHandler,false,0,true);
+				this.parent.addEventListener(MainMenu.MINIMIZE_MENU_FLAG,minimizeMenuHandler,false,0,true);
+				this.parentApplication.addEventListener(PanelBox.UPDATE_CURR_MENU_STYLE,updateCurrmMenuStyleHandler,false,0,true);
+
+				this.addEventListener(MouseEvent.MOUSE_OVER, displayMenuHandler,false,0,true);
+				this.addEventListener(MouseEvent.MOUSE_OUT, displayMenuHandler,false,0,true);
+				
+				this.addEventListener(Event.REMOVED_FROM_STAGE,destroyContainer,false,0,true);
+			}
+			
+			public function destroyContainer(event:Event = null):void
+			{
+				try
+				{
+					this.parentDocument.removeEventListener(ADD_EXISTING_MENU,createMenuHandler);
+					this.parent.removeEventListener(MainMenu.REMOVE_MENU_FLAG,removeMenuHandler);
+					this.parent.removeEventListener(MainMenu.MINIMIZE_MENU_FLAG,minimizeMenuHandler);
+					this.parentApplication.removeEventListener(PanelBox.UPDATE_CURR_MENU_STYLE,updateCurrmMenuStyleHandler);					
+					this.removeEventListener(MouseEvent.MOUSE_OVER, displayMenuHandler);
+					this.removeEventListener(MouseEvent.MOUSE_OUT, displayMenuHandler);					
+					this.removeEventListener(Event.REMOVED_FROM_STAGE,destroyContainer);
+					this.removeEventListener(Event.REMOVED_FROM_STAGE,destroyContainer);
+				}catch(e:*){
+					trace(e);
+				}				
+			}
+			
+			/**
+			 * 在PanelBox中点击最小化按钮后，更新左侧菜单显示样式
+			 */
+			protected function minimizeMenuHandler(dy:DynamicEvent):void
+			{
+				var selectName:String = dy.selectName;
+				
+				this.selectCurrMenu(selectName,"panelbox");
+			}
+			
+			/**
+			 *  @param name:String 当前容器显示名称
+			 * @param SID:String 当前容器的标一标识，需要创建改容器时手动添加全局唯一标识
+			 */
+			protected function updateCurrmMenuStyleHandler(dy:DynamicEvent):void
+			{
+				var name:String=dy.name;
+				var SID:String=dy.SID;
+
+				this.selectCurrMenu(name);
+			}
+
+				
+			
+			protected function removeMenuHandler(dy:DynamicEvent):void
+			{
+				var falg:Boolean = dy.falg;
+				var name:String = dy.name;
+				var selectName:String = dy.selectName;
+				
+				if(falg)
+				{ 
+					this.removeMenuByName(name,this.displayMenuGroup);
+					if(this.displayMenuGroup.numElements == 0)
+					{
+						this.menuVisible(false);
+					}
+					
+					this.selectCurrMenu(selectName);
+					this.currClickLabel = null;
+				}
+			}
+			
+			protected function displayMenuHandler(event:MouseEvent):void
+			{
+				switch (event.type)
+				{
+					case MouseEvent.MOUSE_OVER:
+						TweenLite.tweenTo(this, .6, {left: (-12)});
+						break;
+					case MouseEvent.MOUSE_OUT:					
+						TweenLite.tweenTo(this, .6, {left: (-140)});
+						break;     
+				}
+			}
+		
+			
+			protected function createMenuHandler(event:DynamicEvent):void
+			{				
+				this.menuVisible(true);
+				
+				var name:String = event.name;
+				var url:String = event.url;
+				var eventType:String = event.eventType;
+				
+				if(this.menuExistsInGroup(name,this.displayMenuGroup))
+				{
+					this.dispatchResultsEvent(false,name,eventType);
+					return;
+				}
+				
+				this.displayMenuGroup.addElement(this.createDisplayData(url,name,eventType));
+				
+				this.selectCurrMenu(name);
+				
+				this.dispatchResultsEvent(true,name,eventType);
+				
+			}
+			
+			/**
+			 * @param addFlag:Boolean true:添加菜单成功 false:菜单已存在；
+			 */
+			private function dispatchResultsEvent(addFlag:Boolean,name:String,eventType:String):void
+			{
+				var dy:DynamicEvent = new DynamicEvent(ADD_EXISTING_MENU_RESULTS,true);
+				dy.addFlag = addFlag;
+				dy.name = name;
+				dy.eventType = eventType;
+				
+				this.dispatchEvent(dy);
+			}
+			
+			public function menuVisible(value:Boolean):void
+			{
+				if(this.visible != value)
+				{
+					this.visible = value;
+				}
+			}
+		
+				
+			private function createDisplayData(url:String,name:String,eventType:String):HGroup
+			{
+				var ClsImage:Class=getDefinitionByName("mx.controls.Image") as Class;
+				var image:Image = new ClsImage() as Image;
+				image.source = url;
+
+				var ClsLabel:Class=getDefinitionByName("spark.components.Label") as Class;
+				var label:Label = new ClsLabel() as Label;
+				label.text = name;
+				label.styleName = "lem_label";
+				label.name = eventType;
+				label.addEventListener(MouseEvent.ROLL_OUT,labelRollOutHandler);
+				label.addEventListener(MouseEvent.ROLL_OVER,labelRollOverHandler);
+				label.addEventListener(MouseEvent.CLICK,labelClickHandler);
+				
+				var ClsHgroup:Class=getDefinitionByName("spark.components.HGroup") as Class;
+				var hgroup:HGroup = new ClsHgroup() as HGroup;
+				hgroup.buttonMode = true;
+				hgroup.useHandCursor = true;
+				hgroup.name = name;
+				
+				hgroup.addElement(image);
+				hgroup.addElement(label);
+				
+				return hgroup;
+			}
+
+			private function menuExistsInGroup(name:String,vgroup:VGroup):Boolean
+			{
+				if(StringUtil.isEmpty(name)) return true;
+				
+				var numEle:int = vgroup.numElements;
+				for(var i:int=0; i<numEle; i++)
+				{
+					var hgroup:HGroup = vgroup.getElementAt(i) as HGroup;
+					if(hgroup.name == name)
+					{
+						return true;
+						break;
+					}
+				}
+				
+				return false;
+			}
+			
+			private function removeMenuByName(name:String,vgroup:VGroup):void
+			{
+				if(StringUtil.isEmpty(name)) return;
+				
+				var numEle:int = vgroup.numElements;
+				for(var i:int=0; i<numEle; i++)
+				{
+					var hgroup:HGroup = vgroup.getElementAt(i) as HGroup;
+					if(hgroup.name == name)
+					{
+						vgroup.removeElement(hgroup);
+						break;
+					}
+				}
+			}
+			
+			protected function labelRollOutHandler(event:MouseEvent):void
+			{
+				var label:Label = event.currentTarget as Label;
+				if(label.text != this.currClickLabel)
+				{
+					label.setStyle("color",OUT_LABEL_COLOR);
+				}
+			}
+			
+			protected function labelRollOverHandler(event:MouseEvent):void
+			{
+				var label:Label = event.currentTarget as Label;
+				if(label.text != this.currClickLabel)
+				{
+					label.setStyle("color",OVER_LABEL_COLOR);
+				}
+			}
+			
+			/**
+			 * 点击菜单名称
+			 * 
+			 * @param label.text:String 菜单名称
+			 * @param label.name:String 菜单全局惟一标识
+			 * 
+			 * @param event:MouseEvent
+			 */
+			protected function labelClickHandler(event:MouseEvent):void
+			{
+				var label:Label = event.currentTarget as Label;
+				
+				this.selectCurrMenu(label.text);
+				
+				this.dispatchClickMenu(label.text,label.name);
+			}			
+			
+			/**
+			 * 点击左侧菜单，事件派发
+			 * 
+			 * @param name:String 菜单名称
+			 * @param SID:String 菜单全局惟一标识
+			 */
+			private function dispatchClickMenu(name:String,SID:String):void
+			{
+				var restoreEvent:RestorePanelBoxEvent = new RestorePanelBoxEvent(RestorePanelBoxEvent.RESTORE_PANEL_BOX,true);
+				restoreEvent.name = name;
+				restoreEvent.SID = SID;
+				
+				this.parent.dispatchEvent(restoreEvent);
+			}
+			
+			
+			/**
+			 * 判断菜单名称在Array中是否是唯一
+			 */
+			private function onlyOfArray(ac:Array, name:String):Boolean
+			{
+				if(StringUtil.isEmpty(name)) return false;
+				
+				for(var j:int=0; j<ac.length; j++)
+				{
+					if(name == ac[j])
+					{
+						return true;
+					}
+				}
+				
+				return false;
+			}
+			
+			/**
+			 * 根据指定菜单名称，更改字体样式
+			 * 
+			 * @param name:String 菜单显示名称
+			 * @param type:String 逻辑处理类型
+			 */
+			public function selectCurrMenu(name:String,type:String = null):void
+			{
+				
+				if(type)
+				{
+					var num:int=this.displayMenuGroup.numElements;
+					for (var i:int=0; i < num; i++)
+					{
+						var hggroup:HGroup=this.displayMenuGroup.getElementAt(i) as HGroup;
+						var label:Label=hggroup.getElementAt(1) as Label;
+						label.setStyle("color", DEFAULT_LABEL_COLOR);
+					}
+					
+					this.currClickLabel=name;
+				}
+				else
+				{
+					if (StringUtil.isEmpty(name) || this.currClickLabel == name)
+					{
+						return;
+					}
+					else
+					{
+						this.currClickLabel=name;
+					}
+					
+					this.updateLeftMenuColor(name);
+				}				
+			}	
+			
+			/**
+			 * 更新左侧菜单的显示名称
+			 * 
+			 * @param name:String 左侧菜单名称
+			 */
+			private function updateLeftMenuColor(name:String):void
+			{
+				var num:int=this.displayMenuGroup.numElements;
+				for (var i:int=0; i < num; i++)
+				{
+					var hggroup:HGroup=this.displayMenuGroup.getElementAt(i) as HGroup;
+					var label:Label=hggroup.getElementAt(1) as Label;
+					
+					if (StringUtil.isEmpty(this.currClickLabel))
+					{
+						label.setStyle("color", DEFAULT_LABEL_COLOR);
+					}
+					else
+					{
+						if (name == label.text)
+						{
+							label.setStyle("color", CLICK_LABEL_COLOR);
+						}
+						else
+						{
+							label.setStyle("color", DEFAULT_LABEL_COLOR);
+						}
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="addExistingMenuResults",type="mx.events.DynamicEvent")]
+		[Event(name="restorePanelBox", type="com.biiway.framework.event.RestorePanelBoxEvent")]
+	</fx:Metadata>
+	
+	<s:BorderContainer id="menu_bc" borderVisible="false" minWidth="140" cornerRadius="12" width="100%" height="100%">
+		
+		<s:backgroundFill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="0x4C565E" />
+				<s:GradientEntry color="0x1D2224" />
+			</s:LinearGradient>		
+		</s:backgroundFill> 
+		
+		<s:VGroup id="displayMenuGroup" verticalCenter="0" paddingLeft="20" paddingRight="10" gap="15" paddingTop="10" paddingBottom="10" />
+
+	</s:BorderContainer>
+	
+	<s:Group height="100%">
+		<mx:Image id="menu_title" source="{IconUtil.lemTitle}" verticalCenter="0" useHandCursor="true" buttonMode="true"/>
+	</s:Group>	
+	
+</s:HGroup>
