@@ -46,7 +46,11 @@ s|CheckBox{
 	skinClass : ClassReference("assets.skin.CheckBoxSkin");
 }
 
-Panel{
+s|Panel{
+	skinClass : ClassReference("assets.skin.PSkin");
+}
+
+mx|Panel{
 	skinClass : ClassReference("assets.skin.PSkin");
 }
 

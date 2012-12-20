@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<l:LoadingGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:l="com.biiway.stockassistant.components.loading.*"
+				creationComplete="creationCompleteHandler(event)"
+				width="100%"
+				height="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				var ia:IncomeanAlysis = new IncomeanAlysis();
+				ia.addEventListener(FlexEvent.CREATION_COMPLETE,creationCompleteGroupHandler,false,0,true);
+				
+				//this.showLading("正在初始化组件...");
+				this.addElement(new IncomeanAlysis());
+			}
+			
+			protected function creationCompleteGroupHandler(event:FlexEvent):void
+			{
+				//this.hideLoading();
+			}
+			
+		]]>
+	</fx:Script>
+
+</l:LoadingGroup>

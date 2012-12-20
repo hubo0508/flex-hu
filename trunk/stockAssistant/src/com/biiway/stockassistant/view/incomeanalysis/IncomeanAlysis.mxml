@@ -18,6 +18,7 @@
 			import com.biiway.stockassistant.event.SearchToolsEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.util.Util;
+			import com.biiway.stockassistant.view.incomeanalysis.children.SaveModel;
 			import com.biiway.stockassistant.view.menucomponents.NavigationMenu;
 			
 			import mx.collections.ArrayCollection;
@@ -112,7 +113,7 @@
 					tootip.x = FlexGlobals.topLevelApplication.mouseX - 55;
 					tootip.y = FlexGlobals.topLevelApplication.mouseY + 25;
 					
-					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.application, false);
 				}
 				else
 				{
@@ -127,7 +128,10 @@
 			
 			protected function saveModelHandler(event:MouseEvent):void
 			{
+				var saveModel:SaveModel = new SaveModel();
 				
+				Util.addPopUp(saveModel,Util.application,true);
+				Util.centerPopUp(saveModel);
 			}
 			
 			/**
@@ -493,11 +497,10 @@
 						</c:FieldSet>
 						
 						<s:Group width="100%">
-							<s:Button id="testModel" x="160"  width="90" height="28" label="测试收益" fontSize="14"
-									  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
-							<s:Button id="saveModel" x="266"  width="90" height="28" label="保存模型" fontSize="14"
-									  skinClass="assets.skin.Button1Skin" useHandCursor="true" buttonMode="true"/>
+							<mx:Button id="testModel" label="测试收益"  x="160"  width="90" height="28" useHandCursor="true" buttonMode="true"/>
+							<mx:Button id="saveModel" label="保存模型"  x="266"  width="90" height="28" useHandCursor="true" buttonMode="true"/>
 						</s:Group>
+						
 					</c:ScrollerGroup>
 				</c:ScrollerGroup>
 			</s:Scroller>

@@ -124,7 +124,7 @@
 					case MouseEvent.ROLL_OVER:
 						bc.filters=filter;
 
-						PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+						PopUpManager.addPopUp(tootip, Util.application, false);
 						if(isPopMask)
 						{
 							tootip.x = (this.x+223) + this.width*0.5 - tootip.width*0.5;

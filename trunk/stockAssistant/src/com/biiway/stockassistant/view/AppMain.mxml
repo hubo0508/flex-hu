@@ -13,10 +13,12 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.biiway.stockassistant.components.loading.LoadingGroup;
 			import com.biiway.stockassistant.event.LoginEvent;
 			import com.biiway.stockassistant.event.MenuEvent;
 			import com.biiway.stockassistant.util.Const;
 			import com.biiway.stockassistant.view.incomeanalysis.IncomeanAlysis;
+			import com.biiway.stockassistant.view.incomeanalysis.LoadingIncomeanAlysis;
 			import com.biiway.stockassistant.view.member.Member;
 			import com.biiway.stockassistant.view.menucomponents.SearchTools;
 			import com.biiway.stockassistant.view.navigation.Navigation;
@@ -73,27 +75,44 @@
 				switch(event.data["type"])
 				{
 					case "selectedstock" :
-						content.removeAllElements();
+						removeContent();
 						content.addElement(new SelectedStock());
 						break;
-					
+
 					case "incomeanalysis" :
-						content.removeAllElements();
+//						content.showLading("初始化数据，请稍后!",0xFF0000,0.1);
+						removeContent();
+						
+//						var ia:IncomeanAlysis = new IncomeanAlysis();
+//						ia.addEventListener(FlexEvent.CREATION_COMPLETE,contentLoadingCompleteHandler,false,0,true);
+//						trace("incomeanalysis:"+new Date());
 						content.addElement(new IncomeanAlysis());
 						break;
 					
 					case "member" :
-						content.removeAllElements();
+						removeContent();
 						content.addElement(new Member());
 						break;
 					
 					case "help" :
-						content.removeAllElements();
+						removeContent();
 						break;
 					
 					default:
 						break;
 				}
+			}
+			
+			protected function contentLoadingCompleteHandler(event:FlexEvent):void
+			{
+				trace("contentLoadingCompleteHandler:"+new Date());
+				content.hideLoading();
+			}
+			
+			private function removeContent():void
+			{
+				if(content.numElements > 0)
+					content.removeAllElements();
 			}
 			
 			private function loadingIsCmplete():void
@@ -139,8 +158,8 @@
 			<navigation:menudata>
 				<fx:Array>
 					<fx:Object type="selectedstock" text="选股" selected="false"/>
-					<fx:Object type="incomeanalysis" text="收益分析" selected="false"/>
-					<fx:Object type="member" text="会员管理" selected="true"/>
+					<fx:Object type="incomeanalysis" text="收益分析" selected="true"/>
+					<fx:Object type="member" text="会员管理" selected="false"/>
 					<fx:Object type="help" text="帮助" selected="false"/>
 				</fx:Array>
 			</navigation:menudata>
