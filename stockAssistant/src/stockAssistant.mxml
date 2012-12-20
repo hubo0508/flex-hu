@@ -6,7 +6,7 @@
 					   xmlns:components="com.biiway.stockassistant.components.*"
 					   initialize="initializeHandler(event)"
 					   backgroundColor="0xFF0000"
-					   backgroundAlpha="0"
+					   backgroundAlpha="0" 
 					   showStatusBar="false"
 					   width="395" 
 					   maxWidth="395"
@@ -19,6 +19,7 @@
 		<![CDATA[
 			import com.biiway.stockassistant.components.MessageBox;
 			import com.biiway.stockassistant.event.LoginEvent;
+			import com.biiway.stockassistant.util.Util;
 			import com.biiway.stockassistant.view.AppMain;
 			import com.biiway.stockassistant.view.login.Login;
 			import com.biiway.stockassistant.view.navigation.Navigation;
@@ -26,6 +27,7 @@
 			import merapi.messages.Message;
 			
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
 			
@@ -37,6 +39,20 @@
 			{
 				windowCentered();
 				//alwaysInFront = true;
+				
+				initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				this.addEventListener(Event.NETWORK_CHANGE,networkChangeHandler,false,0,true);
+			}
+
+			/**
+			 * 当计算机连接到网络或与网络断开连接时分派
+			 */
+			protected function networkChangeHandler(event:Event):void
+			{
 				
 			}
 			
@@ -63,8 +79,7 @@
 				}
 				else
 				{
-					//MessageBox.show("xx");
-					//Alert.show("xxxxxxxxxxxxxxxxxx232342412341234123412341234");
+					Util.show("xxx");
 					login ? login.message("密码或用户名错误！",false) : null;
 				}
 			}
@@ -89,6 +104,7 @@
 			{
 				removeLogin();
 				windowCentered();
+				//setInterval(windowCentered,50);
 			}
 			
 			/**
@@ -130,8 +146,14 @@
 				
 				login = new Login();
 				login.addEventListener(LoginEvent.LOGIN_EVENT,loginHandler,false,0,true);
+				login.removeEventListener(Event.REMOVED_FROM_STAGE,loginRemovedHandler);
 				
 				this.addElement(login);
+			}
+			
+			protected function loginRemovedHandler(event:Event):void
+			{
+				windowCentered();
 			}
 			
 			/**

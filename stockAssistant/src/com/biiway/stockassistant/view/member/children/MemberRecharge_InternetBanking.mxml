@@ -54,15 +54,15 @@
 				var agreement:MemberRecharge_InternetBanking_Agreement = new MemberRecharge_InternetBanking_Agreement();
 				
 				Util.addPopUp(agreement, FlexGlobals.topLevelApplication as DisplayObject, true);
-				PopUpManager.centerPopUp(agreement);
+				Util.centerPopUp(agreement);
 			}
 			
 			protected function paymentStepHandler(event:MouseEvent):void
 			{
 				var step:MemberRecharge_InternetBanking_PaymentStep = new MemberRecharge_InternetBanking_PaymentStep();
 
-				PopUpManager.addPopUp(step, FlexGlobals.topLevelApplication as DisplayObject, false);
-				PopUpManager.centerPopUp(step);
+				Util.addPopUp(step, FlexGlobals.topLevelApplication as DisplayObject, true);
+				Util.centerPopUp(step);
 			}
 			
 			protected function selectOtherBanksHandler(event:MouseEvent):void
@@ -118,7 +118,7 @@
 					tootip.x = point.x - img.width * 0.5;
 					tootip.y = point.y + img.height + 8;
 
-					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.application, false);
 				}
 				else
 				{

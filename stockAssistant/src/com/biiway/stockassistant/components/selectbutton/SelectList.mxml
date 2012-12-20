@@ -61,7 +61,7 @@
 				var newheight:Number = dataProvider.length * 27 + 10;
 				list.height != newheight ? list.height = newheight : null;
 
-				PopUpManager.addPopUp(list, Util.getApplication(this), false);
+				PopUpManager.addPopUp(list, Util.application, false);
 			}
 			
 			protected function listHandler(event:DynamicEvent):void

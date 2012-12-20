@@ -106,7 +106,7 @@
 					tootip.x = FlexGlobals.topLevelApplication.mouseX - 55;
 					tootip.y = FlexGlobals.topLevelApplication.mouseY + 25;
 					
-					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.application, false);
 				}
 				else
 				{
@@ -188,9 +188,21 @@
 			
 			private function createNavigationMenu(data:ArrayCollection):NavigationMenu
 			{
+//				var navmenu:NavigationMenu = new NavigationMenu();
+//				navmenu.datafield = "names";
+//				navmenu.width = 155;
+//				navmenu.dataProvider = data;
+//				navmenu.addEventListener(MenuEvent.MENUEVENT,menueventHandler,false,0,true);
+				
+				var fieldPrompt:Array = [];
+				fieldPrompt["code"] = "股票代码";
+//				fieldPrompt["percentage"] = "收益"
+				fieldPrompt["times"] = "时间";
+				
 				var navmenu:NavigationMenu = new NavigationMenu();
-				navmenu.datafield = "names";
-				navmenu.width = 155;
+				navmenu.datafields = ["code","times"];
+				navmenu.fieldPrompt = fieldPrompt;
+				navmenu.percentWidth = 100;
 				navmenu.dataProvider = data;
 				navmenu.addEventListener(MenuEvent.MENUEVENT,menueventHandler,false,0,true);
 				
@@ -247,28 +259,30 @@
 			private function getAC():ArrayCollection
 			{
 				var acc:ArrayCollection = new ArrayCollection();
-				acc.addItem({names:"基金裕阳[500006]",times:'2012-03-02'});
-				acc.addItem({names:"基金科讯[500029]",times:'2012-03-03'});
-				acc.addItem({names:"50ETF[510050]",times:'2012-03-04'});
-				acc.addItem({names:"中盘ETF[510130]",times:'2012-03-04'});
-				acc.addItem({names:"中小ETF[510220]",times:'2012-03-05'});
-				acc.addItem({names:"资源ETF[510410]",times:'2012-04-02'});
-				acc.addItem({names:"武钢CWB1[580013]",times:'2012-03-05'});
-				acc.addItem({names:"国电CWB1[580022]",times:'2012-03-03'});
-				acc.addItem({names:"邯郸钢铁[600001]",times:'2012-03-06'});
-				acc.addItem({names:"首创股份[600008]",times:'2012-03-12'});
-				acc.addItem({names:"日照港[600017]",times:'2012-03-22'});
-				acc.addItem({names:"华电国际[600027]",times:'2012-03-12'});
-				acc.addItem({names:"招商银行[600036]",times:'2012-03-11'});
-				acc.addItem({names:"浙江广厦[600052]",times:'2012-03-22'});
-				acc.addItem({names:"古越龙山[600059]",times:'2011-02-02'});
-				acc.addItem({names:"宇通客车[600066]",times:'2011-08-20'});
-				acc.addItem({names:"海信电器[600060]",times:'2012-03-22'});
-				acc.addItem({names:"冠城大通[600067]",times:'2012-03-12'});
-				acc.addItem({names:"中达股份[600074]",times:'2012-03-11'});
-				acc.addItem({names:"东风科技[600081]",times:'2012-03-22'});
-				acc.addItem({names:"中视传媒[600088]",times:'2011-02-02'});
-				acc.addItem({names:"哈高科[600095]",times:'2011-08-20'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
+				acc.addItem({code:"500006",percentage:"4.2%",times:'2012-03-02'});
+				acc.addItem({code:"500029",percentage:"3.11%",times:'2012-03-23'});
+				acc.addItem({code:"510050",percentage:"1.2%",times:'2011-03-13'});
+				acc.addItem({code:"510130",percentage:"9.67%",times:'2011-03-03'});
 				
 				return acc;
 			}

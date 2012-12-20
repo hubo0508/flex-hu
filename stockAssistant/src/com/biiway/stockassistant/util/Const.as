@@ -5,7 +5,7 @@ package com.biiway.stockassistant.util
 		public function Const()
 		{
 		}
-		
+
 //		[Embed('assets/image/horizontalSize.gif')]
 //		public static const horizontalSize:Class;
 //		[Embed('assets/image/leftObliqueSize.gif')]

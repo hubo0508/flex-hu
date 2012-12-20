@@ -166,7 +166,7 @@
 					tootip.x = FlexGlobals.topLevelApplication.mouseX + 4;
 					tootip.y = FlexGlobals.topLevelApplication.mouseY + 18;
 
-					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.application, false);
 				}
 				else
 				{

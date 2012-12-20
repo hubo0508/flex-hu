@@ -130,7 +130,7 @@
 						
 						searchTextBC.setStyle("borderColor",0x4D90FE);
 						
-						PopUpManager.addPopUp(searchWindow, Util.getApplication(this), false);
+						PopUpManager.addPopUp(searchWindow, Util.application, false);
 						
 						dispatchEvent(new SearchToolsEvent(SearchToolsEvent.CLICKEVENT));
 						break;
@@ -216,7 +216,7 @@
 					tootip.x = point.x - 34;
 					tootip.y = point.y + 36;
 
-					PopUpManager.addPopUp(tootip, Util.getApplication(this), false);
+					PopUpManager.addPopUp(tootip, Util.application, false);
 				}
 				else
 				{
@@ -285,11 +285,19 @@
 		</s:Group>
 		
 		<components:VerticalLines id="sLine" right="21" top="0" width="0" height="26"/>
-		
+		 
 	</s:BorderContainer> 
 	
+	<s:Group id="selectedStockBtn" x="446" top="18" useHandCursor="true" buttonMode="true" left="{searchTextBC.width+searchTextBC.x + 10}">
+		<s:BitmapImage  source="@Embed('assets/image/btn/btn.jpg')"/>
+		<s:Label horizontalCenter="-2" text="{text}" verticalCenter="-2"/>
+	</s:Group>
+	
+	
+	<!--
 	<components:Button id="selectedStockBtn" x="446" top="18" width="72" 
 					   height="29" color="0xFFFFFF" text="{text}" 
 					   left="{searchTextBC.width+searchTextBC.x + 10}"/>
+	-->
 	
 </s:Group>

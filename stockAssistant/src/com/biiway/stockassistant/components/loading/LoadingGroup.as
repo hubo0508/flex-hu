@@ -17,6 +17,10 @@ package com.biiway.stockassistant.components.loading
 		public function LoadingGroup()
 		{
 			super();
+			
+			this.percentHeight = 100;
+			this.percentWidth = 100;
+			
 		}
 		
 		/**

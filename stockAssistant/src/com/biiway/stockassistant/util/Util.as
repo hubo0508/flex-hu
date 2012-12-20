@@ -1,5 +1,6 @@
 package com.biiway.stockassistant.util
 {
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Graphics;
@@ -7,6 +8,7 @@ package com.biiway.stockassistant.util
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.EventPhase;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -16,11 +18,14 @@ package com.biiway.stockassistant.util
 	import mx.core.FlexSprite;
 	import mx.core.IChildList;
 	import mx.core.IFlexDisplayObject;
+	import mx.core.IFlexModule;
 	import mx.core.IFlexModuleFactory;
 	import mx.core.IUIComponent;
 	import mx.core.IVisualElement;
 	import mx.core.UIComponent;
 	import mx.core.Window;
+	import mx.events.CloseEvent;
+	import mx.events.FlexEvent;
 	import mx.events.Request;
 	import mx.managers.ISystemManager;
 	import mx.managers.PopUpManager;
@@ -37,10 +42,11 @@ package com.biiway.stockassistant.util
 	public class Util extends EventDispatcher
 	{
 		
+		public static var application:Application = FlexGlobals.topLevelApplication as Application;
+		
 		public function Util()
 		{
 		}
-		
 		/**
 		 * 删除目标弹出窗口
 		 * 
@@ -128,6 +134,107 @@ package com.biiway.stockassistant.util
 		}
 		
 		/**
+		 * 扩展mx.controls.Alert.show，使用方法不变。
+		 * 
+		 * @see mx.controls.Alert.show()
+		 */
+		public static function show(text:String = "", title:String = "",
+									flags:uint = 0x4 /* Alert.OK */, 
+									parent:Sprite = null, 
+									closeHandler:Function = null, 
+									iconClass:Class = null, 
+									defaultButtonFlag:uint = 0x4 /* Alert.OK */,
+									moduleFactory:IFlexModuleFactory = null):Alert
+		{
+			//mx.controls.Alert.show(text,title,flags,parent,closeHandler,iconClass,defaultButtonFlag,moduleFactory);
+			var modal:Boolean = (flags & Alert.NONMODAL) ? false : true;
+			
+			if (!parent)
+			{
+				var sm:ISystemManager = ISystemManager(FlexGlobals.topLevelApplication.systemManager);
+				// no types so no dependencies
+				var mp:Object = sm.getImplementation("mx.managers.IMarshallPlanSystemManager");
+				if (mp && mp.useSWFBridge())
+					parent = Sprite(sm.getSandboxRoot());
+				else
+					parent = Sprite(FlexGlobals.topLevelApplication);
+			}
+			
+			var alert:Alert = new Alert();
+			
+			if (flags & Alert.OK||
+				flags & Alert.CANCEL ||
+				flags & Alert.YES ||
+				flags & Alert.NO)
+			{
+				alert.buttonFlags = flags;
+			}
+			
+			if (defaultButtonFlag == Alert.OK ||
+				defaultButtonFlag == Alert.CANCEL ||
+				defaultButtonFlag == Alert.YES ||
+				defaultButtonFlag == Alert.NO)
+			{
+				alert.defaultButtonFlag = defaultButtonFlag;
+			}
+			
+			alert.text = text;
+			alert.title = title;
+			alert.iconClass = iconClass;
+
+			if (closeHandler != null)
+				alert.addEventListener(CloseEvent.CLOSE, closeHandler);
+
+			// Setting a module factory allows the correct embedded font to be found.
+			if (moduleFactory)
+				alert.moduleFactory = moduleFactory;    
+			else if (parent is IFlexModule)
+				alert.moduleFactory = IFlexModule(parent).moduleFactory;
+			else
+			{
+				if (parent is IFlexModuleFactory)
+					alert.moduleFactory = IFlexModuleFactory(parent);
+				else                
+					alert.moduleFactory = FlexGlobals.topLevelApplication.moduleFactory;
+				
+				// also set document if parent isn't a UIComponent
+				if (!parent is UIComponent)
+					alert.document = FlexGlobals.topLevelApplication.document;
+			}
+
+			alert.addEventListener(FlexEvent.CREATION_COMPLETE, static_creationCompleteHandler);
+			addPopUp(alert, parent, true);
+			
+			return alert;
+		}
+		
+		/**
+		 *  @private
+		 */
+		private static function static_creationCompleteHandler(event:FlexEvent):void
+		{
+			if (event.target is IFlexDisplayObject && event.eventPhase == EventPhase.AT_TARGET)
+			{
+				var alert:Alert = Alert(event.target);
+				alert.removeEventListener(FlexEvent.CREATION_COMPLETE, static_creationCompleteHandler);
+				
+				alert.setActualSize(alert.getExplicitOrMeasuredWidth(),
+					alert.getExplicitOrMeasuredHeight());
+				PopUpManager.centerPopUp(IFlexDisplayObject(alert));
+			}
+		}
+		
+		/**
+		 * 扩展mx.managers.PopUpManager.centerPopUp，使用方法不变。
+		 * 
+		 * @see mx.managers.PopUpManager.centerPopUp()
+		 */
+		public static function centerPopUp(popUp:IFlexDisplayObject):void
+		{
+			PopUpManager.centerPopUp(popUp);
+		}
+		
+		/**
 		 * 扩展mx.managers.PopUpManager.addPopUp，使用方法不变。
 		 * 
 		 * @see mx.managers.PopUpManager.addPopUp()
@@ -143,19 +250,20 @@ package com.biiway.stockassistant.util
 			
 			if(!modal)return;
 			
-			var sm:ISystemManager = getTopLevelSystemManager(parent);
+			//var sm:ISystemManager = getTopLevelSystemManager(parent);
+			var sm:ISystemManager = (parent as UIComponent).systemManager;
 			var children:IChildList;
 			
-			if (!sm)
-			{
-				// check if parent is our sandbox root
-				sm = ISystemManager(SystemManagerGlobals.topLevelSystemManagers[0]);
-				if (sm.getSandboxRoot() != parent)
-				{
-					//trace("error: popup root was not SystemManager");
-					return; // and maybe a nice error message
-				}
-			}
+//			if (!sm)
+//			{
+//				// check if parent is our sandbox root
+//				sm = ISystemManager(SystemManagerGlobals.topLevelSystemManagers[0]);
+//				if (sm.getSandboxRoot() != parent)
+//				{
+//					//trace("error: popup root was not SystemManager");
+//					return; // and maybe a nice error message
+//				}
+//			}
 			children = sm;
 			var smp:ISystemManager = sm;
 			
@@ -211,15 +319,21 @@ package com.biiway.stockassistant.util
 			modalWindow.alpha = 0.15;
 			modalWindow.tabEnabled = false;
 			
-			const screen:Rectangle = sm.screen;
+			//const screen:Rectangle = sm.screen;
 			const g:Graphics = modalWindow.graphics;
 			
 			var c:Number = 0x000000;
 			var gap:Number = Const.GAP_SHADOW * 2;
 			
+			var point:Point = getUiAbsolutePosition(parentReference as UIComponent);
+			
 			g.clear();
 			g.beginFill(c, 0.15);
-			g.drawRect(screen.x + Const.GAP_SHADOW, screen.y + Const.GAP_SHADOW, screen.width - gap, screen.height - gap);
+			if(parentReference is Application){
+				g.drawRect(point.x + Const.GAP_SHADOW, point.y + Const.GAP_SHADOW, parentReference.width - gap, parentReference.height - gap);
+			}else{
+				g.drawRect(point.x, point.y, parentReference.width, parentReference.height);
+			}
 			g.endFill();
 			
 			window.addEventListener(Event.REMOVED_FROM_STAGE,windownRemovedHandler,false,0,true);
@@ -227,6 +341,9 @@ package com.biiway.stockassistant.util
 		
 		protected static function windownRemovedHandler(event:Event):void
 		{
+			trace("windownRemovedHandler"+event.target);
+			trace("windownRemovedHandler"+event.currentTarget);
+			
 			var window:DisplayObject = event.currentTarget as DisplayObject;
 			var sm:ISystemManager = getTopLevelSystemManager(window);
 			
@@ -411,12 +528,6 @@ package com.biiway.stockassistant.util
 			return name;
 		}
 
-		public static function getApplication(currentUI:UIComponent):DisplayObject
-		{
-			return currentUI.parentApplication as DisplayObject == null ? currentUI as DisplayObject : currentUI.parentApplication as DisplayObject;
-		}
-		
-		
 		
 	}
 }
