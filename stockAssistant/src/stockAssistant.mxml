@@ -23,6 +23,11 @@
 			import com.biiway.stockassistant.view.AppMain;
 			import com.biiway.stockassistant.view.login.Login;
 			import com.biiway.stockassistant.view.navigation.Navigation;
+			import com.hurlant.crypto.Crypto;
+			import com.hurlant.crypto.hash.IHash;
+			import com.hurlant.crypto.hash.MD5;
+			import com.hurlant.util.Base64;
+			import com.hurlant.util.Hex;
 			
 			import merapi.messages.Message;
 			
@@ -30,6 +35,8 @@
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			import mx.events.ResizeEvent;
+			import mx.utils.Base64Encoder;
+			import mx.utils.SHA256;
 			
 			import spark.events.ElementExistenceEvent;
 			
@@ -76,10 +83,13 @@
 					login ? login.message("正在登录，请稍后...",true) : null;
 
 					loadContent(event.username);
-				}
-				else
-				{
-					Util.show("xxx");
+				} 
+				else 
+				{ 
+					var b64:Base64Encoder = new Base64Encoder();
+					b64.encode("5f527beb9badf1e4fb844b4021f6ca1e");
+					trace(b64.toString());
+					trace(new com.hurlant.crypto.hash.SHA256().hashsha(event.password));
 					login ? login.message("密码或用户名错误！",false) : null;
 				}
 			}
