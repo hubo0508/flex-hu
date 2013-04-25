@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Line xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xFrom="0"
+		xTo="0"
+		yFrom="0"
+		yTo="0" 
+		width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _color:uint = 0xE5E5E5;
+			
+			private var _weight:Number = 1;
+			
+			[Bindable(event="colorChange")]
+			public function get color():uint
+			{
+				return _color;
+			}
+
+			public function set color(value:uint):void
+			{
+				if( _color !== value)
+				{
+					_color = value;
+					dispatchEvent(new Event("colorChange"));
+				}
+			}
+
+			[Bindable(event="weightChange")]
+			public function get weight():Number
+			{
+				return _weight;
+			}
+
+			public function set weight(value:Number):void
+			{
+				if( _weight !== value)
+				{
+					_weight = value;
+					dispatchEvent(new Event("weightChange"));
+				}
+			}
+
+
+		]]>
+	</fx:Script>
+	
+	<s:stroke>
+		<s:SolidColorStroke color="{color}" weight="{weight}" caps="square"/>
+	</s:stroke>
+	
+</s:Line>

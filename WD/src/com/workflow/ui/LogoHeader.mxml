@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:primitives="com.workflow.primitives.*"
+		 width="100%"
+		 height="81"
+		 x="0"
+		 y="0">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.workflow.util.BinaryImage;
+		]]>
+	</fx:Script>
+	
+	<s:Rect height="100%" width="100%">
+		<s:fill>
+			<s:SolidColor color="#F1F1F1"/>
+		</s:fill>
+	</s:Rect>	
+	
+	<primitives:HLine width="100%" y="80" color="#D9BD95"/>
+	
+	<s:BitmapImage horizontalCenter="0" source="{BinaryImage.log}" verticalCenter="0"/>
+	
+</s:Group>
