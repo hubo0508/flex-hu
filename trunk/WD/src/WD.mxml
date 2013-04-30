@@ -9,5 +9,5 @@
 	<fx:Style source="assets/workflow/css/style.css"/>
 	
 	<ui:Main x="0" y="0"/>
-	
+	 
 </s:Application>
