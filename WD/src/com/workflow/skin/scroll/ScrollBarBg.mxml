@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="up" />
+		<s:State name="over" />
+		<s:State name="down" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<s:Rect id="bg" width="100%" height="100%">
+		<s:fill>
+			<s:SolidColor color="0xF6F6F6" />
+		</s:fill>
+	</s:Rect>
+	
+	<!--right-->
+	<s:Line id="bgRight" width="0" height="100%" right="0" top="0" bottom="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xE6E6E6"  weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--left-->
+	<s:Line id="bgLeft" width="0" height="100%" left="0" top="0" bottom="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xD5D5D5"  weight="0" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--top-->
+	<s:Line id="bgTop" xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" top="0" left="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xD5D5D5" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+	
+	<!--bottom-->
+	<s:Line id="bgBottom" xFrom="0" xTo="0" yFrom="0" yTo="0" width="100%" height="0" bottom="0" left="0"> 		
+		<s:stroke>
+			<s:SolidColorStroke color="0xD5D5D5" weight="1" caps="square"/>
+		</s:stroke>		
+	</s:Line>
+
+</s:Skin>

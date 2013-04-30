@@ -6,3 +6,7 @@ s|Application{
 	fontSize:12;
 	fontFamily:"宋体";
 }
+
+s|Scroller{
+	skin-class:ClassReference("com.workflow.skin.scroll.Scroller_skin");
+}
