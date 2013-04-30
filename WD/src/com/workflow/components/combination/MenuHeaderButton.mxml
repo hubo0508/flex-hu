@@ -3,8 +3,9 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:primitives="com.workflow.primitives.*"
-		 rollOver="rollHandler(event)"
-		 rollOut="rollHandler(event)"
+		 rollOver="thisHandler(event)"
+		 rollOut="thisHandler(event)"
+		 click="thisHandler(event)"
 		 useHandCursor="true"
 		 buttonMode="true" 
 		 height="37"
@@ -13,11 +14,13 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.components.extend.ECheckBox;
-			import com.workflow.skin.MenuHeaderButton_CheckBoxSkin;
+			import com.workflow.components.extend.ERadioButton;
+			import com.workflow.skin.components.MenuHeaderButton_CheckBoxSkin;
 			
 			import mx.controls.Alert;
 			import mx.controls.CheckBox;
 			import mx.core.UIComponent;
+			import mx.events.DynamicEvent;
 			
 			import spark.components.Label;
 			import spark.components.RadioButton;
@@ -74,13 +77,15 @@
 					default :
 						break;
 				}
-			}
+			} 
 			
 			//********************************************************
 			// 重写函数 E
 			//********************************************************
 			
-			//<s:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="80"/>
+			/**
+			 * 初始化显示文本
+			 */
 			private function createAndDisplayText():void
 			{
 				var label:Label = new Label();
@@ -92,16 +97,27 @@
 				this.addElement(label);
 			}
 			
+			/**
+			 * 初始化单选框
+			 */
 			private function createAndDisplayRadioButton():void
 			{
 				var radioButton:RadioButton = new RadioButton();
 				radioButton.horizontalCenter = 0; 
 				radioButton.label = text;
 				radioButton.verticalCenter = 0;
+				radioButton.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
+				{
+					event.stopPropagation();
+					clickMenuButtonDispatch();
+				},false,0,true);
 				
 				this.addElement(radioButton);
 			}
 			
+			/**
+			 * 初始化复选框
+			 */
 			private function createAndDisplayCheckBox():void
 			{
 				var checkbox:ECheckBox = new ECheckBox();
@@ -109,46 +125,35 @@
 				checkbox.horizontalCenter = 0; 
 				checkbox.label = text;
 				checkbox.verticalCenter = 0;
-				checkbox.addEventListener(MouseEvent.CLICK,checkboxHandler,false,0,true);
-				checkbox.addEventListener(MouseEvent.ROLL_OUT,checkboxHandler,false,0,true);
-				checkbox.addEventListener(MouseEvent.ROLL_OVER,checkboxHandler,false,0,true);
+				checkbox.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
+				{
+					event.stopPropagation();
+					clickMenuButtonDispatch();
+				},false,0,true);
 				
 				this.addElement(checkbox);
 			}
 			
-			protected function checkboxHandler(event:MouseEvent):void
-			{
-				var cBox:ECheckBox = event.currentTarget  as ECheckBox;
-				switch(event.type)
-				{
-					case MouseEvent.CLICK : 
-						break;
-					
-					case MouseEvent.ROLL_OUT :
-						trace("cBox ROLL_OUT : "+cBox.stage.name);
-						break;
-					
-					case MouseEvent.ROLL_OVER :
-						trace("cBox ROLL_OVER : "+cBox.stage.name);
-						break;
-					
-					default:
-						break;
-				}
-			}
-			
-			protected function rollHandler(event:MouseEvent):void
+			/**
+			 * 当前菜单容器事件调用
+			 */
+			protected function thisHandler(event:MouseEvent):void
 			{
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
 						setBgrectVisible(false);
-						setCheckBoxHovered(MouseEvent.ROLL_OUT,true);
+						setBoxHovered(false);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						setBgrectVisible(true);
-						setCheckBoxHovered(MouseEvent.ROLL_OVER,true);
+						setBoxHovered(true);
+						break;
+					
+					case MouseEvent.CLICK :
+						this.setBoxState();
+						this.clickMenuButtonDispatch();
 						break;
 					
 					default:
@@ -156,21 +161,59 @@
 				}
 			}
 			
-			private function setCheckBoxHovered(type:String, value:Boolean):void
+			/**
+			 * 点击菜单按钮派发事件
+			 * 
+			 * @param dyEvent.text : 菜单名称
+			 * @param dyEvent.etype : 菜单类型
+			 * @param dyEvent.selected ： 是否选中
+			 * 
+			 * @see com.workflow.components.combination.MenuHeaderButton.type()
+			 */
+			private function clickMenuButtonDispatch():void
 			{
-				var cbox:ECheckBox = lastElement() as ECheckBox;
-				if(cbox && type == MouseEvent.ROLL_OUT){
-					cbox.setHovered(false);
-				}else if(cbox && type == MouseEvent.ROLL_OVER){
-					cbox.setHovered(true);
+				var dyEvent:DynamicEvent = new DynamicEvent("handler");
+				dyEvent.text = this.text;
+				dyEvent.etype = this.type;
+				if(this.type == "CheckBox" || this.type == "RadioButton"){
+					dyEvent.selected = this.lastElement().selected
+				}
+				
+				this.dispatchEvent(dyEvent);
+			}
+			
+			/**
+			 * 设置单选框或多选框鼠标移入样式
+			 */
+			private function setBoxHovered(value:Boolean):void
+			{
+				var box:Object = lastElement();
+				if(box is ECheckBox || box is ERadioButton){
+					box.setHovered(value);
 				}
 			}
 			
+			/**
+			 * 设置单选框或多选框状态
+			 */
+			private function setBoxState():void
+			{
+				if(this.type == "CheckBox" || this.type == "RadioButton"){
+					this.lastElement().selected = !lastElement().selected;
+				}
+			}
+			
+			/**
+			 * 取得最后一个元素
+			 */
 			private function lastElement():Object
 			{
 				return this.getElementAt(this.numElements-1);
 			}
 			
+			/**
+			 * 显示或隐藏背景颜色
+			 */
 			private function setBgrectVisible(value:Boolean):void
 			{
 				bgrect.visible != value ? bgrect.visible = value : null;
@@ -193,7 +236,7 @@
 			
 			private var _type:String = "Text";
 			
-			[Inspectable(enumeration="Text,Image,CheckBox,RadioButton", defaultValue="auto")]
+			[Inspectable(enumeration="Text,Image,CheckBox,RadioButton", defaultValue="Text")]
 			public function get type():String
 			{
 				return _type;
@@ -214,6 +257,10 @@
 			}
 		]]>
 	</fx:Script>
+	
+	<fx:Metadata>
+		[Event(name="handler",type="mx.events.DynamicEvent")]
+	</fx:Metadata>
 	
 	<s:Rect id="bgrect" height="100%" width="100%" visible="false">
 		<s:fill>
