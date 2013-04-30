@@ -3,20 +3,147 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:primitives="com.workflow.primitives.*"
+		 rollOver="rollHandler(event)"
+		 rollOut="rollHandler(event)"
 		 useHandCursor="true"
-		 buttonMode="true"
+		 buttonMode="true" 
 		 height="37"
 		 minWidth="85">
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
 			
-			/**
-			 * 垃圾回收
-			 */
-			public function cleanUp():void
+			import spark.components.CheckBox;
+			import spark.components.Label;
+			import spark.components.RadioButton;
+			
+			//********************************************************
+			// 重写函数 S
+			//********************************************************
+			
+			override protected function updateDisplayList(w:Number, h:Number):void
 			{
+				super.updateDisplayList(w,h);
 				
+				var displayObject:Object = lastElement();
+				if(displayObject is Label || displayObject is CheckBox || displayObject is RadioButton)
+				{
+					displayObject.maxWidth = this.width - 5;
+				}
+			}
+			
+			override protected function commitProperties():void
+			{
+				//trace("commitProperties");
+				super.commitProperties();
+			}
+			
+			override protected function measure():void
+			{
+				//trace("measure");
+				super.commitProperties();
+			}
+			
+			override protected function createChildren():void
+			{
+				//trace("createChildren");
+				super.createChildren();
+				
+				switch(type)
+				{
+					case "Text" :
+						createAndDisplayText();
+						break;
+					
+					case "Image" :
+						break;
+					
+					case "CheckBox" :
+						createAndDisplayCheckBox();
+						break;
+					
+					case "RadioButton" :
+						createAndDisplayRadioButton();
+						break;
+					
+					default :
+						break;
+				}
+			}
+			
+			//********************************************************
+			// 重写函数 E
+			//********************************************************
+			
+			//<s:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="80"/>
+			private function createAndDisplayText():void
+			{
+				var label:Label = new Label();
+				label.horizontalCenter = 0;
+				label.text = text;
+				label.verticalCenter = 0;
+				//label.maxWidth = this.width - 5;
+				
+				this.addElement(label);
+			}
+			
+			private function createAndDisplayRadioButton():void
+			{
+				var radioButton:RadioButton = new RadioButton();
+				radioButton.horizontalCenter = 0; 
+				radioButton.label = text;
+				radioButton.verticalCenter = 0;
+				
+				this.addElement(radioButton);
+			}
+			
+			private function createAndDisplayCheckBox():void
+			{
+				var checkbox:CheckBox = new CheckBox();
+				checkbox.horizontalCenter = 0; 
+				checkbox.label = text;
+				checkbox.verticalCenter = 0;
+				checkbox.addEventListener(MouseEvent.CLICK,checkboxHandler,false,0,true);
+				
+				this.addElement(checkbox);
+			}
+			
+			protected function checkboxHandler(event:MouseEvent):void
+			{
+				mx.controls.Alert.show("xx");
+			}
+			
+			protected function rollHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						trace("++++ROLL_OUT++"+(lastElement() as CheckBox).stage.displayState);
+						bgrectVisible(false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						bgrectVisible(true);
+						//(lastElement() as CheckBox).stage
+						trace("++++ROLL_OVER++"+(lastElement() as CheckBox).stage.displayState);
+						//(lastElement() as CheckBox).dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE));
+						break;
+					
+					default:
+						break;
+				}
+				
+			}
+			
+			private function lastElement():Object
+			{
+				return this.getElementAt(this.numElements-1);
+			}
+			
+			private function bgrectVisible(value:Boolean):void
+			{
+				bgrect.visible != value ? bgrect.visible = value : null;
 			}
 			
 			private var _text:String;
@@ -26,20 +153,46 @@
 			{
 				return _text;
 			}
-
+			
 			public function set text(value:String):void
 			{
 				_text = value;
 				
 				this.dispatchEvent(new Event("text"));
 			}
-
+			
+			private var _type:String = "Text";
+			
+			[Inspectable(enumeration="Text,Image,CheckBox,RadioButton", defaultValue="auto")]
+			public function get type():String
+			{
+				return _type;
+			}
+			
+			public function set type(value:String):void
+			{
+				_type = value;
+			}
+			
+			
+			//********************************************************
+			// 垃圾回收
+			//********************************************************
+			public function cleanUp():void
+			{
+				
+			}
 		]]>
 	</fx:Script>
 	
+	<s:Rect id="bgrect" height="100%" width="100%" visible="false">
+		<s:fill>
+			<s:SolidColor color="#E6E6E6"/>
+		</s:fill>
+	</s:Rect>	
 	
-	<primitives:VLine x="0" y="0"/>
+	<primitives:VLine x="0" y="0" bottom="0" top="0"/>
 	
-	<s:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="80"/>
+	<!--<s:Label horizontalCenter="0" text="{text}" verticalCenter="0" maxWidth="80"/>-->
 	
 </s:Group>
