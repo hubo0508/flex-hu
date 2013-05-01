@@ -8,8 +8,8 @@
 		 minHeight="0"
 		 minWidth="0">
 
-	<ui:LogoHeader/>
+	<ui:LogoHeader width="{menuHeader.width}"/>
 	
-	<ui:MenuHeader workflowName="请假审核流定义"/>
+	<ui:MenuHeader id="menuHeader" workflowName="请假审核流定义"/>
 	
 </s:Group>
