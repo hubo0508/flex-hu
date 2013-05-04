@@ -13,6 +13,8 @@
 		<![CDATA[
 			import mx.events.DynamicEvent;
 			
+			import spark.components.CheckBox;
+			
 			private var _workflowName:String;
 
 			[Bindable(event="workflowNameChange")]
@@ -27,6 +29,19 @@
 				{
 					_workflowName = value;
 					dispatchEvent(new Event("workflowNameChange"));
+				}
+			}
+			
+			public function updateMenuHeaderButtonState(text:String, value:Boolean):void
+			{
+				switch(text){
+					case "日志" :
+						var cBox:CheckBox = logbutton.lastElement() as CheckBox;
+						cBox ? cBox.selected = value : null;
+						break;
+					
+					default :
+						break;
 				}
 			}
 			
@@ -52,7 +67,7 @@
 		<c:MenuHeaderButton text="对齐"/>
 		<c:MenuHeaderButton text="缩放"/>
 		<c:MenuHeaderButton text="网格" type="CheckBox"/>
-		<c:MenuHeaderButton text="日志" type="CheckBox"/>
+		<c:MenuHeaderButton id="logbutton" text="日志" type="CheckBox"/>
 		
 		<p:VLine/>
 		
