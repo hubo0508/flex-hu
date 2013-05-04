@@ -227,7 +227,7 @@
 			/**
 			 * 取得最后一个元素
 			 */
-			private function lastElement():Object
+			public function lastElement():Object
 			{
 				return this.getElementAt(this.numElements-1);
 			}

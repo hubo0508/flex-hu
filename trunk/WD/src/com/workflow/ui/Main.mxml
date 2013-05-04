@@ -11,6 +11,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.util.Util;
+			
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			
@@ -22,6 +24,13 @@
 			private function initEvent():void
 			{
 				menuheader.addEventListener("clickMenuHeaderButton",clickMenuHeaderButtonHandler,false,0,true);
+			
+				logoutbar.addEventListener("hideOrDisplay",hideOrDisplayHandler,false,0,true);
+			}
+			
+			protected function hideOrDisplayHandler(event:DynamicEvent):void
+			{
+				menuheader.updateMenuHeaderButtonState("日志",event.value);
 			}
 			
 			protected function clickMenuHeaderButtonHandler(event:DynamicEvent):void
@@ -45,9 +54,11 @@
 						break;
 					
 					case "网格" :
+						event.selected ? Util.drawGrid(content) : content.graphics.clear();
 						break;
 					
 					case "日志" :
+						logoutbar.hideOrDisplayDetail();
 						break;
 					
 					default :

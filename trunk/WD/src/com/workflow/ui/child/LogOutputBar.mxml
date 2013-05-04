@@ -10,6 +10,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
@@ -55,12 +56,24 @@
 					this.height = 142;
 					detail.visible = true;
 					header.y = 119;
+					
+					dispatchHideOrDisplayEvent(true);
 				}else{
 					this.height = 23;
 					detail.visible = false;
 					header.y = 0;
+					
+					dispatchHideOrDisplayEvent(false);
 				}
-			}	
+			}
+
+			private function dispatchHideOrDisplayEvent(value:Boolean):void
+			{
+				var dye:DynamicEvent = new DynamicEvent("hideOrDisplay");
+				dye.value = value;
+				
+				this.dispatchEvent(dye);
+			}
 			
 		]]>
 	</fx:Script>
