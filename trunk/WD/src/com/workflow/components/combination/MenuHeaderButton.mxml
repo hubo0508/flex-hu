@@ -5,7 +5,9 @@
 		 xmlns:primitives="com.workflow.primitives.*"
 		 rollOver="thisHandler(event)"
 		 rollOut="thisHandler(event)"
-		 click="thisHandler(event)"
+		 click="thisHandler(event)" 
+		 mouseUp="thisHandler(event)" 
+		 mouseDown="thisHandler(event)"
 		 useHandCursor="true"
 		 buttonMode="true" 
 		 height="37"
@@ -18,10 +20,10 @@
 			import com.workflow.skin.components.MenuHeaderButton_CheckBoxSkin;
 			
 			import mx.controls.Alert;
-			import mx.controls.CheckBox;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
 			
+			import spark.components.CheckBox;
 			import spark.components.Label;
 			import spark.components.RadioButton;
 			
@@ -144,6 +146,7 @@
 					case MouseEvent.ROLL_OUT :
 						setBgrectVisible(false);
 						setBoxHovered(false);
+						
 						break;
 					
 					case MouseEvent.ROLL_OVER :
@@ -156,8 +159,22 @@
 						this.clickMenuButtonDispatch();
 						break;
 					
+					case MouseEvent.MOUSE_UP :
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						break;
+					
 					default:
 						break;
+				}
+			}
+			
+			private function setMenuButtonTextColor(color:uint):void
+			{
+				var element:Object = this.lastElement();
+				if(element is Label || element is spark.components.CheckBox || element is RadioButton){
+					element.setStyle("color",color);
 				}
 			}
 			
