@@ -27,23 +27,23 @@ package com.workflow.util
 		//日志 end
 		
 		//对齐 start
-		[Embed(source="assets/workflow/image/layers-alignment-bottom.png")]		
-		public static const LAYERS_BOTTOM:Class;
-		
-		[Embed(source="assets/workflow/image/layers-alignment-center.png")]		
-		public static const LAYERS_CENTER:Class;
-		
-		[Embed(source="assets/workflow/image/layers-alignment-left.png")]		
-		public static const LAYERS_LEFT:Class;
-		
-		[Embed(source="assets/workflow/image/layers-alignment-middle.png")]		
-		public static const LAYERS_MIDDLE:Class;
-		
-		[Embed(source="assets/workflow/image/layers-alignment-right.png")]		
-		public static const LAYERS_RIGHT:Class;
-		
-		[Embed(source="assets/workflow/image/layers-alignment.png")]		
-		public static const LAYERS_TOP:Class;		
+//		[Embed(source="assets/workflow/image/layers-alignment-bottom.png")]		
+//		public static const LAYERS_BOTTOM:Class;
+//		
+//		[Embed(source="assets/workflow/image/layers-alignment-center.png")]		
+//		public static const LAYERS_CENTER:Class;
+//		
+//		[Embed(source="assets/workflow/image/layers-alignment-left.png")]		
+//		public static const LAYERS_LEFT:Class;
+//		
+//		[Embed(source="assets/workflow/image/layers-alignment-middle.png")]		
+//		public static const LAYERS_MIDDLE:Class;
+//		
+//		[Embed(source="assets/workflow/image/layers-alignment-right.png")]		
+//		public static const LAYERS_RIGHT:Class;
+//		
+//		[Embed(source="assets/workflow/image/layers-alignment.png")]		
+//		public static const LAYERS_TOP:Class;		
 		//对齐 end
 	}
 }
