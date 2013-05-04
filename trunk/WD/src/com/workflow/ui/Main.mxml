@@ -3,10 +3,62 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:child="com.workflow.ui.child.*"
+		 creationComplete="creationCompleteHandler(event)"
 		 width="100%"
 		 height="100%"
 		 minHeight="0"
 		 minWidth="0">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.DynamicEvent;
+			import mx.events.FlexEvent;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				menuheader.addEventListener("clickMenuHeaderButton",clickMenuHeaderButtonHandler,false,0,true);
+			}
+			
+			protected function clickMenuHeaderButtonHandler(event:DynamicEvent):void
+			{
+				trace("event.text = " + event.text + "    etype = " + event.etype + "     selected = " + event.selected);
+				switch(event.text)
+				{
+					case "立即保存" :
+						break;
+					
+					case "舍弃" :
+						break;
+					
+					case "验证" : 
+						break;
+					
+					case "对齐" :
+						break;
+					
+					case "缩放" :
+						break;
+					
+					case "网格" :
+						break;
+					
+					case "日志" :
+						break;
+					
+					default :
+						event.stopPropagation();
+						break;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
 
 	<child:LogoHeader width="{menuheader.width}"/>
 	

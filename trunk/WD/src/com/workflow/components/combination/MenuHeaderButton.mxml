@@ -181,7 +181,9 @@
 			}
 			
 			/**
-			 * 点击菜单按钮派发事件
+			 * 点击菜单按钮派发事件。
+			 * 
+			 * 采用事件冒泡机制。
 			 * 
 			 * @param dyEvent.text : 菜单名称
 			 * @param dyEvent.etype : 菜单类型
@@ -191,7 +193,7 @@
 			 */
 			private function clickMenuButtonDispatch():void
 			{
-				var dyEvent:DynamicEvent = new DynamicEvent("handler");
+				var dyEvent:DynamicEvent = new DynamicEvent("clickMenuHeaderButton",true);
 				dyEvent.text = this.text;
 				dyEvent.etype = this.type;
 				if(this.type == "CheckBox" || this.type == "RadioButton"){
@@ -278,7 +280,7 @@
 	</fx:Script>
 	
 	<fx:Metadata>
-		[Event(name="handler",type="mx.events.DynamicEvent")]
+		[Event(name="clickMenuHeaderButton",type="mx.events.DynamicEvent")]
 	</fx:Metadata>
 	
 	<s:Rect id="bgrect" height="100%" width="100%" visible="false">
