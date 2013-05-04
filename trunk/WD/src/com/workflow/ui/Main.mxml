@@ -77,14 +77,27 @@
 			
 		]]>
 	</fx:Script>
+	
+	<child:Content id="content" y="124"/>
 
+	<child:MenuHeader_Align y="124" x="238">
+		<child:dataProvider>
+			<fx:Array>
+				<fx:Object text="顶对齐"   image="assets/workflow/image/layers-alignment.png"/>
+				<fx:Object text="垂直中齐" image="assets/workflow/image/layers-alignment-center.png"/>
+				<fx:Object text="下对齐"   image="assets/workflow/image/layers-alignment-bottom.png"/>
+				<fx:Object text="左对齐"   image="assets/workflow/image/layers-alignment-left.png"/>
+				<fx:Object text="水平中齐" image="assets/workflow/image/layers-alignment-middle.png"/>
+				<fx:Object text="右对齐"   image="assets/workflow/image/layers-alignment-right.png"/>
+			</fx:Array>
+		</child:dataProvider>
+	</child:MenuHeader_Align>
+	
 	<child:LogoHeader width="{menuheader.width}"/>
 	
 	<child:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
 	
-	<child:Align y="125" x="238"/>
 	
-	<child:Content id="content" y="124"/>
 	
 	<child:LogOutputBar id="logoutbar"/>
 	

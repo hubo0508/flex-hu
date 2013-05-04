@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx" 
+				   borderVisible="true"
+				   borderColor="0xEFEFEF"
+				   width="216">
+	
+	<fx:Script>
+		<![CDATA[
+			import spark.components.Group;
+			import spark.components.Image;
+			import spark.components.Label;
+			
+			private var _itemHeight:Number = 31;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+			}
+			
+			public function set dataProvider(data:Array):void
+			{
+				if(data == null)return;
+				
+				var num:int = data.length;
+				for(var i:int=0; i<num; i++)
+				{
+					var item:Group = this.createItem(data[i]);
+					i==0 ? item.y = 5 : item.y = i * itemHeight + 5
+					item.addEventListener(MouseEvent.ROLL_OUT,itemHandler,false,0,true);
+					item.addEventListener(MouseEvent.ROLL_OVER,itemHandler,false,0,true);
+					
+					this.addElement(item);
+				}
+				
+				this.height = num * itemHeight + 10;
+			}
+			
+			protected function itemHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						itemBg.visible ? itemBg.visible = false : null;
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						itemBg.visible ? null : itemBg.visible = true;
+						itemBg.y = event.currentTarget.y;
+						break;
+					
+					default:
+						break;
+				}
+				
+			}
+			
+			private function createItem(data:Object):Group
+			{
+				var image:Image = new Image();
+				image.source = data["image"];
+				image.x = 10;
+				image.verticalCenter = 0;
+				
+				var text:Label = new Label();
+				text.text = data["text"];
+				text.verticalCenter = 0;
+				text.x = 35;
+				
+				var group:Group = new Group();
+				group.height = itemHeight;
+				
+				group.addElement(image);
+				group.addElement(text);
+				
+				return group;
+			}
+			
+			public function get itemHeight():Number
+			{
+				return _itemHeight;
+			}
+			
+			public function set itemHeight(value:Number):void
+			{
+				_itemHeight = value;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:filters> 
+		<flash.filters:DropShadowFilter id='dropShadowFilter' xmlns:flash.filters='flash.filters.*' 
+										angle='81'
+										blurX='15' blurY='15'
+										distance='5'
+										alpha='0.1' color='#000000' 
+										knockout='false' quality='2'
+										strength='1' inner='false' hideObject='false'/>
+	</s:filters>
+	
+	<s:Rect id="itemBg" visible="false" height="31" width="100%" x="0" y="0">
+		<s:fill>
+			<s:SolidColor color="#EFEFEF"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!--
+	<s:Group height="31" width="100%">
+		<s:Image x="10" source="assets/workflow/image/layers-alignment.png" verticalCenter="0"/>
+		<s:Label x="35" text="顶对齐" verticalCenter="0"/>
+	</s:Group>
+	-->
+	
+</s:BorderContainer>
