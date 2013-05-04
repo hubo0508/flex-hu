@@ -30,37 +30,6 @@
 				}
 			}
 			
-			protected function menuHeaderButtonHandler(event:DynamicEvent):void
-			{
-				trace("event.text = " + event.text + "    etype = " + event.etype + "     selected = " + event.selected);
-				switch(event.text)
-				{
-					case "立即保存" :
-						break;
-					
-					case "舍弃" :
-						break;
-					
-					case "验证" : 
-						break;
-						
-					case "对齐" :
-						break;
-					
-					case "缩放" :
-						break;
-						
-					case "网格" :
-						break;
-					
-					case "日志" :
-						break;
-					
-					default :
-						break;
-				}
-			}
-
 		]]>
 	</fx:Script>
 	
@@ -77,13 +46,13 @@
 			<s:HorizontalLayout gap="0"/>
 		</s:layout>
 		
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="立即保存"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="舍弃"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="验证"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="对齐"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="缩放"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="网格" type="CheckBox"/>
-		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="日志" type="CheckBox"/>
+		<c:MenuHeaderButton text="立即保存"/>
+		<c:MenuHeaderButton text="舍弃"/>
+		<c:MenuHeaderButton text="验证"/>
+		<c:MenuHeaderButton text="对齐"/>
+		<c:MenuHeaderButton text="缩放"/>
+		<c:MenuHeaderButton text="网格" type="CheckBox"/>
+		<c:MenuHeaderButton text="日志" type="CheckBox"/>
 		
 		<p:VLine/>
 		
