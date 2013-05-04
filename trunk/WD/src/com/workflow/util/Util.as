@@ -1,3 +1,8 @@
+//*********************************************
+// C:2013.05.04
+// HUBO
+// hubo.0508@gmail.com
+//*********************************************
 package com.workflow.util
 {
 	import flash.display.Graphics;
