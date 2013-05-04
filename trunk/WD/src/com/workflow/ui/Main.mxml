@@ -78,11 +78,12 @@
 		]]>
 	</fx:Script>
 
+	
 	<child:LogoHeader width="{menuheader.width}"/>
 	
 	<child:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
 	
-	<child:Content id="content"/>
+	<child:Content id="content" y="124"/>
 	
 	<child:LogOutputBar id="logoutbar"/>
 	
