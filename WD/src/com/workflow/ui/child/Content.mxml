@@ -10,7 +10,6 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 width="100%"
-		 height="100%"
-		 y="125">
+		 height="100%">
 	
 </s:Group>

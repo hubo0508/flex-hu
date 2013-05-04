@@ -17,7 +17,7 @@
 		 mouseDown="thisHandler(event)"
 		 useHandCursor="true"
 		 buttonMode="true" 
-		 height="37"
+		 height="36"
 		 minWidth="85">
 	
 	<fx:Script>
