@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:child="com.workflow.ui.child.*" 
+		 creationComplete="creationCompleteHandler(event)"
+		 bottom="0"
+		 width="100%"
+		 height="23">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				header.addEventListener(MouseEvent.CLICK,headerHandler,false,0,true);
+				detail.addEventListener("hideDetail",detailHandler,false,0,true);
+			}
+			
+			protected function headerHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.CLICK: 
+						this.hideOrDisplayDetail();
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			protected function detailHandler(event:Event):void
+			{
+				switch(event.type)
+				{
+					case "hideDetail" :
+						this.hideOrDisplayDetail();
+						break;
+					
+					default:
+					break;
+				}
+			}
+			
+			public function hideOrDisplayDetail():void
+			{
+				if(this.height == 23){
+					this.height = 142;
+					detail.visible = true;
+					header.y = 119;
+				}else{
+					this.height = 23;
+					detail.visible = false;
+					header.y = 0;
+				}
+			}	
+			
+		
+			
+		]]>
+	</fx:Script>
+	
+	<child:LogOutputBar_Detail id="detail" y="0" visible="false"/>
+	
+	<child:LogOutputBar_Header id="header" y="0"/>
+	
+</s:Group>

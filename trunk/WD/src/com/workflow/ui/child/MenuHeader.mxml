@@ -2,8 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:primitives="com.workflow.primitives.*"
-		 xmlns:combination="com.workflow.components.combination.*"
+		 xmlns:p="com.workflow.primitives.*"
+		 xmlns:c="com.workflow.components.combination.*"
 		 height="37" 
 		 x="0"
 		 y="88"
@@ -12,6 +12,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.DynamicEvent;
+			
 			private var _workflowName:String;
 
 			[Bindable(event="workflowNameChange")]
@@ -29,7 +30,7 @@
 				}
 			}
 			
-			protected function menuHanderButtonHandler(event:DynamicEvent):void
+			protected function menuHeaderButtonHandler(event:DynamicEvent):void
 			{
 				trace("event.text = " + event.text + "    etype = " + event.etype + "     selected = " + event.selected);
 				switch(event.text)
@@ -63,8 +64,8 @@
 		]]>
 	</fx:Script>
 	
-	<primitives:HLine x="0" y="0"/>
-	<primitives:HLine x="0" y="37"/>
+	<p:HLine x="0" y="0"/>
+	<p:HLine x="0" y="37"/>
 	
 	<s:Label left="10" maxWidth="210" color="#DA2323" fontFamily="宋体" 
 			 fontSize="18" fontWeight="bold"
@@ -76,15 +77,16 @@
 			<s:HorizontalLayout gap="0"/>
 		</s:layout>
 		
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="立即保存"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="舍弃"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="验证"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="对齐"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="缩放"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="网格" type="CheckBox"/>
-		<combination:MenuHeaderButton handler="menuHanderButtonHandler(event)" text="日志" type="CheckBox"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="立即保存"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="舍弃"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="验证"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="对齐"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="缩放"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="网格" type="CheckBox"/>
+		<c:MenuHeaderButton handler="menuHeaderButtonHandler(event)" text="日志" type="CheckBox"/>
 		
-		<primitives:VLine/>
+		<p:VLine/>
 		
 	</s:Group>
+	
 </s:Group>

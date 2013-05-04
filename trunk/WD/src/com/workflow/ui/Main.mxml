@@ -8,8 +8,12 @@
 		 minHeight="0"
 		 minWidth="0">
 
-	<child:LogoHeader width="{menuHeader.width}"/>
+	<child:LogoHeader width="{menuheader.width}"/>
 	
-	<child:MenuHeader id="menuHeader" workflowName="请假审核流定义"/>
+	<child:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
+	
+	<child:Content id="content"/>
+	
+	<child:LogOutputBar id="logoutbar"/>
 	
 </s:Group>
