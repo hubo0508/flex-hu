@@ -17,5 +17,11 @@ package com.workflow.util
 		
 		[Embed(source="assets/workflow/image/log.png")]		
 		public static const log:Class;
+		
+		[Embed(source="assets/workflow/image/logClose.png")]		
+		public static const LOG_ERROR:Class;
+		
+		[Embed(source="assets/workflow/image/logUncertain.png")]		
+		public static const LOG_UNCERTAIN:Class;
 	}
 }

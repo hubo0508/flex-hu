@@ -146,7 +146,7 @@
 					case MouseEvent.ROLL_OUT :
 						setBgrectVisible(false);
 						setBoxHovered(false);
-						
+						this.setMenuButtonTextColor(0x000000);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
@@ -160,9 +160,11 @@
 						break;
 					
 					case MouseEvent.MOUSE_UP :
+						this.setMenuButtonTextColor(0x000000);
 						break;
 					
 					case MouseEvent.MOUSE_DOWN :
+						this.setMenuButtonTextColor(0x008A0D);
 						break;
 					
 					default:
