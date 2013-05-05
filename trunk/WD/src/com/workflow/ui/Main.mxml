@@ -45,7 +45,7 @@
 				menuheader.addEventListener("rolloutMenuHeaderButton",rolloutMenuHeaderButton,false,0,true);
 				menuheader.addEventListener("rolloverMenuHeaderButton",rolloverMenuHeaderButton,false,0,true);
 
-				logoutbar.addEventListener("hideOrDisplay",hideOrDisplayHandler,false,0,true);
+				logoutbar.addEventListener(LogOutputBar.HIDE_OR_DISPLAY,hideOrDisplayHandler,false,0,true);
 			}
 			
 			protected function hideOrDisplayHandler(event:DynamicEvent):void
@@ -83,8 +83,9 @@
 							align.dataProvider = aligndata;
 							align.x = event.x;
 							align.y = event.y;
-							align.addEventListener(MouseEvent.ROLL_OVER,alignHandler,false,0,true);
-							align.addEventListener(MouseEvent.ROLL_OUT,alignHandler,false,0,true);
+							align.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
+							align.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
+							align.addEventListener(MenuHeader_Align.CLICK_ITEM,alignWindowHandler,false,0,true);
 							
 							this.addElementAt(align,1);
 						}
@@ -116,7 +117,7 @@
 				hideTimer.start();
 			}
 			
-			protected function alignHandler(event:MouseEvent):void
+			protected function alignWindowHandler(event:Object):void
 			{
 				switch(event.type)
 				{
@@ -127,6 +128,10 @@
 					case MouseEvent.ROLL_OVER : 
 						Util.stopTimer(hideTimer); 
 						menuheader.setMenuHeaderButtonColor(event.currentTarget.parentMenu,0xFF0000);
+						break;
+					
+					case MenuHeader_Align.CLICK_ITEM :
+						
 						break;
 					
 					default: break;
@@ -147,13 +152,6 @@
 					case "验证" : 
 						break;
 					
-					case "对齐" :
-						//new TweenLite(align, .5, {y: event.y})
-						break;
-					
-					case "缩放" :
-						break;
-					
 					case "网格" :
 						event.selected ? Util.drawGrid(content) : content.graphics.clear();
 						break;
@@ -162,9 +160,7 @@
 						logoutbar.hideOrDisplayDetail();
 						break;
 					
-					default :
-						event.stopPropagation();
-						break;
+					default : event.stopPropagation(); break;
 				}
 			}
 			

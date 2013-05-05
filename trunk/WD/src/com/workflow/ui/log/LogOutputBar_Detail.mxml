@@ -22,6 +22,8 @@
 			
 			import spark.utils.TextFlowUtil;
 			
+			public static const HIDE_DETAIL:String = "hideDetail";
+			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
 				var html:String = "<img src='assets/workflow/image/logClose.png'/>&nbsp;&nbsp;<font color='#FF0000' size='12'>同一设计舞台上不能同时出现两个</font><font color='#545454' size='12'>“开始”</font><font color='#FF0000' size='12'>元素节点。</font><br>"
@@ -34,7 +36,7 @@
 			
 			public function closeButtonHandler(event:MouseEvent):void
 			{
-				this.dispatchEvent(new Event("hideDetail"));
+				this.dispatchEvent(new Event(HIDE_DETAIL));
 			}
 			
 		]]>
