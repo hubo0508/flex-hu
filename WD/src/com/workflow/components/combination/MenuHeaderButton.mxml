@@ -25,6 +25,7 @@
 			import com.workflow.components.extend.ECheckBox;
 			import com.workflow.components.extend.ERadioButton;
 			import com.workflow.skin.components.MenuHeaderButton_CheckBoxSkin;
+			import com.workflow.util.Util;
 			
 			import mx.controls.Alert;
 			import mx.core.UIComponent;
@@ -200,12 +201,16 @@
 			 */
 			private function clickMenuButtonDispatch():void
 			{
+				var point:Point = Util.getUiAbsolutePosition(this);
+				
 				var dyEvent:DynamicEvent = new DynamicEvent("clickMenuHeaderButton",true);
 				dyEvent.text = this.text;
 				dyEvent.etype = this.type;
 				if(this.type == "CheckBox" || this.type == "RadioButton"){
 					dyEvent.selected = this.lastElement().selected
 				}
+				dyEvent.x = point.x;
+				dyEvent.y = point.y;
 				
 				this.dispatchEvent(dyEvent);
 			}
