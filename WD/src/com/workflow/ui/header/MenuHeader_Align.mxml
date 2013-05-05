@@ -12,10 +12,13 @@
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
+			import mx.events.DynamicEvent;
 			
 			import spark.components.Group;
 			import spark.components.Image;
 			import spark.components.Label;
+			
+			public static const CLICK_ITEM:String = "clickItem";
 			
 			private var _itemHeight:Number = 31;
 			
@@ -37,6 +40,7 @@
 					i==0 ? item.y = 7 : item.y = i * itemHeight + 7
 					item.addEventListener(MouseEvent.ROLL_OUT,itemHandler,false,0,true);
 					item.addEventListener(MouseEvent.ROLL_OVER,itemHandler,false,0,true);
+					item.addEventListener(MouseEvent.CLICK,itemHandler,false,0,true);
 					
 					this.addElement(item);
 				}
@@ -56,6 +60,13 @@
 					
 					case MouseEvent.ROLL_OVER :
 						bgrect.color = 0xEFEFEF;
+						break;
+					
+					case MouseEvent.CLICK :
+						var dye:DynamicEvent = new DynamicEvent(CLICK_ITEM);
+						dye.text = event.currentTarget.name;
+						
+						this.dispatchEvent(dye);
 						break;
 					
 					default:
@@ -82,6 +93,7 @@
 				var group:Group = new Group();
 				group.height = itemHeight;
 				group.percentWidth = 100;
+				group.name = data["text"];
 				
 				group.addElement(bgrect);
 				group.addElement(image);

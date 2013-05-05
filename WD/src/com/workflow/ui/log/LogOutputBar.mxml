@@ -9,16 +9,19 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 xmlns:child="com.workflow.ui.child.*" 
+		 xmlns:child="com.workflow.ui.child.*"
+		 xmlns:log="com.workflow.ui.log.*"
 		 creationComplete="creationCompleteHandler(event)"
 		 bottom="0"
 		 width="100%"
-		 height="23" xmlns:log="com.workflow.ui.log.*">
+		 height="23">
 	
 	<fx:Script>
 		<![CDATA[
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			
+			public static const HIDE_OR_DISPLAY:String = "hideOrDisplay";
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -28,7 +31,7 @@
 			private function initEvent():void
 			{
 				header.addEventListener(MouseEvent.CLICK,headerHandler,false,0,true);
-				detail.addEventListener("hideDetail",detailHandler,false,0,true);
+				detail.addEventListener(LogOutputBar_Detail.HIDE_DETAIL,detailHandler,false,0,true);
 			}
 			
 			protected function headerHandler(event:MouseEvent):void
@@ -48,7 +51,7 @@
 			{
 				switch(event.type)
 				{
-					case "hideDetail" :
+					case LogOutputBar_Detail.HIDE_DETAIL :
 						this.hideOrDisplayDetail();
 						break;
 					
@@ -76,7 +79,7 @@
 
 			private function dispatchHideOrDisplayEvent(value:Boolean):void
 			{
-				var dye:DynamicEvent = new DynamicEvent("hideOrDisplay");
+				var dye:DynamicEvent = new DynamicEvent(HIDE_OR_DISPLAY);
 				dye.value = value;
 				
 				this.dispatchEvent(dye);
