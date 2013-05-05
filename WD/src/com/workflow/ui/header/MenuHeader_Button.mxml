@@ -119,7 +119,7 @@
 				radioButton.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
 				{
 					event.stopPropagation();
-					clickMenuButtonDispatch();
+					dispatch("clickMenuHeaderButton");
 				},false,0,true);
 				
 				this.addElement(radioButton);
@@ -138,7 +138,7 @@
 				checkbox.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
 				{
 					event.stopPropagation();
-					clickMenuButtonDispatch();
+					dispatch("clickMenuHeaderButton");
 				},false,0,true);
 				
 				this.addElement(checkbox);
@@ -155,16 +155,20 @@
 						setBgrectVisible(false);
 						setBoxHovered(false);
 						this.setMenuButtonTextColor(0x000000);
+						
+						dispatch("rolloutMenuHeaderButton");
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						setBgrectVisible(true);
 						setBoxHovered(true);
+						
+						dispatch("rolloverMenuHeaderButton");
 						break;
 					
 					case MouseEvent.CLICK :
 						this.setBoxState();
-						this.clickMenuButtonDispatch();
+						this.dispatch("clickMenuHeaderButton");
 						break;
 					
 					case MouseEvent.MOUSE_UP :
@@ -188,6 +192,8 @@
 				}
 			}
 			
+			
+			
 			/**
 			 * 点击菜单按钮派发事件。
 			 * 
@@ -199,11 +205,11 @@
 			 * 
 			 * @see com.workflow.components.combination.MenuHeaderButton.type()
 			 */
-			private function clickMenuButtonDispatch():void
+			private function dispatch(eventname:String):void
 			{
 				var point:Point = Util.getUiAbsolutePosition(this);
 				
-				var dyEvent:DynamicEvent = new DynamicEvent("clickMenuHeaderButton",true);
+				var dyEvent:DynamicEvent = new DynamicEvent(eventname,true);
 				dyEvent.text = this.text;
 				dyEvent.etype = this.type;
 				if(this.type == "CheckBox" || this.type == "RadioButton"){

@@ -4,11 +4,12 @@
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
 				   xmlns:p="com.workflow.primitives.*"
 				   xmlns:c="com.workflow.components.combination.*"
+				   xmlns:header="com.workflow.ui.header.*"
 				   borderVisible="false"
 				   height="44"
 				   x="0"
 				   y="81"
-				   width="100%" xmlns:header="com.workflow.ui.header.*">
+				   width="100%">
 	
 	<fx:Script>
 		<![CDATA[
