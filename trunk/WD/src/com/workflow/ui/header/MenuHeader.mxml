@@ -47,6 +47,20 @@
 				}
 			}
 			
+			public function setMenuHeaderButtonColor(text:String, color:uint):void
+			{
+				var num:int = buttonContainer.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var button:MenuHeader_Button = buttonContainer.getElementAt(i) as MenuHeader_Button;
+					if(button && button.text == text)
+					{
+						button.setTextColor(color);
+						break;
+					}
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	

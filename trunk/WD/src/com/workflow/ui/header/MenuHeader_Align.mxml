@@ -19,6 +19,8 @@
 			
 			private var _itemHeight:Number = 31;
 			
+			private var _parentMenu:String;
+
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -102,6 +104,17 @@
 			{
 				_itemHeight = value;
 			}
+
+			public function get parentMenu():String
+			{
+				return _parentMenu;
+			}
+
+			public function set parentMenu(value:String):void
+			{
+				_parentMenu = value;
+			}
+
 			
 		]]>
 	</fx:Script>

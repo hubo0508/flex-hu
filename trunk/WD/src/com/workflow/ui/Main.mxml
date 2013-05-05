@@ -62,10 +62,7 @@
 				switch(event.text)
 				{
 					case "对齐" :
-						Util.elementVisible(align,false);
-						break;
-					
-					case "缩放" :
+						hideAlignWindow(event.text);
 						break;
 					
 					default :
@@ -82,6 +79,7 @@
 						if(align == null)
 						{
 							align = new MenuHeader_Align();
+							align.parentMenu = event.text;
 							align.dataProvider = aligndata;
 							align.x = event.x;
 							align.y = event.y;
@@ -92,19 +90,8 @@
 						}
 						
 						Util.elementVisible(align,true);
-
-						Util.stopTimer(hideTimer);
+						menuheader.setMenuHeaderButtonColor(event.text,0xFF0000);
 						
-						hideTimer = new Timer(300, 1);
-						hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
-							Util.elementVisible(align,false);
-							Util.stopTimer(hideTimer);
-						}, false, 0, true);
-						
-						hideTimer.start();
-						break;
-					
-					case "缩放" :
 						break;
 					
 					default :
@@ -113,19 +100,36 @@
 				}
 			}
 			
+			
+			private function hideAlignWindow(text:String):void
+			{
+				Util.stopTimer(hideTimer);
+				
+				hideTimer = new Timer(80, 1);
+				hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
+					Util.elementVisible(align,false);
+					Util.stopTimer(hideTimer);
+					
+					menuheader.setMenuHeaderButtonColor(text,0x000000);
+				}, false, 0, true);
+				
+				hideTimer.start();
+			}
+			
 			protected function alignHandler(event:MouseEvent):void
 			{
 				switch(event.type)
 				{
-					case MouseEvent.ROLL_OUT :
+					case MouseEvent.ROLL_OUT  : 
+						hideAlignWindow(event.currentTarget.parentMenu);
 						break;
 					
-					case MouseEvent.ROLL_OVER :
-						Util.stopTimer(hideTimer);
+					case MouseEvent.ROLL_OVER : 
+						Util.stopTimer(hideTimer); 
+						menuheader.setMenuHeaderButtonColor(event.currentTarget.parentMenu,0xFF0000);
 						break;
 					
-					default:
-						break;
+					default: break;
 				}
 			}
 			

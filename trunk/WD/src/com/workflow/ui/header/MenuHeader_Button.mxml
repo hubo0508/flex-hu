@@ -154,7 +154,7 @@
 					case MouseEvent.ROLL_OUT :
 						setBgrectVisible(false);
 						setBoxHovered(false);
-						this.setMenuButtonTextColor(0x000000);
+						this.setTextColor(0x000000);
 						
 						dispatch("rolloutMenuHeaderButton");
 						break;
@@ -172,11 +172,11 @@
 						break;
 					
 					case MouseEvent.MOUSE_UP :
-						this.setMenuButtonTextColor(0x000000);
+						this.setTextColor(0x000000);
 						break;
 					
 					case MouseEvent.MOUSE_DOWN :
-						this.setMenuButtonTextColor(0x008A0D);
+						this.setTextColor(0x008A0D);
 						break;
 					
 					default:
@@ -184,7 +184,7 @@
 				}
 			}
 			
-			private function setMenuButtonTextColor(color:uint):void
+			public function setTextColor(color:uint):void
 			{
 				var element:Object = this.lastElement();
 				if(element is Label || element is spark.components.CheckBox || element is RadioButton){
