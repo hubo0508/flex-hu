@@ -10,6 +10,9 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:child="com.workflow.ui.child.*"
+		 xmlns:header="com.workflow.ui.header.*"
+		 xmlns:log="com.workflow.ui.log.*"
+		 xmlns:content="com.workflow.ui.content.*"
 		 creationComplete="creationCompleteHandler(event)"
 		 width="100%"
 		 height="100%"
@@ -18,10 +21,15 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.core.TweenLite;
+			import com.workflow.ui.header.MenuHeader_Align;
 			import com.workflow.util.Util;
 			
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
+			import mx.events.FlexMouseEvent;
+			
+			private var align:MenuHeader_Align;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -55,6 +63,17 @@
 						break;
 					
 					case "对齐" :
+						if(align == null)
+						{
+							align = new MenuHeader_Align();
+							align.dataProvider = aligndata;
+							align.x = event.x;
+							align.y = event.y;
+							
+							this.addElementAt(align,1);
+						}
+						align.visible = true;
+						//new TweenLite(align, .5, {y: event.y})
 						break;
 					
 					case "缩放" :
@@ -72,35 +91,28 @@
 						event.stopPropagation();
 						break;
 				}
-				
 			}
 			
 		]]>
 	</fx:Script>
 	
-	<child:Content id="content" y="124"/>
-
-	<child:MenuHeader_Align y="124" x="238">
-		<child:dataProvider>
-			<fx:Array>
-				<fx:Object text="顶对齐"   image="assets/workflow/image/layers-alignment.png"/>
-				<fx:Object text="垂直中齐" image="assets/workflow/image/layers-alignment-center.png"/>
-				<fx:Object text="下对齐"   image="assets/workflow/image/layers-alignment-bottom.png"/>
-				<fx:Object text="左对齐"   image="assets/workflow/image/layers-alignment-left.png"/>
-				<fx:Object text="水平中齐" image="assets/workflow/image/layers-alignment-middle.png"/>
-				<fx:Object text="右对齐"   image="assets/workflow/image/layers-alignment-right.png"/>
-			</fx:Array>
-		</child:dataProvider>
-	</child:MenuHeader_Align>
+	<fx:Declarations>
+		<fx:Array id="aligndata">
+			<fx:Object text="顶对齐"   image="assets/workflow/image/layers-alignment.png"/>
+			<fx:Object text="垂直中齐" image="assets/workflow/image/layers-alignment-center.png"/>
+			<fx:Object text="下对齐"   image="assets/workflow/image/layers-alignment-bottom.png"/>
+			<fx:Object text="左对齐"   image="assets/workflow/image/layers-alignment-left.png"/>
+			<fx:Object text="水平中齐" image="assets/workflow/image/layers-alignment-middle.png"/>
+			<fx:Object text="右对齐"   image="assets/workflow/image/layers-alignment-right.png"/>
+		</fx:Array>
+	</fx:Declarations>
 	
-	<child:LogoHeader width="{menuheader.width}"/>
+	<content:Content id="content" y="124"/>
 	
-	<child:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
+	<header:LogoHeader width="{menuheader.width}"/>
 	
+	<header:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
 	
-	
-	<child:LogOutputBar id="logoutbar"/>
-	
-	
+	<log:LogOutputBar id="logoutbar"/>
 	
 </s:Group>

@@ -5,14 +5,40 @@
 //*********************************************
 package com.workflow.util
 {
+	import flash.display.DisplayObject;
 	import flash.display.Graphics;
+	import flash.geom.Point;
 	
 	import mx.core.UIComponent;
+	
+	import spark.components.Application;
 
 	public class Util
 	{
 		public function Util()
 		{
+		}
+		
+		public static function getUiAbsolutePosition(ui:UIComponent):Point
+		{
+			var point:Point=new Point();
+			point.x=ui.x;
+			point.y=ui.y;
+			var temp:DisplayObject=ui;
+			do
+			{
+				var parent:DisplayObject=temp.parent;
+				if(parent == null || parent is Application)
+				{
+					break;	
+				}
+				point.x+=parent.x;
+				point.y+=parent.y;
+				temp=parent;
+				
+			} while (true)
+			
+			return point;
 		}
 		
 		public static function drawGrid(ui:UIComponent, areaSize:int=10, lineColor:uint=0xF3F3F3):void
