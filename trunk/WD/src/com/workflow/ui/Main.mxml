@@ -22,7 +22,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.core.TweenLite;
-			import com.workflow.ui.header.MenuHeader_Align;
+			import com.workflow.ui.header.MenuHeader_DropdownWindwon;
 			import com.workflow.util.Util;
 			
 			import mx.events.DynamicEvent;
@@ -30,7 +30,7 @@
 			import mx.events.FlexMouseEvent;
 			
 			//对齐下拉菜单
-			private var align:MenuHeader_Align;
+			private var align:MenuHeader_DropdownWindwon;
 			
 			private var hideTimer:Timer;
 			
@@ -78,14 +78,14 @@
 					case "对齐" :
 						if(align == null)
 						{
-							align = new MenuHeader_Align();
+							align = new MenuHeader_DropdownWindwon();
 							align.parentMenu = event.text;
 							align.dataProvider = aligndata;
 							align.x = event.x;
 							align.y = event.y;
 							align.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
 							align.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
-							align.addEventListener(MenuHeader_Align.CLICK_ITEM,alignWindowHandler,false,0,true);
+							align.addEventListener(MenuHeader_DropdownWindwon.CLICK_ITEM,alignWindowHandler,false,0,true);
 							
 							this.addElementAt(align,1);
 						}
@@ -130,8 +130,8 @@
 						menuheader.setMenuHeaderButtonColor(event.currentTarget.parentMenu,0xFF0000);
 						break;
 					
-					case MenuHeader_Align.CLICK_ITEM :
-						
+					case MenuHeader_DropdownWindwon.CLICK_ITEM :
+						hideAlignWindow(event.currentTarget.parentMenu);
 						break;
 					
 					default: break;
