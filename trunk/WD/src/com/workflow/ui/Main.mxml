@@ -30,7 +30,7 @@
 			import mx.events.FlexMouseEvent;
 			
 			//对齐下拉菜单
-			private var align:MenuHeader_DropdownWindwon;
+			private var alignDropdownWindwon:MenuHeader_DropdownWindwon;
 			
 			private var hideTimer:Timer;
 			
@@ -76,21 +76,21 @@
 				switch(event.text)
 				{
 					case "对齐" :
-						if(align == null)
+						if(alignDropdownWindwon == null)
 						{
-							align = new MenuHeader_DropdownWindwon();
-							align.parentMenu = event.text;
-							align.dataProvider = aligndata;
-							align.x = event.x;
-							align.y = event.y;
-							align.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
-							align.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
-							align.addEventListener(MenuHeader_DropdownWindwon.CLICK_ITEM,alignWindowHandler,false,0,true);
+							alignDropdownWindwon = new MenuHeader_DropdownWindwon();
+							alignDropdownWindwon.parentMenu = event.text;
+							alignDropdownWindwon.dataProvider = aligndata;
+							alignDropdownWindwon.x = event.x;
+							alignDropdownWindwon.y = event.y;
+							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
+							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
+							alignDropdownWindwon.addEventListener(MenuHeader_DropdownWindwon.CLICK_ITEM,alignWindowHandler,false,0,true);
 							
-							this.addElementAt(align,1);
+							this.addElementAt(alignDropdownWindwon,1);
 						}
 						
-						Util.elementVisible(align,true);
+						Util.elementVisible(alignDropdownWindwon,true);
 						menuheader.setMenuHeaderButtonColor(event.text,0xFF0000);
 						
 						break;
@@ -108,7 +108,7 @@
 				
 				hideTimer = new Timer(80, 1);
 				hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
-					Util.elementVisible(align,false);
+					Util.elementVisible(alignDropdownWindwon,false);
 					Util.stopTimer(hideTimer);
 					
 					menuheader.setMenuHeaderButtonColor(text,0x000000);
