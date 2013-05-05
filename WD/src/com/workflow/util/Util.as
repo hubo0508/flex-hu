@@ -22,12 +22,13 @@ package com.workflow.util
 		
 		public static function elementVisible(ui:UIComponent, value:Boolean):void
 		{
-			ui.visible == value ? null : ui.visible = !value;
+			ui.visible == value ? null : ui.visible = value;
 		}
 		
 		public static function stopTimer(timer:Timer):void
 		{
-			if(timer){
+			if(timer)
+			{
 				timer.running ? timer.stop() : null;
 				timer = null;
 			}
