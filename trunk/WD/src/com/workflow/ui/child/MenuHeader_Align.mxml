@@ -8,6 +8,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.components.extend.BGRect;
+			
+			import mx.core.IVisualElement;
+			import mx.core.UIComponent;
+			
 			import spark.components.Group;
 			import spark.components.Image;
 			import spark.components.Label;
@@ -27,27 +32,28 @@
 				for(var i:int=0; i<num; i++)
 				{
 					var item:Group = this.createItem(data[i]);
-					i==0 ? item.y = 5 : item.y = i * itemHeight + 5
+					i==0 ? item.y = 7 : item.y = i * itemHeight + 7
 					item.addEventListener(MouseEvent.ROLL_OUT,itemHandler,false,0,true);
 					item.addEventListener(MouseEvent.ROLL_OVER,itemHandler,false,0,true);
 					
 					this.addElement(item);
 				}
 				
-				this.height = num * itemHeight + 10;
+				this.height = num * itemHeight + 17;
 			}
 			
 			protected function itemHandler(event:MouseEvent):void
 			{
+				var bgrect:BGRect = this.getFirstElement(event.currentTarget) as BGRect;
+				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
-						itemBg.visible ? itemBg.visible = false : null;
+						bgrect.color = 0xFFFFFF;
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						itemBg.visible ? null : itemBg.visible = true;
-						itemBg.y = event.currentTarget.y;
+						bgrect.color = 0xEFEFEF;
 						break;
 					
 					default:
@@ -68,13 +74,23 @@
 				text.verticalCenter = 0;
 				text.x = 35;
 				
+				var bgrect:BGRect = new BGRect();
+				bgrect.height = 31;
+				
 				var group:Group = new Group();
 				group.height = itemHeight;
+				group.percentWidth = 100;
 				
+				group.addElement(bgrect);
 				group.addElement(image);
 				group.addElement(text);
-				
+
 				return group;
+			}
+			
+			private function getFirstElement(element:Object):Object
+			{
+				return element.getElementAt(0);
 			}
 			
 			public function get itemHeight():Number
@@ -99,18 +115,5 @@
 										knockout='false' quality='2'
 										strength='1' inner='false' hideObject='false'/>
 	</s:filters>
-	
-	<s:Rect id="itemBg" visible="false" height="31" width="100%" x="0" y="0">
-		<s:fill>
-			<s:SolidColor color="#EFEFEF"/>
-		</s:fill>
-	</s:Rect>
-	
-	<!--
-	<s:Group height="31" width="100%">
-		<s:Image x="10" source="assets/workflow/image/layers-alignment.png" verticalCenter="0"/>
-		<s:Label x="35" text="顶对齐" verticalCenter="0"/>
-	</s:Group>
-	-->
 	
 </s:BorderContainer>
