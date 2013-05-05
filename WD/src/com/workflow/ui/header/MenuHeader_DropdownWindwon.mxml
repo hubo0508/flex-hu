@@ -4,7 +4,7 @@
 				   xmlns:mx="library://ns.adobe.com/flex/mx" 
 				   borderVisible="true"
 				   borderColor="0xEFEFEF"
-				   width="200">
+				   width="180">
 	
 	<fx:Script>
 		<![CDATA[

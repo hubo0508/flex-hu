@@ -91,7 +91,7 @@
 		<header:MenuHeader_Button text="舍弃"/>
 		<header:MenuHeader_Button text="验证"/>
 		<header:MenuHeader_Button text="对齐"/>
-		<header:MenuHeader_Button text="缩放"/>
+		<header:MenuHeader_Button text="流程元素"/>
 		<header:MenuHeader_Button text="网格" type="CheckBox"/>
 		<header:MenuHeader_Button id="logbutton" text="日志" type="CheckBox"/>
 		
