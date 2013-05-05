@@ -8,7 +8,7 @@
 				   height="44"
 				   x="0"
 				   y="81"
-				   width="100%">
+				   width="100%" xmlns:header="com.workflow.ui.header.*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -72,13 +72,13 @@
 			<s:HorizontalLayout gap="0"/>
 		</s:layout>
 		
-		<c:MenuHeaderButton text="立即保存"/>
-		<c:MenuHeaderButton text="舍弃"/>
-		<c:MenuHeaderButton text="验证"/>
-		<c:MenuHeaderButton text="对齐"/>
-		<c:MenuHeaderButton text="缩放"/>
-		<c:MenuHeaderButton text="网格" type="CheckBox"/>
-		<c:MenuHeaderButton id="logbutton" text="日志" type="CheckBox"/>
+		<header:MenuHeader_Button text="立即保存"/>
+		<header:MenuHeader_Button text="舍弃"/>
+		<header:MenuHeader_Button text="验证"/>
+		<header:MenuHeader_Button text="对齐"/>
+		<header:MenuHeader_Button text="缩放"/>
+		<header:MenuHeader_Button text="网格" type="CheckBox"/>
+		<header:MenuHeader_Button id="logbutton" text="日志" type="CheckBox"/>
 		
 		<p:VLine/>
 		
