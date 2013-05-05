@@ -39,13 +39,62 @@
 			private function initEvent():void
 			{
 				menuheader.addEventListener("clickMenuHeaderButton",clickMenuHeaderButtonHandler,false,0,true);
-			
+				menuheader.addEventListener("rolloutMenuHeaderButton",rolloutMenuHeaderButton,false,0,true);
+				menuheader.addEventListener("rolloverMenuHeaderButton",rolloverMenuHeaderButton,false,0,true);
+
 				logoutbar.addEventListener("hideOrDisplay",hideOrDisplayHandler,false,0,true);
 			}
 			
 			protected function hideOrDisplayHandler(event:DynamicEvent):void
 			{
 				menuheader.updateMenuHeaderButtonState("日志",event.value);
+			}
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			// 菜单移出、移入、点击 S
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			protected function rolloutMenuHeaderButton(event:DynamicEvent):void
+			{
+				switch(event.text)
+				{
+					case "对齐" :
+						align.visible = false;
+						break;
+					
+					case "缩放" :
+						break;
+					
+					default :
+						event.stopPropagation();
+						break;
+				}
+			}
+			
+			protected function rolloverMenuHeaderButton(event:DynamicEvent):void
+			{
+				switch(event.text)
+				{
+					case "对齐" :
+						if(align == null)
+						{
+							align = new MenuHeader_Align();
+							align.dataProvider = aligndata;
+							align.x = event.x;
+							align.y = event.y;
+							
+							this.addElementAt(align,1);
+						}
+						align.visible = true;
+						break;
+					
+					case "缩放" :
+						break;
+					
+					default :
+						event.stopPropagation();
+						break;
+				}
 			}
 			
 			protected function clickMenuHeaderButtonHandler(event:DynamicEvent):void
@@ -63,16 +112,6 @@
 						break;
 					
 					case "对齐" :
-						if(align == null)
-						{
-							align = new MenuHeader_Align();
-							align.dataProvider = aligndata;
-							align.x = event.x;
-							align.y = event.y;
-							
-							this.addElementAt(align,1);
-						}
-						align.visible = true;
 						//new TweenLite(align, .5, {y: event.y})
 						break;
 					
@@ -93,6 +132,10 @@
 				}
 			}
 			
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			// 菜单移出、移入、点击 E
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			
 		]]>
 	</fx:Script>
 	
@@ -107,7 +150,7 @@
 		</fx:Array>
 	</fx:Declarations>
 	
-	<content:Content id="content" y="124"/>
+	<content:Content id="content"/>
 	
 	<header:LogoHeader width="{menuheader.width}"/>
 	
