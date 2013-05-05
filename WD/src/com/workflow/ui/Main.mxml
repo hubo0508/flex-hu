@@ -29,7 +29,10 @@
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
 			
+			//对齐下拉菜单
 			private var align:MenuHeader_Align;
+			
+			private var hideTimer:Timer;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -59,7 +62,7 @@
 				switch(event.text)
 				{
 					case "对齐" :
-						align.visible = false;
+						Util.elementVisible(align,false);
 						break;
 					
 					case "缩放" :
@@ -82,10 +85,23 @@
 							align.dataProvider = aligndata;
 							align.x = event.x;
 							align.y = event.y;
+							align.addEventListener(MouseEvent.ROLL_OVER,alignHandler,false,0,true);
+							align.addEventListener(MouseEvent.ROLL_OUT,alignHandler,false,0,true);
 							
 							this.addElementAt(align,1);
 						}
-						align.visible = true;
+						
+						Util.elementVisible(align,true);
+
+						Util.stopTimer(hideTimer);
+						
+						hideTimer = new Timer(300, 1);
+						hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
+							Util.elementVisible(align,false);
+							Util.stopTimer(hideTimer);
+						}, false, 0, true);
+						
+						hideTimer.start();
 						break;
 					
 					case "缩放" :
@@ -93,6 +109,22 @@
 					
 					default :
 						event.stopPropagation();
+						break;
+				}
+			}
+			
+			protected function alignHandler(event:MouseEvent):void
+			{
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						Util.stopTimer(hideTimer);
+						break;
+					
+					default:
 						break;
 				}
 			}

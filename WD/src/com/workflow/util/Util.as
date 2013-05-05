@@ -8,6 +8,7 @@ package com.workflow.util
 	import flash.display.DisplayObject;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import flash.utils.Timer;
 	
 	import mx.core.UIComponent;
 	
@@ -17,6 +18,19 @@ package com.workflow.util
 	{
 		public function Util()
 		{
+		}
+		
+		public static function elementVisible(ui:UIComponent, value:Boolean):void
+		{
+			ui.visible == value ? null : ui.visible = !value;
+		}
+		
+		public static function stopTimer(timer:Timer):void
+		{
+			if(timer){
+				timer.running ? timer.stop() : null;
+				timer = null;
+			}
 		}
 		
 		public static function getUiAbsolutePosition(ui:UIComponent):Point
