@@ -23,7 +23,7 @@
 		<![CDATA[
 			import com.workflow.core.TweenLite;
 			import com.workflow.ui.header.MenuHeader_Button;
-			import com.workflow.ui.header.MenuHeader_DropdownWindwon;
+			import com.workflow.ui.header.MenuHeader_DropdownWindow;
 			import com.workflow.util.Util;
 			
 			import mx.events.DynamicEvent;
@@ -31,7 +31,7 @@
 			import mx.events.FlexMouseEvent;
 			
 			//对齐下拉菜单
-			private var alignDropdownWindwon:MenuHeader_DropdownWindwon;
+			private var alignDropdownWindow:MenuHeader_DropdownWindow;
 			
 			private var hideTimer:Timer;
 			
@@ -63,7 +63,7 @@
 				switch(event.text)
 				{
 					case "对齐" :
-						hideAlignWindow(event.text);
+						menuheader.hideDropdownWindow(event.text, hideTimer,alignDropdownWindow);
 						break;
 					
 					default :
@@ -77,22 +77,26 @@
 				switch(event.text)
 				{
 					case "对齐" :
-						if(alignDropdownWindwon == null)
+						if(alignDropdownWindow == null)
 						{
-							alignDropdownWindwon = new MenuHeader_DropdownWindwon();
-							alignDropdownWindwon.parentMenu = event.text;
-							alignDropdownWindwon.dataProvider = aligndata;
-							alignDropdownWindwon.x = event.x;
-							alignDropdownWindwon.y = event.y + event.height;
-							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
-							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
-							alignDropdownWindwon.addEventListener(MenuHeader_DropdownWindwon.CLICK_ITEM,alignWindowHandler,false,0,true);
+							alignDropdownWindow = new MenuHeader_DropdownWindow();
+							alignDropdownWindow.parentMenu = event.text;
+							alignDropdownWindow.dataProvider = aligndata;
+							alignDropdownWindow.x = event.x;
+							alignDropdownWindow.y = event.y + event.height;
+							alignDropdownWindow.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
+							alignDropdownWindow.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
+							alignDropdownWindow.addEventListener(MenuHeader_DropdownWindow.CLICK_ITEM,alignWindowHandler,false,0,true);
 							
-							this.addElementAt(alignDropdownWindwon,1);
+							this.addElementAt(alignDropdownWindow,1);
 						}
 						
-						Util.elementVisible(alignDropdownWindwon,true);
+						Util.elementVisible(alignDropdownWindow,true);
 						menuheader.setMenuHeaderButtonColor(event.text,0xFF0000);
+						
+						break;
+					
+					case "窗口" :
 						
 						break;
 					
@@ -102,28 +106,12 @@
 				}
 			}
 			
-			
-			private function hideAlignWindow(text:String):void
-			{
-				Util.stopTimer(hideTimer);
-				
-				hideTimer = new Timer(80, 1);
-				hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
-					Util.elementVisible(alignDropdownWindwon,false);
-					Util.stopTimer(hideTimer);
-					
-					menuheader.setMenuHeaderButtonColor(text,0x000000);
-				}, false, 0, true);
-				
-				hideTimer.start();
-			}
-			
 			protected function alignWindowHandler(event:Object):void
 			{
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT  : 
-						hideAlignWindow(event.currentTarget.parentMenu);
+						menuheader.hideDropdownWindow(event.currentTarget.parentMenu, hideTimer,alignDropdownWindow);
 						break;
 					
 					case MouseEvent.ROLL_OVER : 
@@ -131,8 +119,8 @@
 						menuheader.setMenuHeaderButtonColor(event.currentTarget.parentMenu,0xFF0000);
 						break;
 					
-					case MenuHeader_DropdownWindwon.CLICK_ITEM :
-						hideAlignWindow(event.currentTarget.parentMenu);
+					case MenuHeader_DropdownWindow.CLICK_ITEM :
+						menuheader.hideDropdownWindow(event.currentTarget.parentMenu, hideTimer,alignDropdownWindow);
 						break;
 					
 					default: break;
