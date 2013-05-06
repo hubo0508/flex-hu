@@ -9,11 +9,13 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.components.extend.BGRect;
+			import com.workflow.skin.components.Round_CheckBoxSkin;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
 			
+			import spark.components.CheckBox;
 			import spark.components.Group;
 			import spark.components.Image;
 			import spark.components.Label;
@@ -23,7 +25,7 @@
 			private var _itemHeight:Number = 31;
 			
 			private var _parentMenu:String;
-
+			
 			override protected function createChildren():void
 			{
 				super.createChildren();
@@ -77,28 +79,39 @@
 			
 			private function createItem(data:Object):Group
 			{
-				var image:Image = new Image();
-				image.source = data["image"];
-				image.x = 10;
-				image.verticalCenter = 0;
-				
-				var text:Label = new Label();
-				text.text = data["text"];
-				text.verticalCenter = 0;
-				text.x = 35;
-				
-				var bgrect:BGRect = new BGRect();
-				bgrect.height = 31;
 				
 				var group:Group = new Group();
 				group.height = itemHeight;
 				group.percentWidth = 100;
 				group.name = data["text"];
 				
+				var bgrect:BGRect = new BGRect();
+				bgrect.height = 31;
 				group.addElement(bgrect);
-				group.addElement(image);
+				
+				if(data["type"] == "Image")
+				{
+					var image:Image = new Image();
+					image.source = data["image"];
+					image.x = 10;
+					image.verticalCenter = 0;
+					group.addElement(image);
+				}
+				if(data["type"] == "CheckBox")
+				{
+					var cBox:CheckBox = new CheckBox();
+					cBox.setStyle("skinClass",Class(Round_CheckBoxSkin));
+					cBox.x = 10;
+					cBox.verticalCenter = 0;
+					group.addElement(cBox);
+				}
+				
+				var text:Label = new Label();
+				text.text = data["text"];
+				text.verticalCenter = 0;
+				text.x = 35;
 				group.addElement(text);
-
+				
 				return group;
 			}
 			
