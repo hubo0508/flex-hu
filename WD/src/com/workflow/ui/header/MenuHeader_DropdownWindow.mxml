@@ -9,14 +9,14 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.components.extend.BGRect;
+			import com.workflow.components.extend.ECheckBox;
+			import com.workflow.components.extend.EGroup;
 			import com.workflow.skin.components.Round_CheckBoxSkin;
 			
 			import mx.core.IVisualElement;
 			import mx.core.UIComponent;
 			import mx.events.DynamicEvent;
 			
-			import spark.components.CheckBox;
-			import spark.components.Group;
 			import spark.components.Image;
 			import spark.components.Label;
 			
@@ -38,7 +38,7 @@
 				var num:int = data.length;
 				for(var i:int=0; i<num; i++)
 				{
-					var item:Group = this.createItem(data[i]);
+					var item:EGroup = this.createItem(data[i]);
 					i==0 ? item.y = 7 : item.y = i * itemHeight + 7
 					item.addEventListener(MouseEvent.ROLL_OUT,itemHandler,false,0,true);
 					item.addEventListener(MouseEvent.ROLL_OVER,itemHandler,false,0,true);
@@ -52,21 +52,33 @@
 			
 			protected function itemHandler(event:MouseEvent):void
 			{
-				var bgrect:BGRect = this.getFirstElement(event.currentTarget) as BGRect;
+				var item:EGroup = event.currentTarget as EGroup;
+				
+				var bgrect:BGRect = this.getFirstElement(item) as BGRect;
 				
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
 						bgrect.color = 0xFFFFFF;
+						
+						if(item.type == "CheckBox")
+						{
+							(getItem().getElementAt(1) as ECheckBox).setHovered(false);
+						}
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						bgrect.color = 0xEFEFEF;
+						if(item.type == "CheckBox")
+						{
+							(getItem().getElementAt(1) as ECheckBox).setHovered(true);
+						}
+						
 						break;
 					
 					case MouseEvent.CLICK :
 						var dye:DynamicEvent = new DynamicEvent(CLICK_ITEM);
-						dye.text = event.currentTarget.name;
+						dye.text = item.text;
 						
 						this.dispatchEvent(dye);
 						break;
@@ -76,14 +88,20 @@
 				}
 				
 			}
+
+			private function getItem():EGroup
+			{
+				return this.getElementAt(0) as EGroup;
+			}
 			
-			private function createItem(data:Object):Group
+			private function createItem(data:Object):EGroup
 			{
 				
-				var group:Group = new Group();
+				var group:EGroup = new EGroup();
 				group.height = itemHeight;
 				group.percentWidth = 100;
-				group.name = data["text"];
+				group.text = data["text"];
+				group.type = data["type"];
 				
 				var bgrect:BGRect = new BGRect();
 				bgrect.height = 31;
@@ -99,7 +117,7 @@
 				}
 				if(data["type"] == "CheckBox")
 				{
-					var cBox:CheckBox = new CheckBox();
+					var cBox:ECheckBox = new ECheckBox();
 					cBox.setStyle("skinClass",Class(Round_CheckBoxSkin));
 					cBox.x = 10;
 					cBox.verticalCenter = 0;
