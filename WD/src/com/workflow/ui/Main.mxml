@@ -30,10 +30,12 @@
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
 			
-			//对齐下拉菜单
-			private var alignDropdownWindow:MenuHeader_DropdownWindow;
+			//下拉菜单
+			private var dropdownWindow:MenuHeader_DropdownWindow;
 			
 			private var hideTimer:Timer;
+			
+			private var cacheDropdownWindow:Array = [];
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -60,58 +62,77 @@
 			
 			protected function rolloutMenuHeaderButton(event:DynamicEvent):void
 			{
-				switch(event.text)
+				if(event.text == "对齐" || event.text == "窗口")
 				{
-					case "对齐" :
-						menuheader.hideDropdownWindow(event.text, hideTimer,alignDropdownWindow);
-						break;
-					
-					default :
-						event.stopPropagation();
-						break;
+					if(this.mouseY > ((event.y + event.height)-1)){
+						timerHideDropdownWindow(event.text);
+					}else{
+						directClearDropdownWindow(event.text);				
+					}
 				}
+				
+				event.stopPropagation();
 			}
 			
 			protected function rolloverMenuHeaderButton(event:DynamicEvent):void
 			{
-				switch(event.text)
+				if(event.text == "对齐" || event.text == "窗口")
 				{
-					case "对齐" :
-						if(alignDropdownWindow == null)
-						{
-							alignDropdownWindow = new MenuHeader_DropdownWindow();
-							alignDropdownWindow.parentMenu = event.text;
-							alignDropdownWindow.dataProvider = aligndata;
-							alignDropdownWindow.x = event.x;
-							alignDropdownWindow.y = event.y + event.height;
-							alignDropdownWindow.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
-							alignDropdownWindow.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
-							alignDropdownWindow.addEventListener(MenuHeader_DropdownWindow.CLICK_ITEM,alignWindowHandler,false,0,true);
-							
-							this.addElementAt(alignDropdownWindow,1);
-						}
-						
-						Util.elementVisible(alignDropdownWindow,true);
-						menuheader.setMenuHeaderButtonColor(event.text,0xFF0000);
-						
-						break;
+					if(dropdownWindow == null && cacheDropdownWindow[event.text] == null){
+						var data:Array = event.text == "对齐" ? aligndata : windowdata;
+						dropdownWindow = createDropdownWindow(event,data);
+						cacheDropdownWindow[event.text] = dropdownWindow;
+					}else{
+						dropdownWindow = cacheDropdownWindow[event.text];
+					}
 					
-					case "窗口" :
-						
-						break;
-					
-					default :
-						event.stopPropagation();
-						break;
+					addElementAt(dropdownWindow,1);
+					menuheader.setMenuHeaderButtonColor(event.text,0xFF0000);
 				}
+				
+				event.stopPropagation();
 			}
 			
-			protected function alignWindowHandler(event:Object):void
+			private function createDropdownWindow(event:Object, data:Array):MenuHeader_DropdownWindow
+			{
+				var dWindow:MenuHeader_DropdownWindow = new MenuHeader_DropdownWindow();
+				dWindow.parentMenu = event.text;
+				dWindow.dataProvider = data;
+				dWindow.x = event.x;
+				dWindow.y = event.y + event.height;
+				dWindow.addEventListener(MouseEvent.ROLL_OVER,dropdownWindowHandler,false,0,true);
+				dWindow.addEventListener(MouseEvent.ROLL_OUT,dropdownWindowHandler,false,0,true);
+				dWindow.addEventListener(MenuHeader_DropdownWindow.CLICK_ITEM,dropdownWindowHandler,false,0,true);
+				
+				return dWindow;
+			}
+			
+			private function timerHideDropdownWindow(text:String):void
+			{
+				Util.stopTimer(hideTimer);
+				
+				hideTimer = new Timer(80, 1);
+				hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
+					directClearDropdownWindow(text);
+				}, false, 0, true);
+				
+				hideTimer.start();
+			}
+			
+			private function directClearDropdownWindow(text:String):void
+			{
+				try{removeElement(cacheDropdownWindow[text]);}catch(e:Error){}				
+				dropdownWindow = null;
+				Util.stopTimer(hideTimer);
+				menuheader.setMenuHeaderButtonColor(text,0x000000);
+			}
+			
+			protected function dropdownWindowHandler(event:Object):void
 			{
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT  : 
-						menuheader.hideDropdownWindow(event.currentTarget.parentMenu, hideTimer,alignDropdownWindow);
+						timerHideDropdownWindow(event.currentTarget.parentMenu);
 						break;
 					
 					case MouseEvent.ROLL_OVER : 
@@ -120,7 +141,7 @@
 						break;
 					
 					case MenuHeader_DropdownWindow.CLICK_ITEM :
-						menuheader.hideDropdownWindow(event.currentTarget.parentMenu, hideTimer,alignDropdownWindow);
+						directClearDropdownWindow(event.currentTarget.parentMenu);
 						break;
 					
 					default: break;
