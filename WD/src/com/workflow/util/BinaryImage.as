@@ -5,7 +5,7 @@
 //*********************************************
 package com.workflow.util
 {
-	
+
 	/**
 	 * 存储二进制图片
 	 */
@@ -14,18 +14,18 @@ package com.workflow.util
 		public function BinaryImage()
 		{
 		}
-		
-		[Embed(source="assets/workflow/image/log.png")]		
+
+		[Embed(source="assets/workflow/image/log.png")]
 		public static const log:Class;
-		
+
 		//日志 start
-		[Embed(source="assets/workflow/image/logClose.png")]		
+		[Embed(source="assets/workflow/image/logClose.png")]
 		public static const LOG_ERROR:Class;
-		
-		[Embed(source="assets/workflow/image/logUncertain.png")]		
+
+		[Embed(source="assets/workflow/image/logUncertain.png")]
 		public static const LOG_UNCERTAIN:Class;
 		//日志 end
-		
+
 		//对齐 start
 //		[Embed(source="assets/workflow/image/layers-alignment-bottom.png")]		
 //		public static const LAYERS_BOTTOM:Class;
