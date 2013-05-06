@@ -22,6 +22,7 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.core.TweenLite;
+			import com.workflow.ui.header.MenuHeader_Button;
 			import com.workflow.ui.header.MenuHeader_DropdownWindwon;
 			import com.workflow.util.Util;
 			
@@ -41,9 +42,9 @@
 			
 			private function initEvent():void
 			{
-				menuheader.addEventListener("clickMenuHeaderButton",clickMenuHeaderButtonHandler,false,0,true);
-				menuheader.addEventListener("rolloutMenuHeaderButton",rolloutMenuHeaderButton,false,0,true);
-				menuheader.addEventListener("rolloverMenuHeaderButton",rolloverMenuHeaderButton,false,0,true);
+				menuheader.addEventListener(MenuHeader_Button.CLICK_MHB,clickMenuHeaderButtonHandler,false,0,true);
+				menuheader.addEventListener(MenuHeader_Button.ROLLOUT_MHB,rolloutMenuHeaderButton,false,0,true);
+				menuheader.addEventListener(MenuHeader_Button.ROLLOVER_MHB,rolloverMenuHeaderButton,false,0,true);
 
 				logoutbar.addEventListener(LogOutputBar.HIDE_OR_DISPLAY,hideOrDisplayHandler,false,0,true);
 			}
@@ -82,7 +83,7 @@
 							alignDropdownWindwon.parentMenu = event.text;
 							alignDropdownWindwon.dataProvider = aligndata;
 							alignDropdownWindwon.x = event.x;
-							alignDropdownWindwon.y = event.y;
+							alignDropdownWindwon.y = event.y + event.height;
 							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OVER,alignWindowHandler,false,0,true);
 							alignDropdownWindwon.addEventListener(MouseEvent.ROLL_OUT,alignWindowHandler,false,0,true);
 							alignDropdownWindwon.addEventListener(MenuHeader_DropdownWindwon.CLICK_ITEM,alignWindowHandler,false,0,true);

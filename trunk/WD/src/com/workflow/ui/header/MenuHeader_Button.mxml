@@ -35,6 +35,10 @@
 			import spark.components.Label;
 			import spark.components.RadioButton;
 			
+			public static const ROLLOVER_MHB:String = "rolloverMenuHeaderButton";
+			public static const ROLLOUT_MHB:String = "rolloutMenuHeaderButton";
+			public static const CLICK_MHB:String = "clickMenuHeaderButton";
+			
 			//********************************************************
 			// 重写函数 S
 			//********************************************************
@@ -156,19 +160,19 @@
 						setBoxHovered(false);
 						this.setTextColor(0x000000);
 						
-						dispatch("rolloutMenuHeaderButton");
+						dispatch(ROLLOUT_MHB);
 						break;
 					
 					case MouseEvent.ROLL_OVER :
 						setBgrectVisible(true);
 						setBoxHovered(true);
 						
-						dispatch("rolloverMenuHeaderButton");
+						dispatch(ROLLOVER_MHB);
 						break;
 					
 					case MouseEvent.CLICK :
 						this.setBoxState();
-						this.dispatch("clickMenuHeaderButton");
+						this.dispatch(CLICK_MHB);
 						break;
 					
 					case MouseEvent.MOUSE_UP :
@@ -210,13 +214,16 @@
 				var point:Point = Util.getUiAbsolutePosition(this);
 				
 				var dyEvent:DynamicEvent = new DynamicEvent(eventname,true);
-				dyEvent.text = this.text;
+				dyEvent.text  = this.text;
 				dyEvent.etype = this.type;
-				if(this.type == "CheckBox" || this.type == "RadioButton"){
+				if(this.type == "CheckBox" || this.type == "RadioButton")
+				{
 					dyEvent.selected = this.lastElement().selected
 				}
-				dyEvent.x = point.x;
-				dyEvent.y = point.y;
+				dyEvent.x      = point.x;
+				dyEvent.y      = point.y;
+				dyEvent.height = this.height;
+				dyEvent.width  = this.width; 
 				
 				this.dispatchEvent(dyEvent);
 			}
