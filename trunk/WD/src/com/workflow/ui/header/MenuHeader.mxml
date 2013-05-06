@@ -63,21 +63,6 @@
 				}
 			}
 			
-			public function hideDropdownWindow(text:String, timer:Timer, dropdownWindow:MenuHeader_DropdownWindow):void
-			{
-				Util.stopTimer(timer);
-				
-				timer = new Timer(80, 1);
-				timer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
-					Util.elementVisible(dropdownWindow,false);
-					Util.stopTimer(timer);
-					
-					setMenuHeaderButtonColor(text,0x000000);
-				}, false, 0, true);
-				
-				timer.start();
-			}
-			
 		]]>
 	</fx:Script>
 	
