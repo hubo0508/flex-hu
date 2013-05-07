@@ -77,25 +77,31 @@
 						break;
 					
 					case MouseEvent.CLICK :
-						
-						var dye:DynamicEvent = new DynamicEvent(CLICK_ITEM);
-						dye.text = item.text;
-						if(item.type == "CheckBox")
-						{
-							var selected:Boolean = getECheckBox().selected;
-							getECheckBox().selected = !selected
-								
-							dye.selected = selected;
-						}
-						
-						this.dispatchEvent(dye);
-						
+						dispatch(item,"item");
 						break;
 					
 					default:
 						break;
 				}
 				
+			}
+			
+			private function dispatch(item:EGroup, clickTarget:String = null):void
+			{
+				var dye:DynamicEvent = new DynamicEvent(CLICK_ITEM);
+				dye.text = item.text;
+				if(item.type == "CheckBox")
+				{
+					var selected:Boolean = getECheckBox().selected;
+					if(clickTarget == "item") {
+						getECheckBox().selected = !selected;
+						dye.selected = !selected;
+					}else{
+						dye.selected = selected;
+					}
+				}
+				
+				this.dispatchEvent(dye);
 			}
 			
 
@@ -133,6 +139,12 @@
 				if(data["type"] == "CheckBox")
 				{
 					var cBox:ECheckBox = new ECheckBox();
+					cBox.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
+					{
+						
+						event.stopPropagation();
+						dispatch(event.currentTarget.parent);
+					},false,0,true);
 					cBox.setStyle("skinClass",Class(Round_CheckBoxSkin));
 					cBox.x = 10;
 					cBox.verticalCenter = 0;
