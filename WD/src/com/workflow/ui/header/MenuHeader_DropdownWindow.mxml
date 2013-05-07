@@ -63,7 +63,7 @@
 						
 						if(item.type == "CheckBox")
 						{
-							(getItem().getElementAt(1) as ECheckBox).setHovered(false);
+							getECheckBox().setHovered(false);
 						}
 						break;
 					
@@ -71,16 +71,25 @@
 						bgrect.color = 0xEFEFEF;
 						if(item.type == "CheckBox")
 						{
-							(getItem().getElementAt(1) as ECheckBox).setHovered(true);
+							getECheckBox().setHovered(true);
 						}
 						
 						break;
 					
 					case MouseEvent.CLICK :
+						
 						var dye:DynamicEvent = new DynamicEvent(CLICK_ITEM);
 						dye.text = item.text;
+						if(item.type == "CheckBox")
+						{
+							var selected:Boolean = getECheckBox().selected;
+							getECheckBox().selected = !selected
+								
+							dye.selected = selected;
+						}
 						
 						this.dispatchEvent(dye);
+						
 						break;
 					
 					default:
@@ -88,10 +97,16 @@
 				}
 				
 			}
+			
 
 			private function getItem():EGroup
 			{
 				return this.getElementAt(0) as EGroup;
+			}
+			
+			private function getECheckBox():ECheckBox
+			{
+				return (getItem().getElementAt(1) as ECheckBox);
 			}
 			
 			private function createItem(data:Object):EGroup

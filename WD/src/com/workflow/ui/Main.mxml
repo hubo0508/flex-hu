@@ -107,11 +107,11 @@
 				return dWindow;
 			}
 			
-			private function timerHideDropdownWindow(text:String):void
+			private function timerHideDropdownWindow(text:String, delay:Number = 80):void
 			{
 				Util.stopTimer(hideTimer);
 				
-				hideTimer = new Timer(80, 1);
+				hideTimer = new Timer(delay, 1);
 				hideTimer.addEventListener(TimerEvent.TIMER_COMPLETE, function closeAlert(event:Event):void{
 					directClearDropdownWindow(text);
 				}, false, 0, true);
@@ -141,7 +141,7 @@
 						break;
 					
 					case MenuHeader_DropdownWindow.CLICK_ITEM :
-						directClearDropdownWindow(event.currentTarget.parentMenu);
+						timerHideDropdownWindow(event.currentTarget.parentMenu);
 						break;
 					
 					default: break;
