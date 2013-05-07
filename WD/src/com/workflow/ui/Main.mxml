@@ -24,18 +24,24 @@
 			import com.workflow.core.TweenLite;
 			import com.workflow.ui.header.MenuHeader_Button;
 			import com.workflow.ui.header.MenuHeader_DropdownWindow;
+			import com.workflow.ui.header.ProcessElements;
 			import com.workflow.util.Util;
 			
+			import mx.events.CloseEvent;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
+			import mx.managers.PopUpManager;
 			
-			//下拉菜单
+			//下拉菜单 S
 			private var dropdownWindow:MenuHeader_DropdownWindow;
 			
 			private var hideTimer:Timer;
 			
 			private var cacheDropdownWindow:Array = [];
+			//下拉菜单 E
+			
+			private var processElements:ProcessElements;
 			
 			protected function creationCompleteHandler(event:FlexEvent):void
 			{
@@ -142,6 +148,27 @@
 					
 					case MenuHeader_DropdownWindow.CLICK_ITEM :
 						timerHideDropdownWindow(event.currentTarget.parentMenu);
+						
+						if(event.text == "流程元素")
+						{
+							if(event.selected){
+								if(processElements == null)
+								{
+									processElements = new ProcessElements();
+									processElements.title = event.text;
+									processElements.addEventListener(CloseEvent.CLOSE,function closeHandler(event:CloseEvent):void{
+										PopUpManager.removePopUp(processElements);
+									},false,0,true);
+								}
+								processElements.x = 60; 
+								processElements.y = 170;
+								
+								processElements.isPopUp ? null : PopUpManager.addPopUp(processElements,parentApplication as DisplayObject);
+							}else{
+								PopUpManager.removePopUp(processElements);
+							}
+						}
+						
 						break;
 					
 					default: break;
