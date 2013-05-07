@@ -54,21 +54,8 @@
 				}
 			}
 			
-			override protected function commitProperties():void
-			{
-				//trace("commitProperties");
-				super.commitProperties();
-			}
-			
-			override protected function measure():void
-			{
-				//trace("measure");
-				super.commitProperties();
-			}
-			
 			override protected function createChildren():void
 			{
-				//trace("createChildren");
 				super.createChildren();
 				
 				switch(type)
