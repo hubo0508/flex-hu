@@ -1,26 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-
-    ADOBE SYSTEMS INCORPORATED
-    Copyright 2008 Adobe Systems Incorporated
-    All Rights Reserved.
-    
-    NOTICE: Adobe permits you to use, modify, and distribute this file
-    in accordance with the terms of the license agreement accompanying it.
-
--->
-
-<!--- The default skin class for a Spark TitleWindow container.  
-
-     @see spark.skins.spark.TitleWindowCloseButtonSkin
-     @see spark.components.TitleWindow
-
-     @langversion 3.0
-     @playerversion Flash 10
-     @playerversion AIR 1.5
-     @productversion Flex 4
--->
 <s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
     xmlns:fb="http://ns.adobe.com/flashbuilder/2009" blendMode="normal" mouseEnabled="false"
     minWidth="76" minHeight="76" alpha.disabled="0.5" alpha.disabledWithControlBar="0.5">
@@ -196,12 +175,12 @@
         
         <!-- layer 3: contents -->
         <!--- Contains the vertical stack of title bar content and control bar. -->
-        <s:Group left="1" right="1" top="1" bottom="1" id="contents">
+        <s:Group left="1" right="1" top="1" bottom="1" id="contents" >
             <s:layout>
                 <s:VerticalLayout gap="0" horizontalAlign="justify" />
             </s:layout>
             <!--- @private -->
-            <s:Group id="topGroup" mask="{topGroupMask}">
+            <s:Group id="topGroup" mask="{topGroupMask}" height="20" useHandCursor="true" buttonMode="true">
                 
                 <!--- layer 0: title bar fill @private -->
                 <s:Rect id="tbFill" left="0" right="0" top="0" bottom="1">
@@ -241,7 +220,7 @@
                 <!-- layer 3: text -->
                 <!--- @copy spark.components.Panel#titleDisplay -->
                 <s:Label id="titleDisplay" maxDisplayedLines="1"
-                         left="9" right="36" top="1" bottom="0" minHeight="30"
+                         left="9" right="36" top="3"  
                          verticalAlign="middle" fontWeight="bold" />
                 
                 <!-- layer 4: moveArea -->
@@ -250,7 +229,7 @@
                 
                 <!--- @copy spark.components.TitleWindow#closeButton -->
                 <s:Button id="closeButton" skinClass="spark.skins.spark.TitleWindowCloseButtonSkin"
-                          width="15" height="15" right="7" top="7" />
+                          width="15" height="15" right="7" top="2" />
             </s:Group>
             
             <!--

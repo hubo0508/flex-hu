@@ -83,7 +83,6 @@
 					default:
 						break;
 				}
-				
 			}
 			
 			private function dispatch(item:EGroup, clickTarget:String = null):void
@@ -102,6 +101,23 @@
 				}
 				
 				this.dispatchEvent(dye);
+			}
+			
+			public function setCheckBoxState(text:String, value:Boolean):void
+			{
+				var num:Number = this.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var item:EGroup = this.getElementAt(i) as EGroup;
+					if(item && item.type == "CheckBox")
+					{
+						if(item.text == text)
+						{
+							var cBox:ECheckBox = item.getElementAt(1) as ECheckBox;
+							cBox.selected != value ? cBox.selected = value : null;
+						}
+					}	
+				}
 			}
 			
 
@@ -141,7 +157,6 @@
 					var cBox:ECheckBox = new ECheckBox();
 					cBox.addEventListener(MouseEvent.CLICK, function buttonState(event:MouseEvent):void
 					{
-						
 						event.stopPropagation();
 						dispatch(event.currentTarget.parent);
 					},false,0,true);

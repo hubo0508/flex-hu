@@ -5,5 +5,23 @@
 			   skinClass="com.workflow.skin.components.Window_TitleWindowSkin"
 			   width="110"
 			   height="250">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var _parentMenu:String;
+			
+			public function get parentMenu():String
+			{
+				return _parentMenu;
+			}
+
+			public function set parentMenu(value:String):void
+			{
+				_parentMenu = value;
+			}
+
+		]]>
+	</fx:Script>
 
 </s:TitleWindow>
