@@ -214,6 +214,15 @@
 	</fx:Script>
 	
 	<fx:Declarations>
+		<fx:Array id="menu">
+			<fx:Object text="立即保存" type="Text"/>
+			<fx:Object text="舍弃" type="Text"/>
+			<fx:Object text="验证" type="Text"/>
+			<fx:Object text="对齐" type="Text"/>
+			<fx:Object text="窗口" type="Text"/>
+			<fx:Object text="网格" type="CheckBox"/>
+			<fx:Object text="日志" type="CheckBox"/>
+		</fx:Array>
 		<fx:Array id="aligndata">
 			<fx:Object text="顶对齐"   type="Image"  image="assets/workflow/image/layers-alignment.png"/>
 			<fx:Object text="垂直中齐" type="Image"  image="assets/workflow/image/layers-alignment-center.png"/>
@@ -231,7 +240,7 @@
 	
 	<header:LogoHeader width="{menuheader.width}"/>
 	
-	<header:MenuHeader id="menuheader" workflowName="请假审核流定义"/>
+	<header:MenuHeader id="menuheader" workflowName="请假审核流定义" dataProvider="{menu}"/>
 	
 	<log:LogOutputBar id="logoutbar"/>
 	

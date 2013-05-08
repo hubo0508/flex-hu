@@ -13,6 +13,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.primitives.VLine;
 			import com.workflow.util.Util;
 			
 			import mx.events.DynamicEvent;
@@ -20,6 +21,8 @@
 			import spark.components.CheckBox;
 			
 			private var _workflowName:String;
+			
+			private var data:Array;
 
 			[Bindable(event="workflowNameChange")]
 			public function get workflowName():String
@@ -38,15 +41,25 @@
 			
 			public function updateMenuHeaderButtonState(text:String, value:Boolean):void
 			{
-				switch(text){
-					case "日志" :
-						var cBox:CheckBox = logbutton.lastElement() as CheckBox;
-						cBox ? cBox.selected = value : null;
-						break;
-					
-					default :
-						break;
+				var cBox:CheckBox = getMenuByText(text).lastElement() as CheckBox;
+				cBox ? cBox.selected = value : null;
+			}
+			
+			public function getMenuByText(text:String):MenuHeader_Button
+			{
+				var menu:MenuHeader_Button;
+				
+				var num:int = this.buttonContainer.numElements;
+				for(var i:int=0; i<num; i++)
+				{
+					var m:MenuHeader_Button = buttonContainer.getElementAt(i) as MenuHeader_Button;
+					if(m && m.text == text)
+					{
+						menu = m;
+					}
 				}
+				
+				return menu;
 			}
 			
 			public function setMenuHeaderButtonColor(text:String, color:uint):void
@@ -61,6 +74,35 @@
 						break;
 					}
 				}
+			}
+			
+			public function set dataProvider(_data:Array):void
+			{
+				data = _data;
+			}
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(data == null)return;
+				
+				var num:int = data.length;
+				for(var i:int=0; i<num; i++)
+				{
+					buttonContainer.addElement(createMenuItem(data[i]));
+				}
+				
+				buttonContainer.addElement(new VLine());
+			}
+			
+			private function createMenuItem(_data:Object):MenuHeader_Button
+			{
+				var menu:MenuHeader_Button = new MenuHeader_Button();
+				menu.text = _data["text"];
+				menu.type = _data["type"];
+				
+				return menu;
 			}
 			
 		]]>
@@ -89,6 +131,7 @@
 			<s:HorizontalLayout gap="0"/>
 		</s:layout>
 		
+		<!--
 		<header:MenuHeader_Button text="立即保存"/>
 		<header:MenuHeader_Button text="舍弃"/>
 		<header:MenuHeader_Button text="验证"/>
@@ -98,7 +141,7 @@
 		<header:MenuHeader_Button id="logbutton" text="日志" type="CheckBox"/>
 		
 		<p:VLine/>
-		
+		-->
 	</s:Group>
 	
 </s:BorderContainer>
