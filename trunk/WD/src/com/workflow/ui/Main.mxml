@@ -223,7 +223,7 @@
 			<fx:Object text="右对齐"   type="Image"  image="assets/workflow/image/layers-alignment-right.png"/>
 		</fx:Array>
 		<fx:Array id="windowdata">
-			<fx:Object text="流程元素" type="CheckBox"/>
+			<fx:Object text="流程元素" type="CheckBox" initial="click"/>
 		</fx:Array>
 	</fx:Declarations>
 	
