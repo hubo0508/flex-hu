@@ -45,6 +45,12 @@
 					item.addEventListener(MouseEvent.CLICK,itemHandler,false,0,true);
 					
 					this.addElement(item);
+					
+//					if(data[i]["initial"] == "click")
+//					{
+//						this.validateNow();
+//						dispatch(item,"item");
+//					}
 				}
 				
 				this.height = num * itemHeight + 17;
