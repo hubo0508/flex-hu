@@ -156,8 +156,13 @@
 								{
 									processElements = new ProcessElements();
 									processElements.title = event.text;
-									processElements.addEventListener(CloseEvent.CLOSE,function closeHandler(event:CloseEvent):void{
+									processElements.parentMenu = event.currentTarget.parentMenu;
+									processElements.addEventListener(CloseEvent.CLOSE,function closeHandler(event:CloseEvent):void
+									{
 										PopUpManager.removePopUp(processElements);
+										
+										var mDropdwon:MenuHeader_DropdownWindow = cacheDropdownWindow[event.currentTarget.parentMenu] as MenuHeader_DropdownWindow;
+										mDropdwon.setCheckBoxState(event.currentTarget.title, false);
 									},false,0,true);
 								}
 								processElements.x = 60; 
