@@ -5,35 +5,150 @@
 			   skinClass="com.workflow.skin.components.Window_TitleWindowSkin"
 			   xmlns:extend="com.workflow.components.extend.*"
 			   width="100"
-			   height="250">
+			   height="268">
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.components.extend.BGRect;
+			import com.workflow.util.Util;
+			
+			import mx.core.UIComponent;
+			
+			import spark.components.Group;
+			import spark.components.Image;
+			import spark.components.Label;
+			import spark.filters.DropShadowFilter;
 			
 			private var _parentMenu:String;
+			
+			private var  instanceDropShadow:spark.filters.DropShadowFilter;
+			
+			override protected function createChildren():void
+			{
+				super.createChildren();
+				
+				if(nodedata == null)return;
+				
+				var num:int = nodedata.length;
+				for(var i:int=0; i<num; i++)
+				{
+					var item:Group = createNode(nodedata[i]);
+					item.addEventListener(MouseEvent.ROLL_OUT,itemRollHandler,false,0,true);
+					item.addEventListener(MouseEvent.ROLL_OVER,itemRollHandler,false,0,true);
+					
+					nodeContainer.addElement(item);
+				}
+			}
+			
+			
+			protected function itemRollHandler(event:MouseEvent):void
+			{
+				var item:Group = event.currentTarget as Group;
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						Util.elementVisible(item.getElementAt(0),false);
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						Util.elementVisible(item.getElementAt(0),true);
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			private function createNode(data:Object):Group
+			{
+				var item:Group = new Group();
+				item.height = 78;
+				item.percentWidth = 100;
+				
+				var bgRect:BGRect = new BGRect();
+				bgRect.color = 0xEFEFEF;
+				bgRect.visible = false;
+				item.addElement(bgRect);
+				
+				var image:Image = new Image();
+				image.y = 6;
+				image.source = data["image"];
+				image.useHandCursor = true;
+				image.buttonMode = true;
+				image.horizontalCenter = 0;
+				image.addEventListener(MouseEvent.ROLL_OUT,imageRollHandler,false,0,true);
+				image.addEventListener(MouseEvent.ROLL_OVER,imageRollHandler,false,0,true);
+				item.addElement(image);
+				
+				var label:Label = new Label();
+				label.text = data["text"];
+				label.y = 59;
+				label.horizontalCenter = 0;
+				item.addElement(label);
+				
+				return item;
+			}
+			
+			protected function imageRollHandler(event:MouseEvent):void
+			{
+				var image:Image = event.currentTarget as Image;
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT :
+						image.filters = [];
+						break;
+					
+					case MouseEvent.ROLL_OVER :
+						image.filters = [getInstanceDropShadow()];
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
+			public function getInstanceDropShadow():DropShadowFilter
+			{
+				if(!instanceDropShadow)
+				{ 
+					instanceDropShadow = new DropShadowFilter(); 
+					instanceDropShadow.angle = 45;
+					instanceDropShadow.blurX = 4;
+					instanceDropShadow.blurY = 4;
+					instanceDropShadow.distance = 0;
+					instanceDropShadow.alpha = 0.4;
+					instanceDropShadow.color = 0x000000;
+					instanceDropShadow.knockout = false;
+					instanceDropShadow.quality = 1;
+					instanceDropShadow.strength =1;
+					instanceDropShadow.inner = false;
+					instanceDropShadow.hideObject = false;
+				} 
+				
+				return instanceDropShadow; 
+			}
 			
 			public function get parentMenu():String
 			{
 				return _parentMenu;
 			}
-
+			
 			public function set parentMenu(value:String):void
 			{
 				_parentMenu = value;
 			}
-
+			
 		]]>
 	</fx:Script>
 	
-	<!--<extend:BGRect height="75"/>-->
+	<fx:Declarations>
+		<fx:Array id="nodedata">
+			<fx:Object text="开始" height="47" image="assets/workflow/image/n-start.png"/>
+			<fx:Object text="审核" height="47" image="assets/workflow/image/n-node.png"/>
+			<fx:Object text="结束" height="47" image="assets/workflow/image/n-end.png"/>
+		</fx:Array>
+	</fx:Declarations>
 	
-	<s:Rect height="75" width="100%">
-		<s:fill>
-			<s:SolidColor color="#F3F3F3"/>
-		</s:fill>
-	</s:Rect>
+	<s:VGroup id="nodeContainer"  width="100%" gap="0" horizontalAlign="center" paddingBottom="6" paddingTop="6" />
 	
-	<s:Image y="6" horizontalCenter="0" source="assets/workflow/image/n-start.png" useHandCursor="true" buttonMode="true"/>
-	<s:Label y="59" horizontalCenter="0" text="开始"/>
-
 </s:TitleWindow>
