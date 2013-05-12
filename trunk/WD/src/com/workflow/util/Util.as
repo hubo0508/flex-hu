@@ -9,11 +9,11 @@ package com.workflow.util
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.Timer;
-	
+
 	import mx.core.IFlexDisplayObject;
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
-	
+
 	import spark.components.Application;
 
 	public class Util
@@ -57,7 +57,7 @@ package com.workflow.util
 
 			return point;
 		}
-		
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static function drawGrid(ui:UIComponent, areaSize:int=10, lineColor:uint=0xF3F3F3):void
