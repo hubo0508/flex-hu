@@ -9,11 +9,11 @@ package com.workflow.util
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.Timer;
-
+	
 	import mx.core.IFlexDisplayObject;
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
-
+	
 	import spark.components.Application;
 
 	public class Util
@@ -22,7 +22,7 @@ package com.workflow.util
 		{
 		}
 
-		public static function elementVisible(ui:UIComponent, value:Boolean):void
+		public static function elementVisible(ui:Object, value:Boolean):void
 		{
 			ui.visible == value ? null : ui.visible=value;
 		}
