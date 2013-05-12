@@ -113,10 +113,10 @@
 				{ 
 					instanceDropShadow = new DropShadowFilter(); 
 					instanceDropShadow.angle = 45;
-					instanceDropShadow.blurX = 4;
-					instanceDropShadow.blurY = 4;
+					instanceDropShadow.blurX = 8;
+					instanceDropShadow.blurY = 8;
 					instanceDropShadow.distance = 0;
-					instanceDropShadow.alpha = 0.4;
+					instanceDropShadow.alpha = 0.5;
 					instanceDropShadow.color = 0x000000;
 					instanceDropShadow.knockout = false;
 					instanceDropShadow.quality = 1;
