@@ -13,5 +13,20 @@
 				   borderVisible="false"
 				   height="100%"
 				   y="124">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.core.IVisualElement;
+			
+			override public function addElement(element:IVisualElement):IVisualElement
+			{
+				
+				
+				
+				return super.addElement(element);
+			}
+			
+		]]>
+	</fx:Script>
 
 </s:BorderContainer>

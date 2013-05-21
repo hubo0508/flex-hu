@@ -23,6 +23,7 @@
 		<![CDATA[
 			import com.workflow.core.TweenLite;
 			import com.workflow.ui.child.Node;
+			import com.workflow.ui.child.Node_Circulation;
 			import com.workflow.ui.header.MenuHeader_Button;
 			import com.workflow.ui.header.MenuHeader_DropdownWindow;
 			import com.workflow.ui.header.ProcessElements;
@@ -80,14 +81,24 @@
 						if(text == "开始" || text == "结束")
 						{
 							var node:Node = new Node();
-							node.x = event.localX - 23;
-							node.y = event.localY - 32;
+							node.x = event.localX;
+							node.y = event.localY;
 							node.url = data["image"];
 							node.text = data["text"];
 							
 							this.content.addElement(node);
+							break;
 						}
-						break;
+						
+						if(text == "审核")
+						{
+							var nodec:Node_Circulation = new Node_Circulation();
+							nodec.x = event.localX;
+							nodec.y = event.localY;
+							
+							this.content.addElement(nodec);
+							break;
+						}
 
 					case DragEvent.DRAG_ENTER :
 						if(event.dragSource.hasFormat(ProcessElements.NODE_FORMAT))
@@ -96,8 +107,7 @@
 						}
 						break;
 					
-					default:
-						break;
+					default:break;
 				}
 			}
 			
@@ -178,7 +188,6 @@
 				{
 					case MouseEvent.ROLL_OUT  : 
 						directClearDropdownWindow(event.currentTarget.parentMenu);
-						//timerHideDropdownWindow(event.currentTarget.parentMenu);
 						break;
 					
 					case MouseEvent.ROLL_OVER : 
@@ -209,8 +218,6 @@
 								processElements.y = 170;
 								
 								processElements.isPopUp ? null : PopUpManager.addPopUp(processElements,parentApplication as DisplayObject);
-							
-								//this.addElementAt(processElements,0);
 							}else{
 								PopUpManager.removePopUp(processElements);
 							}
