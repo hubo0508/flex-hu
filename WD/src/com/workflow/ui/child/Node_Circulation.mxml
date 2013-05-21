@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   width="120"
+				   height="50"
+				   backgroundColor="#FDF3EA"
+				   borderColor="#FEB482"
+				   cornerRadius="3">
+	
+	<fx:Script>
+		<![CDATA[
+			
+			
+		]]>
+	</fx:Script>
+
+	<s:layout>
+		<s:HorizontalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"
+							verticalAlign="middle"/>
+	</s:layout>
+	
+	<s:Image source="assets/workflow/image/n-check.png"/>
+	
+	<s:Label height="30" maxWidth="70" maxDisplayedLines="-1" paddingTop="2" text="审核"/>
+
+</s:BorderContainer>
