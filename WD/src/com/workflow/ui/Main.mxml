@@ -22,17 +22,22 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.core.TweenLite;
+			import com.workflow.ui.child.Node;
 			import com.workflow.ui.header.MenuHeader_Button;
 			import com.workflow.ui.header.MenuHeader_DropdownWindow;
 			import com.workflow.ui.header.ProcessElements;
 			import com.workflow.util.Util;
 			
 			import mx.events.CloseEvent;
+			import mx.events.DragEvent;
 			import mx.events.DynamicEvent;
 			import mx.events.FlexEvent;
 			import mx.events.FlexMouseEvent;
+			import mx.managers.DragManager;
 			import mx.managers.PopUpManager;
 			
+			import spark.components.Image;
+			 
 			//下拉菜单 S
 			private var dropdownWindow:MenuHeader_DropdownWindow;
 			
@@ -54,12 +59,46 @@
 				menuheader.addEventListener(MenuHeader_Button.ROLLOUT_MHB,rolloutMenuHeaderButton,false,0,true);
 				menuheader.addEventListener(MenuHeader_Button.ROLLOVER_MHB,rolloverMenuHeaderButton,false,0,true);
 
-				logoutbar.addEventListener(LogOutputBar.HIDE_OR_DISPLAY,hideOrDisplayHandler,false,0,true);
+				logoutbar.addEventListener(LogOutputBar.HIDE_OR_DISPLAY,hideOrDisplayLogoutbarHandler,false,0,true);
+				
+				content.addEventListener(DragEvent.DRAG_ENTER,dragContentHandler,false,0,true);
+				content.addEventListener(DragEvent.DRAG_DROP,dragContentHandler,false,0,true);
 			}
 			
-			protected function hideOrDisplayHandler(event:DynamicEvent):void
+			protected function hideOrDisplayLogoutbarHandler(event:DynamicEvent):void
 			{
 				menuheader.updateMenuHeaderButtonState("日志",event.value);
+			}
+			
+			protected function dragContentHandler(event:DragEvent):void
+			{
+				switch(event.type)
+				{
+					case DragEvent.DRAG_DROP :
+						var data:Object= event.dragSource.dataForFormat(ProcessElements.NODE_FORMAT);
+						var text:String = data["text"];
+						if(text == "开始" || text == "结束")
+						{
+							var node:Node = new Node();
+							node.x = event.localX - 23;
+							node.y = event.localY - 32;
+							node.url = data["image"];
+							node.text = data["text"];
+							
+							this.content.addElement(node);
+						}
+						break;
+
+					case DragEvent.DRAG_ENTER :
+						if(event.dragSource.hasFormat(ProcessElements.NODE_FORMAT))
+						{
+							DragManager.acceptDragDrop(Content(event.currentTarget)); 
+						}
+						break;
+					
+					default:
+						break;
+				}
 			}
 			
 			//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +209,8 @@
 								processElements.y = 170;
 								
 								processElements.isPopUp ? null : PopUpManager.addPopUp(processElements,parentApplication as DisplayObject);
+							
+								//this.addElementAt(processElements,0);
 							}else{
 								PopUpManager.removePopUp(processElements);
 							}

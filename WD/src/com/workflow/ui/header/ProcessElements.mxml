@@ -10,18 +10,26 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.components.extend.BGRect;
+			import com.workflow.components.extend.EDragSource;
+			import com.workflow.components.extend.EImage;
 			import com.workflow.util.Util;
 			
+			import mx.core.DragSource;
 			import mx.core.UIComponent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.DragManager;
 			
 			import spark.components.Group;
-			import spark.components.Image;
 			import spark.components.Label;
 			import spark.filters.DropShadowFilter;
 			
 			private var _parentMenu:String;
 			
 			private var  instanceDropShadow:spark.filters.DropShadowFilter;
+			
+			public static const NODE_FORMAT:String = "NODE";
+			
 			
 			override protected function createChildren():void
 			{
@@ -70,14 +78,16 @@
 				bgRect.visible = false;
 				item.addElement(bgRect);
 				
-				var image:Image = new Image();
+				var image:EImage = new EImage();
 				image.y = 6;
+				image.data = data;
 				image.source = data["image"];
 				image.useHandCursor = true;
 				image.buttonMode = true;
 				image.horizontalCenter = 0;
-				image.addEventListener(MouseEvent.ROLL_OUT,imageRollHandler,false,0,true);
-				image.addEventListener(MouseEvent.ROLL_OVER,imageRollHandler,false,0,true);
+				image.addEventListener(MouseEvent.ROLL_OUT,imageMouseHandler,false,0,true);
+				image.addEventListener(MouseEvent.ROLL_OVER,imageMouseHandler,false,0,true);
+				image.addEventListener(MouseEvent.MOUSE_DOWN,imageMouseHandler,false,0,true);
 				item.addElement(image);
 				
 				var label:Label = new Label();
@@ -89,9 +99,9 @@
 				return item;
 			}
 			
-			protected function imageRollHandler(event:MouseEvent):void
+			protected function imageMouseHandler(event:MouseEvent):void
 			{
-				var image:Image = event.currentTarget as Image;
+				var image:EImage = event.currentTarget as EImage;
 				switch(event.type)
 				{
 					case MouseEvent.ROLL_OUT :
@@ -100,6 +110,10 @@
 					
 					case MouseEvent.ROLL_OVER :
 						image.filters = [getInstanceDropShadow()];
+						break;
+
+					case MouseEvent.MOUSE_DOWN :
+						DragManager.doDrag(image,new EDragSource(image.data,NODE_FORMAT),event); 
 						break;
 					
 					default:
