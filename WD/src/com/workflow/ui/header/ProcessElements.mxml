@@ -26,10 +26,7 @@
 			
 			private var _parentMenu:String;
 			
-			private var  instanceDropShadow:spark.filters.DropShadowFilter;
-			
 			public static const NODE_FORMAT:String = "NODE";
-			
 			
 			override protected function createChildren():void
 			{
@@ -109,7 +106,7 @@
 						break;
 					
 					case MouseEvent.ROLL_OVER :
-						image.filters = [getInstanceDropShadow()];
+						image.filters = [Util.getInstanceDropShadow()];
 						break;
 
 					case MouseEvent.MOUSE_DOWN :
@@ -121,26 +118,6 @@
 				}
 			}
 			
-			public function getInstanceDropShadow():DropShadowFilter
-			{
-				if(!instanceDropShadow)
-				{ 
-					instanceDropShadow = new DropShadowFilter(); 
-					instanceDropShadow.angle = 45;
-					instanceDropShadow.blurX = 8;
-					instanceDropShadow.blurY = 8;
-					instanceDropShadow.distance = 0;
-					instanceDropShadow.alpha = 0.5;
-					instanceDropShadow.color = 0x000000;
-					instanceDropShadow.knockout = false;
-					instanceDropShadow.quality = 1;
-					instanceDropShadow.strength =1;
-					instanceDropShadow.inner = false;
-					instanceDropShadow.hideObject = false;
-				} 
-				
-				return instanceDropShadow; 
-			}
 			
 			public function get parentMenu():String
 			{

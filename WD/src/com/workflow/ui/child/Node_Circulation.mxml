@@ -2,6 +2,13 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 				   xmlns:s="library://ns.adobe.com/flex/spark"
 				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   creationComplete="creationCompleteHandler(event)"
+				   rollOut="thisHandler(event)"
+				   rollOver="thisHandler(event)"
+				   mouseDown="thisHandler(event)"
+				   mouseUp="thisHandler(event)"
+				   useHandCursor="true"
+				   buttonMode="true"
 				   width="120"
 				   height="50"
 				   backgroundColor="#FDF3EA"
@@ -10,18 +17,94 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.workflow.util.Util;
 			
+			import mx.events.FlexEvent;
 			
+			import spark.filters.DropShadowFilter;
+			import spark.skins.spark.BorderContainerSkin;
+			import spark.skins.spark.ImageSkin;
+			
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				this.initEvent();
+			}
+			
+			private function initEvent():void
+			{
+				nodeLabel.addEventListener(MouseEvent.CLICK,nodeLabelHandler,false,0,true);
+			}
+			
+			protected function nodeLabelHandler(event:MouseEvent):void
+			{
+				Util.elementVisible(nodeLabel,false);
+				Util.elementVisible(nodeTextArea,true);
+				
+				nodeTextArea.text = nodeLabel.text;
+				this.focusManager.setFocus(nodeTextArea);
+			}
+			
+			protected function thisHandler(event:MouseEvent):void
+			{
+				
+				var bc:BorderContainer = event.currentTarget as BorderContainer;
+				switch(event.type)
+				{
+					case MouseEvent.ROLL_OUT : 
+						bc.filters = [];
+						
+						if(nodeTextArea.visible)
+						{
+							Util.elementVisible(nodeLabel,true);
+							Util.elementVisible(nodeTextArea,false);
+							nodeLabel.text = nodeTextArea.text;
+							nodeLabel.validateNow();
+							
+							var lineMetrics:TextLineMetrics = nodeLabel.measureText(nodeLabel.text);
+							var gap:Number = (this.width-(image.x + image.width + 5 + 5)-lineMetrics.width)*0.5;
+							nodeLabel.x = gap + image.x + image.width;
+							
+							var numLines:int = nodeLabel.mx_internal::textLines.length;
+							if(numLines >= 2){
+								nodeLabel.y = 10;
+							}else{
+								nodeLabel.y = 18;
+							}
+						}
+						
+						break;
+
+					case MouseEvent.ROLL_OVER :
+						bc.filters = [Util.getInstanceDropShadow()];
+						break;
+					
+					case MouseEvent.MOUSE_DOWN :
+						if(event.target is BorderContainerSkin || event.target is ImageSkin)
+						{
+							bc.startDrag();
+						}
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						if(event.target is BorderContainerSkin || event.target is ImageSkin)
+						{
+							bc.stopDrag();
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
 		]]>
 	</fx:Script>
-
-	<s:layout>
-		<s:HorizontalLayout paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5"
-							verticalAlign="middle"/>
-	</s:layout>
 	
-	<s:Image source="assets/workflow/image/n-check.png"/>
+	<s:Image id="image" x="5" y="8" source="assets/workflow/image/n-check.png"/>
 	
-	<s:Label height="30" maxWidth="70" maxDisplayedLines="-1" paddingTop="2" text="审核"/>
+	<s:Label id="nodeLabel" x="62.5" y="18" height="30" maxWidth="70" maxDisplayedLines="0"
+			  text="审核"/>
+	
+	<s:TextArea id="nodeTextArea" x="45" y="10" width="69" height="30" borderVisible="false"
+				contentBackgroundAlpha="0" visible="false"/>
 
 </s:BorderContainer>
