@@ -15,11 +15,35 @@ package com.workflow.util
 	import mx.managers.PopUpManager;
 	
 	import spark.components.Application;
+	import spark.filters.DropShadowFilter;
 
 	public class Util
 	{
 		public function Util()
 		{
+		}
+		
+		private static var instanceDropShadow:spark.filters.DropShadowFilter = null;
+		
+		public static function getInstanceDropShadow():DropShadowFilter
+		{
+			if(!instanceDropShadow)
+			{ 
+				instanceDropShadow = new DropShadowFilter(); 
+				instanceDropShadow.angle = 45;
+				instanceDropShadow.blurX = 8;
+				instanceDropShadow.blurY = 8;
+				instanceDropShadow.distance = 0;
+				instanceDropShadow.alpha = 0.5;
+				instanceDropShadow.color = 0x000000;
+				instanceDropShadow.knockout = false;
+				instanceDropShadow.quality = 1;
+				instanceDropShadow.strength =1;
+				instanceDropShadow.inner = false;
+				instanceDropShadow.hideObject = false;
+			} 
+			
+			return instanceDropShadow; 
 		}
 
 		public static function elementVisible(ui:Object, value:Boolean):void
