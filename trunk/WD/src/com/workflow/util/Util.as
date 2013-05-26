@@ -8,6 +8,7 @@ package com.workflow.util
 	import flash.display.DisplayObject;
 	import flash.display.Graphics;
 	import flash.geom.Point;
+	import flash.text.TextLineMetrics;
 	import flash.utils.Timer;
 	
 	import mx.core.IFlexDisplayObject;
@@ -15,6 +16,7 @@ package com.workflow.util
 	import mx.managers.PopUpManager;
 	
 	import spark.components.Application;
+	import spark.components.Label;
 	import spark.filters.DropShadowFilter;
 
 	public class Util
@@ -24,6 +26,33 @@ package com.workflow.util
 		}
 		
 		private static var instanceDropShadow:spark.filters.DropShadowFilter = null;
+		
+		public static function getID(object:Object):String
+		{
+			try{
+				return object.id;
+			}catch(e:*){
+				return "_error_";
+			}
+			return "_null_"
+		}
+		
+		public static function getLabelHeight(label:Label):Number
+		{
+			var lineHeightStyle:* = label.getStyle("lineHeight");
+							
+			//its already a value in pixels
+			if (lineHeightStyle is Number) var lineHeight:Number = lineHeightStyle;
+				//it's a relative value: let's calculate
+			else {
+				var lineMetrics:TextLineMetrics = label.measureText(label.text);
+				//get the numeric value from the string and divide it by 100
+				var ratio:Number = int(lineHeightStyle.match(/\d+/)[0]) / 100;
+				lineHeight = lineMetrics.height * ratio;
+			}
+			
+			return lineHeight;
+		}
 		
 		public static function getInstanceDropShadow():DropShadowFilter
 		{
