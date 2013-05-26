@@ -6,7 +6,10 @@
 				   rollOut="thisHandler(event)"
 				   rollOver="thisHandler(event)"
 				   mouseDown="thisHandler(event)"
-				   mouseUp="thisHandler(event)"
+				   mouseUp="thisHandler(event)" 
+				   doubleClick="thisHandler(event)"
+				   click="thisHandler(event)"
+				   doubleClickEnabled="true"
 				   useHandCursor="true"
 				   buttonMode="true"
 				   width="120"
@@ -18,6 +21,8 @@
 	<fx:Script>
 		<![CDATA[
 			import com.workflow.util.Util;
+			
+			import flash.text.engine.TextLine;
 			
 			import mx.events.FlexEvent;
 			
@@ -32,46 +37,56 @@
 			
 			private function initEvent():void
 			{
-				nodeLabel.addEventListener(MouseEvent.CLICK,nodeLabelHandler,false,0,true);
+				//nodeLabel.addEventListener(MouseEvent.CLICK,nodeLabelHandler,false,0,true);
+				//nodeLabel.addEventListener(MouseEvent.DOUBLE_CLICK,nodeLabelHandler,false,0,true);
 			}
 			
-			protected function nodeLabelHandler(event:MouseEvent):void
+			protected function applicationHandler(event:MouseEvent):void
 			{
-				Util.elementVisible(nodeLabel,false);
-				Util.elementVisible(nodeTextArea,true);
+				if(Util.getID(event.target) == "textDisplay")
+				{
+					return;
+				}
 				
-				nodeTextArea.text = nodeLabel.text;
-				this.focusManager.setFocus(nodeTextArea);
+				if(nodeTextArea.visible)
+				{
+					Util.elementVisible(nodeLabel,true);
+					Util.elementVisible(nodeTextArea,false);
+					nodeLabel.text = nodeTextArea.text;
+					nodeLabel.validateNow();
+					
+					if(nodeLabel.measuredHeight >= 15){
+						nodeLabel.verticalCenter = 0;
+					}else{
+						nodeLabel.verticalCenter = 8;
+					}
+						
+					parentApplication.removeEventListener(MouseEvent.CLICK,applicationHandler);
+				}
 			}
 			
 			protected function thisHandler(event:MouseEvent):void
 			{
-				
 				var bc:BorderContainer = event.currentTarget as BorderContainer;
 				switch(event.type)
 				{
+					case MouseEvent.CLICK :
+						//this.focusManager.setFocus(this);
+						break;
+					
+					case MouseEvent.DOUBLE_CLICK : 
+						
+						Util.elementVisible(nodeLabel,false);
+						Util.elementVisible(nodeTextArea,true);
+						
+						nodeTextArea.text = nodeLabel.text;
+						this.focusManager.setFocus(nodeTextArea);
+						
+						this.parentApplication.addEventListener(MouseEvent.CLICK,applicationHandler,false,0,true);
+						
+						break;
 					case MouseEvent.ROLL_OUT : 
 						bc.filters = [];
-						
-						if(nodeTextArea.visible)
-						{
-							Util.elementVisible(nodeLabel,true);
-							Util.elementVisible(nodeTextArea,false);
-							nodeLabel.text = nodeTextArea.text;
-							nodeLabel.validateNow();
-							
-							var lineMetrics:TextLineMetrics = nodeLabel.measureText(nodeLabel.text);
-							var gap:Number = (this.width-(image.x + image.width + 5 + 5)-lineMetrics.width)*0.5;
-							nodeLabel.x = gap + image.x + image.width;
-							
-							var numLines:int = nodeLabel.mx_internal::textLines.length;
-							if(numLines >= 2){
-								nodeLabel.y = 10;
-							}else{
-								nodeLabel.y = 18;
-							}
-						}
-						
 						break;
 
 					case MouseEvent.ROLL_OVER :
@@ -79,14 +94,14 @@
 						break;
 					
 					case MouseEvent.MOUSE_DOWN :
-						if(event.target is BorderContainerSkin || event.target is ImageSkin)
+						if(!nodeTextArea.visible || event.target is ImageSkin)
 						{
 							bc.startDrag();
 						}
 						break;
 					
 					case MouseEvent.MOUSE_UP :
-						if(event.target is BorderContainerSkin || event.target is ImageSkin)
+						if(!nodeTextArea.visible || event.target is ImageSkin)
 						{
 							bc.stopDrag();
 						}
@@ -96,15 +111,21 @@
 						break;
 				}
 			}
+			
+			
+			
 		]]>
 	</fx:Script>
 	
 	<s:Image id="image" x="5" y="8" source="assets/workflow/image/n-check.png"/>
 	
-	<s:Label id="nodeLabel" x="62.5" y="18" height="30" maxWidth="70" maxDisplayedLines="0"
-			  text="审核"/>
-	
-	<s:TextArea id="nodeTextArea" x="45" y="10" width="69" height="30" borderVisible="false"
-				contentBackgroundAlpha="0" visible="false"/>
+	<s:Group x="45" width="70" height="100%">
+		<s:Label id="nodeLabel" height="28" maxWidth="70" horizontalCenter="0" 
+				 maxDisplayedLines="0" text="审核" verticalCenter="8"/>
+		
+		<s:TextArea id="nodeTextArea" horizontalCenter="0" verticalCenter="0" width="100%" 
+					height="30" borderVisible="false" focusIn="{IME.enabled=true}"
+					contentBackgroundAlpha="0" visible="false" focusAlpha="0"/>
+	</s:Group>
 
 </s:BorderContainer>
