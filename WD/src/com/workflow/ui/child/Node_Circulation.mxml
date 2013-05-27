@@ -37,8 +37,6 @@
 			
 			private function initEvent():void
 			{
-				//nodeLabel.addEventListener(MouseEvent.CLICK,nodeLabelHandler,false,0,true);
-				//nodeLabel.addEventListener(MouseEvent.DOUBLE_CLICK,nodeLabelHandler,false,0,true);
 			}
 			
 			protected function applicationHandler(event:MouseEvent):void

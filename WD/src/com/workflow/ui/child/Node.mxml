@@ -2,17 +2,39 @@
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  mouseDown="thisHandler(event)"
+		  mouseUp="thisHandler(event)" 
 		  horizontalAlign="center"
 		  useHandCursor="true"
 		  buttonMode="true">
 	
 	<fx:Script>
 		<![CDATA[
+			import spark.components.Group;
 			
 			private var _url:String;
 			
 			private var _text:String;
 
+			protected function thisHandler(event:MouseEvent):void
+			{
+				var group:Group = event.currentTarget as Group;
+				switch(event.type)
+				{
+					
+					case MouseEvent.MOUSE_DOWN :
+						group.startDrag();
+						break;
+					
+					case MouseEvent.MOUSE_UP :
+						group.stopDrag();
+						break;
+					
+					default:
+						break;
+				}
+			}
+			
 			[Bindable(event="urlChange")]
 			public function get url():String
 			{
